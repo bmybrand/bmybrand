@@ -163,7 +163,7 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
               alt=""
               className="absolute lg:-top-10 left-1/2 lg:-translate-y-0 -translate-y-2/3 transform -translate-x-1/2 top-1/2"
             />
-            <h1 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold text-center">
+            <h1 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold mb-4 text-center">
               One Agency For All Your Branding, Design & Digital Needs
             </h1>
             <button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg">
@@ -208,7 +208,7 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
         }}
       />
 
-      <motion.h1 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold text-center">
+      <motion.h1 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl mb-4 BenzinSemibold text-center">
         One Agency For All Your Branding, Design & Digital Needs
       </motion.h1>
 
