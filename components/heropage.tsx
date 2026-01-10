@@ -22,13 +22,13 @@ const Heropage: React.FC = () => {
   };
 
   return (
-    <div className="bg-[url('/Frame6.png')] bg-cover bg-center bg-no-repeat">
+    <div className="bg-[url('/Frame6.png')] bg-cover bg-center bg-no-repeat ">
       <div
-        className="relative flex flex-col lg:flex-row pt-35 lg:pt-0 min-h-[110vh] h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20 overflow-hidden"
+        className="relative flex flex-col lg:flex-row pt-35 lg:pt-0 min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20 "
         onMouseMove={handleMouseMove}
       >
         {/* LEFT */}
-        <div className="w-full xl:w-1/2 lg:h-[110vh] flex flex-col justify-center gap-4 px-4 lg:px-0 z-10">
+        <div className="w-full xl:w-1/2 lg:h-screen flex flex-col justify-center gap-4 px-4 lg:px-0 z-10">
           <h1 className="text-white text-[22px] sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[63px] BenzinBold leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[72px] 2xl:leading-[80px]">
            Build a High-Performing{" "}
           <span className="text-[#F45B25]">Brand With Creative </span>
@@ -58,7 +58,7 @@ const Heropage: React.FC = () => {
         </div>
 
         {/* RIGHT */}
-        <div className="w-full xl:w-1/2 lg:h-[110vh] relative flex items-end justify-center">
+        <div className="w-full xl:w-1/2 lg:h-screen relative flex items-end justify-center">
           {/* Tilting background image */}
           <img
             src="/Group15.svg"

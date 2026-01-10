@@ -101,11 +101,11 @@ const FullyAnimatedGrid: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-full flex justify-center mt-8">
-        <h1 className="mb-10 w-[90%] 2xl:w-[60%] text-[#ADAECC] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
+      <div className="w-full flex justify-center  mt-30">
+        <h2 className="mb-20 w-[90%] 2xl:w-[60%] text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
           Every day, <span className="text-[#F45B25]">BMYBrand</span> is trusted by
           businesses, startups, and creators worldwide.
-        </h1>
+        </h2>
       </div>
 
       <div
@@ -163,9 +163,9 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
               alt=""
               className="absolute lg:-top-10 left-1/2 lg:-translate-y-0 -translate-y-2/3 transform -translate-x-1/2 top-1/2"
             />
-            <h1 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold mb-4 text-center">
+            <h2 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold mb-4 text-center">
               One Agency For All Your Branding, Design & Digital Needs
-            </h1>
+            </h2>
             <button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg">
               <span className="p-3">Get Started Now</span>
             </button>
@@ -208,9 +208,9 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
         }}
       />
 
-      <motion.h1 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl mb-4 BenzinSemibold text-center">
+      <motion.h2 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl mb-4 BenzinSemibold text-center">
         One Agency For All Your Branding, Design & Digital Needs
-      </motion.h1>
+      </motion.h2>
 
       <motion.button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg">
         <span className="p-3">Get Started Now</span>

@@ -27,4 +27,13 @@
 .BenzinRegular {
   font-family: 'BenzinRegular', sans-serif;
 }
+/* Rocket floating animation */
+@keyframes bounceRocket {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(15px); }
+}
+
+.animate-bounceRocket {
+  animation: bounceRocket 2s ease-in-out infinite;
+}
   
