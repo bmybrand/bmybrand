@@ -24,7 +24,7 @@ const Heropage: React.FC = () => {
   return (
     <div className="bg-[url('/Frame6.png')] bg-cover bg-center bg-no-repeat ">
       <div
-        className="relative flex flex-col lg:flex-row pt-35 lg:pt-0 min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20 "
+        className="relative flex flex-col lg:flex-row pt-35  min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20 lg:pt-10 "
         onMouseMove={handleMouseMove}
       >
         {/* LEFT */}
@@ -78,7 +78,7 @@ const Heropage: React.FC = () => {
           <img
   src="/Layer 1 1.svg"
   alt="Hero Layer"
-  className={`relative z-20 transition-transform duration-1000 ease-out
+  className={`relative z-10 transition-transform duration-1000 ease-out
     ${loaded ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"}`}
   style={{
     transform: `
@@ -93,7 +93,7 @@ const Heropage: React.FC = () => {
         </div>
       </div>
       {/* Bottom promo bar inside hero right div */}
-          <div className="w-full bg-[#F45B25] text-white py-3 px-6 flex flex-col sm:flex-row items-center justify-center gap-2 ">
+          <div className="w-full bg-[#F45B25] text-white py-3 px-6 flex flex-col sm:flex-row items-center justify-center gap-2">
             <span className="text-center sm:text-left text-sm sm:text-base md:text-lg">
               New to BMYBrand? Enjoy an Exclusive Intro Discount on All Creative & Web Packages.
             </span>
