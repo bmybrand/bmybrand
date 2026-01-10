@@ -24,7 +24,7 @@ const Navbar = () => {
      }`;
 
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] 2xl:w-[85%] z-60 bg-[#21235C]/20 backdrop-blur border-2 border-white/20 rounded-2xl">
+    <header className="fixed top-7 left-1/2 -translate-x-1/2 w-[90%] 2xl:w-[85%] z-60 bg-[#21235C]/20 backdrop-blur border-2 border-white/20 rounded-2xl">
       <nav className="mx-auto flex items-center justify-between px-10 py-4">
 
         {/* Logo */}

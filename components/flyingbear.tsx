@@ -100,7 +100,7 @@ const FullyAnimatedGrid: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center ">
       <div className="w-full flex justify-center  mt-30">
         <h2 className="mb-20 w-[90%] 2xl:w-[60%] text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
           Every day, <span className="text-[#F45B25]">BMYBrand</span> is trusted by

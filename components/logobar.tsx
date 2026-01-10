@@ -1,16 +1,47 @@
+"use client";
 import React from "react";
 
 const Logos = [
-  "/abboott.svg.svg",
-  "/aldi.svg fill.svg",
-  "/client_logo3.svg.svg",
-  "/Vector (9).svg",
-  "/client_logo5.svg.svg",
-  "/client_logo6.svg.svg",
-  "/Vector (11).svg",
-  "/Universal.svg",
-  "/client_logo9.svg fill.svg",
-  "/Mask group (1).svg",
+  {
+    normal: "/abboott.svg.svg",
+    hover: "/abboott.svg (1).svg",
+  },
+  {
+    normal: "/Mask group (3).svg",
+    hover: "/Mask group (2).svg",
+  },
+  {
+    normal: "/client_logo3.svg.svg",
+    hover: "/client_logo3.svg (1).svg",
+  },
+  {
+    normal: "/Vector (9).svg",
+    hover: "/Vector (15).svg",
+  },
+  {
+    normal: "/client_logo5.svg.svg",
+    hover: "client_logo5.svg (1).svg",
+  },
+  {
+    normal: "/client_logo6.svg.svg",
+    hover: "/client_logo6.svg (1).svg",
+  },
+  {
+    normal: "/Vector (11).svg",
+    hover: "/Vector (16).svg",
+  },
+  {
+    normal: "/Universal.svg",
+    hover: "/Universal (1).svg",
+  },
+  {
+    normal: "/client_logo9.svg fill.svg",
+    hover: "/client_logo9.svg fill (1).svg",
+  },
+  {
+    normal: "/Mask group (1).svg",
+    hover: "/Mask group (4).svg",
+  },
 ];
 
 const logobar = () => {
@@ -26,22 +57,29 @@ const logobar = () => {
 
       {/* Logo Grid */}
       <div className="bg-[#191A35] w-[90%] xl:w-[70%] p-5 rounded-xl">
-  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[#2A2B47] rounded-lg overflow-hidden">
-    {Logos.map((logo, index) => (
-      <div
-        key={index}
-        className="flex justify-center items-center p-6 bg-[#191A35]"
-      >
-        <img
-          src={logo}
-          alt="brand logo"
-          className="w-40 h-20 object-contain"
-        />
-      </div>
-    ))}
-  </div>
-</div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[#2A2B47] rounded-lg overflow-hidden">
+          {Logos.map((logo, index) => (
+            <div
+              key={index}
+              className="group flex justify-center items-center p-6 bg-[#191A35]"
+            >
+              {/* Normal */}
+              <img
+                src={logo.normal}
+                alt="brand logo"
+                className="w-40 h-20 object-contain block group-hover:hidden transition-all duration-300"
+              />
 
+              {/* Hover */}
+              <img
+                src={logo.hover}
+                alt="brand logo hover"
+                className="w-40 h-20 object-contain hidden group-hover:block transition-all duration-300"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

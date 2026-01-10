@@ -31,7 +31,7 @@ const AddBlock = () => {
           <img
             src="/ChatGPT.svg" // Replace with your rocket image
             alt="Rocket"
-            className="hidden lg:block object-contain scale-125 lg:scale-150 relative animate-bounceRocket"
+            className="hidden lg:block object-contain scale-125 lg:scale-150 relative animate-bounceRocket -rotate-5"
           />
         </div>
 
