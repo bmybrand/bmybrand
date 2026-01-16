@@ -101,12 +101,16 @@ const FullyAnimatedGrid: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center ">
-      <div className="w-full flex justify-center  mt-30">
-        <h2 className="mb-20 w-[90%] 2xl:w-[60%] text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-          Every day, <span className="text-[#F45B25]">BMYBrand</span> is trusted by
-          businesses, startups, and creators worldwide.
-        </h2>
-      </div>
+      <div className="w-full flex flex-col items-center justify-center mt-30 mb-20">
+  <h2 className="mb-6 w-[90%] 2xl:w-[60%] text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
+    Discover BMYBrand’s Core <span className="text-[#F45B25]">Services</span>
+  </h2>
+
+  <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
+    Your all-in-one creative & digital partner — helping your business grow with
+    premium branding, websites, and marketing solutions.
+  </p>
+</div>
 
       <div
         ref={gridRef}

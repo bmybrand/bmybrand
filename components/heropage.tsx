@@ -24,7 +24,7 @@ const Heropage: React.FC = () => {
   return (
     <div className=" overflow-hidden bg-[url('/Frame6.png')] bg-cover bg-center bg-no-repeat ">
       <div
-        className="relative flex flex-col lg:flex-row pt-35  min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20 lg:pt-10 "
+        className="relative flex flex-col lg:flex-row pt-35  lg:h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20 lg:pt-10 "
         onMouseMove={handleMouseMove}
       >
         {/* LEFT */}
