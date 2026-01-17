@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Flyingbear from "@/components/flyingbear";
 import Addblock from "@/components/addblock";
 import Ourbranding from "@/components/ourbranding";
+import StackingCards from "@/components/StackingCards";
 
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
        <Flyingbear />
        <Addblock />
        <Ourbranding />
+       <StackingCards />
     </div>
   );
 }
