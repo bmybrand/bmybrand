@@ -55,7 +55,7 @@ const FullyAnimatedGrid = () => {
       {/* GRID */}
       <div
         ref={gridRef}
-        className="w-[90%] 2xl:w-[70%]  2xl:h-screen h-200 rounded-xl  flex lg:flex-row flex-col mb-30 gap-5 relative"
+        className="w-[90%] 2xl:w-[75%]  2xl:h-screen h-200 rounded-xl  flex lg:flex-row flex-col mb-30 gap-5 relative"
       >
         {/* Left */}
         <motion.div

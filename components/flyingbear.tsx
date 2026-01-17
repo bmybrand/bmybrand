@@ -114,7 +114,7 @@ const FullyAnimatedGrid: React.FC = () => {
 
       <div
         ref={gridRef}
-        className="flex flex-col lg:flex-row w-[90%] 2xl:w-[70%] gap-5 rounded-xl relative"
+        className="flex flex-col lg:flex-row w-[90%] 2xl:w-[75%] gap-5 rounded-xl relative"
       >
         {/* LEFT */}
         <div

@@ -56,7 +56,7 @@ const logobar = () => {
       </div>
 
       {/* Logo Grid */}
-      <div className="bg-[#191A35] w-[90%] xl:w-[70%] p-5 rounded-xl">
+      <div className="bg-[#191A35] w-[90%] xl:w-[75%] p-5 rounded-xl">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[#2A2B47] rounded-lg overflow-hidden">
           {Logos.map((logo, index) => (
             <div

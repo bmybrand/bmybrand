@@ -53,14 +53,14 @@ const cards: Card[] = [
 ];
 
 const positions: React.CSSProperties[] = [
-  { top: "5%", left: "5%" },
-  { top: "5%", right: "5%" },
-  { top: "30%", left: "0" },
-  { top: "30%", right: "0" },
-  { bottom: "30%", left: "0" },
-  { bottom: "30%", right: "0" },
-  { bottom: "5%", left: "5%" },
-  { bottom: "5%", right: "5%" },
+  { top: "5%", left: "10%" },
+  { top: "5%", right: "10%" },
+  { top: "30%", left: "5%" },
+  { top: "30%", right: "5%" },
+  { bottom: "30%", left: "5%" },
+  { bottom: "30%", right: "5%" },
+  { bottom: "5%", left: "10%" },
+  { bottom: "5%", right: "10%" },
 ];
 
 /* Animation Variants */
@@ -95,7 +95,7 @@ const OurBranding: React.FC = () => {
       </p>
 
       {/* CONTENT */}
-      <div className="w-[90%] 2xl:w-[70%]  mt-12 relative flex justify-center items-center">
+      <div className="w-[90%] 2xl:w-[75%]  mt-12 relative flex justify-center items-center">
         {/* LG+ absolute layout */}
         <div className="hidden lg:block relative w-full h-150">
           <img

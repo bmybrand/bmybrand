@@ -5,7 +5,7 @@ import React from "react";
 const AddBlock = () => {
   return (
     <div className="w-full flex flex-col items-center">
-  <div className="relative flex flex-col lg:flex-row bg-[#191a35] w-[90%] 2xl:w-[70%] mt-10 lg:mt-50 rounded-lg overflow-visible
+  <div className="relative flex flex-col lg:flex-row bg-[#191a35] w-[90%] 2xl:w-[75%] mt-10 lg:mt-50 rounded-lg overflow-visible
                    lg:items-start text-center lg:text-left mb-10 ">
 
     {/* TEXT SECTION */}
@@ -36,7 +36,7 @@ const AddBlock = () => {
     </div>
   </div>
 
-  {/* HR */}<hr className="w-[90%] 2xl:w-[70%] h-1.25 bg-[#2A2B47] rounded-full  my-10 lg:my-30 border-none" />
+  {/* HR */}<hr className="w-[90%] 2xl:w-[75%] h-1.25 bg-[#2A2B47] rounded-full  my-10 lg:my-30 border-none" />
 
 </div>
 

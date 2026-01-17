@@ -15,10 +15,11 @@ const projects = [
       "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
     buttonText: "View Full Case Study",
     src: "water.jpg",
-    link: "/fountainhill.svg",
+    link: "/fountainhills.svg",
     logo: "/FH-EmergencyRoom-Logo-ERClinic-1 2.svg",
     gradient: "linear-gradient(180deg, #270508 0%, #110204 100%)",
-    buttonColor: "#B91E2C", // custom hex color
+    buttonColor: "#B91E2C",
+    buttonIcon: "/arrowred.svg", // unique icon for this card
   },
   {
     title: (
@@ -28,12 +29,13 @@ const projects = [
     ),
     description:
       "A modern, patient-first medical website built to strengthen trust, simplify browsing, and help visitors quickly access the information and care they need.",
-    buttonText: "Explore Project",
+    buttonText: "View Full Case Study",
     src: "water.jpg",
     link: "/pinkme.svg",
     logo: "/PM-Logo.svg",
     gradient: "linear-gradient(180deg, #661041 0%, #250617 100%)",
-    buttonColor: "#ED349D", // custom hex color
+    buttonColor: "#ED349D",
+    buttonIcon: "/arrowpink.svg", // unique icon for this card
   },
 ];
 
@@ -46,8 +48,8 @@ export default function Index(): JSX.Element {
 
   return (
     <ReactLenis root>
-      <main className="mt-30" ref={container}>
-        <section className="text-white w-full">
+      <main className="mt-30 lg:mt-0" ref={container}>
+        <section className="text-white w-full ">
           {projects.map((project, i) => {
             const targetScale = 1 - (projects.length - i) * 0.05;
             return (
@@ -63,7 +65,8 @@ export default function Index(): JSX.Element {
                 progress={scrollYProgress}
                 range={[i * 0.25, 1]}
                 targetScale={targetScale}
-                buttonColor={project.buttonColor} // pass button color
+                buttonColor={project.buttonColor}
+                buttonIcon={project.buttonIcon} // pass icon
               />
             );
           })}
@@ -84,7 +87,8 @@ interface CardProps {
   progress: MotionValue<number>;
   range: [number, number];
   targetScale: number;
-  buttonColor: string; // new prop for button color
+  buttonColor: string;
+  buttonIcon: string; // new prop
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -99,6 +103,7 @@ export const Card: React.FC<CardProps> = ({
   range,
   targetScale,
   buttonColor,
+  buttonIcon,
 }) => {
   const container = useRef(null);
 
@@ -107,20 +112,20 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       ref={container}
-      className="h-screen flex items-center justify-center sticky top-25"
+      className="h-fit lg:h-[80vh]  flex items-center justify-center sticky top-25"
     >
       <motion.div
         style={{
           background: gradient,
           scale,
-          top: `calc(-5vh + ${i * 25}px)`,
+          top: `calc(0vh + ${i * 25}px)`,
         }}
-        className="overflow-hidden flex flex-col relative top-[25%] h-165 w-[90%] rounded-3xl origin-top"
+        className="overflow-hidden flex flex-col relative top-[25%] h-fit lg:h-[70vh] w-[90%] 2xl:w-[75%] rounded-3xl origin-top"
       >
-        <div className="flex flex-col lg:flex-row h-full">
+        <div className="flex flex-col-reverse lg:flex-row h-full">
 
           {/* LEFT CONTENT */}
-          <div className="w-full lg:w-[40%] relative flex flex-col justify-center p-8 h-90% ">
+          <div className="w-full lg:w-[50%] relative flex flex-col justify-center p-8 h-90% ">
 
             {/* LOGO */}
             {logo && (
@@ -134,22 +139,22 @@ export const Card: React.FC<CardProps> = ({
             )}
 
             {/* TITLE */}
-            <h2 className="BenzinSemibold text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 max-w-xl">
+            <h2 className=" lg:leading-10 BenzinSemibold text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold mb-3 ">
               {title}
             </h2>
 
             {/* DESCRIPTION */}
-            <p className="text-xs md:text-sm lg:text-base xl:text-lg leading-6 text-[#B5BED6] max-w-xl">
+            <p className="text-xs md:text-sm lg:text-base  leading-6 text-[#B5BED6] ">
               {description}
             </p>
 
             {/* BUTTON */}
             <button
               style={{ backgroundColor: buttonColor }}
-              className="mt-4 text-white px-2 py-2 rounded-lg hover:brightness-90 transition duration-300 flex justify-center items-center gap-2 w-fit"
+              className="mt-4 text-white px-2 py-2 BenzinSemibold rounded-lg hover:brightness-90 transition duration-300 flex justify-center items-center gap-2 w-fit"
             >
-              <div className="bg-white p-3 rounded-lg">
-                <img src="/arrowred.svg" alt="" className="w-3 h-3" />
+              <div className="bg-white p-4 rounded-lg">
+                <img src={buttonIcon} alt="button icon" className="w-4 h-4" />
               </div>
               <span className="px-2">{buttonText}</span>
             </button>
@@ -162,7 +167,7 @@ export const Card: React.FC<CardProps> = ({
                 src={url}
                 alt="Project image"
                 fill
-                className="object-cover lg:scale-150 lg:pl-20"
+                className="object-cover "
                 priority
               />
             </motion.div>
