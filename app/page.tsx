@@ -5,6 +5,7 @@ import Flyingbear from "@/components/flyingbear";
 import Addblock from "@/components/addblock";
 import Ourbranding from "@/components/ourbranding";
 import StackingCards from "@/components/StackingCards";
+import DesignedGrow from "@/components/DesignedGrow";
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
        <Addblock />
        <Ourbranding />
        <StackingCards />
+       <DesignedGrow />
     </div>
   );
 }
