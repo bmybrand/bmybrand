@@ -37,7 +37,7 @@ export default function StaticProcess() {
 
         // initial stacked position (off to the right)
         gsap.set(cards, {
-          x: (i) => i * 140,
+          x: (i) => i * 390,
           scale: 1,
           zIndex: (i) => i
         })
@@ -47,9 +47,9 @@ export default function StaticProcess() {
             trigger: sectionRef.current,
             start: 'top top',
             end: `+=${cards.length * 250}`,
-            scrub: 0.6,
+            scrub: 1,
             pin: true,
-            anticipatePin: 1
+            anticipatePin: 0.6
           }
         })
 
@@ -73,38 +73,53 @@ export default function StaticProcess() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen bg-[#0B0F2B] py-32 overflow-hidden"
+      className="relative min-h-screen bg-[#0B0F2B] py-24 overflow-hidden"
     >
-      {/* Heading */}
-      <div className="mb-20 px-6 lg:px-20">
-        <p className="text-sm uppercase tracking-widest text-orange-400">
-          A Simple, Strategic Process
-        </p>
-        <h2 className="mt-4 text-6xl font-bold text-orange-500 lg:text-8xl">
-          Steps
-        </h2>
-      </div>
+      <div className="mx-auto w-[92%] 2xl:w-[85%]">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr] lg:items-start">
+          {/* Left copy */}
+          <div className="pt-4">
+            <p className="text-sm uppercase tracking-widest text-[#FF843E]">
+              A Simple, Strategic
+            </p>
+            <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-white">
+              Process That <span className="text-[#FF843E]">Works</span>
+            </h2>
+            <p className="mt-3 max-w-md text-sm leading-6 text-white/60">
+              From planning to launch, we keep the process smooth,
+              collaborative, and results-driven.
+            </p>
+          </div>
 
-      {/* Card stack */}
-      <div className="relative flex items-center justify-center px-6 lg:px-20">
-        <div className="relative h-[260px] w-full max-w-[380px]">
-          {steps.map((item, i) => (
-            <div
-              key={i}
-              ref={el => {
-                if (el) cardsRef.current[i] = el
-              }}
-              className="absolute inset-0 rounded-2xl bg-white/5 p-6 backdrop-blur-xl"
-            >
-              <span className="text-sm text-orange-400">{item.step}</span>
-              <h3 className="mt-2 text-xl font-semibold text-white">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-sm text-white/70">
-                {item.desc}
-              </p>
+          {/* Card stack */}
+          <div className="relative flex items-start justify-start lg:pl-6">
+            <div className="relative h-[190px] w-full max-w-[360px]">
+              {steps.map((item, i) => (
+                <div
+                  key={i}
+                  ref={el => {
+                    if (el) cardsRef.current[i] = el
+                  }}
+                  className="absolute inset-0 rounded-2xl border border-white/10 bg-[#17183A] p-5 shadow-[0_12px_24px_rgba(0,0,0,0.35)]"
+                >
+                  <span className="text-xs text-white/70">
+                    {item.step}{' '}
+                    <span className="text-[#FF843E]">+</span>
+                  </span>
+                  <h3 className="mt-2 text-base font-semibold text-white">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-xs leading-5 text-white/60">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        </div>
+
+        <div className="mt-10 text-[88px] leading-none font-black text-[#FF843E] sm:text-[120px] lg:text-[160px]">
+          Steps
         </div>
       </div>
     </section>
