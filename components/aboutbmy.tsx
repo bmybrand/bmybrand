@@ -120,7 +120,7 @@ const AboutBmy = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#0e1033] py-16 text-white min-h-[200vh]"
+      className="w-full bg-[#0e1033] py-16 text-white "
     >
       {/* TOP SECTION */}
       <div className="mx-auto flex w-[90%] flex-col gap-6 lg:flex-row lg:gap-6 2xl:w-[85%]">
@@ -193,14 +193,15 @@ const AboutBmy = () => {
             alt={`About BMYBrand ${index + 1}`}
             className="h-full w-full object-cover"
           />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
           <div
             ref={(el) => {
               if (el) labelRefs.current[index] = el
             }}
-            className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4"
+             className="absolute inset-x-4 bottom-4 rounded-2xl  bg-white/10 bg-gradient-to-r from-white/15 via-white/5 to-white/10 p-4 shadow-[0_12px_28px_rgba(0,0,0,0.45)] backdrop-blur-sm backdrop-saturate-150"
           >
-            <h4 className="text-sm font-semibold">{services[index]?.title}</h4>
-            <p className="mt-1 text-xs text-white/70">
+            <h4 className="text-base BenzinSemibold">{services[index]?.title}</h4>
+            <p className="mt-1 text-sm text-white/70">
               {services[index]?.desc}
             </p>
           </div>
@@ -216,7 +217,7 @@ const AboutBmy = () => {
       <div ref={servicesRef} className="relative mx-auto mt-24 w-[90%] 2xl:w-[85%]">
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="relative z-10">
-            <h3 className="BenzinSemibold text-2xl sm:text-3xl">
+            <h3 className="BenzinSemibold text-2xl sm:text-3xl lg:text-4x">
               Discover BMYBrand's
               <br />
               <span className="text-[#F45B25]">Core Services</span>
@@ -238,9 +239,10 @@ const AboutBmy = () => {
                 alt={service.title}
                 className="h-55 lg:h-122 w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4">
-                <h4 className="text-sm font-semibold">{service.title}</h4>
-                <p className="mt-1 text-xs text-white/70">{service.desc}</p>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/20 bg-[linear-gradient(0deg,rgba(0,0,0,0.35),rgba(0,0,0,0.08)_55%,rgba(255,255,255,0.10)_100%)] p-4 shadow-[0_12px_28px_rgba(0,0,0,0.45)] backdrop-blur-xl backdrop-saturate-150">
+                <h4 className="text-base BenzinSemibold">{service.title}</h4>
+                <p className="mt-1 text-sm text-white/70">{service.desc}</p>
               </div>
             </div>
           ))}

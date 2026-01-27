@@ -32,7 +32,7 @@ const herobar = () => {
         <img
   src="/spaceoverlay.svg"
   alt=""
-  className="absolute inset-0 h-full w-full object-cover opacity-20 transition-transform duration-700 ease-out"
+  className="absolute scale-125 inset-0 h-full w-full object-cover opacity-20 transition-transform duration-700 ease-out"
   style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
 />
 

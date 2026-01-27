@@ -59,6 +59,21 @@
   animation: bounceRocket 2s ease-in-out infinite;
 }
 
+@keyframes bear-fly-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-140px) translateY(90px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+.animate-bearFlyIn {
+  animation: bear-fly-in 1.1s ease-out both, bounceRocket 2s ease-in-out infinite 1.1s;
+}
+
 @keyframes belt-left {
   0% {
     transform: translateX(0);
