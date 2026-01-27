@@ -120,7 +120,7 @@ export const Card: React.FC<CardProps> = ({
           scale,
           top: `calc(0vh + ${i * 25}px)`,
         }}
-        className="overflow-hidden flex flex-col relative top-[25%] h-fit lg:h-[70vh] w-[90%] 2xl:w-[75%] rounded-3xl origin-top"
+        className="overflow-hidden flex flex-col relative top-[25%] h-fit lg:h-[70vh] w-[96vw] max-w-none rounded-3xl origin-top"
       >
         <div className="flex flex-col-reverse lg:flex-row h-full">
 

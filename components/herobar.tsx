@@ -26,18 +26,19 @@ const herobar = () => {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[url('/herobarbg.svg')] bg-cover bg-center h-fit lg:h-[65vh] overflow-hidden flex justify-center items-center "
+      className="relative bg-[url('/herobarbg.svg')] bg-cover bg-center h-fit lg:h-150 overflow-hidden flex justify-center items-center "
       onMouseMove={handleMove}
     >
         <img
-          src="/spaceoverlay.svg"
-          alt=""
-          className="absolute inset-0 opacity-20 scale-125 transition-transform duration-700 ease-out"
-          style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
-        />
-        <div className="flex flex-col lg:flex-row w-[90%] 2xl:w-[85%] h-full pt-30 justify-center items-center">
+  src="/spaceoverlay.svg"
+  alt=""
+  className="absolute inset-0 h-full w-full object-cover opacity-20 transition-transform duration-700 ease-out"
+  style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
+/>
+
+        <div className="relative flex flex-col lg:flex-row w-[90%] 2xl:w-[85%] h-full pt-30  items-center">
         <div
-          className={`relative z-10 flex flex-col justify-center gap-4 py-10 lg:py-0 lg:w-1/2 transition-all duration-700 ease-out ${
+          className={`relative z-10 flex flex-col  gap-4 py-10 lg:py-0 lg:w-1/2 transition-all duration-700 ease-out ${
             loaded ? 'translate-x-0 opacity-100' : 'translate-x-24 opacity-0'
           }`}
         >
@@ -47,14 +48,15 @@ const herobar = () => {
             <p className="text-base sm:text-lg lg:text-xl text-white/80 max-w-2xl">
               At BMYBrand, we transform ideas into high-performing brands. Our team blends creativity, strategy, and technology to help businesses stand out, connect with their audience, and achieve long-term growth in an ever-evolving digital world.
             </p>
+            
         </div>
         <div
-          className={`relative z-10 flex justify-end items-end lg:w-1/2 transition-all duration-1000 ease-out ${
+          className={`relative z-10 flex justify-end items-end lg:absolute lg:bottom-0 lg:right-0 lg:h-full lg:w-1/2 transition-all duration-1000 ease-out ${
             loaded ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
           }`}
           style={{ transform: `translate3d(${-offset.x}px, ${-offset.y}px, 0)` }}
         >
-            <img src="/about-hero.svg" alt="About us" className="h-full " />
+            <img src="/about-hero.svg" alt="About us" className="h-auto max-h-full w-full object-contain" />
         </div>
         </div>
     </div> 
