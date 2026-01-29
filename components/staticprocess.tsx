@@ -10,17 +10,17 @@ const steps = [
   {
     step: 'Step 01',
     title: 'Discover & Understand',
-    desc: 'We learn about your brand, goals, audience, and vision.',
+    desc: 'We learn about your brand, goals, audience, and vision—so we know exactly what you need.',
   },
   {
     step: 'Step 02',
     title: 'Design & Build',
-    desc: 'We create visuals, websites, and campaigns that perform.',
+    desc: 'We create brand visuals, websites, and campaigns that look premium and perform better.',
   },
   {
     step: 'Step 03',
     title: 'Launch & Optimize',
-    desc: 'We refine, test, and scale for maximum impact.',
+    desc: 'We launch, refine, and improve results over time for consistent growth.',
   },
 ]
 
@@ -35,58 +35,75 @@ export default function StaticProcess() {
     if (!container || !track) return
 
     const ctx = gsap.context(() => {
-      let maxX = 0
-      let leftStackX = 0
-      let baseX: number[] = []
-      let spacing = 0
+      const mm = gsap.matchMedia()
 
-      const updateMetrics = () => {
-        const cards = Array.from(track.children) as HTMLDivElement[]
-        if (!cards.length) return
-        baseX = cards.map((card) => card.offsetLeft)
-        leftStackX = baseX[0] ?? 0
-        spacing =
-          cards.length > 1
-            ? Math.max(0, baseX[1] - baseX[0])
-            : cards[0].offsetWidth
-        maxX = Math.max(0, spacing * (cards.length - 1))
-      }
+      mm.add('(min-width: 1024px)', () => {
+        let maxX = 0
+        let leftStackX = 0
+        let baseX: number[] = []
+        let spacing = 0
 
-      const applyPositions = (progress: number) => {
-        const trackX = -maxX * progress
-        gsap.set(track, { x: trackX })
-        const cards = Array.from(track.children) as HTMLDivElement[]
-        cards.forEach((card, i) => {
-          const clamp = Math.max(0, leftStackX - (baseX[i] + trackX))
-          gsap.set(card, { x: clamp, zIndex: i + 1 })
+        const updateMetrics = () => {
+          const cards = Array.from(track.children) as HTMLDivElement[]
+          if (!cards.length) return
+          baseX = cards.map((card) => card.offsetLeft)
+          leftStackX = baseX[0] ?? 0
+          spacing =
+            cards.length > 1
+              ? Math.max(0, baseX[1] - baseX[0])
+              : cards[0].offsetWidth
+          maxX = Math.max(0, spacing * (cards.length - 1))
+        }
+
+        const applyPositions = (progress: number) => {
+          const trackX = -maxX * progress
+          gsap.set(track, { x: trackX })
+          const cards = Array.from(track.children) as HTMLDivElement[]
+          cards.forEach((card, i) => {
+            const clamp = Math.max(0, leftStackX - (baseX[i] + trackX))
+            gsap.set(card, { x: clamp, zIndex: i + 1 })
+          })
+        }
+
+        updateMetrics()
+        applyPositions(0)
+
+        const st = ScrollTrigger.create({
+          trigger: container,
+          start: 'top top',
+          end: () => `+=${Math.max(1200, maxX)}`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefresh: (self) => {
+            updateMetrics()
+            applyPositions(self.progress)
+          },
+          onUpdate: (self) => {
+            applyPositions(self.progress)
+          },
         })
-      }
 
-      updateMetrics()
-      applyPositions(0)
+        ScrollTrigger.refresh()
 
-      const st = ScrollTrigger.create({
-        trigger: container,
-        start: 'top top',
-        end: () => `+=${Math.max(1200, maxX)}`,
-        pin: true,
-        scrub: 1,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onRefresh: (self) => {
-          updateMetrics()
-          applyPositions(self.progress)
-        },
-        onUpdate: (self) => {
-          applyPositions(self.progress)
-        },
+        return () => {
+          st.kill()
+        }
       })
 
-      ScrollTrigger.refresh()
+      mm.add('(max-width: 1023px)', () => {
+        gsap.set(track, { x: 0, clearProps: 'transform' })
+        const cards = Array.from(track.children) as HTMLDivElement[]
+        cards.forEach((card) => {
+          gsap.set(card, { x: 0, clearProps: 'transform' })
+        })
+        if (container) {
+          gsap.set(container, { clearProps: 'position,top,left,width,height,transform' })
+        }
+      })
 
-      return () => {
-        st.kill()
-      }
+      return () => mm.revert()
     }, containerRef)
 
     return () => ctx.revert()
@@ -96,42 +113,46 @@ export default function StaticProcess() {
     <div className="bg-[#0B0F2B] overflow-hidden">
       <section
         ref={containerRef}
-        className="relative flex  w-full pt-40 items-center bg-[#0B0F2B] "
+        className="relative flex w-full pt-40 items-center bg-[#0B0F2B]"
       >
-        <div className="mx-auto w-[92%]  2xl:w-[85%]">
-          <div className="grid w-full gap-10 lg:grid-cols-[1.1fr_2fr] lg:items-center">
+        <div className="mx-auto w-[90%] 2xl:w-[85%]">
+          <div className="grid w-full gap-10 lg:grid-cols-[1fr_1.8fr] lg:items-center">
             {/* Left copy */}
-            <div className="pt-4">
-             
-              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-white">
-                A Simple, Strategic
-                Process That <span className="text-[#FF843E]">Works</span>
+            <div className="pt-4 lg:text-right max-w-xl">
+              <h2 className="mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl  font-semibold text-white BenzinSemibold">
+                A Simple,{' '}
+                <span className="text-[#F45B25]">
+                  Strategic
+                  <br className="hidden lg:block" />
+                  Process
+                </span>{' '}
+                That Works
               </h2>
-              <p className="mt-3 max-w-md text-sm leading-6 text-white/60">
-                From planning to launch, we keep the process smooth,
-                collaborative, and results-driven.
+              <p className="mt-3 text-sm sm:text-base lg:text-lg leading-6 lg:leading-7 text-white/60">
+                From planning to launch, we keep the process smooth, collaborative, and results-driven - so your project stays on track and your brand moves forward.
               </p>
             </div>
 
             {/* Card stack */}
-            <div className="relative flex items-start justify-start lg:pl-6">
+            <div className="relative flex items-start justify-start lg:pl-2">
               <div
                 ref={trackRef}
-                className="relative flex h-[190px] w-full max-w-[360px] items-stretch gap-6"
+                className="relative flex w-full flex-col items-stretch gap-6  lg:max-w-120 lg:flex-row lg:gap-8"
               >
                 {steps.map((item, i) => (
                   <div
                     key={i}
-                    className="w-full min-w-[280px] max-w-[360px] rounded-2xl border border-white/10 bg-[#17183A] p-5 shadow-[0_12px_24px_rgba(0,0,0,0.35)]"
+                    className="flex gap-6 flex-col w-full rounded-xl bg-[#191A35] p-8 lg:min-w-140 lg:max-w-170"
                   >
-                    <span className="text-xs text-white/70">
+                    <span className="text-base sm:text-3xl text-white  flex items-center gap-1">
                       {item.step}{' '}
-                      <span className="text-[#FF843E]">+</span>
+                      <img src="/aiicon.svg" alt="" />
                     </span>
-                    <h3 className="mt-2 text-base font-semibold text-white">
+                    <h3 className="mt-3 text-lg sm:text-3xl BenzinSemibold text-white">
                       {item.title}
                     </h3>
-                    <p className="mt-2 text-xs leading-5 text-white/60">
+                    <hr className="text-[#DCDCDC]/10" />
+                    <p className="mt-auto text-sm sm:text-base leading-6 sm:leading-7 text-white/60">
                       {item.desc}
                     </p>
                   </div>
@@ -143,7 +164,7 @@ export default function StaticProcess() {
       </section>
 
       {/* Big Steps label (scrolls normally) */}
-      <div className="mx-auto w-[92%] pb-16 text-[88px] leading-none font-black text-[#FF843E] sm:text-[120px] lg:text-[160px] 2xl:w-[85%]">
+      <div className="BenzinSemibold mx-auto w-[92%] pb-16 text-[88px] leading-none font-black text-[#F45B25] sm:text-[120px] lg:text-[260px] xl:text-[305px] 2xl:w-[85%]">
         Steps
       </div>
     </div>
