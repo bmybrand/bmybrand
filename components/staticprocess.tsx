@@ -11,16 +11,22 @@ const steps = [
     step: 'Step 01',
     title: 'Discover & Understand',
     desc: 'We learn about your brand, goals, audience, and vision—so we know exactly what you need.',
+    bg: '#191A35',
+    accent: '#F45B25',
   },
   {
     step: 'Step 02',
     title: 'Design & Build',
     desc: 'We create brand visuals, websites, and campaigns that look premium and perform better.',
+    bg: '#21223F',
+    accent: '#FF4BCB',
   },
   {
     step: 'Step 03',
     title: 'Launch & Optimize',
     desc: 'We launch, refine, and improve results over time for consistent growth.',
+    bg: '#2C2D4B',
+    accent: '#4BD6FF',
   },
 ]
 
@@ -142,11 +148,16 @@ export default function StaticProcess() {
                 {steps.map((item, i) => (
                   <div
                     key={i}
-                    className="flex gap-6 flex-col w-full rounded-xl bg-[#191A35] p-8 lg:min-w-140 lg:max-w-170"
+                    style={{ backgroundColor: item.bg }}
+                    className="group relative flex gap-6 flex-col w-full rounded-xl p-8 lg:min-w-140 lg:max-w-170"
                   >
                     <span className="text-base sm:text-3xl text-white  flex items-center gap-1">
                       {item.step}{' '}
-                      <img src="/aiicon.svg" alt="" />
+                      <img
+                        src="/aiicon.svg"
+                        alt=""
+                        className="transition-transform duration-300 group-hover:rotate-45"
+                      />
                     </span>
                     <h3 className="mt-3 text-lg sm:text-3xl BenzinSemibold text-white">
                       {item.title}

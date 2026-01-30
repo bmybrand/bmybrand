@@ -260,7 +260,7 @@ export default function Brandsspec() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col justify-center gap-16 py-20 bg-[#11122F]">
+    <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#11122F]">
       <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
           Modern <span className="text-[#F45B25]">Tools & Technologies</span>
@@ -274,13 +274,21 @@ export default function Brandsspec() {
       </div>
 
       {/* Top Row → */}
-      <div className="overflow-hidden w-full">
+      <div className="relative overflow-hidden w-full">
         <div ref={row1Ref} className="flex gap-8" />
+        {/* Left fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#11122F] to-transparent pointer-events-none z-10" />
+        {/* Right fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#11122F] to-transparent pointer-events-none z-10" />
       </div>
 
       {/* Bottom Row ← */}
-      <div className="overflow-hidden w-full">
+      <div className="relative overflow-hidden w-full">
         <div ref={row2Ref} className="flex gap-8" />
+        {/* Left fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#11122F] to-transparent pointer-events-none z-10" />
+        {/* Right fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#11122F] to-transparent pointer-events-none z-10" />
       </div>
     </div>
   )

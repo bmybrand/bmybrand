@@ -82,7 +82,7 @@ const BrandStats = () => {
           <img
             src="/Superherobearsky.svg"
             alt="BMY Brand character"
-            className={`relative lg:-bottom-8 lg:w-2/5 lg:scale-140 ${bearIn ? 'animate-bearFlyIn' : 'opacity-0 -translate-x-12 translate-y-10'}`}
+            className={`relative z-50 lg:-bottom-8 lg:w-2/5 lg:scale-140 ${bearIn ? 'animate-bearFlyIn' : 'opacity-0 -translate-x-12 translate-y-10'}`}
           />
         </div>
       </div>

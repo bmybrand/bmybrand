@@ -12,17 +12,19 @@ import Brandsspec from './Brandsspec'
 import RequestForm from './RequestForm'
 import Footer from './Footer'
 import StaticProcess from './staticprocess'
+import WorkTogether from './WorkTogether'
 
 const Aboutpage = () => {
   const designedGrowRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="bg-[#11122F] h-[400vh]">
+    <div className="bg-[#11122F] ">
       <Navbar />
       <Herobar />
       <Aboutbmy />
       <BrandStats />
+      <StaticProcess />
       {/* DesignedGrow section with ref */}
       <div ref={designedGrowRef}>
         <DesignedGrow />
@@ -30,7 +32,7 @@ const Aboutpage = () => {
 
       {/* Bottom CTA appears after DesignedGrow */}
       <BottomCTA targetRef={designedGrowRef} footerRef={footerRef} />
-      <StaticProcess />
+      <WorkTogether />
       <Brandsspec />
       <RequestForm />
       <div ref={footerRef}>
