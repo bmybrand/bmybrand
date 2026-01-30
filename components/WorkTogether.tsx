@@ -2,11 +2,23 @@
 
 import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa'
 
 
 export default function WorkTogether() {
   const sectionRef = useRef(null)
+  const [isDesktop, setIsDesktop] = useState(true)
+
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024)
+    }
+    
+    checkDesktop()
+    window.addEventListener('resize', checkDesktop)
+    return () => window.removeEventListener('resize', checkDesktop)
+  }, [])
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -57,22 +69,22 @@ export default function WorkTogether() {
   const rightHandY = useTransform(scrollYProgress, [0, 0.5], [handStartY2, '10vh'])
   
   const socialLinks = [
-    { name: 'Facebook', url: 'https://facebook.com' },
-    { name: 'Instagram', url: 'https://instagram.com', highlighted: true },
-    { name: 'Twitter', url: 'https://twitter.com' },
-    { name: 'LinkedIn', url: 'https://linkedin.com' },
-    { name: 'YouTube', url: 'https://youtube.com' },
+    { name: 'Facebook', url: 'https://facebook.com', icon: FaFacebook },
+    { name: 'Instagram', url: 'https://instagram.com', icon: FaInstagram },
+    { name: 'Twitter', url: 'https://twitter.com', icon: FaTwitter },
+    { name: 'LinkedIn', url: 'https://linkedin.com', icon: FaLinkedin },
+    { name: 'YouTube', url: 'https://youtube.com', icon: FaYoutube },
   ]
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden h-screen bg-[#15173A]">
+    <section ref={sectionRef} className="relative w-full overflow-hidden lg:h-screen  bg-[#15173A]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_35%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.06),transparent_40%)]" />
       <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
 
-      {/* Animated Hands */}
+      {/* Animated Hands - Desktop Only */}
       {/* Left Hand */}
       <motion.div
-        className="absolute left-[50%] top-[40%] z-30 w-170 pointer-events-none"
+        className="hidden lg:block absolute left-[50%] top-[40%] z-30 w-170 pointer-events-none"
         style={{
           x: leftHandX,
           y: leftHandY,
@@ -89,7 +101,7 @@ export default function WorkTogether() {
 
       {/* Right Hand */}
       <motion.div
-        className="absolute left-[50%] top-[40%] z-20 w-170 pointer-events-none"
+        className="hidden lg:block absolute left-[50%] top-[40%] z-20 w-170 pointer-events-none"
         style={{
           x: rightHandX,
           y: rightHandY,
@@ -104,9 +116,9 @@ export default function WorkTogether() {
         />
       </motion.div>
 
-      {/* Floating Images */}
+      {/* Floating Images - Desktop Only */}
       <motion.div 
-        className="absolute left-[10%] top-[25%] z-20 w-48 h-32 rounded-lg overflow-hidden shadow-2xl border-4 border-white/20"
+        className="hidden lg:block absolute left-[10%] top-[25%] z-20 w-48 h-32 rounded-lg overflow-hidden shadow-2xl border-4 border-white/20"
         style={{ 
           x: leftImageX,
           y: leftImageY,
@@ -116,7 +128,7 @@ export default function WorkTogether() {
         }}
       >
         <Image 
-          src="/placeholder-work1.jpg" 
+          src="/cta1-img-2.svg" 
           alt="Work environment"
           fill
           className="object-cover"
@@ -124,7 +136,7 @@ export default function WorkTogether() {
       </motion.div>
 
       <motion.div 
-        className="absolute right-[15%] top-[20%] z-20 w-56 h-36 rounded-lg overflow-hidden shadow-2xl border-4 border-white/20"
+        className="hidden lg:block absolute right-[15%] top-[20%] z-20 w-56 h-36 rounded-lg overflow-hidden shadow-2xl border-4 border-white/20"
         style={{ 
           x: rightImageX,
           y: rightImageY,
@@ -134,7 +146,7 @@ export default function WorkTogether() {
         }}
       >
         <Image 
-          src="/placeholder-work2.jpg" 
+          src="/cta1-img-1.svg" 
           alt="Office space"
           fill
           className="object-cover"
@@ -142,38 +154,28 @@ export default function WorkTogether() {
       </motion.div>
 
       {/* Social Media Links */}
-      <div className="relative z-10 w-[90%] 2xl:w-[75%] mx-auto pt-8 ">
-        <div className="flex flex-wrap gap-6 justify-center  BenzinSemibold">
-          {socialLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-r from-[#F45B25] to-[#FF843E] hover:text-white text-white/80 justify-center"
-                
-            >
-              <span className="text-sm">{link.name}</span>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+      <div className="relative z-10 w-[90%] 2xl:w-[75%] mx-auto pt-8">
+        <div className="flex flex-row flex-wrap gap-0 md:gap-4 lg:gap-6 justify-center items-center BenzinSemibold">
+          {socialLinks.map((link) => {
+            const Icon = link.icon
+            return (
+              <a
+                key={link.name}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-r from-[#F45B25] to-[#FF843E] hover:text-white text-white/80 justify-center"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </a>
-          ))}
+                <Icon className="w-5 h-5" />
+                <span className="text-sm hidden md:inline">{link.name}</span>
+              </a>
+            )
+          })}
         </div>
       </div>
       
-        <div className=" flex items-end py-20 w-[90%] 2xl:w-[75%] h-full mx-auto">
-          {/* Left: headline */}
+        <div className="flex items-end lg:items-end items-center py-20 w-[90%] 2xl:w-[75%] h-full mx-auto">
+          {/* Headline */}
           <motion.div 
             className="relative z-10"
             style={{ 

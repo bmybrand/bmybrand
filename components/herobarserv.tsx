@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 
-const herobar = () => {
+const herobarserv = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [loaded, setLoaded] = useState(false)
@@ -43,11 +43,10 @@ const herobar = () => {
           }`}
         >
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
-              ABOUT US
+            Services
             </h1>
             <p className="text-base sm:text-lg lg:text-xl text-white/80 max-w-2xl">
-              At BMYBrand, we transform ideas into high-performing brands. Our team blends creativity, strategy, and technology to help businesses stand out, connect with their audience, and achieve long-term growth in an ever-evolving digital world.
-            </p>
+            At BMYBrand, we deliver end-to-end digital services designed to help brands grow with confidence. From branding and web development to marketing, AI, and automation, our solutions combine creativity, strategy, and technology to drive real, measurable</p>
             
         </div>
         <div
@@ -56,11 +55,11 @@ const herobar = () => {
           }`}
           style={{ transform: `translate3d(${-offset.x}px, ${-offset.y}px, 0)` }}
         >
-            <img src="/about-hero.svg" alt="About us" className="h-auto max-h-full w-full object-contain pt-30" />
+            <img src="/technlogicalbear.svg" alt="About us" className="h-auto max-h-full w-full object-contain pt-30" />
         </div>
         </div>
     </div> 
   )
 }
 
-export default herobar
+export default herobarserv
