@@ -110,7 +110,7 @@ export default function ServicesDetail() {
         {/* Header */}
        
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row py-20 gap-8">
           {/* Left Sidebar - Fixed Navigation */}
           <div className="lg:w-64 flex-shrink-0">
             <div className="bg-[#1E2044] rounded-2xl p-4 sticky top-24">

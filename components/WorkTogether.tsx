@@ -174,10 +174,10 @@ export default function WorkTogether() {
         </div>
       </div>
       
-        <div className="flex items-end lg:items-end items-center py-20 w-[90%] 2xl:w-[75%] h-full mx-auto">
+        <div className="flex items-end lg:items-end items-center py-20 w-[90%] 2xl:w-[75%] h-full mx-auto ">
           {/* Headline */}
           <motion.div 
-            className="relative z-10"
+            className="relative z-20"
             style={{ 
               x,
               y,
