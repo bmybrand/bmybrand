@@ -62,7 +62,7 @@ function ProjectCard({
   })
   
   // Tilt from -30deg (forward) through 0deg (center) to 30deg (backward)
-  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [30, 0, -30])
+  const rotateX = useTransform(scrollYProgress, [0, 0.55, 1], [60, 0, -10])
   
   return (
     <motion.div
