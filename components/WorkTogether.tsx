@@ -189,7 +189,7 @@ export default function WorkTogether() {
             <h2 className="text-5xl BenzinSemibold text-white sm:text-7xl lg:text-[109px]">
               Let's Work
             </h2>
-            <h3 className="text-5xl font-semibold text-[#F45B25] sm:text-7xl lg:text-8xl">
+            <h3 className="text-5xl BenzinSemibold text-[#F45B25] sm:text-7xl lg:text-8xl">
               Together!
             </h3>
             <div className="mt-6 flex flex-col sm:flex-row gap-4 BenzinSemibold mb-12">
