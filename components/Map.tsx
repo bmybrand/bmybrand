@@ -103,15 +103,15 @@ export default function Map() {
                   let baseFill, hoverFill
                   
                   if (isUSA) {
-                    baseFill = '#D44418'   // Dark orange-red for USA
-                    hoverFill = '#A83612'  // Very dark on hover
+                    baseFill = '#E8632A'   // Darker orange for USA
+                    hoverFill = '#B84418'  // Very dark on hover
                   } else if (isCanada) {
-                    baseFill = '#E8541B'   // Medium-dark orange for Canada (different shade)
-                    hoverFill = '#C23F0B'  // Darker on hover
+                    baseFill = '#E8632A'   // Same darker orange for Canada
+                    hoverFill = '#B84418'  // Very dark on hover
                   } else {
-                    // All other countries get varied light shades
+                    // All other countries get varied light shades (lighter than USA/Canada)
                     baseFill = getCountryShade(countryCode, '#FF996A')
-                    hoverFill = getCountryShade(countryCode, '#FF7A45')
+                    hoverFill = getCountryShade(countryCode, '#FF8553')
                   }
                   
                   return (
