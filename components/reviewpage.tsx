@@ -14,6 +14,7 @@ import Footer from './Footer'
 import StaticProcess from './staticprocess'
 import WorkTogether from './WorkTogether'
 import Herobarreview from './herobarreview'
+import VerticalReviewColumns from './VerticalReviewColumns'
 
 const Aboutpage = () => {
   const designedGrowRef = useRef<HTMLDivElement>(null)
@@ -23,6 +24,7 @@ const Aboutpage = () => {
     <div className="bg-[#11122F] ">
       <Navbar />
       <Herobarreview />
+      <VerticalReviewColumns />
       <WorkTogether />
       <RequestForm />
       <div ref={footerRef}>

@@ -114,3 +114,42 @@
 .fade-up {
   animation: fade-up 1.5s ease-out both;
 }
+
+/* Vertical scroll animations for review columns */
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-33.333%);
+  }
+}
+
+@keyframes scroll-down {
+  0% {
+    transform: translateY(-33.333%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-scroll-up {
+  animation: scroll-up 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-scroll-down {
+  animation: scroll-down 30s linear infinite;
+  will-change: transform;
+}
+
+.animate-scroll-up-slow {
+  animation: scroll-up 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-scroll-down-slow {
+  animation: scroll-down 32s linear infinite;
+  will-change: transform;
+}
