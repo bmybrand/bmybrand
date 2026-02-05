@@ -1,40 +1,36 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { scaleLinear } from 'd3-scale'
 import { ComposableMap, Geographies, Geography, Graticule, Sphere, Marker } from 'react-simple-maps'
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
 
-const countryData: { [key: string]: number } = {
-  'USA': 0.9,
-  'CAN': 0.85,
-  'AUS': 0.9,
-  'GBR': 0.8,
-  'SAU': 0.85,
-  'FRA': 0.6,
-  'DEU': 0.65,
-  'ITA': 0.6,
-  'ESP': 0.6,
-  'JPN': 0.7,
-  'KOR': 0.65,
-  'IND': 0.7,
-  'CHN': 0.75,
-  'BRA': 0.6,
-  'MEX': 0.6,
-  'ARE': 0.8,
-  'SGP': 0.7,
+// Simplified color mapping - just specific countries with colors
+const countryColors: { [key: string]: string } = {
+  'USA': '#FF6B35',
+  'CAN': '#FFA573',
+  'AUS': '#FF6B35',
+  'GBR': '#FFA573',
+  'SAU': '#FFA573',
+  'FRA': '#FFD9C9',
+  'DEU': '#FFD9C9',
+  'ITA': '#FFD9C9',
+  'ESP': '#FFD9C9',
+  'JPN': '#FFA573',
+  'KOR': '#FFD9C9',
+  'IND': '#FFA573',
+  'CHN': '#FFA573',
+  'BRA': '#FFD9C9',
+  'MEX': '#FFD9C9',
+  'ARE': '#FFA573',
+  'SGP': '#FFA573',
 }
-
-const colorScale = scaleLinear<string>()
-  .domain([0, 0.5, 1])
-  .range(['#FFE5D9', '#FFA573', '#FF6B35'])
 
 const offices = [
   {
-    name: 'Pakistan',
-    metric: '245+ Projects',
-    coordinates: [68.081, 28.8607],
+    name: 'Canada',
+    metric: '350+ Projects',
+    coordinates: [-106.3468, 56.1304],
   },
   {
     name: 'United States',
@@ -87,16 +83,14 @@ export default function Map() {
               height: "auto",
             }}
           >
-            <Sphere stroke="#2A2D5A" strokeWidth={1} fill="transparent" id="sphere" />
-            <Graticule stroke="#2A2D5A" strokeWidth={0.5} strokeOpacity={0.4} />
+            <Sphere stroke="#2A2D5A" strokeWidth={2} fill="transparent" id="sphere" />
             
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => {
                   const countryName = geo.properties.name || geo.id
                   const countryCode = geo.id
-                  const intensity = countryData[countryCode] || 0.3
-                  const baseFill = colorScale(intensity)
+                  const baseFill = countryColors[countryCode] || '#FFE5D9'
                   
                   return (
                     <Geography

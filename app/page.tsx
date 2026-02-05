@@ -1,6 +1,5 @@
 'use client'
 import React, { useRef } from 'react'
-import dynamic from 'next/dynamic'
 import Heropage from "@/components/heropage";
 import Logobar from "@/components/logobar";
 import Navbar from "@/components/Navbar";
@@ -15,9 +14,10 @@ import Technologies from '@/components/Technologies';
 import CreativeProcess from '@/components/CreativeProcess';
 import Brandsspec from '@/components/Brandsspec';
 import RequestForm from '@/components/RequestForm';
+import Map from '@/components/Map';
 
-// Dynamic import with SSR disabled to prevent hydration mismatch
-const Map = dynamic(() => import('@/components/Map'), { ssr: false });
+// Map component temporarily disabled to avoid conflicts with horizontal scroll
+// const Map = dynamic(() => import('@/components/Map'), { ssr: false });
 export default function Home() {
   const designedGrowRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLDivElement>(null) // placeholder footer
@@ -32,7 +32,6 @@ export default function Home() {
       <Ourbranding />
       <StackingCards />
       <Map />
-
       {/* DesignedGrow section with ref */}
       <div ref={designedGrowRef}>
         <DesignedGrow />
