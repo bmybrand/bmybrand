@@ -20,8 +20,9 @@ const CaseStudiespage = () => {
       <Navbar />
       <Herobarcase />
       <RecentProjects />
-      <WorkTogether />
+      <ServicesDetail />
       
+      <WorkTogether />
       <Brandsspec />
       <RequestForm /> 
       <Footer />
