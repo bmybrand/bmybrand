@@ -65,9 +65,9 @@ const reviews: Review[] = [
 
 const ReviewCard = ({ review }: { review: Review }) => {
   return (
-    <div className="bg-[#191A35] rounded-3xl p-6 mb-6 flex flex-col gap-4 min-h-[320px] w-full">
-      <div className="flex items-start gap-4">
-        <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0 bg-linear-to-br from-[#ff6b35] to-[#f45b25] flex items-center justify-center">
+    <div className="bg-[#191A35] rounded-2xl md:rounded-3xl p-4 md:p-6 mb-4 md:mb-6 flex flex-col gap-3 md:gap-4 min-h-[240px] md:min-h-[280px] lg:min-h-[320px] w-full">
+      <div className="flex items-start gap-3 md:gap-4">
+        <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl overflow-hidden shrink-0 bg-linear-to-br from-[#ff6b35] to-[#f45b25] flex items-center justify-center">
           {review.image ? (
             <img 
               src={review.image} 
@@ -75,28 +75,28 @@ const ReviewCard = ({ review }: { review: Review }) => {
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-white text-xl font-bold BenzinBold">
+            <span className="text-white text-base md:text-xl font-bold BenzinBold">
               {review.initials}
             </span>
           )}
         </div>
       </div>
       
-      <p className="text-white/80 text-sm leading-relaxed grow">
+      <p className="text-white/80 text-xs md:text-sm leading-relaxed grow">
         {review.review}
       </p>
       
-      <div className="flex flex-col gap-2">
-        <h3 className="text-white font-semibold text-lg BenzinSemibold">
+      <div className="flex flex-col gap-1.5 md:gap-2">
+        <h3 className="text-white font-semibold text-base md:text-lg BenzinSemibold">
           {review.name}
         </h3>
         <div className="flex items-center justify-between">
-          <span className="text-[#ff6b35] text-sm font-medium">
+          <span className="text-[#ff6b35] text-xs md:text-sm font-medium">
             {review.role}
           </span>
-          <div className="flex gap-1">
+          <div className="flex gap-0.5 md:gap-1">
             {[...Array(review.rating)].map((_, i) => (
-              <span key={i} className="text-[#ff6b35] text-base">★</span>
+              <span key={i} className="text-[#ff6b35] text-sm md:text-base">★</span>
             ))}
           </div>
         </div>
@@ -116,18 +116,12 @@ const VerticalScrollColumn = ({
   const duplicatedReviews = [...reviews, ...reviews, ...reviews]
   
   return (
-    <div className="relative h-full overflow-hidden">
-      {/* Top fade */}
-      <div className="absolute top-0 left-0 right-0 h-40 bg-linear-to-b from-[#0f0f1e] via-[#0f0f1e]/90 to-transparent z-20 pointer-events-none" />
-      
+    <div className="relative w-full h-full overflow-hidden">
       <div className={`flex flex-col ${animationClass}`}>
         {duplicatedReviews.map((review, index) => (
           <ReviewCard key={`${review.id}-${index}`} review={review} />
         ))}
       </div>
-      
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-linear-to-t from-[#0f0f1e] via-[#0f0f1e]/90 to-transparent z-20 pointer-events-none" />
     </div>
   )
 }
@@ -140,13 +134,27 @@ const VerticalReviewColumns = () => {
   const column4 = [reviews[1], reviews[2], reviews[4]]
 
   return (
-    <div className="w-full bg-[#11122F] py-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-[1200px]">
-          <VerticalScrollColumn reviews={column1} animationClass="animate-scroll-up" />
-          <VerticalScrollColumn reviews={column2} animationClass="animate-scroll-down" />
-          <VerticalScrollColumn reviews={column3} animationClass="animate-scroll-up-slow" />
-          <VerticalScrollColumn reviews={column4} animationClass="animate-scroll-down-slow" />
+    <div className="w-full bg-[#11122F] py-10 md:py-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-3 md:px-4">
+        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 h-[400px] sm:h-[500px] md:h-[700px] lg:h-[900px] xl:h-[1000px] overflow-hidden">
+          {/* Top fade - applies to all columns */}
+          <div className="absolute inset-x-0 top-0 h-20 sm:h-24 md:h-32 lg:h-40 xl:h-48 bg-linear-to-b from-[#11122F] via-[#11122F]/95 to-transparent z-30 pointer-events-none" />
+          
+          <div className="h-full">
+            <VerticalScrollColumn reviews={column1} animationClass="animate-scroll-up" />
+          </div>
+          <div className="hidden md:block h-full">
+            <VerticalScrollColumn reviews={column2} animationClass="animate-scroll-down" />
+          </div>
+          <div className="hidden lg:block h-full">
+            <VerticalScrollColumn reviews={column3} animationClass="animate-scroll-up-slow" />
+          </div>
+          <div className="hidden lg:block h-full">
+            <VerticalScrollColumn reviews={column4} animationClass="animate-scroll-down-slow" />
+          </div>
+          
+          {/* Bottom fade - applies to all columns */}
+          <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 md:h-32 lg:h-40 xl:h-48 bg-linear-to-t from-[#11122F] via-[#11122F]/95 to-transparent z-30 pointer-events-none" />
         </div>
       </div>
     </div>
