@@ -8,6 +8,7 @@ import RequestForm from '../RequestForm'
 import Herobarai from './herobarai'
 import AIDrivenHero from './AIDrivenHero'
 import AISolutions from './AISolutions'
+import AIFaq from './AIFaq'
 
 export default function AIDrivenPage() {
   return (
@@ -16,6 +17,7 @@ export default function AIDrivenPage() {
       <Herobarai />
       <AIDrivenHero />
       <AISolutions />
+      <AIFaq />
       <WorkTogether />
       <RequestForm />
       <Footer />

@@ -10,7 +10,7 @@ export default function AIDrivenHero() {
     <>
       {/* Hero Section */}
       <section className="relative pt-32 pb-20  overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-[#1a1d3a] to-[#11122F]" />
+        <div className="absolute inset-0 bg-linear-to-br" />
         <div className="w-[90%] 2xl:w-[75%] mx-auto relative z-10">
 
           <div className="mb-4 flex items-center gap-2">

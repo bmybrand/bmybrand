@@ -1,23 +1,22 @@
 'use client'
 
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 import WorkTogether from '../WorkTogether'
 import RequestForm from '../RequestForm'
-import HerobarBrand from './herobarBrand'
-import BrandExperienceHero from './BrandExperienceHero'
-import BrandSolutions from './BrandSolutions'
-import BrandFaq from './BrandFaq'
 
-export default function BrandExperiencePage() {
+export default function AIDrivenServicePage() {
+  const router = useRouter()
+
   return (
     <div className="bg-[#11122F]">
       <Navbar />
-      <HerobarBrand />
-      <BrandExperienceHero />
-      <BrandSolutions />
-      <BrandFaq />
+      
+      
+
+
       <WorkTogether />
       <RequestForm />
       <Footer />
