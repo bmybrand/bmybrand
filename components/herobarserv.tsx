@@ -45,7 +45,7 @@ const herobarserv = () => {
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
             Services
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-white/80 max-w-2xl">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
             At BMYBrand, we deliver end-to-end digital services designed to help brands grow with confidence. From branding and web development to marketing, AI, and automation, our solutions combine creativity, strategy, and technology to drive real, measurable</p>
             
         </div>

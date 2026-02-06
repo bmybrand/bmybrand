@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 
 type Service = {
   id: string
@@ -57,6 +58,7 @@ const services: Service[] = [
 ]
 
 export default function ServicesDetail() {
+  const router = useRouter()
   const [activeService, setActiveService] = useState('ai-driven')
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
@@ -79,7 +81,7 @@ export default function ServicesDetail() {
       }
     }
 
-    handleScroll() // Run on mount
+    handleScroll() 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -94,8 +96,8 @@ export default function ServicesDetail() {
   }
 
   return (
-    <section className="min-h-screen bg-[#15173A] pt-8 lg:pt-32 pb-20">
-       <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6 mb-0 lg:mb-8">
+    <section className="min-h-screen bg-[#15173A] pt-32 pb-20">
+       <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
           Modern <span className="text-[#F45B25]">Tools & Technologies</span>
           <br />
@@ -106,32 +108,32 @@ export default function ServicesDetail() {
           and visually stunning digital experiences.
         </p>
       </div>
-      <div className="w-[90%] 2xl:w-[85%] mx-auto">
+      <div className="w-[90%] 2xl:w-[75%] mx-auto">
         {/* Header */}
        
 
-        <div className="flex flex-col lg:flex-row pt-6 pb-20 lg:py-20 gap-4 lg:gap-8">
+        <div className="flex flex-col lg:flex-row py-20 gap-8">
           {/* Left Sidebar - Fixed Navigation */}
-          <div className="lg:w-64 flex-shrink-0">
-            <div className="bg-[#1E2044] rounded-2xl p-4 sticky top-1/2 -translate-y-1/2">
+          <div className="lg:w-[35%] shrink-0">
+            <div className=" rounded-2xl p-4 sticky top-1/5">
               {services.map((service) => (
                 <button
                   key={service.id}
                   onClick={() => scrollToSection(service.id)}
                   className={`w-full text-left px-6 py-4 rounded-xl transition-all duration-300 mb-2 ${
                     activeService === service.id
-                      ? 'bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white'
+                      ? 'bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white'
                       : 'text-white/70 hover:bg-white/5 hover:text-white'
                   }`}
                 >
-                  <span className="text-sm font-medium BenzinSemibold">{service.title}</span>
+                  <span className="text-base md:text-lg font-medium BenzinSemibold">{service.title}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Right Content - All Services Scrollable */}
-          <div className="flex-1 space-y-8">
+          <div className="lg:w-[65%] shrink-0 space-y-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.id}
@@ -142,34 +144,34 @@ export default function ServicesDetail() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-[#1E2044] rounded-2xl p-8 md:p-12 scroll-mt-32"
+                className="bg-[#1E2044] rounded-2xl p-8 md:p-10 scroll-mt-32"
                 id={service.id}
               >
-                {/* Service Icon */}
-                <div className="w-16 h-16 bg-[#5B6CFF]/20 rounded-xl flex items-center justify-center text-2xl text-white font-bold mb-8 flex-shrink-0">
-                  {service.icon}
+                {/* Service Icon & Title */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 bg-[#5B6CFF]/20 rounded-xl flex items-center justify-center text-xl text-white font-bold shrink-0">
+                    {service.icon}
+                  </div>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl text-white BenzinSemibold">
+                    {service.title}
+                  </h2>
                 </div>
 
-                {/* Service Title */}
-                <h2 className="text-3xl md:text-4xl lg:text-5xl text-white BenzinSemibold mb-6">
-                  {service.title}
-                </h2>
-
                 {/* Service Description */}
-                <p className="text-white/60 text-base md:text-lg leading-relaxed mb-8">
+                <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6">
                   {service.description}
                 </p>
 
                 {/* Service Items Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
                   {service.items.map((item, itemIndex) => (
                     <div
                       key={itemIndex}
-                      className="flex items-center gap-3"
+                      className="flex items-center gap-2"
                     >
-                      <div className="w-6 h-6 bg-[#F45B25] rounded flex items-center justify-center flex-shrink-0">
+                      <div className="w-5 h-5 bg-[#F45B25] rounded flex items-center justify-center shrink-0">
                         <svg
-                          className="w-4 h-4 text-white"
+                          className="w-3 h-3 text-white"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -182,18 +184,21 @@ export default function ServicesDetail() {
                           />
                         </svg>
                       </div>
-                      <span className="text-white/80 text-sm md:text-base">{item}</span>
+                      <span className="text-white/80 text-xs md:text-sm">{item}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* CTA Button */}
-                <button className=" bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:opacity-90 transition-all duration-300 BenzinSemibold flex items-center gap-3 text-lg">
-    <div className="bg-white p-4 rounded-lg">
-    <img src="/Group1190.svg" alt="" className="w-4 h-4" />
-    </div>
-    <span className="px-2">Get Started Now</span>
-  </button>
+                <button 
+                  onClick={() => router.push(`/services/${service.id}`)}
+                  className="bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:opacity-90 transition-all duration-300 BenzinSemibold flex items-center gap-3 text-lg"
+                >
+                  <div className="bg-white p-4 rounded-lg">
+                    <img src="/Group1190.svg" alt="" className="w-4 h-4" />
+                  </div>
+                  <span className="px-2">View More</span>
+                </button>
               </motion.div>
             ))}
           </div>

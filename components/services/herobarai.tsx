@@ -1,8 +1,10 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-const herobar = () => {
+const herobarreview = () => {
+  const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [loaded, setLoaded] = useState(false)
@@ -42,11 +44,20 @@ const herobar = () => {
             loaded ? 'translate-x-0 opacity-100' : 'translate-x-24 opacity-0'
           }`}
         >
+        <button
+            onClick={() => router.push('/services')}
+            className="text-white/60 hover:text-white mb-8 flex items-center gap-2 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Services
+          </button>
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
-              Case Studies
+            AI-DRIVEN SOLUTIONS
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-            At BMYBrand, we turn ideas into impact and strategies into measurable results. Our case studies showcase real projects where branding, design, technology, and marketing came together to solve challenges, drive growth, and create lasting value for our clients.</p>
+            We design AI-driven solutions that transform how businesses operate. From smart automation to advanced integrations, our work focuses on efficiency, accuracy, and long-term scalability—built around your systems and goals.</p>
             
         </div>
         <div
@@ -62,4 +73,4 @@ const herobar = () => {
   )
 }
 
-export default herobar
+export default herobarreview

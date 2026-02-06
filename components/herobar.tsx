@@ -45,7 +45,7 @@ const herobar = () => {
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
               ABOUT US
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-white/80 max-w-2xl">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
               At BMYBrand, we transform ideas into high-performing brands. Our team blends creativity, strategy, and technology to help businesses stand out, connect with their audience, and achieve long-term growth in an ever-evolving digital world.
             </p>
             

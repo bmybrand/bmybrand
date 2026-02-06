@@ -45,7 +45,7 @@ const herobarreview = () => {
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
             Reviews
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-white/80 max-w-2xl">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
             At BMYBrand, client success is at the center of everything we do. Our testimonials reflect real partnerships, real results, and the trust brands place in us to deliver impactful design, technology, and growth-driven solutions.</p>
             
         </div>
