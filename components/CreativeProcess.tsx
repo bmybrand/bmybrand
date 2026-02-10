@@ -47,11 +47,19 @@ export default function CreativeProcess() {
 
         // Initial states
         gsap.set(track, { x: 0 })
-        gsap.set(progress, { scaleX: 0, transformOrigin: 'left center' })
         gsap.set(stepRefs.current, { opacity: 0.25 })
         gsap.set(stepRefs.current[0], { opacity: 1 })
 
         updateMetrics()
+        
+        // Calculate initial progress to reach first dot
+        let firstDotPosition = 0
+        if (stepRefs.current[0]) {
+          const trackW = track.scrollWidth
+          firstDotPosition = trackW > 0 ? (stepRefs.current[0].offsetLeft + 50) / trackW : 0
+        }
+        
+        gsap.set(progress, { scaleX: firstDotPosition, transformOrigin: 'left center' })
 
         const st = ScrollTrigger.create({
           trigger: sectionRef.current,
@@ -64,8 +72,16 @@ export default function CreativeProcess() {
           onRefresh: updateMetrics,
           onUpdate: (self) => {
             const p = self.progress
+            // Calculate first dot position dynamically
+            let firstDot = 0
+            if (stepRefs.current[0]) {
+              const trackW = track.scrollWidth
+              firstDot = trackW > 0 ? (stepRefs.current[0].offsetLeft + 50) / trackW : 0
+            }
+            // Map progress from first dot to end
+            const adjustedProgress = firstDot + (p * (1 - firstDot))
             gsap.set(track, { x: -maxX * p })
-            gsap.set(progress, { scaleX: p, transformOrigin: 'left center' })
+            gsap.set(progress, { scaleX: adjustedProgress, transformOrigin: 'left center' })
 
             let activeIndex = 0
             for (let i = 0; i < stepPositions.length; i += 1) {
@@ -111,22 +127,22 @@ export default function CreativeProcess() {
       {/* Timeline viewport (xl+) */}
       <div
         ref={viewportRef}
-        className="relative mt-16 hidden w-full overflow-hidden xl:block"
+        className="relative mt-36 hidden w-full overflow-hidden xl:block"
       >
         {/* Base gray line */}
-        <div className="absolute left-0 right-0 top-16 h-0.5 bg-white/10" />
+        <div className="absolute left-0 right-0 top-20 h-0.5 bg-white/10" />
 
         {/* Expanding orange line */}
         <div
           ref={progressRef}
-          className="absolute left-0 top-16 h-0.5 w-full bg-[#F45B25]"
+          className="absolute left-0 top-20 h-0.5 w-full bg-[#F45B25]"
           style={{ transform: 'scaleX(0)' }}
         />
 
         {/* Track that moves horizontally */}
         <div
           ref={trackRef}
-          className="relative flex gap-16 px-6 pb-28"
+          className="relative flex gap-16 px-45 pb-28"
           style={{ width: 'max-content' }}
         >
           {STEPS.map((s, i) => (
@@ -138,20 +154,22 @@ export default function CreativeProcess() {
               className="relative min-w-[320px] sm:min-w-95 md:min-w-110"
             >
               {/* Big step label (over the dot) */}
-              <div className="mb-6 text-4xl sm:text-5xl font-semibold text-white/15">
+              <div className="mb-6 text-5xl sm:text-6xl font-semibold text-white/15">
                 {s.step}
               </div>
 
               {/* Dot aligned on the line */}
-              <div className="absolute left-0 top-16 -translate-y-1/2">
+              <div className="absolute left-0 top-20 -translate-y-1/2">
                 <div className="h-4 w-4 rounded-full bg-[#F45B25]" />
                 <div className="absolute -left-2 -top-2 h-8 w-8 rounded-full bg-[#F45B25]/20" />
               </div>
 
               {/* Step text */}
-              <div className="ml-10 mt-10 max-w-sm">
-                <h3 className="text-white font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-white/60">{s.desc}</p>
+              <div className="ml-10 mt-10 max-w-sm relative">
+                {/* Vertical dotted line behind text */}
+                <div className="absolute left-0 top-0 bottom-0 w-px border-l-2 border-dotted border-white/20 -ml-10" />
+                <h3 className="text-white font-semibold text-xl relative z-10">{s.title}</h3>
+                <p className="mt-6 text-base leading-7 text-white/60 relative z-10">{s.desc}</p>
               </div>
             </div>
           ))}
@@ -172,14 +190,16 @@ export default function CreativeProcess() {
           {STEPS.map((s) => (
             <div key={s.step} className="relative flex flex-col gap-2 pl-10">
               <div className="absolute left-4 top-2 h-3 w-3 -translate-x-1/2 rounded-full bg-[#F45B25]" />
-              <div>
-                <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/40">
+              <div className="relative">
+                <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-white/40">
                   {s.step}
                 </div>
-                <h3 className="mt-1 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-white font-semibold">
+                {/* Vertical dotted line behind text */}
+                <div className="absolute left-0 top-8 bottom-0 w-px border-l-2 border-dotted border-white/20 -ml-10" />
+                <h3 className="mt-3 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white font-semibold relative z-10">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-7 text-white/60">
+                <p className="mt-6 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-8 text-white/60 relative z-10">
                   {s.desc}
                 </p>
               </div>

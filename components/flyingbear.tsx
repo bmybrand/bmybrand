@@ -56,21 +56,21 @@ const FullyAnimatedGrid: React.FC = () => {
       title: "Brand Experience",
       text:
         "We create logos, visual styles, and brand guides that help your business stand out and communicate clearly.",
-      img: "/Group (24).svg",
+      img: "/Brand Experience.svg",
       delay: 0.1,
     },
     {
       title: "Software Development",
       text:
         "Get responsive, user-friendly websites built to convert visitors into customers and represent your brand professionally.",
-      img: "/Group (24).svg",
+      img: "/Software Development.svg",
       delay: 0.3,
     },
     {
       title: "Commerce Solutions",
       text:
         "We build secure online stores with easy product management, smooth payments, and a seamless shopping experience.",
-      img: "/Group (24).svg",
+      img: "/Commerce Solutions.svg",
       delay: 0.5,
     },
   ];
@@ -80,21 +80,21 @@ const FullyAnimatedGrid: React.FC = () => {
       title: "Digital Marketing",
       text:
         "From SEO to social media, we boost visibility, attract the right audience, and drive business growth.",
-      img: "/Group (24).svg",
+      img: "/Digital Marketing.svg",
       delay: 0.1,
     },
     {
       title: "Creative Production",
       text:
         "Engage your audience with custom graphics, illustrations, and animations that bring your ideas to life.",
-      img: "/Group (24).svg",
+      img: "/Creative Production.svg",
       delay: 0.3,
     },
     {
       title: "Business Operations",
       text:
         "We offer reliable bookkeeping and admin support so you stay organized, save time, and focus on running your business.",
-      img: "/Group (24).svg",
+      img: "/Business Operations.svg",
       delay: 0.5,
     },
   ];
@@ -123,29 +123,29 @@ const FullyAnimatedGrid: React.FC = () => {
           }`}
         >
           {leftItems.map((item, idx) => (
-            <div key={idx} className="bg-[#191A35] rounded-lg p-4 lg:p-8 h-64 flex flex-col justify-center items-center">
-              <div className="flex flex-col items-center lg:hidden">
-                <img src={item.img} alt="" className="py-3" />
-                <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-center">
+            <div key={idx} className="group bg-[#191A35] rounded-lg p-4 lg:p-8 h-64 flex flex-col justify-center hover:bg-[#F96F31] transition-all duration-300 cursor-pointer">
+              <div className="flex flex-col lg:hidden w-full">
+                <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
+                <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
                   {item.title}
                 </h3>
-                <p className="text-base text-[#ADAECC] text-center">{item.text}</p>
+                <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
               </div>
 
               <AnimatePresence>
                 {showContent && (
                   <motion.div
-                    className="hidden lg:flex flex-col items-center"
+                    className="hidden lg:flex flex-col w-full"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: item.delay, duration: fadeDuration / 1000 }}
                   >
-                    <img src={item.img} alt="" className="py-3" />
-                    <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-center">
+                    <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
+                    <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
                       {item.title}
                     </h3>
-                    <p className="text-base text-[#ADAECC] text-center">{item.text}</p>
+                    <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -179,7 +179,7 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
           <AnimatePresence>
   {showContent && (
     <motion.div
-      className="hidden lg:flex flex-col items-center w-full"
+      className="hidden lg:flex flex-col items-center w-full z-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -217,7 +217,7 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
         One Agency For All Your Branding, Design & Digital Needs
       </motion.h2>
 
-      <motion.button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-4 py-4 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
+      <motion.button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-4 py-4 rounded-lg   hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
         Get Started Now
       </motion.button>
     </motion.div>
@@ -233,29 +233,29 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
           }`}
         >
           {rightItems.map((item, idx) => (
-            <div key={idx} className="bg-[#191A35] rounded-lg p-4 lg:p-8 h-64 flex flex-col justify-center items-center">
-              <div className="flex flex-col items-center lg:hidden">
-                <img src={item.img} alt="" className="py-3" />
-                <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-center">
+            <div key={idx} className="group bg-[#191A35] rounded-lg p-4 lg:p-8 h-64 flex flex-col justify-center hover:bg-[#F96F31] transition-all duration-300 cursor-pointer">
+              <div className="flex flex-col lg:hidden w-full">
+                <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
+                <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
                   {item.title}
                 </h3>
-                <p className="text-base text-[#ADAECC] text-center">{item.text}</p>
+                <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
               </div>
 
               <AnimatePresence>
                 {showContent && (
                   <motion.div
-                    className="hidden lg:flex flex-col items-center"
+                    className="hidden lg:flex flex-col w-full"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: item.delay, duration: fadeDuration / 1000 }}
                   >
-                    <img src={item.img} alt="" className="py-3" />
-                    <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-center">
+                    <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
+                    <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
                       {item.title}
                     </h3>
-                    <p className="text-base text-[#ADAECC] text-center">{item.text}</p>
+                    <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
                   </motion.div>
                 )}
               </AnimatePresence>

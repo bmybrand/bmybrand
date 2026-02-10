@@ -12,42 +12,58 @@ const ToolItem = ({
   icon,
   position,
   side,
+  hoverColor,
 }: {
   name: string
   icon: string
   position: React.CSSProperties
   side: 'left' | 'right'
-}) => (
-  <div
-    data-side={side}
-    className="tool-item absolute flex items-center gap-3 group cursor-pointer z-20"
-    style={position}
-  >
-    {/* ICON */}
+  hoverColor: string
+}) => {
+  const [isHovered, setIsHovered] = useState(false)
+  
+  return (
     <div
-      className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-md
-      border border-white/20 flex items-center justify-center shadow-lg
-      transition-all duration-300
-      group-hover:bg-[#F45B25]
-      group-hover:border-[#F45B25]
-      group-hover:shadow-[0_0_25px_rgba(244,91,37,0.8)]"
+      data-side={side}
+      className="tool-item absolute flex items-center gap-3 cursor-pointer z-20"
+      style={position}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <img src={icon} className="w-5 h-5 object-contain" />
-    </div>
+      {/* ICON */}
+      <div
+        className="w-12 h-12 rounded-xl backdrop-blur-md
+        flex items-center justify-center shadow-lg
+        transition-all duration-300"
+        style={{
+          backgroundColor: isHovered ? hoverColor : 'rgba(255, 255, 255, 0.15)',
+          borderColor: isHovered ? hoverColor : 'rgba(255, 255, 255, 0.2)',
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          boxShadow: isHovered ? `0 0 25px ${hoverColor}CC` : '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+        }}
+      >
+        <img src={icon} className="w-5 h-5 object-contain" />
+      </div>
 
-    {/* LABEL */}
-    <div
-      className="w-44 px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md
-      border border-white/20 text-white text-sm font-medium text-center shadow-md
-      transition-all duration-300 truncate
-      group-hover:bg-[#F45B25]/30
-      group-hover:border-[#F45B25]
-      group-hover:shadow-[0_0_20px_rgba(244,91,37,0.6)]"
-    >
-      {name}
+      {/* LABEL */}
+      <div
+        className="w-44 px-4 py-3 rounded-xl backdrop-blur-md
+        text-white text-sm font-medium text-center shadow-md
+        transition-all duration-300 truncate"
+        style={{
+          backgroundColor: isHovered ? `${hoverColor}4D` : 'rgba(255, 255, 255, 0.1)',
+          borderColor: isHovered ? hoverColor : 'rgba(255, 255, 255, 0.2)',
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          boxShadow: isHovered ? `0 0 20px ${hoverColor}99` : '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+        }}
+      >
+        {name}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 /* ---------- MOBILE TOOL ---------- */
 const MobileTool = ({ name, icon }: { name: string; icon: string }) => (
@@ -68,23 +84,23 @@ const Footer = () => {
   const [animationComplete, setAnimationComplete] = useState(false)
 
   const leftTools = [
-    { name: 'Adobe Photoshop', icon: '/Ps.png', top: '6%', left: '12%' },
-    { name: 'Adobe Illustrator', icon: '/Ai.png', top: '20%', left: '8%' },
-    { name: 'Adobe XD', icon: '/Xd.png', top: '34%', left: '6%' },
-    { name: 'Figma', icon: '/figma.png', top: '48%', left: '5%' },
-    { name: 'Adobe InDesign', icon: '/Id.png', top: '62%', left: '6%' },
-    { name: 'Premiere Pro', icon: '/Pr.png', top: '76%', left: '8%' },
-    { name: 'After Effects', icon: '/Ae.png', top: '90%', left: '12%' },
+    { name: 'Adobe Photoshop', icon: '/Ps.png', top: '6%', left: '12%', hoverColor: '#31A8FF' },
+    { name: 'Adobe Illustrator', icon: '/Ai.png', top: '20%', left: '8%', hoverColor: '#FF9A00' },
+    { name: 'Adobe XD', icon: '/Xd.png', top: '34%', left: '6%', hoverColor: '#FF61F6' },
+    { name: 'Figma', icon: '/figma.png', top: '48%', left: '5%', hoverColor: '#F24E1E' },
+    { name: 'Adobe InDesign', icon: '/Id.png', top: '62%', left: '6%', hoverColor: '#FF3366' },
+    { name: 'Premiere Pro', icon: '/Pr.png', top: '76%', left: '8%', hoverColor: '#9999FF' },
+    { name: 'After Effects', icon: '/Ae.png', top: '90%', left: '12%', hoverColor: '#9999FF' },
   ]
 
   const rightTools = [
-    { name: 'WordPress', icon: '/wordpress.png', top: '6%', right: '12%' },
-    { name: 'React', icon: '/react.png', top: '20%', right: '8%' },
-    { name: 'Node JS', icon: '/node js.png', top: '34%', right: '6%' },
-    { name: 'Next JS', icon: '/Next.png', top: '48%', right: '5%' },
-    { name: 'Flutter', icon: '/flutter.png', top: '62%', right: '6%' },
-    { name: 'Android', icon: '/android.png', top: '76%', right: '8%' },
-    { name: 'Shopify', icon: '/spotify.png', top: '90%', right: '12%' },
+    { name: 'WordPress', icon: '/wordpress.png', top: '6%', right: '12%', hoverColor: '#21759B' },
+    { name: 'React', icon: '/react.png', top: '20%', right: '8%', hoverColor: '#61DAFB' },
+    { name: 'Node JS', icon: '/node js.png', top: '34%', right: '6%', hoverColor: '#339933' },
+    { name: 'Next JS', icon: '/Next.png', top: '48%', right: '5%', hoverColor: '#FFFFFF' },
+    { name: 'Flutter', icon: '/flutter.png', top: '62%', right: '6%', hoverColor: '#02569B' },
+    { name: 'Android', icon: '/android.png', top: '76%', right: '8%', hoverColor: '#3DDC84' },
+    { name: 'Shopify', icon: '/spotify.png', top: '90%', right: '12%', hoverColor: '#1DB954' },
   ]
 
   /* ---------- SCROLL + HOVER ANIMATION ---------- */
@@ -133,7 +149,6 @@ const Footer = () => {
                 hoverTl.to(hoverItem, {
                   x: hoverSide === 'left' ? 6 : -6,
                   rotate: hoverSide === 'left' ? 2 : -2,
-                  scale: 1.1,
                   duration: 0.25,
                   ease: 'power2.out',
                 })
@@ -164,6 +179,7 @@ const Footer = () => {
             icon={tool.icon}
             position={{ top: tool.top, left: tool.left }}
             side="left"
+            hoverColor={tool.hoverColor}
           />
         ))}
 
@@ -174,6 +190,7 @@ const Footer = () => {
             icon={tool.icon}
             position={{ top: tool.top, right: tool.right }}
             side="right"
+            hoverColor={tool.hoverColor}
           />
         ))}
       </div>
