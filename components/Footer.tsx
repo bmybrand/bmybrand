@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
     <footer className="bg-[#11122F] text-white py-12 ">
       <div className="flex flex-col  max-w-none mx-auto justify-center items-center bg-[#202141] rounded-2xl py-10 px-6 lg:px-12 w-[90%]">
         <h2
-          className="group BenzinSemibold text-center leading-none text-[32px] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[140px] text-[#202141] pb-5"
+          className="group BenzinSemibold text-center leading-none text-[30px] sm:text-7xl md:text-[80px] lg:text-[110px] xl:text-9xl 2xl:text-[160px]  text-[#202141] pb-5"
           style={{
             textShadow:
               '1px 0 rgba(244, 91, 37, 0.45), -1px 0 rgba(244, 91, 37, 0.45), 0 1px rgba(244, 91, 37, 0.45), 0 -1px rgba(244, 91, 37, 0.45), 1px 1px rgba(244, 91, 37, 0.35), -1px -1px rgba(244, 91, 37, 0.35), 1px -1px rgba(244, 91, 37, 0.35), -1px 1px rgba(244, 91, 37, 0.35)',

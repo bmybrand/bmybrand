@@ -192,7 +192,7 @@ export default function ServicesDetail() {
                 {/* CTA Button */}
                 <button 
                   onClick={() => router.push(`/services/${service.id}`)}
-                  className="bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:opacity-90 transition-all duration-300 BenzinSemibold flex items-center gap-3 text-lg"
+                  className="bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold flex items-center gap-3 text-lg"
                 >
                   <div className="bg-white p-4 rounded-lg">
                     <img src="/Group1190.svg" alt="" className="w-4 h-4" />

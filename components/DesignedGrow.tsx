@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 
 const items = [
   {
@@ -27,6 +29,8 @@ const checklist = [
 ]
 
 const DesignedGrow = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0)
+
   return (
     <div className="flex flex-col items-center mb-30 ">
       {/* Heading */}
@@ -47,15 +51,16 @@ const DesignedGrow = () => {
           {items.map((item, index) => (
             <div
               key={index}
-              className="relative overflow-hidden group cursor-pointer
-                         border-l-2 border-[#F45B25]
-                         hover:border-l-4 transition-all duration-300"
+              onMouseEnter={() => setActiveIndex(index)}
+              className={`relative overflow-hidden cursor-pointer transition-all duration-300 ${
+                activeIndex === index ? 'border-l-4 border-[#F45B25]' : 'border-l-2 border-[#F45B25]'
+              }`}
             >
               {/* Fade gradient */}
               <div
-                className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent
-                           opacity-0 group-hover:opacity-100
-                           transition-opacity duration-500 ease-out"
+                className={`absolute inset-0 bg-gradient-to-r from-white/10 to-transparent transition-opacity duration-500 ease-out ${
+                  activeIndex === index ? 'opacity-100' : 'opacity-0'
+                }`}
               />
 
               <div className="relative p-5">

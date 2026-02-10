@@ -89,7 +89,7 @@ export default function Map() {
               height: "auto",
             }}
           >
-            <Sphere stroke="#2A2D5A" strokeWidth={2} fill="transparent" id="sphere" />
+            <Sphere stroke="none" strokeWidth={0} fill="transparent" id="sphere" />
             
             <Geographies geography={geoUrl}>
               {({ geographies }) =>

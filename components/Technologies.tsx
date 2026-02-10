@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -20,7 +20,7 @@ const ToolItem = ({
 }) => (
   <div
     data-side={side}
-    className="tool-item absolute flex items-center gap-3 group"
+    className="tool-item absolute flex items-center gap-3 group cursor-pointer z-20"
     style={position}
   >
     {/* ICON */}
@@ -28,18 +28,21 @@ const ToolItem = ({
       className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-md
       border border-white/20 flex items-center justify-center shadow-lg
       transition-all duration-300
-      group-hover:scale-110
-      group-hover:-translate-y-1
-      group-hover:shadow-[0_0_25px_rgba(244,91,37,0.75)]"
+      group-hover:bg-[#F45B25]
+      group-hover:border-[#F45B25]
+      group-hover:shadow-[0_0_25px_rgba(244,91,37,0.8)]"
     >
-      <img src={icon} className="w-5 h-5" />
+      <img src={icon} className="w-5 h-5 object-contain" />
     </div>
 
     {/* LABEL */}
     <div
       className="w-44 px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md
       border border-white/20 text-white text-sm font-medium text-center shadow-md
-      transition-all duration-300 truncate"
+      transition-all duration-300 truncate
+      group-hover:bg-[#F45B25]/30
+      group-hover:border-[#F45B25]
+      group-hover:shadow-[0_0_20px_rgba(244,91,37,0.6)]"
     >
       {name}
     </div>
@@ -48,12 +51,12 @@ const ToolItem = ({
 
 /* ---------- MOBILE TOOL ---------- */
 const MobileTool = ({ name, icon }: { name: string; icon: string }) => (
-  <div className="flex items-center gap-3 mx-6 shrink-0">
-    <div className="w-12 h-12 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center">
-      <img src={icon} className="w-5 h-5" />
+  <div className="flex items-center gap-3 mx-6 shrink-0 group cursor-pointer pointer-events-auto">
+    <div className="w-12 h-12 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:bg-[#F45B25] group-hover:border-[#F45B25] group-hover:shadow-[0_0_20px_rgba(244,91,37,0.8)]">
+      <img src={icon} className="w-5 h-5 object-contain" />
     </div>
 
-    <div className="w-45 px-4 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm text-center truncate">
+    <div className="w-45 px-4 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm text-center truncate transition-all duration-300 group-hover:bg-[#F45B25]/30 group-hover:border-[#F45B25] group-hover:shadow-[0_0_15px_rgba(244,91,37,0.6)]">
       {name}
     </div>
   </div>
@@ -62,25 +65,26 @@ const MobileTool = ({ name, icon }: { name: string; icon: string }) => (
 /* ---------- FOOTER ---------- */
 const Footer = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null)
+  const [animationComplete, setAnimationComplete] = useState(false)
 
   const leftTools = [
-    { name: 'Adobe Photoshop', icon: '/next.svg', top: '6%', left: '12%' },
-    { name: 'Adobe Illustrator', icon: '/next.svg', top: '20%', left: '8%' },
-    { name: 'Adobe XD', icon: '/next.svg', top: '34%', left: '6%' },
-    { name: 'Figma', icon: '/next.svg', top: '48%', left: '5%' },
-    { name: 'Adobe InDesign', icon: '/next.svg', top: '62%', left: '6%' },
-    { name: 'Premiere Pro', icon: '/next.svg', top: '76%', left: '8%' },
-    { name: 'After Effects', icon: '/next.svg', top: '90%', left: '12%' },
+    { name: 'Adobe Photoshop', icon: '/Ps.png', top: '6%', left: '12%' },
+    { name: 'Adobe Illustrator', icon: '/Ai.png', top: '20%', left: '8%' },
+    { name: 'Adobe XD', icon: '/Xd.png', top: '34%', left: '6%' },
+    { name: 'Figma', icon: '/figma.png', top: '48%', left: '5%' },
+    { name: 'Adobe InDesign', icon: '/Id.png', top: '62%', left: '6%' },
+    { name: 'Premiere Pro', icon: '/Pr.png', top: '76%', left: '8%' },
+    { name: 'After Effects', icon: '/Ae.png', top: '90%', left: '12%' },
   ]
 
   const rightTools = [
-    { name: 'WordPress', icon: '/next.svg', top: '6%', right: '12%' },
-    { name: 'React', icon: '/next.svg', top: '20%', right: '8%' },
-    { name: 'Node JS', icon: '/next.svg', top: '34%', right: '6%' },
-    { name: 'Next JS', icon: '/next.svg', top: '48%', right: '5%' },
-    { name: 'Flutter', icon: '/next.svg', top: '62%', right: '6%' },
-    { name: 'Android', icon: '/next.svg', top: '76%', right: '8%' },
-    { name: 'Shopify', icon: '/next.svg', top: '90%', right: '12%' },
+    { name: 'WordPress', icon: '/wordpress.png', top: '6%', right: '12%' },
+    { name: 'React', icon: '/react.png', top: '20%', right: '8%' },
+    { name: 'Node JS', icon: '/node js.png', top: '34%', right: '6%' },
+    { name: 'Next JS', icon: '/Next.png', top: '48%', right: '5%' },
+    { name: 'Flutter', icon: '/flutter.png', top: '62%', right: '6%' },
+    { name: 'Android', icon: '/android.png', top: '76%', right: '8%' },
+    { name: 'Shopify', icon: '/spotify.png', top: '90%', right: '12%' },
   ]
 
   /* ---------- SCROLL + HOVER ANIMATION ---------- */
@@ -117,24 +121,29 @@ const Footer = () => {
               start: 'top 70%',
               once: true, // 🚨 prevents DOM errors
             },
+            onComplete: i === items.length - 1 ? () => {
+              // Enable hover after last item animates in
+              setAnimationComplete(true)
+              
+              /* HOVER MICRO-ORBIT */
+              items.forEach((hoverItem) => {
+                const hoverSide = hoverItem.dataset.side
+
+                const hoverTl = gsap.timeline({ paused: true })
+                hoverTl.to(hoverItem, {
+                  x: hoverSide === 'left' ? 6 : -6,
+                  rotate: hoverSide === 'left' ? 2 : -2,
+                  scale: 1.1,
+                  duration: 0.25,
+                  ease: 'power2.out',
+                })
+
+                hoverItem.addEventListener('mouseenter', () => hoverTl.play())
+                hoverItem.addEventListener('mouseleave', () => hoverTl.reverse())
+              })
+            } : undefined,
           }
         )
-      })
-
-      /* HOVER MICRO-ORBIT */
-      items.forEach((item) => {
-        const side = item.dataset.side
-
-        const hoverTl = gsap.timeline({ paused: true })
-        hoverTl.to(item, {
-          x: side === 'left' ? 6 : -6,
-          rotate: side === 'left' ? 2 : -2,
-          duration: 0.25,
-          ease: 'power2.out',
-        })
-
-        item.addEventListener('mouseenter', () => hoverTl.play())
-        item.addEventListener('mouseleave', () => hoverTl.reverse())
       })
     }, sectionRef)
 

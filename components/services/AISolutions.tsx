@@ -110,7 +110,7 @@ export default function AISolutions() {
           <div className="text-center w-full flex justify-center">
             <p className="text-white/70 text-lg  bg-[#202141] border-2 border-[#2A2B47] rounded-full py-3 px-5 w-fit text-center flex items-center gap-2">
               Ready to build smarter systems with AI?{' '}
-              <button className="text-[#F45B25] hover:text-[#FF843E] transition-colors BenzinSemibold inline-flex items-center gap-2">
+              <button className="text-[#F45B25] hover:text-[#FF843E] hover:-translate-y-0.5 transition-all duration-300 BenzinSemibold inline-flex items-center gap-2">
                 → LET'S TALK
               </button>
             </p>

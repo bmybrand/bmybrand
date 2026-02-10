@@ -193,14 +193,14 @@ export default function WorkTogether() {
               Together!
             </h3>
             <div className="mt-6 flex flex-col sm:flex-row gap-4 BenzinSemibold mb-12">
-  <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:bg-[#d94a1a] transition-colors duration-300 flex justify-center items-center gap-2">
+  <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2">
     <div className="bg-white p-4 rounded-lg">
     <img src="/Group1190.svg" alt="" className="w-4 h-4" />
     </div>
     <span className="px-2">Get Started Now</span>
   </button>
 
-  <button className="border border-white text-white px-2 py-2 rounded-lg hover:bg-[#F45B25] transition-colors duration-300 flex justify-center items-center gap-2">
+  <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2">
 
      <div className="bg-white p-4 rounded-lg">
     <img src="/Group119.svg" alt="" className="w-4 h-4" />

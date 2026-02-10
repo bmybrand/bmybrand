@@ -151,7 +151,7 @@ export const Card: React.FC<CardProps> = ({
             {/* BUTTON */}
             <button
               style={{ backgroundColor: buttonColor }}
-              className="mt-4 text-white px-2 py-2 BenzinSemibold rounded-lg hover:brightness-90 transition duration-300 flex justify-center items-center gap-2 w-fit"
+              className="mt-4 text-white px-2 py-2 BenzinSemibold rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 w-fit"
             >
               <div className="bg-white p-4 rounded-lg">
                 <img src={buttonIcon} alt="button icon" className="w-4 h-4" />

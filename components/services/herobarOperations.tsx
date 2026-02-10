@@ -24,13 +24,13 @@ export default function HerobarOperations() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button
             onClick={() => router.push('/request')}
-            className="px-8 py-4 bg-[#F45B25] text-white rounded-full BenzinSemibold text-lg hover:bg-[#ff6b35] transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="px-8 py-4 bg-[#F45B25] text-white rounded-full BenzinSemibold text-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 shadow-lg"
           >
             Start Your Project
           </button>
           <button
             onClick={() => router.push('/case-studies')}
-            className="px-8 py-4 bg-transparent text-white border-2 border-white/20 rounded-full BenzinSemibold text-lg hover:border-[#F45B25] hover:text-[#F45B25] transition-all duration-300"
+            className="px-8 py-4 bg-transparent text-white border-2 border-white/20 rounded-full BenzinSemibold text-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300"
           >
             View Our Work
           </button>

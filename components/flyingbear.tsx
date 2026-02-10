@@ -161,6 +161,7 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
   isHovered ? "lg:w-1/3" : "lg:w-full"
 }`}
         >
+        {/* {for mobile} */}
           <div className="flex flex-col items-center lg:hidden w-full">
             <img
               src="/Character-2 1.svg"
@@ -170,8 +171,8 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
             <h2 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold mb-4 text-center">
               One Agency For All Your Branding, Design & Digital Needs
             </h2>
-            <button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg">
-              <span className="p-3">Get Started Now</span>
+            <button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-4 py-4 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
+              Get Started Now
             </button>
           </div>
 
@@ -211,13 +212,13 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
           ease: "easeOut",
         }}
       />
-
+{/* {for desktop} */}
       <motion.h2 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl mb-4 BenzinSemibold text-center">
         One Agency For All Your Branding, Design & Digital Needs
       </motion.h2>
 
-      <motion.button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg">
-        <span className="p-3">Get Started Now</span>
+      <motion.button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-4 py-4 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
+        Get Started Now
       </motion.button>
     </motion.div>
   )}

@@ -136,7 +136,7 @@ export default function RequestForm() {
               <div className="sm:col-span-2">
                 <button
                   type="submit"
-                  className="w-full h-12 rounded-lg bg-[#F45B25] text-white font-semibold hover:opacity-90 transition BenzinSemibold"
+                  className="w-full h-12 rounded-lg bg-[#F45B25] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold"
                 >
                   Request a Quote
                 </button>
@@ -152,7 +152,7 @@ export default function RequestForm() {
                   <button
                     type="button"
                     onClick={() => toggleFaq(item.number)}
-                    className="flex w-full items-center gap-4 text-left  "
+                    className="flex w-full items-center gap-4 text-left hover:bg-white/5 transition-all duration-300"
                   ><div className='flex gap-3  p-5'>
                     <span className="text-white text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular">{item.number}</span>
                     <h3 className=" text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular">{item.question}</h3></div>

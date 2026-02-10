@@ -95,7 +95,7 @@ export default function BrandFaq() {
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors duration-200"
+                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-all duration-300"
                 >
                   <span className="text-white text-lg md:text-xl BenzinSemibold pr-8">
                     {faq.question}

@@ -14,8 +14,8 @@ const AddBlock = () => {
         Boost Your Brand <br /> Beyond the Competition
       </h2>
 
-      <button className="w-fit BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-4 py-2 rounded-lg flex gap-2 mx-auto lg:mx-0">
-        <div className="bg-white p-2 rounded-lg">
+      <button className="w-fit BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg flex justify-center items-center gap-2 mx-auto lg:mx-0 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
+        <div className="bg-white p-4 rounded-lg">
           <img src="/Group1190.svg" alt="" className="w-4 h-4" />
         </div>
         <span className="px-2">Try BMYBrand FREE for 14 Days</span>
