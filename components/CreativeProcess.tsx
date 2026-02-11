@@ -17,11 +17,13 @@ export default function CreativeProcess() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const trackRef = useRef<HTMLDivElement | null>(null)
+  const pathLineRef = useRef<HTMLDivElement | null>(null)
   const progressRef = useRef<HTMLDivElement | null>(null)
   const stepRefs = useRef<Array<HTMLDivElement | null>>([])
+  const dottedLineRefs = useRef<Array<HTMLDivElement | null>>([])
 
   useLayoutEffect(() => {
-    if (!sectionRef.current || !viewportRef.current || !trackRef.current || !progressRef.current) return
+    if (!sectionRef.current || !viewportRef.current || !trackRef.current || !pathLineRef.current || !progressRef.current) return
 
     const mm = gsap.matchMedia()
 
@@ -29,19 +31,21 @@ export default function CreativeProcess() {
       const ctx = gsap.context(() => {
         const viewport = viewportRef.current!
         const track = trackRef.current!
+        const pathLine = pathLineRef.current!
         const progress = progressRef.current!
 
         let maxX = 0
-        let stepPositions: number[] = []
+        let pathReachThresholds: number[] = []
 
         const updateMetrics = () => {
           const viewportW = viewport.clientWidth
           const trackW = track.scrollWidth
           maxX = Math.max(0, trackW - viewportW)
-          stepPositions = stepRefs.current.map((el, i) => {
-            if (!el || trackW === 0) return i / Math.max(1, STEPS.length - 1)
-            const raw = el.offsetLeft / trackW
-            return Math.min(1, Math.max(0, raw))
+          pathLine.style.width = `${trackW}px`
+          progress.style.width = `${trackW}px`
+          pathReachThresholds = stepRefs.current.map((el) => {
+            if (!el || trackW === 0) return 0
+            return Math.min(1, Math.max(0, el.offsetLeft / trackW))
           })
         }
 
@@ -49,17 +53,13 @@ export default function CreativeProcess() {
         gsap.set(track, { x: 0 })
         gsap.set(stepRefs.current, { opacity: 0.25 })
         gsap.set(stepRefs.current[0], { opacity: 1 })
+        dottedLineRefs.current.forEach((el, i) => {
+          if (el) gsap.set(el, { borderLeftColor: i === 0 ? '#F45B25' : 'rgba(255,255,255,0.2)' })
+        })
 
         updateMetrics()
-        
-        // Calculate initial progress to reach first dot
-        let firstDotPosition = 0
-        if (stepRefs.current[0]) {
-          const trackW = track.scrollWidth
-          firstDotPosition = trackW > 0 ? (stepRefs.current[0].offsetLeft + 50) / trackW : 0
-        }
-        
-        gsap.set(progress, { scaleX: firstDotPosition, transformOrigin: 'left center' })
+
+        gsap.set(progress, { x: 0, scaleX: 0, transformOrigin: 'left center' })
 
         const st = ScrollTrigger.create({
           trigger: sectionRef.current,
@@ -72,25 +72,23 @@ export default function CreativeProcess() {
           onRefresh: updateMetrics,
           onUpdate: (self) => {
             const p = self.progress
-            // Calculate first dot position dynamically
-            let firstDot = 0
-            if (stepRefs.current[0]) {
-              const trackW = track.scrollWidth
-              firstDot = trackW > 0 ? (stepRefs.current[0].offsetLeft + 50) / trackW : 0
-            }
-            // Map progress from first dot to end
-            const adjustedProgress = firstDot + (p * (1 - firstDot))
-            gsap.set(track, { x: -maxX * p })
-            gsap.set(progress, { scaleX: adjustedProgress, transformOrigin: 'left center' })
+            const pathX = -maxX * p
+            gsap.set(track, { x: pathX })
+            // Orange progress expands/retracts on top of the fixed gray track
+            gsap.set(progress, { x: pathX, scaleX: p, transformOrigin: 'left center' })
 
+            const reachOffset = 0.065
             let activeIndex = 0
-            for (let i = 0; i < stepPositions.length; i += 1) {
-              if (p >= stepPositions[i]) activeIndex = i
+            for (let i = 0; i < pathReachThresholds.length; i += 1) {
+              if (p >= Math.max(0, pathReachThresholds[i] - reachOffset)) activeIndex = i
             }
 
             stepRefs.current.forEach((el, i) => {
               if (!el) return
               gsap.set(el, { opacity: i === activeIndex ? 1 : 0.25 })
+            })
+            dottedLineRefs.current.forEach((el, i) => {
+              if (el) gsap.set(el, { borderLeftColor: i === activeIndex ? '#F45B25' : 'rgba(255,255,255,0.2)' })
             })
           },
           // markers: true, // enable to debug
@@ -112,7 +110,7 @@ export default function CreativeProcess() {
   return (
     <section
       ref={sectionRef}
-      className="w-full lg:h-screen flex flex-col justify-center overflow-hidden bg-[#11122F] "
+      className="w-full lg:h-screen flex flex-col justify-center overflow-hidden bg-[#11122F] pt-20 lg:pt-24"
     >
       {/* Heading */}
       <div className="w-full flex flex-col justify-center items-center ">
@@ -127,22 +125,24 @@ export default function CreativeProcess() {
       {/* Timeline viewport (xl+) */}
       <div
         ref={viewportRef}
-        className="relative mt-36 hidden w-full overflow-hidden xl:block"
+        className="relative mt-30 hidden w-full overflow-hidden pt-16 xl:block"
       >
-        {/* Base gray line */}
-        <div className="absolute left-0 right-0 top-20 h-0.5 bg-white/10" />
+        {/* Fixed gray track - width set to track width in JS so path reaches Step 4 */}
+        <div
+          ref={pathLineRef}
+          className="absolute left-[11.25rem] top-35 h-1 origin-left bg-white/10"
+        />
 
-        {/* Expanding orange line */}
+        {/* Expanding orange path - width set to track width in JS, on top of gray */}
         <div
           ref={progressRef}
-          className="absolute left-0 top-20 h-0.5 w-full bg-[#F45B25]"
-          style={{ transform: 'scaleX(0)' }}
+          className="absolute left-[11.25rem] top-35 h-1 origin-left bg-[#F45B25]"
         />
 
         {/* Track that moves horizontally */}
         <div
           ref={trackRef}
-          className="relative flex gap-16 px-45 pb-28"
+          className="relative flex gap-40 px-45 pb-28"
           style={{ width: 'max-content' }}
         >
           {STEPS.map((s, i) => (
@@ -153,23 +153,27 @@ export default function CreativeProcess() {
               }}
               className="relative min-w-[320px] sm:min-w-95 md:min-w-110"
             >
-              {/* Big step label (over the dot) */}
-              <div className="mb-6 text-5xl sm:text-6xl font-semibold text-white/15">
+              {/* Big step label (pulled up so it’s distant from the line) */}
+              <div className="-mt-10 mb-2 text-5xl sm:text-6xl font-semibold text-white BenzinSemibold">
                 {s.step}
               </div>
 
-              {/* Dot aligned on the line */}
-              <div className="absolute left-0 top-20 -translate-y-1/2">
+              {/* Dot on the line: top-20 from card + viewport pt-16 = 9rem, same as line top-36 */}
+              <div className="absolute left-0 top-19.5 -translate-y-1/2">
                 <div className="h-4 w-4 rounded-full bg-[#F45B25]" />
                 <div className="absolute -left-2 -top-2 h-8 w-8 rounded-full bg-[#F45B25]/20" />
               </div>
 
-              {/* Step text */}
-              <div className="ml-10 mt-10 max-w-sm relative">
-                {/* Vertical dotted line behind text */}
-                <div className="absolute left-0 top-0 bottom-0 w-px border-l-2 border-dotted border-white/20 -ml-10" />
-                <h3 className="text-white font-semibold text-xl relative z-10">{s.title}</h3>
-                <p className="mt-6 text-base leading-7 text-white/60 relative z-10">{s.desc}</p>
+              {/* Step text - mt-20 clears the dot; ml-20 pushes content well forward from dot */}
+              <div className="ml-6 mt-20 flex flex-col gap-2 max-w-sm relative px-6 py-6">
+                {/* Vertical dotted line behind text - stretched dashes; turns orange when highlighted */}
+                <div
+                  ref={(el) => { dottedLineRefs.current[i] = el }}
+                  className="absolute left-0 top-0 bottom-0 w-px border-l-2 border-dashed -ml-4 transition-colors duration-300"
+                  style={{ borderLeftColor: 'rgba(255,255,255,0.2)' }}
+                />
+                <h3 className="text-white font-semibold text-xl relative z-10 BenzinSemibold ">{s.title}</h3>
+                <p className=" text-base leading-7 text-white/60 relative z-10">{s.desc}</p>
               </div>
             </div>
           ))}

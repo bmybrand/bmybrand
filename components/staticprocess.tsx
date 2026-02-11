@@ -48,16 +48,28 @@ export default function StaticProcess() {
         let leftStackX = 0
         let baseX: number[] = []
         let spacing = 0
+        let overlapSpacing = 0
 
         const updateMetrics = () => {
           const cards = Array.from(track.children) as HTMLDivElement[]
           if (!cards.length) return
           baseX = cards.map((card) => card.offsetLeft)
+          
+          const cardWidth = cards[0].offsetWidth
+          const containerWidth = track.parentElement?.offsetWidth ?? track.offsetWidth
+          
+          // Calculate dynamic overlap based on screen width
+          // Larger screens = more spacing between stacked cards
+          const availableWidth = containerWidth * 0.85
+          overlapSpacing = cards.length > 1 
+            ? Math.max(10, Math.min(160, (availableWidth - cardWidth) / (cards.length - 1)))
+            : 0
+          
           leftStackX = baseX[0] ?? 0
           spacing =
             cards.length > 1
               ? Math.max(0, baseX[1] - baseX[0])
-              : cards[0].offsetWidth
+              : cardWidth
           maxX = Math.max(0, spacing * (cards.length - 1))
         }
 
@@ -66,7 +78,8 @@ export default function StaticProcess() {
           gsap.set(track, { x: trackX })
           const cards = Array.from(track.children) as HTMLDivElement[]
           cards.forEach((card, i) => {
-            const clamp = Math.max(0, leftStackX - (baseX[i] + trackX))
+            const targetStackX = leftStackX + (i * overlapSpacing)
+            const clamp = Math.max(0, targetStackX - (baseX[i] + trackX))
             gsap.set(card, { x: clamp, zIndex: i + 1 })
           })
         }
