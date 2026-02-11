@@ -10,6 +10,7 @@ interface Review {
   image?: string
   initials?: string
   rating: number
+  logo: string
 }
 
 const reviews: Review[] = [
@@ -19,7 +20,8 @@ const reviews: Review[] = [
     role: 'Client',
     review: 'The branding upgrade was exactly what we needed—clean, consistent, and professional. Our online presence improved immediately, and clients noticed fast. The whole process with BMYBrand was smooth and straightforward.',
     initials: 'MA',
-    rating: 5
+    rating: 5,
+    logo: '/trustpilot-1.svg'
   },
   {
     id: 2,
@@ -27,7 +29,8 @@ const reviews: Review[] = [
     role: 'Client',
     review: 'Our brand now feels modern, consistent, and polished. The redesign clarified our message, and customers are responding better than ever.',
     initials: 'SM',
-    rating: 5
+    rating: 5,
+    logo: '/google.svg'
   },
   {
     id: 3,
@@ -35,7 +38,8 @@ const reviews: Review[] = [
     role: 'Client',
     review: 'The branding upgrade was exactly what we needed—clean, consistent, and professional. Our online presence improved immediately, and clients noticed fast. The whole process with BMYBrand was smooth and straightforward.',
     initials: 'HM',
-    rating: 5
+    rating: 5,
+    logo: '/upwork.svg'
   },
   {
     id: 4,
@@ -43,7 +47,8 @@ const reviews: Review[] = [
     role: 'Client',
     review: 'BMYBrand\'s redesign gave our brand the consistency and polish we needed. Customers notice the difference immediately.',
     initials: 'JC',
-    rating: 5
+    rating: 5,
+    logo: '/clutchco.svg'
   },
   {
     id: 5,
@@ -51,7 +56,8 @@ const reviews: Review[] = [
     role: 'Client',
     review: 'Our brand finally feels modern and polished. The redesign brought clarity to our message, and customers are engaging better than ever.',
     initials: 'AR',
-    rating: 5
+    rating: 5,
+    logo: '/yelp.svg'
   },
   {
     id: 6,
@@ -59,25 +65,30 @@ const reviews: Review[] = [
     role: 'Client',
     review: 'Working with BMYBrand transformed our online presence. The attention to detail and creative approach exceeded all expectations.',
     initials: 'OB',
-    rating: 5
+    rating: 5,
+    logo: '/bark.svg'
   }
 ]
 
 const ReviewCard = ({ review }: { review: Review }) => {
+  const logoSrc = review.logo
   return (
-    <div className="bg-[#191A35] rounded-2xl md:rounded-3xl p-4 md:p-6 mb-4 md:mb-6 flex flex-col gap-3 md:gap-4 min-h-[240px] md:min-h-[280px] lg:min-h-[320px] w-full">
+    <div className="bg-[#191A35] rounded-2xl md:rounded-3xl p-4 md:p-6 mb-4 md:mb-6 flex flex-col justify-center gap-3 md:gap-4 min-h-[240px] md:min-h-[280px] lg:min-h-[320px] w-full">
       <div className="flex items-start gap-3 md:gap-4">
-        <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl overflow-hidden shrink-0 bg-linear-to-br from-[#ff6b35] to-[#f45b25] flex items-center justify-center">
+        <div className="w-20 h-4 md:w-24 md:h-6 flex items-center justify-start shrink-0 mb-2">
           {review.image ? (
             <img 
               src={review.image} 
               alt={review.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-left"
             />
           ) : (
-            <span className="text-white text-base md:text-xl font-bold BenzinBold">
-              {review.initials}
-            </span>
+            <img
+              src={logoSrc}
+              alt=""
+              className="w-full h-full object-contain object-left"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
           )}
         </div>
       </div>
