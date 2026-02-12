@@ -19,11 +19,12 @@ export default function CreativeProcess() {
   const trackRef = useRef<HTMLDivElement | null>(null)
   const pathLineRef = useRef<HTMLDivElement | null>(null)
   const progressRef = useRef<HTMLDivElement | null>(null)
+  const pathEndDotRef = useRef<HTMLDivElement | null>(null)
   const stepRefs = useRef<Array<HTMLDivElement | null>>([])
   const dottedLineRefs = useRef<Array<HTMLDivElement | null>>([])
 
   useLayoutEffect(() => {
-    if (!sectionRef.current || !viewportRef.current || !trackRef.current || !pathLineRef.current || !progressRef.current) return
+    if (!sectionRef.current || !viewportRef.current || !trackRef.current || !pathLineRef.current || !progressRef.current || !pathEndDotRef.current) return
 
     const mm = gsap.matchMedia()
 
@@ -33,13 +34,15 @@ export default function CreativeProcess() {
         const track = trackRef.current!
         const pathLine = pathLineRef.current!
         const progress = progressRef.current!
+        const pathEndDot = pathEndDotRef.current!
 
         let maxX = 0
+        let trackW = 0
         let pathReachThresholds: number[] = []
 
         const updateMetrics = () => {
           const viewportW = viewport.clientWidth
-          const trackW = track.scrollWidth
+          trackW = track.scrollWidth
           maxX = Math.max(0, trackW - viewportW)
           pathLine.style.width = `${trackW}px`
           progress.style.width = `${trackW}px`
@@ -59,7 +62,9 @@ export default function CreativeProcess() {
 
         updateMetrics()
 
-        gsap.set(progress, { x: 0, scaleX: 0, transformOrigin: 'left center' })
+        const initialPathScale = 0.05
+        gsap.set(progress, { x: 0, scaleX: initialPathScale, transformOrigin: 'left center' })
+        gsap.set(pathEndDot, { x: trackW * initialPathScale })
 
         const st = ScrollTrigger.create({
           trigger: sectionRef.current,
@@ -73,11 +78,12 @@ export default function CreativeProcess() {
           onUpdate: (self) => {
             const p = self.progress
             const pathX = -maxX * p
+            const scaleX = initialPathScale + p * (1 - initialPathScale)
             gsap.set(track, { x: pathX })
-            // Orange progress expands/retracts on top of the fixed gray track
-            gsap.set(progress, { x: pathX, scaleX: p, transformOrigin: 'left center' })
+            gsap.set(progress, { x: pathX, scaleX, transformOrigin: 'left center' })
+            gsap.set(pathEndDot, { x: pathX + trackW * scaleX })
 
-            const reachOffset = 0.065
+            const reachOffset = 0.1
             let activeIndex = 0
             for (let i = 0; i < pathReachThresholds.length; i += 1) {
               if (p >= Math.max(0, pathReachThresholds[i] - reachOffset)) activeIndex = i
@@ -110,7 +116,7 @@ export default function CreativeProcess() {
   return (
     <section
       ref={sectionRef}
-      className="w-full lg:h-screen flex flex-col justify-center overflow-hidden bg-[#11122F] pt-20 lg:pt-24"
+      className="w-full xl:h-screen flex flex-col justify-center overflow-hidden bg-[#11122F] pt-20 lg:pt-24"
     >
       {/* Heading */}
       <div className="w-full flex flex-col justify-center items-center ">
@@ -139,6 +145,14 @@ export default function CreativeProcess() {
           className="absolute left-[11.25rem] top-35 h-1 origin-left bg-[#F45B25]"
         />
 
+        {/* Small dot at the end of the expanding path */}
+        <div
+          ref={pathEndDotRef}
+          className="absolute left-[11.25rem] top-35.5 z-10 -translate-y-1/2 pointer-events-none"
+        >
+          <div className="h-3 w-3 rounded-full bg-[#F45B25]" />
+        </div>
+
         {/* Track that moves horizontally */}
         <div
           ref={trackRef}
@@ -165,7 +179,7 @@ export default function CreativeProcess() {
               </div>
 
               {/* Step text - mt-20 clears the dot; ml-20 pushes content well forward from dot */}
-              <div className="ml-6 mt-20 flex flex-col gap-2 max-w-sm relative px-6 py-6">
+              <div className="ml-42 mt-20 flex flex-col gap-2 max-w-sm relative px-6 py-6">
                 {/* Vertical dotted line behind text - stretched dashes; turns orange when highlighted */}
                 <div
                   ref={(el) => { dottedLineRefs.current[i] = el }}

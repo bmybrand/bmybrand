@@ -77,16 +77,17 @@ export default function Map() {
 
         <div className="relative overflow-visible">
           <ComposableMap
-            projection="geoEqualEarth"
+            projection="geoMercator"
             projectionConfig={{
-              rotate: [-20, 0, 0],
-              scale: 170,
+              scale: 95,
+              center: [0, 45],
             }}
             width={800}
-            height={500}
+            height={400}
             style={{
               width: "100%",
               height: "auto",
+              maxWidth: "100%",
             }}
           >
             <Sphere stroke="none" strokeWidth={0} fill="transparent" id="sphere" />
