@@ -1,7 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ComposableMap, Geographies, Geography, Graticule, Sphere, Marker } from 'react-simple-maps'
+import { useState, useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ComposableMap, Geographies, Geography, Sphere, Marker } from 'react-simple-maps'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
 
@@ -48,6 +52,10 @@ const offices = [
 export default function Map() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const sectionRef = useRef<HTMLElement>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
+  const mapWrapRef = useRef<HTMLDivElement>(null)
+  const statsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -63,10 +71,53 @@ export default function Map() {
     }
   }, [hoveredCountry])
 
+  useEffect(() => {
+    if (!sectionRef.current || !headingRef.current || !mapWrapRef.current || !statsRef.current) return
+
+    const ctx = gsap.context(() => {
+      const statCards = statsRef.current?.querySelectorAll(':scope > div') ?? []
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 72%',
+          toggleActions: 'play none none none',
+        },
+      })
+
+      tl.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 1.05, ease: 'sine.out', clearProps: 'transform' }
+      )
+        .fromTo(
+          mapWrapRef.current,
+          { opacity: 0, scale: 0.94 },
+          { opacity: 1, scale: 1, duration: 1.2, ease: 'sine.out', clearProps: 'transform' },
+          '-=0.5'
+        )
+        .fromTo(
+          statCards,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.14,
+            ease: 'sine.out',
+            clearProps: 'transform',
+          },
+          '-=0.6'
+        )
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section className="bg-[#0F1035] py-20">
+    <section ref={sectionRef} className="bg-[#0F1035] py-20">
       <div className="w-[90%] lg:w-[85%] 2xl:w-[80%] mx-auto">
-        <div className="text-center mb-12">
+        <div ref={headingRef} className="text-center mb-12">
           <h2 className="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-white BenzinSemibold mb-4">
             Our <span className="text-[#F45B25]">Global Reach</span>
           </h2>
@@ -75,7 +126,7 @@ export default function Map() {
           </p>
         </div>
 
-        <div className="relative overflow-visible">
+        <div ref={mapWrapRef} className="relative overflow-visible">
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
@@ -172,7 +223,7 @@ export default function Map() {
           )}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+        <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
           <div className="text-center">
             <h3 className="text-4xl md:text-5xl text-[#FF6B35] BenzinSemibold mb-2">50+</h3>
             <p className="text-white/80 text-sm md:text-base">Countries Served</p>

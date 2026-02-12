@@ -1,15 +1,76 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+
+const H1_WORDS: { word: string; orange: boolean }[] = [
+  { word: "Build", orange: false },
+  { word: "a", orange: false },
+  { word: "High-Performing", orange: false },
+  { word: "Brand", orange: true },
+  { word: "With", orange: true },
+  { word: "Creative", orange: true },
+  { word: "Power", orange: false },
+  { word: "Behind", orange: false },
+  { word: "It", orange: false },
+];
 
 const Heropage: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [loaded, setLoaded] = useState(false);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Trigger animation after component mounts
-    const timer = setTimeout(() => setLoaded(true), 200); // small delay for cinematic effect
+    const timer = setTimeout(() => setLoaded(true), 200);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (!headlineRef.current || !loaded) return;
+    const chars = headlineRef.current.querySelectorAll(".typing-char");
+    if (!chars.length) return;
+
+    const tl = gsap.timeline();
+    tl.fromTo(
+      chars,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 0.32,
+        stagger: 0.065,
+        ease: "sine.out",
+      }
+    );
+    if (paragraphRef.current) {
+      tl.to(
+        paragraphRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "sine.out",
+          clearProps: "transform",
+        },
+        "-=0.2"
+      );
+    }
+    if (buttonsRef.current?.children.length) {
+      tl.to(
+        buttonsRef.current.children,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          stagger: 0.14,
+          ease: "sine.out",
+          clearProps: "transform",
+        },
+        "-=0.4"
+      );
+    }
+  }, [loaded]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY, currentTarget } = e;
@@ -29,24 +90,46 @@ const Heropage: React.FC = () => {
       >
         {/* LEFT */}
         <div className="w-full xl:w-1/2 lg:h-screen flex flex-col justify-center gap-4 px-4 lg:px-0 z-10">
-          <h1 className="text-white text-[22px] sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[63px] BenzinBold leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[72px] 2xl:leading-[80px]">
-           Build a High-Performing{" "}
-          <span className="text-[#F45B25]">Brand With Creative </span>
-          Power Behind It
+          <h1
+            ref={headlineRef}
+            className="text-white text-[22px] sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[63px] BenzinBold leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[72px] 2xl:leading-[80px]"
+          >
+            {H1_WORDS.map((item, i) => (
+              <span
+                key={i}
+                className={`inline-block whitespace-pre ${item.orange ? "text-[#F45B25]" : ""}`}
+              >
+                {item.word.split("").map((char, j) => (
+                  <span key={j} className="typing-char inline-block">
+                    {char}
+                  </span>
+                ))}
+                {"\u00A0"}
+              </span>
+            ))}
           </h1>
-          <p className="text-white text-sm sm:text-base md:text-base lg:text-lg xl:text-lg 2xl:text-xl leading-relaxed lg:leading-snug xl:leading-7 2xl:leading-8">
+          <p
+            ref={paragraphRef}
+            className="text-white text-sm sm:text-base md:text-base lg:text-lg xl:text-lg 2xl:text-xl leading-relaxed lg:leading-snug xl:leading-7 2xl:leading-8 opacity-0"
+            style={{ transform: "translateY(18px)" }}
+          >
             Make unlimited design, website, or marketing requests — and get unlimited revisions. 
             Grow your brand faster with your own dedicated creative team handling everything from logos to full websites.
-          </p>  
-        <div className="mt-6 flex flex-col sm:flex-row gap-4 BenzinSemibold">
-  <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2">
+          </p>
+        <div
+          ref={buttonsRef}
+          className="mt-6 flex flex-col sm:flex-row gap-4 BenzinSemibold"
+        >
+  <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 opacity-0"
+    style={{ transform: "translateY(14px)" }}
+  >
     <div className="bg-white p-4 rounded-lg">
     <img src="/Group1190.svg" alt="" className="w-4 h-4" />
     </div>
     <span className="px-2">Get Started Now</span>
   </button>
 
-  <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2">
+  <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2 opacity-0" style={{ transform: "translateY(14px)" }}>
 
      <div className="bg-white p-4 rounded-lg">
     <img src="/Group119.svg" alt="" className="w-4 h-4" />

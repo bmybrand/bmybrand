@@ -1,6 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const items = [
   {
@@ -30,11 +34,79 @@ const checklist = [
 
 const DesignedGrow = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
+  const leftColRef = useRef<HTMLDivElement>(null)
+  const rightColRef = useRef<HTMLDivElement>(null)
+  const checklistRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!sectionRef.current || !headingRef.current || !leftColRef.current || !rightColRef.current || !checklistRef.current) return
+
+    const ctx = gsap.context(() => {
+      const leftItems = leftColRef.current?.querySelectorAll(':scope > div') ?? []
+      const checklistItems = checklistRef.current?.querySelectorAll(':scope > div') ?? []
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 72%',
+          toggleActions: 'play none none none',
+        },
+      })
+
+      tl.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 1.05, ease: 'sine.out', clearProps: 'transform' }
+      )
+        .fromTo(
+          leftItems,
+          { opacity: 0, x: -48 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.95,
+            stagger: 0.14,
+            ease: 'sine.out',
+            clearProps: 'transform',
+          },
+          '-=0.5'
+        )
+        .fromTo(
+          rightColRef.current,
+          { opacity: 0, x: 40 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 1.1,
+            ease: 'sine.out',
+            clearProps: 'transform',
+          },
+          '-=0.85'
+        )
+        .fromTo(
+          checklistItems,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'sine.out',
+            clearProps: 'transform',
+          },
+          '-=0.6'
+        )
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <div className="flex flex-col items-center mb-30 ">
+    <div ref={sectionRef} className="flex flex-col items-center mb-30 ">
       {/* Heading */}
-      <div className="w-full flex flex-col justify-center items-center mt-30 ">
+      <div ref={headingRef} className="w-full flex flex-col justify-center items-center mt-30 ">
         <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
           Built to Create. <span className="text-[#F45B25]">Designed to Grow</span>
         </h1>
@@ -45,9 +117,8 @@ const DesignedGrow = () => {
 
       {/* Main Content */}
       <div className="flex flex-col lg:flex-row w-[90%] 2xl:w-[75%] gap-12 mt-12">
-
-        {/* LEFT - Text */}
-        <div className="flex flex-col justify-center lg:w-1/2 gap-6 text-white">
+        {/* LEFT - Text (items slide in from left) */}
+        <div ref={leftColRef} className="flex flex-col justify-center lg:w-1/2 gap-6 text-white">
           {items.map((item, index) => (
             <div
               key={index}
@@ -75,8 +146,8 @@ const DesignedGrow = () => {
           ))}
         </div>
 
-        {/* RIGHT - Image + Checklist */}
-        <div className="flex flex-col gap-6 lg:w-1/2 justify-center items-center">
+        {/* RIGHT - Image (slides in from right) */}
+        <div ref={rightColRef} className="flex flex-col gap-6 lg:w-1/2 justify-center items-center">
           <img
             src="/getskeebear.svg"
             alt="Designed to Grow"
@@ -88,8 +159,10 @@ const DesignedGrow = () => {
 
       </div>
       {/* Checklist */}
-<div className="flex flex-wrap justify-center gap-y-4 
-                w-[90%] 2xl:w-[70%] mt-10">
+      <div
+        ref={checklistRef}
+        className="flex flex-wrap justify-center gap-y-4 w-[90%] 2xl:w-[70%] mt-10"
+      >
   {checklist.map((point, index) => (
     <div
       key={index}
@@ -107,10 +180,7 @@ const DesignedGrow = () => {
       </span>
     </div>
   ))}
-</div>
-
-
-
+      </div>
     </div>
   )
 }

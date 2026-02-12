@@ -1,8 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+
+gsap.registerPlugin(ScrollTrigger);
 
 type FormValues = {
   firstName: string;
@@ -47,9 +51,48 @@ const FAQS: FaqItem[] = [
 
 export default function RequestForm() {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const formColRef = useRef<HTMLDivElement>(null);
+  const faqColRef = useRef<HTMLDivElement>(null);
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
     mode: 'onSubmit',
   });
+
+  useEffect(() => {
+    if (!sectionRef.current || !headingRef.current || !formColRef.current || !faqColRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 72%',
+          toggleActions: 'play none none none',
+        },
+      });
+
+      tl.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 1.05, ease: 'sine.out', clearProps: 'transform' }
+      )
+        .fromTo(
+          formColRef.current,
+          { opacity: 0, x: -40 },
+          { opacity: 1, x: 0, duration: 1.0, ease: 'sine.out', clearProps: 'transform' },
+          '-=0.5'
+        )
+        .fromTo(
+          faqColRef.current,
+          { opacity: 0, x: 40 },
+          { opacity: 1, x: 0, duration: 1.0, ease: 'sine.out', clearProps: 'transform' },
+          '-=0.8'
+        );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const toggleFaq = (number: string) => {
     setOpenFaq((prev) => (prev === number ? null : number));
@@ -59,20 +102,23 @@ export default function RequestForm() {
     console.log('RequestForm submission:', data);
     reset();
   };
+
   return (
-    <section className="bg-[#11122F] text-white py-20">
+    <section ref={sectionRef} className="bg-[#11122F] text-white py-20">
       <div className="mx-auto w-[90%] 2xl:w-[75%] ">
-        <h2 className="text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-semibold mb-4 text-center lg:text-left BenzinSemibold  max-w-2xl">
-          <span className="text-[#F45B25]"> Get in Touch</span> With Our Team for a Custom Quote
-        </h2>
-        <p className="text-[#ADAECC] text-sm sm:text-base mb-12 text-center lg:text-left max-w-2xl">
-          Tell us about your project, ask a question, or just say hi. We're here to help bring your ideas to life with
-          clarity, creativity, and a seamless experience from start to finish.
-        </p>
+        <div ref={headingRef}>
+          <h2 className="text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-semibold mb-4 text-center lg:text-left BenzinSemibold  max-w-2xl">
+            <span className="text-[#F45B25]"> Get in Touch</span> With Our Team for a Custom Quote
+          </h2>
+          <p className="text-[#ADAECC] text-sm sm:text-base mb-12 text-center lg:text-left max-w-2xl">
+            Tell us about your project, ask a question, or just say hi. We're here to help bring your ideas to life with
+            clarity, creativity, and a seamless experience from start to finish.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Section: Form */}
-          <div className="">
+          <div ref={formColRef}>
             <form className="grid grid-cols-1 sm:grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-2">
                 <input
@@ -145,7 +191,7 @@ export default function RequestForm() {
           </div>
 
           {/* Right Section: FAQs */}
-          <div>
+          <div ref={faqColRef}>
             <div className="space-y-6">
               {FAQS.map((item) => (
                 <div key={item.number} className=" border border-white/10 rounded-md overflow-hidden ">
