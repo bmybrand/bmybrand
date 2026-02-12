@@ -1,7 +1,26 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import Link from 'next/link'
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6'
+
+const IMPORTANT_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Case Studies', href: '/case-studies' },
+  { label: 'Website Audit', href: '#' },
+  { label: 'Contact Us', href: '#' },
+]
+
+const SERVICE_LINKS = [
+  { label: 'UI/UX Design', href: '/services/software-development' },
+  { label: 'Website Development', href: '/services/software-development' },
+  { label: 'Branding & Identity', href: '/services/brand-experience' },
+  { label: 'AI Solutions', href: '/services/ai-driven' },
+  { label: 'Digital Marketing', href: '/services/digital-marketing' },
+  { label: 'Commerce Solutions', href: '/services/commerce-solutions' },
+]
 
 const REVIEW_PLATFORMS = [
   { name: 'Clutch', logo: '/clutchco.svg' },
@@ -24,18 +43,41 @@ const brandText = 'BMYBRAND'
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('')
+  const brandContainerRef = useRef<HTMLDivElement>(null)
+  const [brandFontSize, setBrandFontSize] = useState(48)
+
+  useEffect(() => {
+    const container = brandContainerRef.current
+    if (!container) return
+
+    const updateFlexFont = () => {
+      const width = container.offsetWidth
+      const size = Math.min(340, Math.max(34, width * 0.10))
+      setBrandFontSize(size)
+    }
+
+    updateFlexFont()
+    const ro = new ResizeObserver(updateFlexFont)
+    ro.observe(container)
+    return () => ro.disconnect()
+  }, [])
 
   return (
     <footer className="relative bg-[#202141] text-white overflow-hidden pb-10">
-      <div className="relative z-10 max-w-none mx-auto w-[90%] lg:w-[85%] 2xl:w-[80%] py-12 lg:py-16 pb-32 lg:pb-40">
+      <div
+        className="relative z-10 max-w-none mx-auto w-[90%] lg:w-[85%] 2xl:w-[80%] py-12 lg:py-16"
+        style={{
+          paddingBottom: `${brandFontSize + 12 + Math.max(0, (brandFontSize - 34) * (12 / 306))}px`,
+        }}
+      >
         {/* Top: 5 columns */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 mb-12 lg:mb-16">
           <div>
             <h3 className="text-white font-semibold text-base lg:text-lg mb-4 BenzinSemibold">Important Links</h3>
             <ul className="space-y-2.5 text-sm lg:text-base text-white/70">
-              {['Home', 'About Us', 'Services', 'Case Studies', 'Website Audit', 'Contact Us'].map((label) => (
+              {IMPORTANT_LINKS.map(({ label, href }) => (
                 <li key={label}>
-                  <a href="#" className="hover:text-white transition-colors">{label}</a>
+                  <Link href={href} className="hover:text-white transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>
@@ -43,9 +85,9 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-white font-semibold text-base lg:text-lg mb-4 BenzinSemibold">Services</h3>
             <ul className="space-y-2.5 text-sm lg:text-base text-white/70">
-              {['UI/UX Design', 'Website Development', 'Branding & Identity', 'AI Solutions', 'Digital Marketing', 'Commerce Solutions'].map((label) => (
+              {SERVICE_LINKS.map(({ label, href }) => (
                 <li key={label}>
-                  <a href="#" className="hover:text-white transition-colors">{label}</a>
+                  <Link href={href} className="hover:text-white transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>
@@ -136,7 +178,7 @@ const Footer: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter Your Email Address"
-                  className="flex-1 max-w-150 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#F45B25] transition-colors"
+                  className="flex-1 max-w-120 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#F45B25] transition-colors"
                 />
                 <button
                   type="submit"
@@ -177,11 +219,15 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* BMYBRAND at bottom - z-20 so it's on top and hover works */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex justify-center items-end pt-4 min-h-[100px]">
+      {/* BMYBRAND at bottom - flex font: scales with container width */}
+      <div
+        ref={brandContainerRef}
+        className="absolute bottom-0 left-0 right-0 z-20 flex justify-center items-end pt-4 min-h-[100px]"
+      >
         <h2
-          className="group BenzinSemibold text-center leading-none text-[30px] sm:text-7xl md:text-[80px] lg:text-[110px] xl:text-9xl 2xl:text-[160px] text-[#202141] pb-10"
+          className="group BenzinSemibold text-center leading-none text-[#202141] pb-10"
           style={{
+            fontSize: `${brandFontSize}px`,
             textShadow:
               '1px 0 rgba(244, 91, 37, 0.45), -1px 0 rgba(244, 91, 37, 0.45), 0 1px rgba(244, 91, 37, 0.45), 0 -1px rgba(244, 91, 37, 0.45), 1px 1px rgba(244, 91, 37, 0.35), -1px -1px rgba(244, 91, 37, 0.35), 1px -1px rgba(244, 91, 37, 0.35), -1px 1px rgba(244, 91, 37, 0.35)',
             WebkitMaskImage:
