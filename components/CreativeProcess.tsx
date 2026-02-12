@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -15,6 +15,7 @@ const STEPS = [
 
 export default function CreativeProcess() {
   const sectionRef = useRef<HTMLElement | null>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const trackRef = useRef<HTMLDivElement | null>(null)
   const pathLineRef = useRef<HTMLDivElement | null>(null)
@@ -22,6 +23,29 @@ export default function CreativeProcess() {
   const pathEndDotRef = useRef<HTMLDivElement | null>(null)
   const stepRefs = useRef<Array<HTMLDivElement | null>>([])
   const dottedLineRefs = useRef<Array<HTMLDivElement | null>>([])
+
+  useEffect(() => {
+    if (!headingRef.current) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.05,
+          ease: 'sine.out',
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: 'top 78%',
+            toggleActions: 'play none none none',
+          },
+          clearProps: 'transform',
+        }
+      )
+    }, headingRef.current)
+    return () => ctx.revert()
+  }, [])
 
   useLayoutEffect(() => {
     if (!sectionRef.current || !viewportRef.current || !trackRef.current || !pathLineRef.current || !progressRef.current || !pathEndDotRef.current) return
@@ -119,7 +143,7 @@ export default function CreativeProcess() {
       className="w-full xl:h-screen flex flex-col justify-center overflow-hidden bg-[#11122F] pt-20 lg:pt-24"
     >
       {/* Heading */}
-      <div className="w-full flex flex-col justify-center items-center ">
+      <div ref={headingRef} className="w-full flex flex-col justify-center items-center ">
         <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
           Built to Create. <span className="text-[#F45B25]">Designed to Grow</span>
         </h1>

@@ -44,11 +44,11 @@ const AddBlock = () => {
         )
         .fromTo(
           imageWrapRef.current,
-          { opacity: 0, scale: 0.82, rotation: -18 },
+          { opacity: 0, scale: 0.92, x: -80 },
           {
             opacity: 1,
             scale: 1,
-            rotation: 0,
+            x: 0,
             duration: 1.2,
             ease: "sine.out",
             clearProps: "transform",

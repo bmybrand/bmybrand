@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion } from "framer-motion";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const FullyAnimatedGrid: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -15,7 +19,30 @@ const FullyAnimatedGrid: React.FC = () => {
   const fadeDuration = 700;
   const collapseDelay = fadeDuration + 120;
   const hasTriggered = useRef(false);
+  const headingRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!headingRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.05,
+          ease: "sine.out",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: "top 78%",
+            toggleActions: "play none none none",
+          },
+          clearProps: "transform",
+        }
+      );
+    }, headingRef.current);
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -101,16 +128,18 @@ const FullyAnimatedGrid: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center ">
-      <div className="w-full flex flex-col items-center justify-center mt-30 mb-20">
-  <h2 className="mb-6 w-[90%] 2xl:w-[60%] text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-    Discover BMYBrand’s Core <span className="text-[#F45B25]">Services</span>
-  </h2>
-
-  <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
-    Your all-in-one creative & digital partner — helping your business grow with
-    premium branding, websites, and marketing solutions.
-  </p>
-</div>
+      <div
+        ref={headingRef}
+        className="w-full flex flex-col items-center justify-center mt-30 mb-20"
+      >
+        <h2 className="mb-6 w-[90%] 2xl:w-[60%] text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
+          Discover BMYBrand’s Core <span className="text-[#F45B25]">Services</span>
+        </h2>
+        <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
+          Your all-in-one creative & digital partner — helping your business grow with
+          premium branding, websites, and marketing solutions.
+        </p>
+      </div>
 
       <div
         ref={gridRef}

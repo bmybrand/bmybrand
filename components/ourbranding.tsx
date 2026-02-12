@@ -1,7 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, Variants } from "framer-motion";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type Card = {
   title: string;
@@ -80,19 +84,44 @@ const cardVariants: Variants = {
 };
 
 const OurBranding: React.FC = () => {
+  const headingRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!headingRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.05,
+          ease: "sine.out",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: "top 78%",
+            toggleActions: "play none none none",
+          },
+          clearProps: "transform",
+        }
+      );
+    }, headingRef.current);
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section className="w-full min-h-screen flex flex-col justify-center items-center">
       {/* HEADING */}
-      <h2 className="mb-6 w-[90%] 2xl:w-[60%]  text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-        Why Clients Count on Our Branding{" "}
-        <span className="text-[#F45B25]">Our Branding</span>
-      </h2>
-
-      {/* DESCRIPTION */}
-      <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
-        Clients trust us for clean design, honest communication, and a dedication
-        to work that performs in the real world—not just looking good.
-      </p>
+      <div ref={headingRef} className="w-full flex flex-col items-center">
+        <h2 className="mb-6 w-[90%] 2xl:w-[60%]  text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
+          Why Clients Count on Our Branding{" "}
+          <span className="text-[#F45B25]">Our Branding</span>
+        </h2>
+        <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
+          Clients trust us for clean design, honest communication, and a dedication
+          to work that performs in the real world—not just looking good.
+        </p>
+      </div>
 
       {/* CONTENT */}
       <div className="w-[90%] 2xl:w-[75%]  mt-12 relative flex justify-center items-center">
