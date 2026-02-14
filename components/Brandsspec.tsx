@@ -263,13 +263,10 @@ export default function Brandsspec() {
     <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#11122F]">
       <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-          Modern <span className="text-[#F45B25]">Tools & Technologies</span>
-          <br />
-          That Power Your Brand
+          Built With Care. <span className="text-[#F45B25]">Trusted By </span>Brands.
         </h1>
         <p className="text-[#ADAECC] text-sm sm:text-base">
-          We use industry-leading tools and technologies to build powerful, scalable,
-          and visually stunning digital experiences.
+          At BMYBrand, businesses trust us for clean design, smooth functionality, and results that help their brand grow. Here's what our clients are saying.
         </p>
       </div>
 

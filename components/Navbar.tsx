@@ -24,12 +24,12 @@ const Navbar = () => {
      }`;
 
   return (
-    <header className="fixed top-7 left-1/2 -translate-x-1/2 w-[90%] 2xl:w-[85%] z-60 bg-[#21235C]/20 backdrop-blur border-2 border-white/20 rounded-2xl">
+    <header className="fixed top-7 left-1/2 -translate-x-1/2 w-[90%] 2xl:w-[85%] z-[9999] bg-[#FFFFFF]/5 backdrop-blur border-2 border-white/20 rounded-2xl">
       <nav className="mx-auto flex items-center justify-between px-10 py-4">
 
         {/* Logo */}
         <div className="text-white font-bold text-xl">
-          <img src="/Group (22).svg" alt="Logo" />
+          <img src="/bmylogo.svg" alt="Logo" className="lg:h-6 xl:h-8 2xl:h-10 mt-1 w-auto" />
         </div>
 
         {/* Desktop Links */}
@@ -47,7 +47,7 @@ const Navbar = () => {
           href="/contact"
           className="hidden xl:inline-flex items-center px-6 py-4 bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white rounded-lg text-lg font-medium hover:opacity-90 transition"
         >
-          Get a Quote
+          Grow My Business
         </Link>
 
         {/* Hamburger */}
@@ -91,7 +91,7 @@ const Navbar = () => {
             onClick={() => setOpen(false)}
             className="mt-4 inline-flex justify-center items-center px-6 py-4 bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white rounded-lg text-lg font-medium"
           >
-            Get a Quote
+            Grow My Business
           </Link>
         </ul>
       </div>

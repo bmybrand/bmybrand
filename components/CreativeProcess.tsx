@@ -145,10 +145,10 @@ export default function CreativeProcess() {
       {/* Heading */}
       <div ref={headingRef} className="w-full flex flex-col justify-center items-center ">
         <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-          Built to Create. <span className="text-[#F45B25]">Designed to Grow</span>
+        A <span className="text-[#F45B25]">Creative Process</span> That Works 
         </h1>
         <p className="w-[90%] 2xl:w-[60%] text-base sm:text-lg text-[#ADAECC] text-center">
-          At BMYBrand, we help businesses grow with powerful design, high-performing websites, and strategic digital experiences.
+        We follow a clear, collaborative process that keeps every step smooth and aligned with your goals, from the first conversation to the final launch.
         </p>
       </div>
 

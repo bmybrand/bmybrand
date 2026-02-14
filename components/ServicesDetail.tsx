@@ -99,13 +99,10 @@ export default function ServicesDetail() {
     <section className="min-h-screen bg-[#15173A] pt-32 pb-20">
        <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-          Modern <span className="text-[#F45B25]">Tools & Technologies</span>
-          <br />
-          That Power Your Brand
+          Discover BMYBrand's Core <span className="text-[#F45B25]"> Services</span>
         </h1>
         <p className="text-[#ADAECC] text-sm sm:text-base">
-          We use industry-leading tools and technologies to build powerful, scalable,
-          and visually stunning digital experiences.
+          Your all-in-one creative & digital partner — helping your business grow with premium branding, websites, and marketing solutions.
         </p>
       </div>
       <div className="w-[90%] 2xl:w-[75%] mx-auto">

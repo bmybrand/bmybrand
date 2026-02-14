@@ -85,11 +85,11 @@ const Heropage: React.FC = () => {
   return (
     <div className=" overflow-hidden bg-[url('/Frame6.png')] bg-cover bg-center bg-no-repeat ">
       <div
-        className="relative flex flex-col lg:flex-row pt-35  lg:h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20 lg:pt-10 "
+        className="relative flex flex-col lg:flex-row pt-32 sm:pt-36 lg:pt-40 pb-10 lg:pb-0 lg:min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto gap-20"
         onMouseMove={handleMouseMove}
       >
         {/* LEFT */}
-        <div className="w-full xl:w-1/2 lg:h-screen flex flex-col justify-center gap-4 px-4 lg:px-0 z-10">
+        <div className="w-full xl:w-1/2 lg:min-h-[calc(100vh-160px)] flex flex-col justify-center gap-4 px-4 lg:px-0 z-10">
           <h1
             ref={headlineRef}
             className="text-white text-[22px] sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[63px] BenzinBold leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[72px] 2xl:leading-[80px]"
@@ -141,7 +141,7 @@ const Heropage: React.FC = () => {
         </div>
 
         {/* RIGHT */}
-        <div className="w-full xl:w-1/2 lg:h-screen relative flex items-end justify-center">
+        <div className="w-full xl:w-1/2 lg:min-h-[calc(100vh-160px)] relative flex items-end justify-center">
           {/* Tilting background image */}
           <img
             src="/Group15.svg"
@@ -178,13 +178,13 @@ const Heropage: React.FC = () => {
       {/* Bottom promo bar inside hero right div */}
           <div className=" relative  w-full bg-[#F45B25] text-white py-3 px-6 flex flex-col sm:flex-row items-center justify-center gap-2 z-[1000] shadow-xl">
     <span className="text-center sm:text-left text-sm sm:text-base md:text-lg">
-      New to BMYBrand? Enjoy an Exclusive Intro Discount on All Creative & Web Packages.
+    Get your site reviewed in minutes — request a FREE AI Website Audit from BMYBrand.  
     </span>
     <a
       href="#"
       className="text-sm sm:text-base md:text-lg font-semibold underline hover:text-[#11122F] transition-colors duration-300"
     >
-      Claim Your Offer &rarr;
+      Get My Audit &rarr;
     </a>
   </div>
     </div>
