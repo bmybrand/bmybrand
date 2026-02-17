@@ -186,7 +186,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                 </div>
 
                 {/* Fixed CTA Button at Bottom */}
-                <div className="flex-shrink-0 px-6 md:px-10 py-6 bg-gradient-to-t from-[#1E2044] via-[#1E2044] to-transparent">
+                <div className="flex-shrink-0 px-6 md:px-10 py-6 bg-gradient-to-t from-[#1E2044] via-[#1E2044] to-transparent shadow-[0_-20px_40px_0px_rgba(30,32,68,1)]">
                   <button
                     onClick={() => {
                       router.push(`/case-studies/${caseStudy.slug}`)
