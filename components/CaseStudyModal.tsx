@@ -99,8 +99,8 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 md:p-10 max-h-[60vh] overflow-y-auto">
+                {/* Scrollable Content */}
+                <div className="p-6 md:p-10 max-h-[50vh] overflow-y-auto">
                   {/* Client Info */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 pb-8 border-b border-white/10">
                     <div>
@@ -157,7 +157,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                   </div>
 
                   {/* Results */}
-                  <div className="mb-8">
+                  <div className="mb-4">
                     <h4 className="text-white text-lg BenzinSemibold mb-4">Key Results</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {caseStudy.results.map((result, idx) => (
@@ -182,8 +182,10 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                       ))}
                     </div>
                   </div>
+                </div>
 
-                  {/* CTA Button */}
+                {/* Fixed CTA Button at Bottom */}
+                <div className="sticky bottom-0 p-6 md:p-10 pt-4 bg-gradient-to-t from-[#1E2044] via-[#1E2044] to-transparent">
                   <button
                     onClick={() => {
                       router.push(`/case-studies/${caseStudy.slug}`)
