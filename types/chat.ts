@@ -22,6 +22,7 @@ export type MessageRole = 'user' | 'assistant' | 'agent' | 'system'
 
 export type UserIntent =
   | 'general_query'
+  | 'service_inquiry'
   | 'booking_request'
   | 'human_request'
   | 'farewell'

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
-import { LEAD_CAPTURE_PROMPTS } from '@/lib/chat/system-prompts'
+import { GREETING } from '@/lib/chat/prompts'
 
 export const runtime = 'nodejs'
 
@@ -9,12 +9,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}))
     const { visitorFingerprint } = body as { visitorFingerprint?: string }
 
-    // 1. Create new chat session
+    // 1. Create new chat session — start in KNOWLEDGE_QA (no forced lead capture)
     const { data: session, error: sessionError } = await supabaseAdmin
       .from('chat_sessions')
       .insert({
         status: 'bot',
-        state: 'LEAD_CAPTURE_NAME',
+        state: 'KNOWLEDGE_QA',
         metadata: visitorFingerprint ? { fingerprint: visitorFingerprint } : {},
       })
       .select()
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Insert the greeting message
-    const greeting = LEAD_CAPTURE_PROMPTS.GREETING
+    const greeting = GREETING
 
     const { error: msgError } = await supabaseAdmin
       .from('chat_messages')

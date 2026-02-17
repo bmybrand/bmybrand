@@ -19,6 +19,8 @@ export default function ChatWidget() {
     messages,
     isStreaming,
     streamingText,
+    agentTyping,
+    botThinking,
     initSession,
     sendMessage,
     clearSession,
@@ -57,14 +59,27 @@ export default function ChatWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
             className="absolute bottom-16 right-0 w-[380px] h-[550px] max-md:fixed max-md:inset-0 max-md:w-full max-md:h-full max-md:bottom-0 max-md:right-0 bg-[#11122F] rounded-2xl max-md:rounded-none shadow-2xl shadow-black/40 border border-white/10 flex flex-col overflow-hidden"
           >
-            <ChatHeader onMinimize={handleMinimize} onClose={handleClose} />
+            <ChatHeader
+              onMinimize={handleMinimize}
+              onClose={handleClose}
+              onNewChat={() => {
+                clearSession()
+                setHasInitialized(true)
+                initSession()
+              }}
+            />
 
             <ChatWindow
               messages={messages}
               isStreaming={isStreaming}
               streamingText={streamingText}
+              agentTyping={agentTyping}
+              botThinking={botThinking}
+              onSend={handleSend}
             />
 
             {!isClosed && (
@@ -90,7 +105,7 @@ export default function ChatWidget() {
                     setHasInitialized(false)
                     initSession()
                   }}
-                  className="text-[#F45B25] text-sm font-medium hover:underline"
+                  className="text-[#F45B25] text-base font-medium hover:underline cursor-pointer"
                 >
                   Start a new conversation
                 </button>
@@ -105,7 +120,7 @@ export default function ChatWidget() {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white shadow-lg shadow-[#F45B25]/30 flex items-center justify-center hover:shadow-xl hover:shadow-[#F45B25]/40 transition-shadow"
+        className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white shadow-lg shadow-[#F45B25]/30 flex items-center justify-center hover:shadow-xl hover:shadow-[#F45B25]/40 transition-shadow cursor-pointer"
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         <AnimatePresence mode="wait">

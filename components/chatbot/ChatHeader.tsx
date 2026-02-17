@@ -1,38 +1,47 @@
 "use client";
 
-import { X, Minus } from "lucide-react";
+import { X, Minus, RotateCcw } from "lucide-react";
 
 interface ChatHeaderProps {
   onMinimize: () => void;
   onClose: () => void;
+  onNewChat: () => void;
 }
 
-export default function ChatHeader({ onMinimize, onClose }: ChatHeaderProps) {
+export default function ChatHeader({ onMinimize, onClose, onNewChat }: ChatHeaderProps) {
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#F45B25] to-[#FF843E] rounded-t-2xl">
       <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-          <span className="text-white text-sm font-bold">B</span>
+        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+          <span className="text-white text-base font-bold">B</span>
         </div>
         <div>
-          <h3 className="text-white text-sm font-semibold leading-tight">
+          <h3 className="text-white text-base font-semibold leading-tight">
             Mr. B
           </h3>
-          <p className="text-white/70 text-xs">Online</p>
+          <p className="text-white/70 text-sm">Online</p>
         </div>
       </div>
 
       <div className="flex items-center gap-1">
         <button
+          onClick={onNewChat}
+          className="p-1.5 rounded-lg hover:bg-white/20 transition-colors cursor-pointer"
+          aria-label="Start new chat"
+          title="New chat"
+        >
+          <RotateCcw className="w-3.5 h-3.5 text-white" />
+        </button>
+        <button
           onClick={onMinimize}
-          className="p-1.5 rounded-lg hover:bg-white/20 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-white/20 transition-colors cursor-pointer"
           aria-label="Minimize chat"
         >
           <Minus className="w-4 h-4 text-white" />
         </button>
         <button
           onClick={onClose}
-          className="p-1.5 rounded-lg hover:bg-white/20 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-white/20 transition-colors cursor-pointer"
           aria-label="Close chat"
         >
           <X className="w-4 h-4 text-white" />

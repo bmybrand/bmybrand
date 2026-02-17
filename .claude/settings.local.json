@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npm install:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(del \"d:\\\\resolute-digitals-bmybrand\\\\bmybrand\\\\lib\\\\chat\\\\system-prompts.ts\")"
     ]
   }
 }

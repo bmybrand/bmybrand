@@ -59,12 +59,12 @@ export default function ChatInput({
           placeholder={placeholder}
           disabled={disabled}
           rows={1}
-          className="flex-1 bg-transparent text-white text-sm placeholder-[#ADAECC]/50 resize-none outline-none max-h-[120px] py-1"
+          className="flex-1 bg-transparent text-white text-base placeholder-[#ADAECC]/50 resize-none outline-none max-h-[120px] py-1"
         />
         <button
           onClick={handleSend}
           disabled={disabled || !value.trim()}
-          className="p-1.5 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white disabled:opacity-30 hover:opacity-90 transition-opacity shrink-0"
+          className="p-1.5 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white disabled:opacity-30 hover:opacity-90 transition-opacity shrink-0 cursor-pointer"
           aria-label="Send message"
         >
           <Send className="w-4 h-4" />

@@ -78,7 +78,8 @@ export async function POST(request: NextRequest) {
       .update(updates)
       .eq('id', sessionId)
 
-    // 7a. Non-streaming response (lead capture, booking, handoff, farewell)
+    // 7a. Deterministic response (lead capture, booking, handoff, farewell)
+    //     Wrapped as SSE so the client always sees a typing indicator first.
     if (result.response) {
       await supabaseAdmin.from('chat_messages').insert({
         session_id: sessionId,
@@ -86,9 +87,25 @@ export async function POST(request: NextRequest) {
         content: result.response,
       })
 
-      return Response.json({
-        message: result.response,
-        state: result.newState,
+      const encoder = new TextEncoder()
+      const readable = new ReadableStream({
+        start(controller) {
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify({ text: result.response })}\n\n`)
+          )
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify({ done: true, state: result.newState })}\n\n`)
+          )
+          controller.close()
+        },
+      })
+
+      return new Response(readable, {
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          Connection: 'keep-alive',
+        },
       })
     }
 

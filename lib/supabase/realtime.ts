@@ -46,6 +46,37 @@ export function subscribeToSession(
     .subscribe()
 }
 
+// Subscribe to agent typing indicator via Broadcast
+export function subscribeToTyping(
+  sessionId: string,
+  onTyping: (isTyping: boolean) => void
+): RealtimeChannel {
+  return supabase
+    .channel(`typing:${sessionId}`)
+    .on('broadcast', { event: 'typing' }, (payload) => {
+      onTyping(!!payload.payload?.isTyping)
+    })
+    .subscribe()
+}
+
+// Broadcast a typing event (called from agent dashboard)
+export function broadcastTyping(
+  sessionId: string,
+  isTyping: boolean
+): RealtimeChannel {
+  const channel = supabase.channel(`typing:${sessionId}`)
+  channel.subscribe((status) => {
+    if (status === 'SUBSCRIBED') {
+      channel.send({
+        type: 'broadcast',
+        event: 'typing',
+        payload: { isTyping },
+      })
+    }
+  })
+  return channel
+}
+
 // Unsubscribe and remove a realtime channel
 export function unsubscribeChannel(channel: RealtimeChannel) {
   supabase.removeChannel(channel)

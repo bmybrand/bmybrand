@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { subscribeToMessages, unsubscribeChannel } from '@/lib/supabase/realtime'
+import { subscribeToMessages, subscribeToTyping, unsubscribeChannel } from '@/lib/supabase/realtime'
 import type { ChatMessage, ConversationState } from '@/types/chat'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
@@ -15,7 +15,10 @@ export function useChatMessages(sessionId: string | null) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isStreaming, setIsStreaming] = useState(false)
   const [streamingText, setStreamingText] = useState('')
+  const [agentTyping, setAgentTyping] = useState(false)
+  const [botThinking, setBotThinking] = useState(false)
   const channelRef = useRef<RealtimeChannel | null>(null)
+  const typingChannelRef = useRef<RealtimeChannel | null>(null)
 
   // Subscribe to realtime messages (for agent/system messages)
   useEffect(() => {
@@ -24,6 +27,7 @@ export function useChatMessages(sessionId: string | null) {
     channelRef.current = subscribeToMessages(sessionId, (newMsg) => {
       // Only add messages from agents/system (bot messages come from API response)
       if (newMsg.role === 'agent' || newMsg.role === 'system') {
+        setAgentTyping(false) // Agent sent a message — stop typing indicator
         setMessages((prev) => {
           if (prev.some((m) => m.id === newMsg.id)) return prev
           return [...prev, newMsg]
@@ -31,10 +35,19 @@ export function useChatMessages(sessionId: string | null) {
       }
     })
 
+    // Subscribe to agent typing events
+    typingChannelRef.current = subscribeToTyping(sessionId, (isTyping) => {
+      setAgentTyping(isTyping)
+    })
+
     return () => {
       if (channelRef.current) {
         unsubscribeChannel(channelRef.current)
         channelRef.current = null
+      }
+      if (typingChannelRef.current) {
+        unsubscribeChannel(typingChannelRef.current)
+        typingChannelRef.current = null
       }
     }
   }, [sessionId])
@@ -76,6 +89,7 @@ export function useChatMessages(sessionId: string | null) {
     async (content: string): Promise<SendMessageResult> => {
       if (!sessionId) return { error: 'No active session' }
 
+      setBotThinking(true)
       try {
         const res = await fetch('/api/chat/message', {
           method: 'POST',
@@ -156,6 +170,8 @@ export function useChatMessages(sessionId: string | null) {
       } catch (err) {
         const msg = err instanceof Error ? err.message : 'Network error'
         return { error: msg }
+      } finally {
+        setBotThinking(false)
       }
     },
     [sessionId, addLocalMessage]
@@ -165,6 +181,8 @@ export function useChatMessages(sessionId: string | null) {
     messages,
     isStreaming,
     streamingText,
+    agentTyping,
+    botThinking,
     sendMessage,
     addLocalMessage,
     loadHistory,

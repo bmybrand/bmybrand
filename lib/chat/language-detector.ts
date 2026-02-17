@@ -1,5 +1,5 @@
 import { chatCompletion } from '@/lib/openai/chat'
-import { LANGUAGE_DETECTION_PROMPT, translationPrompt } from './system-prompts'
+import { LANGUAGE_DETECTION_PROMPT, translationPrompt } from './prompts'
 
 export async function detectLanguage(text: string): Promise<string> {
   const result = await chatCompletion(

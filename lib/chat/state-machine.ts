@@ -4,12 +4,13 @@ import { retrieveContext, assembleContext } from '@/lib/rag/retrieve'
 import { detectIntent } from './intent-detector'
 import { detectLanguage, translateMessage } from './language-detector'
 import {
-  LEAD_CAPTURE_PROMPTS,
+  LEAD_CAPTURE,
+  VALIDATION,
   knowledgeQAPrompt,
   bookingResponse,
-  HANDOFF_MESSAGES,
+  HANDOFF,
   FAREWELL_MESSAGE,
-} from './system-prompts'
+} from './prompts'
 import {
   isValidEmail,
   isValidPhone,
@@ -43,7 +44,15 @@ async function getRecentMessages(sessionId: string, limit = 10): Promise<string>
     .join('\n')
 }
 
-// Main state machine processor
+// ─── Main State Machine ──────────────────────────────────────────────────
+// New flow: KNOWLEDGE_QA first, lead capture only on buying intent
+//
+// KNOWLEDGE_QA (answer freely)
+//   → service_inquiry or booking_request (no lead yet) → LEAD_CAPTURE_NAME → EMAIL → PHONE → BOOKING / back to QA
+//   → general_query → RAG streaming answer
+//   → human_request → HANDOFF
+//   → farewell → CLOSED
+
 export async function processMessage(
   session: ChatSession,
   rawInput: string
@@ -53,6 +62,9 @@ export async function processMessage(
 
   switch (state) {
     case 'GREETING':
+    case 'KNOWLEDGE_QA':
+      return handleKnowledgeQA(session, input)
+
     case 'LEAD_CAPTURE_NAME':
       return handleNameCapture(session, input)
 
@@ -62,22 +74,18 @@ export async function processMessage(
     case 'LEAD_CAPTURE_PHONE':
       return handlePhoneCapture(session, input)
 
-    case 'KNOWLEDGE_QA':
-      return handleKnowledgeQA(session, input)
-
     case 'BOOKING':
       return handleBookingFollowup(session, input)
 
     case 'HANDOFF_REQUESTED':
       return {
-        response: HANDOFF_MESSAGES.AGENT_AVAILABLE,
+        response: HANDOFF.CONNECTING,
         stream: null,
         newState: 'HANDOFF_REQUESTED',
         sessionUpdates: {},
       }
 
     case 'AGENT_CONNECTED':
-      // Bot is disabled — messages go directly to agent via realtime
       return {
         response: null,
         stream: null,
@@ -98,107 +106,13 @@ export async function processMessage(
   }
 }
 
-// ─── Lead Capture Handlers ───────────────────────────────────────────────
-
-async function handleNameCapture(
-  session: ChatSession,
-  input: string
-): Promise<StateMachineResult> {
-  if (!isValidName(input)) {
-    const msg = "I didn't catch that. Could you please tell me your name?"
-    const response = await maybeTranslate(msg, session.visitor_language)
-    return {
-      response,
-      stream: null,
-      newState: session.state,
-      sessionUpdates: {},
-    }
-  }
-
-  const name = input.trim()
-  const prompt = LEAD_CAPTURE_PROMPTS.LEAD_CAPTURE_EMAIL(name)
-  const response = await maybeTranslate(prompt, session.visitor_language)
-
-  return {
-    response,
-    stream: null,
-    newState: 'LEAD_CAPTURE_EMAIL',
-    sessionUpdates: {
-      visitor_name: name,
-      status: 'lead_capture',
-    },
-  }
-}
-
-async function handleEmailCapture(
-  session: ChatSession,
-  input: string
-): Promise<StateMachineResult> {
-  if (!isValidEmail(input)) {
-    const msg = "That doesn't look like a valid email. Could you try again?"
-    const response = await maybeTranslate(msg, session.visitor_language)
-    return {
-      response,
-      stream: null,
-      newState: 'LEAD_CAPTURE_EMAIL',
-      sessionUpdates: {},
-    }
-  }
-
-  const email = input.trim().toLowerCase()
-  const prompt = LEAD_CAPTURE_PROMPTS.LEAD_CAPTURE_PHONE
-  const response = await maybeTranslate(prompt, session.visitor_language)
-
-  return {
-    response,
-    stream: null,
-    newState: 'LEAD_CAPTURE_PHONE',
-    sessionUpdates: { visitor_email: email },
-  }
-}
-
-async function handlePhoneCapture(
-  session: ChatSession,
-  input: string
-): Promise<StateMachineResult> {
-  const updates: Partial<ChatSession> = {
-    status: 'bot',
-  }
-
-  if (!isSkip(input)) {
-    if (!isValidPhone(input)) {
-      const msg =
-        "That doesn't look like a valid phone number. Please try again, or type 'skip' to move on."
-      const response = await maybeTranslate(msg, session.visitor_language)
-      return {
-        response,
-        stream: null,
-        newState: 'LEAD_CAPTURE_PHONE',
-        sessionUpdates: {},
-      }
-    }
-    updates.visitor_phone = input.trim()
-  }
-
-  const name = session.visitor_name || 'there'
-  const prompt = LEAD_CAPTURE_PROMPTS.LEAD_COMPLETE(name)
-  const response = await maybeTranslate(prompt, session.visitor_language)
-
-  return {
-    response,
-    stream: null,
-    newState: 'KNOWLEDGE_QA',
-    sessionUpdates: updates,
-  }
-}
-
 // ─── Knowledge QA Handler (streaming) ────────────────────────────────────
 
 async function handleKnowledgeQA(
   session: ChatSession,
   input: string
 ): Promise<StateMachineResult> {
-  // Detect language on first QA message (or if not set)
+  // Detect language on first message
   let language = session.visitor_language || 'en'
   if (language === 'en') {
     const detected = await detectLanguage(input)
@@ -211,20 +125,45 @@ async function handleKnowledgeQA(
   const intent = await detectIntent(input)
 
   switch (intent) {
+    // Service inquiry or booking — trigger lead capture if we don't have details yet
+    case 'service_inquiry':
     case 'booking_request': {
-      const bookingUrl = process.env.ZOOM_BOOKING_URL || '#'
-      let response = bookingResponse(bookingUrl)
-      response = await maybeTranslate(response, language)
-      return {
-        response,
-        stream: null,
-        newState: 'BOOKING',
-        sessionUpdates: { visitor_language: language },
+      const hasLead = session.visitor_name && session.visitor_email
+      if (!hasLead) {
+        // Start lead capture flow
+        const msg = LEAD_CAPTURE.ASK_NAME
+        const response = await maybeTranslate(msg, language)
+        return {
+          response,
+          stream: null,
+          newState: 'LEAD_CAPTURE_NAME',
+          sessionUpdates: {
+            status: 'lead_capture',
+            visitor_language: language,
+            // Remember what the user wanted so we can resume after capture
+            metadata: { ...session.metadata, pending_intent: intent },
+          },
+        }
       }
+
+      // Already have lead details — handle booking directly
+      if (intent === 'booking_request') {
+        const bookingUrl = process.env.ZOOM_BOOKING_URL || '#'
+        let response = bookingResponse(bookingUrl)
+        response = await maybeTranslate(response, language)
+        return {
+          response,
+          stream: null,
+          newState: 'BOOKING',
+          sessionUpdates: { visitor_language: language },
+        }
+      }
+
+      // service_inquiry with lead already captured — just answer via RAG
+      return handleRAGResponse(session, input, language)
     }
 
     case 'human_request': {
-      // Check if any agent is online
       const { data: agents } = await supabaseAdmin
         .from('agents')
         .select('id')
@@ -233,8 +172,8 @@ async function handleKnowledgeQA(
 
       const agentAvailable = agents && agents.length > 0
       const handoffMsg: string = agentAvailable
-        ? HANDOFF_MESSAGES.AGENT_AVAILABLE
-        : HANDOFF_MESSAGES.NO_AGENT
+        ? HANDOFF.CONNECTING
+        : HANDOFF.NO_AGENT_ONLINE
       const response = await maybeTranslate(handoffMsg, language)
 
       return {
@@ -259,30 +198,145 @@ async function handleKnowledgeQA(
     }
 
     case 'general_query':
-    default: {
-      // RAG retrieval
-      const matches = await retrieveContext(input)
-      const context = assembleContext(matches)
-      const recentMessages = await getRecentMessages(session.id)
+    default:
+      return handleRAGResponse(session, input, language)
+  }
+}
 
-      const systemPrompt = knowledgeQAPrompt(language, context, recentMessages)
+// ─── RAG Streaming Response ──────────────────────────────────────────────
 
-      // Stream the LLM response
-      const stream = await chatCompletionStream(
-        [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: input },
-        ],
-        { temperature: 0.7 }
-      )
+async function handleRAGResponse(
+  session: ChatSession,
+  input: string,
+  language: string
+): Promise<StateMachineResult> {
+  const matches = await retrieveContext(input)
+  const context = assembleContext(matches)
+  const recentMessages = await getRecentMessages(session.id)
+  const systemPrompt = knowledgeQAPrompt(language, context, recentMessages)
 
+  const stream = await chatCompletionStream(
+    [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: input },
+    ],
+    { temperature: 0.7 }
+  )
+
+  return {
+    response: null,
+    stream,
+    newState: 'KNOWLEDGE_QA',
+    sessionUpdates: { visitor_language: language },
+  }
+}
+
+// ─── Lead Capture Handlers ───────────────────────────────────────────────
+
+async function handleNameCapture(
+  session: ChatSession,
+  input: string
+): Promise<StateMachineResult> {
+  if (!isValidName(input)) {
+    const msg = VALIDATION.INVALID_NAME
+    const response = await maybeTranslate(msg, session.visitor_language)
+    return {
+      response,
+      stream: null,
+      newState: 'LEAD_CAPTURE_NAME',
+      sessionUpdates: {},
+    }
+  }
+
+  const name = input.trim()
+  const prompt = LEAD_CAPTURE.ASK_EMAIL(name)
+  const response = await maybeTranslate(prompt, session.visitor_language)
+
+  return {
+    response,
+    stream: null,
+    newState: 'LEAD_CAPTURE_EMAIL',
+    sessionUpdates: { visitor_name: name },
+  }
+}
+
+async function handleEmailCapture(
+  session: ChatSession,
+  input: string
+): Promise<StateMachineResult> {
+  if (!isValidEmail(input)) {
+    const msg = VALIDATION.INVALID_EMAIL
+    const response = await maybeTranslate(msg, session.visitor_language)
+    return {
+      response,
+      stream: null,
+      newState: 'LEAD_CAPTURE_EMAIL',
+      sessionUpdates: {},
+    }
+  }
+
+  const email = input.trim().toLowerCase()
+  const prompt = LEAD_CAPTURE.ASK_PHONE
+  const response = await maybeTranslate(prompt, session.visitor_language)
+
+  return {
+    response,
+    stream: null,
+    newState: 'LEAD_CAPTURE_PHONE',
+    sessionUpdates: { visitor_email: email },
+  }
+}
+
+async function handlePhoneCapture(
+  session: ChatSession,
+  input: string
+): Promise<StateMachineResult> {
+  const updates: Partial<ChatSession> = {
+    status: 'bot',
+  }
+
+  if (!isSkip(input)) {
+    if (!isValidPhone(input)) {
+      const msg = VALIDATION.INVALID_PHONE
+      const response = await maybeTranslate(msg, session.visitor_language)
       return {
-        response: null,
-        stream,
-        newState: 'KNOWLEDGE_QA',
-        sessionUpdates: { visitor_language: language },
+        response,
+        stream: null,
+        newState: 'LEAD_CAPTURE_PHONE',
+        sessionUpdates: {},
       }
     }
+    updates.visitor_phone = input.trim()
+  }
+
+  const name = session.visitor_name || 'there'
+
+  // Check if user had a pending booking request
+  const pendingIntent = (session.metadata as Record<string, string>)?.pending_intent
+  if (pendingIntent === 'booking_request') {
+    const bookingUrl = process.env.ZOOM_BOOKING_URL || '#'
+    let response = bookingResponse(bookingUrl)
+    response = await maybeTranslate(response, session.visitor_language)
+    // Clear pending intent
+    updates.metadata = { ...session.metadata, pending_intent: null }
+    return {
+      response,
+      stream: null,
+      newState: 'BOOKING',
+      sessionUpdates: updates,
+    }
+  }
+
+  // Otherwise complete lead capture and go back to QA
+  const prompt = LEAD_CAPTURE.COMPLETE(name)
+  const response = await maybeTranslate(prompt, session.visitor_language)
+  updates.metadata = { ...session.metadata, pending_intent: null }
+
+  return {
+    response,
+    stream: null,
+    newState: 'KNOWLEDGE_QA',
+    sessionUpdates: updates,
   }
 }
 
@@ -292,7 +346,6 @@ async function handleBookingFollowup(
   session: ChatSession,
   input: string
 ): Promise<StateMachineResult> {
-  // After booking link shown, route back to knowledge QA for any follow-up
   return handleKnowledgeQA(
     { ...session, state: 'KNOWLEDGE_QA' },
     input

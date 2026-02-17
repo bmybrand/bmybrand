@@ -1,9 +1,10 @@
 import { chatCompletion } from '@/lib/openai/chat'
-import { INTENT_DETECTION_PROMPT } from './system-prompts'
+import { INTENT_DETECTION_PROMPT } from './prompts'
 import type { UserIntent } from '@/types/chat'
 
 const VALID_INTENTS: UserIntent[] = [
   'general_query',
+  'service_inquiry',
   'booking_request',
   'human_request',
   'farewell',

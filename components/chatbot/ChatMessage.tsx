@@ -20,7 +20,7 @@ export default function ChatMessage({
   if (isSystem) {
     return (
       <div className="flex justify-center my-2">
-        <span className="text-[#ADAECC] text-xs px-3 py-1 bg-white/5 rounded-full">
+        <span className="text-[#ADAECC] text-sm px-3 py-1 bg-white/5 rounded-full">
           {content}
         </span>
       </div>
@@ -32,15 +32,15 @@ export default function ChatMessage({
       className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-3 group`}
     >
       <div className={`max-w-[80%] ${isUser ? 'order-1' : 'order-1'}`}>
-        {/* Agent badge */}
-        {isAgent && (
-          <span className="text-[10px] text-blue-400 font-medium mb-0.5 block">
-            Agent
+        {/* Sender label */}
+        {!isUser && !isSystem && (
+          <span className={`text-xs font-medium mb-0.5 block ${isAgent ? 'text-blue-400' : 'text-[#ADAECC]'}`}>
+            {isAgent ? 'Agent' : 'Mr. B'}
           </span>
         )}
 
         <div
-          className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed break-words whitespace-pre-wrap ${
+          className={`px-4 py-2.5 rounded-2xl text-base leading-relaxed break-words whitespace-pre-wrap ${
             isUser
               ? 'bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white rounded-br-md'
               : isAgent
@@ -53,7 +53,7 @@ export default function ChatMessage({
 
         {/* Timestamp on hover */}
         <span
-          className={`text-[10px] text-[#ADAECC]/0 group-hover:text-[#ADAECC]/70 transition-colors mt-0.5 block ${
+          className={`text-xs text-[#ADAECC]/0 group-hover:text-[#ADAECC]/70 transition-colors mt-0.5 block ${
             isUser ? 'text-right' : 'text-left'
           }`}
         >

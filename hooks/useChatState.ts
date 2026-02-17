@@ -54,12 +54,17 @@ export function useChatState() {
     sessionLoading: session.loading,
     sessionError: session.error,
     initSession,
-    clearSession: session.clearSession,
+    clearSession: () => {
+      session.clearSession()
+      messages.setMessages([])
+    },
 
     // Messages
     messages: messages.messages,
     isStreaming: messages.isStreaming,
     streamingText: messages.streamingText,
+    agentTyping: messages.agentTyping,
+    botThinking: messages.botThinking,
     sendMessage,
   }
 }
