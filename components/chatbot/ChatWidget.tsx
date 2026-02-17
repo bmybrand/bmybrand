@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
 import ChatHeader from './ChatHeader'
@@ -10,10 +10,8 @@ import { useChatState } from '@/hooks/useChatState'
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
-  const [hasInitialized, setHasInitialized] = useState(false)
 
   const {
-    sessionId,
     state,
     sessionLoading,
     messages,
@@ -21,18 +19,9 @@ export default function ChatWidget() {
     streamingText,
     agentTyping,
     botThinking,
-    initSession,
     sendMessage,
     clearSession,
   } = useChatState()
-
-  // Initialize session when widget opens for the first time
-  useEffect(() => {
-    if (isOpen && !sessionId && !hasInitialized && !sessionLoading) {
-      setHasInitialized(true)
-      initSession()
-    }
-  }, [isOpen, sessionId, hasInitialized, sessionLoading, initSession])
 
   const handleSend = async (content: string) => {
     await sendMessage(content)
@@ -66,11 +55,7 @@ export default function ChatWidget() {
             <ChatHeader
               onMinimize={handleMinimize}
               onClose={handleClose}
-              onNewChat={() => {
-                clearSession()
-                setHasInitialized(true)
-                initSession()
-              }}
+              onNewChat={() => clearSession()}
             />
 
             <ChatWindow
@@ -100,11 +85,7 @@ export default function ChatWidget() {
             {isClosed && (
               <div className="px-4 py-3 border-t border-white/10 text-center">
                 <button
-                  onClick={() => {
-                    clearSession()
-                    setHasInitialized(false)
-                    initSession()
-                  }}
+                  onClick={() => clearSession()}
                   className="text-[#F45B25] text-base font-medium hover:underline cursor-pointer"
                 >
                   Start a new conversation

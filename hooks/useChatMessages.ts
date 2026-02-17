@@ -86,15 +86,16 @@ export function useChatMessages(sessionId: string | null) {
 
   // Send a message and handle the response (JSON or SSE stream)
   const sendMessage = useCallback(
-    async (content: string): Promise<SendMessageResult> => {
-      if (!sessionId) return { error: 'No active session' }
+    async (content: string, sessionIdOverride?: string): Promise<SendMessageResult> => {
+      const activeSessionId = sessionIdOverride || sessionId
+      if (!activeSessionId) return { error: 'No active session' }
 
       setBotThinking(true)
       try {
         const res = await fetch('/api/chat/message', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId, content }),
+          body: JSON.stringify({ sessionId: activeSessionId, content }),
         })
 
         if (!res.ok) {

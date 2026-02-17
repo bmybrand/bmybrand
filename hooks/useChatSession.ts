@@ -8,7 +8,6 @@ const SESSION_KEY = 'bmybrand_chat_session'
 export function useChatSession() {
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [state, setState] = useState<ConversationState>('GREETING')
-  const [greeting, setGreeting] = useState<string>('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -54,7 +53,6 @@ export function useChatSession() {
       const data: CreateSessionResponse = await res.json()
       setSessionId(data.sessionId)
       setState(data.state)
-      setGreeting(data.greeting)
       return data
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Session error'
@@ -72,14 +70,12 @@ export function useChatSession() {
   const clearSession = useCallback(() => {
     setSessionId(null)
     setState('GREETING')
-    setGreeting('')
     sessionStorage.removeItem(SESSION_KEY)
   }, [])
 
   return {
     sessionId,
     state,
-    greeting,
     loading,
     error,
     createSession,

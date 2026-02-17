@@ -96,7 +96,6 @@ export interface CreateSessionRequest {
 export interface CreateSessionResponse {
   sessionId: string
   state: ConversationState
-  greeting: string
 }
 
 export interface SendMessageRequest {

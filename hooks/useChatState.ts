@@ -27,18 +27,19 @@ export function useChatState() {
     }
   }, [session.sessionId, messages.messages.length, messages.loadHistory])
 
-  // Initialize new session
-  const initSession = async () => {
-    const result = await session.createSession()
-    if (result) {
-      messages.addLocalMessage('assistant', result.greeting)
-    }
-  }
-
-  // Send message with state sync
+  // Send message with state sync — auto-creates session on first message
   const sendMessage = async (content: string) => {
+    let activeSessionId = session.sessionId
+
+    // Create session on the fly if none exists yet
+    if (!activeSessionId) {
+      const created = await session.createSession()
+      if (!created) return { error: 'Failed to create session' }
+      activeSessionId = created.sessionId
+    }
+
     messages.addLocalMessage('user', content)
-    const result = await messages.sendMessage(content)
+    const result = await messages.sendMessage(content, activeSessionId)
 
     if (result.state) {
       session.updateState(result.state)
@@ -53,7 +54,6 @@ export function useChatState() {
     state: session.state,
     sessionLoading: session.loading,
     sessionError: session.error,
-    initSession,
     clearSession: () => {
       session.clearSession()
       messages.setMessages([])

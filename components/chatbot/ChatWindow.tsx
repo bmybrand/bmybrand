@@ -36,8 +36,37 @@ export default function ChatWindow({
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages.length, streamingText, agentTyping])
 
+  const showWelcome = messages.length === 0 && !isStreaming && !botThinking
+
   return (
     <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-3 space-y-0.5 chat-scrollbar">
+      {/* Welcome screen — shown before the first message */}
+      {showWelcome && (
+        <div className="flex flex-col items-center justify-center h-full text-center px-2">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] flex items-center justify-center mb-3">
+            <span className="text-white text-xl font-bold">B</span>
+          </div>
+          <h3 className="text-white text-lg font-semibold">Mr. B</h3>
+          <p className="text-[#ADAECC] text-sm mt-0.5">AI Specialist at BMYBrand</p>
+          <p className="text-[#ADAECC]/70 text-sm mt-3 max-w-[260px]">
+            Send a message or pick a topic below to start chatting.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-2 mt-5">
+            {PRESET_MESSAGES.map((msg) => (
+              <button
+                key={msg}
+                onClick={() => onSend(msg)}
+                className="text-sm text-white/80 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 hover:bg-white/10 hover:border-white/20 transition-colors cursor-pointer"
+              >
+                {msg}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Message list */}
       {messages.map((msg) => (
         <ChatMessage
           key={msg.id}
@@ -64,21 +93,6 @@ export default function ChatWindow({
 
       {/* Agent typing indicator */}
       {agentTyping && !isStreaming && <TypingIndicator label="Agent is typing" />}
-
-      {/* Preset quick-reply messages */}
-      {messages.length <= 1 && !isStreaming && !botThinking && (
-        <div className="flex flex-wrap gap-2 pt-2">
-          {PRESET_MESSAGES.map((msg) => (
-            <button
-              key={msg}
-              onClick={() => onSend(msg)}
-              className="text-sm text-white/80 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 hover:bg-white/10 hover:border-white/20 transition-colors cursor-pointer"
-            >
-              {msg}
-            </button>
-          ))}
-        </div>
-      )}
 
       <div ref={bottomRef} />
     </div>
