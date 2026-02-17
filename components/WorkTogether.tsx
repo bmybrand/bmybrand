@@ -43,8 +43,8 @@ export default function WorkTogether() {
   const initialImageY2 = '40vh'
   
   // Left image animation (released by left hand going left)
-  const leftImageX = useTransform(scrollYProgress, [0, 0.5], [initialImageX1, '10vw'])
-  const leftImageY = useTransform(scrollYProgress, [0, 0.5], [initialImageY1, '10vh'])
+  const leftImageX = useTransform(scrollYProgress, [0, 0.5], [initialImageX1, '0vw'])
+  const leftImageY = useTransform(scrollYProgress, [0, 0.5], [initialImageY1, '20vh'])
   const leftImageScale = useTransform(scrollYProgress, [0, 0.5], [0.2, 1])
   const leftImageRotate = useTransform(scrollYProgress, [0, 0.5], [-25, -8])
   
@@ -176,16 +176,7 @@ export default function WorkTogether() {
       
         <div className="flex items-end lg:items-end items-center py-20 w-[90%] 2xl:w-[75%] h-full mx-auto ">
           {/* Headline */}
-          <motion.div 
-            className="relative z-20"
-            style={{ 
-              x,
-              y,
-              scale,
-              rotate,
-              opacity
-            }}
-          >
+          <div className="relative z-20">
             <h2 className="text-5xl BenzinSemibold text-white sm:text-7xl lg:text-[109px]">
               Let's Work
             </h2>
@@ -208,7 +199,7 @@ export default function WorkTogether() {
     <span className="px-2">Explore Our Work</span>
   </button>
 </div>
-          </motion.div>
+          </div>
 
           
       </div>
