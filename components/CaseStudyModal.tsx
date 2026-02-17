@@ -63,15 +63,14 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
           />
 
           {/* Modal */}
-          <div className="fixed inset-0 z-[10001] overflow-y-auto">
-            <div className="min-h-screen px-4 flex items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-full max-w-4xl bg-[#1E2044] rounded-2xl overflow-hidden shadow-2xl my-8"
-              >
+          <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-4xl max-h-[90vh] bg-[#1E2044] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+            >
                 {/* Close Button */}
                 <button
                   onClick={onClose}
@@ -83,7 +82,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                 </button>
 
                 {/* Hero Image */}
-                <div className="relative w-full h-64 md:h-80 overflow-hidden">
+                <div className="relative w-full h-48 md:h-64 overflow-hidden flex-shrink-0">
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1E2044] to-transparent z-10"></div>
                   <img
                     src={caseStudy.image}
@@ -101,7 +100,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
 
                 {/* Scrollable Content */}
                 <div 
-                  className="p-6 md:p-10 max-h-[50vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+                  className="p-6 md:p-10 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
                 >
                   {/* Client Info */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 pb-8 border-b border-white/10">
@@ -188,22 +187,21 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                 </div>
 
                 {/* Fixed CTA Button at Bottom */}
-                <div className="sticky bottom-0 p-6 md:p-10 pt-4 bg-gradient-to-t from-[#1E2044] via-[#1E2044] to-transparent">
+                <div className="flex-shrink-0 px-6 md:px-10 py-6 bg-gradient-to-t from-[#1E2044] via-[#1E2044] to-transparent">
                   <button
                     onClick={() => {
                       router.push(`/case-studies/${caseStudy.slug}`)
                       onClose()
                     }}
-                    className="w-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-4 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold flex items-center justify-center gap-3 text-lg"
+                    className="w-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white  py-3 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold flex items-center justify-center text-lg"
                   >
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-white p-4 rounded-lg ml-3">
                       <img src="/Group1190.svg" alt="" className="w-4 h-4" />
                     </div>
-                    <span className="px-2">View Full Case Study</span>
+                    <span className="px-2 flex-1 text-center">View Full Case Study</span>
                   </button>
                 </div>
-              </motion.div>
-            </div>
+            </motion.div>
           </div>
         </>
       )}
