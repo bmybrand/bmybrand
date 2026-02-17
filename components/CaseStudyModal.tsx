@@ -100,7 +100,9 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="p-6 md:p-10 max-h-[50vh] overflow-y-auto">
+                <div 
+                  className="p-6 md:p-10 max-h-[50vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+                >
                   {/* Client Info */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 pb-8 border-b border-white/10">
                     <div>
@@ -157,7 +159,8 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                   </div>
 
                   {/* Results */}
-                  <div className="mb-4">
+
+0                  <div className="mb-4">
                     <h4 className="text-white text-lg BenzinSemibold mb-4">Key Results</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {caseStudy.results.map((result, idx) => (
