@@ -78,7 +78,7 @@ const Solution = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {accomplishments.map((item, index) => (
               <div key={index} className="flex gap-4">
-                <div className="w-2 h-2 bg-[#F45B25] rounded-full shrink-0 mt-2"></div>
+                <div className="w-2 h-2 bg-[rgba(191,33,47,1)] rounded-full shrink-0 mt-2"></div>
                 <div>
                   <h3 className="text-white text-lg md:text-xl BenzinSemibold mb-2">
                     {item.title}
@@ -97,8 +97,10 @@ const Solution = () => {
       </div>
       <div>
           {/* Monitor/Desktop Display */}
-          <div>
-            <img src="/BackgroundFh.svg" alt="Website Pages" className="w-full h-full object-cover" />
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+            <div className="relative w-full h-full rounded-xl overflow-hidden">
+              <img src="/BackgroundFh.svg" alt="Website Pages" className="w-full h-full object-cover" />
+            </div>
           </div>
         </div>
     </section>

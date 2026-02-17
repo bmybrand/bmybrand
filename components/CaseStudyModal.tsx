@@ -163,7 +163,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {caseStudy.results.map((result, idx) => (
                         <div key={idx} className="flex items-start gap-3">
-                          <div className="w-5 h-5 bg-[#F45B25] rounded flex items-center justify-center shrink-0 mt-0.5">
+                          <div className="w-5 h-5 bg-[rgba(191,33,47,1)] rounded flex items-center justify-center shrink-0 mt-0.5">
                             <svg
                               className="w-3 h-3 text-white"
                               fill="none"

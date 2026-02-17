@@ -81,14 +81,14 @@ const Background = () => {
           transition={{ duration: 1.0, delay: 0.3 }}
             className="lg:col-span-4"
           >
-            <div className="lg:sticky lg:top-32">
+            <div className="lg:sticky lg:top-32 bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
               <h3 className="text-2xl md:text-3xl text-white BenzinSemibold mb-8">
                 What We Did
               </h3>
               <ul className="space-y-4">
                 {whatWeDidItems.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-[#F45B25] rounded-full flex items-center justify-center shrink-0 mt-1">
+                    <div className="w-6 h-6 bg-[rgba(191,33,47,1)] rounded-full flex items-center justify-center shrink-0 mt-1">
                       <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
@@ -110,30 +110,36 @@ const Background = () => {
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
         >
           {/* Left Image */}
-          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] rounded-2xl overflow-hidden">
-            <img
-              src="https://picsum.photos/400/600?random=31"
-              alt="Mobile Device View"
-              className="w-full h-full object-cover"
-            />
+          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] bg-white/5 border border-white/10 rounded-2xl p-4">
+            <div className="relative w-full h-full rounded-xl overflow-hidden">
+              <img
+                src="https://picsum.photos/400/600?random=31"
+                alt="Mobile Device View"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
 
           {/* Center Image */}
-          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] rounded-2xl overflow-hidden">
-            <img
-              src="https://picsum.photos/400/600?random=32"
-              alt="Emergency Room Display"
-              className="w-full h-full object-cover"
-            />
+          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] bg-white/5 border border-white/10 rounded-2xl p-4">
+            <div className="relative w-full h-full rounded-xl overflow-hidden">
+              <img
+                src="https://picsum.photos/400/600?random=32"
+                alt="Emergency Room Display"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
 
           {/* Right Image */}
-          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] rounded-2xl overflow-hidden">
-            <img
-              src="https://picsum.photos/400/600?random=33"
-              alt="Mobile Interface"
-              className="w-full h-full object-cover"
-            />
+          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] bg-white/5 border border-white/10 rounded-2xl p-4">
+            <div className="relative w-full h-full rounded-xl overflow-hidden">
+              <img
+                src="https://picsum.photos/400/600?random=33"
+                alt="Mobile Interface"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </motion.div>
       </div>

@@ -41,7 +41,7 @@ export default function AIDrivenHero() {
               { icon: '☑', text: 'Automated Report Gen' }
             ].map((item, index) => (
               <div key={index} className="flex items-center gap-3">
-                <div className="w-5 h-5 bg-[#F45B25] rounded flex items-center justify-center shrink-0">
+                <div className="w-5 h-5 bg-[rgba(191,33,47,1)] rounded flex items-center justify-center shrink-0">
                   <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
