@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
   }, [])
 
   return (
-    <footer className="relative bg-[#202141] text-white overflow-hidden pb-10">
+    <footer className="relative bg-[#202141] text-white overflow-hidden">
       <div
         className="relative z-10 max-w-none mx-auto w-[90%] lg:w-[85%] 2xl:w-[80%] py-12 lg:py-16"
         style={{
@@ -225,7 +225,7 @@ const Footer: React.FC = () => {
         className="absolute bottom-0 left-0 right-0 z-20 flex justify-center items-end pt-4 min-h-[100px]"
       >
         <h2
-          className="group BenzinSemibold text-center leading-none text-[#202141] pb-10"
+          className="group BenzinSemibold text-center leading-none text-[#202141] "
           style={{
             fontSize: `${brandFontSize}px`,
             textShadow:
