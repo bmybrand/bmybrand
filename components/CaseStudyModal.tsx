@@ -158,8 +158,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                   </div>
 
                   {/* Results */}
-
-0                  <div className="mb-4">
+                  <div className="mb-4">
                     <h4 className="text-white text-lg BenzinSemibold mb-4">Key Results</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {caseStudy.results.map((result, idx) => (
