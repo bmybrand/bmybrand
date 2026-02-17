@@ -8,6 +8,8 @@ interface BottomCTAProps {
 
 const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
   const [visible, setVisible] = useState<boolean>(false)
+  const [closed, setClosed] = useState<boolean>(false)
+  const [wasTriggered, setWasTriggered] = useState<boolean>(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,9 +19,19 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
       const windowHeight = window.innerHeight
       const footerTop = footerRef?.current?.getBoundingClientRect().top ?? Infinity
 
+      const shouldTrigger = designedGrowTop < 0 && footerTop - windowHeight >= 0
+
+      // If trigger condition changes from false to true, reset closed state
+      if (shouldTrigger && !wasTriggered) {
+        setClosed(false)
+        setWasTriggered(true)
+      } else if (!shouldTrigger) {
+        setWasTriggered(false)
+      }
+
       if (footerTop - windowHeight < 0) {
         setVisible(false)
-      } else if (designedGrowTop < 0) {
+      } else if (shouldTrigger && !closed) {
         setVisible(true)
       } else {
         setVisible(false)
@@ -34,21 +46,37 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleScroll)
     }
-  }, [targetRef, footerRef])
+  }, [targetRef, footerRef, closed, wasTriggered])
+
+  const handleClose = () => {
+    setClosed(true)
+    setVisible(false)
+  }
 
   return (
     <div
-      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50
+      className={`fixed bottom-4 md:bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 z-50
                   transition-all duration-500 ease-out 
                   ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20 pointer-events-none '}`}
     >
         <div className=' '>
-        <div className='w-full flex justify-end '>
+        <div className='w-full flex justify-end'>
       {/* Badge / Tag */}
-      <span className=" relative z-0 inline-flex 
+      <span className="relative z-0 inline-flex items-center justify-between gap-3
                        pl-12 pr-4 py-2 -mb-3 pb-5 text-right rounded-tr-sm
-                       bg-[url('/parallelogram.svg')] text-white text-sm   shadow-lg  ">
-        Trusted by 300+ Businesses
+                       bg-[url('/parallelogram.svg')] bg-cover bg-center bg-no-repeat text-white text-sm shadow-lg">
+        <span>Trusted by 300+ Businesses</span>
+        
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="w-5 h-5 flex items-center justify-center rounded-sm bg-white/20 hover:bg-white/30 text-white transition-all duration-200"
+          aria-label="Close"
+        >
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </span>
 </div>
       {/* CTA Card */}
@@ -63,7 +91,6 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
     w-[90vw] 2xl:w-[60vw]
   "
 >
-
         <div className="flex flex-col lg:flex-row items-center justify-between gap-3 ">
             <div className='md:ml-30 ml-0'>
           {/* image */}

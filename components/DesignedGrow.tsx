@@ -9,15 +9,18 @@ gsap.registerPlugin(ScrollTrigger)
 const items = [
   {
     title: "Create Faster. Anywhere.",
-    desc: "Bring your ideas to life with clean branding, modern UI/UX, and fast-loading design. We create intuitive visuals that engage your audience instantly—on every device, anywhere."
+    desc: "Bring your ideas to life with clean branding, modern UI/UX, and fast-loading design. We create intuitive visuals that engage your audience instantly—on every device, anywhere.",
+    image: "/getskeebear.svg"
   },
   {
     title: "Keep Your Brand Safe. Always.",
-    desc: "We keep your brand secure, stable, and worry-free with clean builds and reliable support."
+    desc: "We keep your brand secure, stable, and worry-free with clean builds and reliable support.",
+    image: "/technlogicalbear.svg"
   },
   {
     title: "Launch Smarter. Everywhere.",
-    desc: "From branding to ecommerce, we create scalable digital experiences built for real growth."
+    desc: "From branding to ecommerce, we create scalable digital experiences built for real growth.",
+    image: "/technlogicalbear.svg"
   }
 ]
 
@@ -147,14 +150,21 @@ const DesignedGrow = () => {
         </div>
 
         {/* RIGHT - Image (slides in from right) */}
-        <div ref={rightColRef} className="flex flex-col gap-6 lg:w-1/2 justify-center items-center">
-          <img
-            src="/getskeebear.svg"
-            alt="Designed to Grow"
-            className="object-contain w-full"
-          />
-
-          
+        <div ref={rightColRef} className="flex flex-col gap-6 lg:w-1/2 justify-center items-center relative">
+          {items.map((item, index) => (
+            <img
+              key={index}
+              src={item.image}
+              alt={item.title}
+              className={`object-contain w-full absolute transition-all duration-500 ${
+                activeIndex === index 
+                  ? 'opacity-100 scale-100' 
+                  : 'opacity-0 scale-95 pointer-events-none'
+              }`}
+            />
+          ))}
+          {/* Spacer to maintain height */}
+          <div className="w-full pb-[100%]"></div>
         </div>
 
       </div>
