@@ -118,7 +118,7 @@ const Heropage: React.FC = () => {
           </p>
         <div
           ref={buttonsRef}
-          className="mt-6 flex flex-col sm:flex-row gap-4 BenzinSemibold"
+          className="mt-6 mb-8 flex flex-col sm:flex-row gap-4 BenzinSemibold"
         >
   <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 opacity-0"
     style={{ transform: "translateY(14px)" }}
