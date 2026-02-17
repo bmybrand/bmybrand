@@ -24,11 +24,11 @@ const projects = [
   {
     title: (
       <>
-        Strengthening <span className="text-[#ED349D]">Healthcare Brands With Precision</span>, Trust, And Innovation
+        Strengthening <span className="text-[#ED349D]">Breast Cancer Support</span> With Compassion, Clarity, And Empowerment
       </>
     ),
     description:
-      "A modern, patient-first medical website built to strengthen trust, simplify browsing, and help visitors quickly access the information and care they need.",
+      "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
     buttonText: "View Full Case Study",
     src: "water.jpg",
     link: "/pinkme.svg",
@@ -36,6 +36,38 @@ const projects = [
     gradient: "linear-gradient(180deg, #661041 0%, #250617 100%)",
     buttonColor: "#ED349D",
     buttonIcon: "/arrowpink.svg", // unique icon for this card
+  },
+  {
+    title: (
+      <>
+        Delivering <span className="text-[#0EA5E9]">Performance-Driven Clarity</span> And Strategy
+      </>
+    ),
+    description:
+      "EPCI is A Full-Service Training And Leadership Institute For Showcase Expertise, Improve Client Engagement, And Drive User Action Across All Platforms.",
+    buttonText: "View Full Case Study",
+    src: "water.jpg",
+    link: "/epci.svg",
+    logo: "/ECPI.svg",
+    gradient: "linear-gradient(180deg, #0C2F47 0%, #051419 100%)",
+    buttonColor: "#0EA5E9",
+    buttonIcon: "/arrowblue.svg",
+  },
+  {
+    title: (
+      <>
+        Delivering <span className="text-[#F59E0B]">Clean-Ingredient, Bold-Flavor Experiences</span> For Jerky Fans
+      </>
+    ),
+    description:
+      "Famous About Town, A Classic MTV-Style, Legal Jerky Is Made For Jerky Lovers Who Want Bold Flavors Without The Fuss— Smoky, Savory, And Bold. That's Just Like It.",
+    buttonText: "View Full Case Study",
+    src: "water.jpg",
+    link: "/jiggy.svg",
+    logo: "/Jiggylogo.svg",
+    gradient: "linear-gradient(180deg, #4A3A1A 0%, #1F1808 100%)",
+    buttonColor: "#F59E0B",
+    buttonIcon: "/arrowyellow.svg",
   },
 ];
 

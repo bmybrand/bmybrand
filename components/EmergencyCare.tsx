@@ -32,8 +32,8 @@ const EmergencyCare = () => {
     })
   }, [])
   return (
-    <section className="bg-[#100203] py-16 md:py-20">
-      <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto">
+    <section className="bg-[#BF212F] py-16 md:py-20 ">
+      <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto mt-40 ">
         {/* Header with Logo and Tags */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

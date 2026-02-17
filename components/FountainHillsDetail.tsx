@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import Fountherobar from './fountherobar'
 import EmergencyCare from './EmergencyCare'
 import Background from './Background'
 import Solution from './Solution'
@@ -16,7 +15,6 @@ export default function FountainHillsDetail() {
   return (
     <div className="min-h-screen bg-[#100203] ">
       <Navbar />
-      <Fountherobar />
       <EmergencyCare />
       <Background />
       <Solution />
