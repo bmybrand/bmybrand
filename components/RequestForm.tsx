@@ -1,8 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+
+gsap.registerPlugin(ScrollTrigger);
 
 type FormValues = {
   firstName: string;
@@ -47,9 +51,48 @@ const FAQS: FaqItem[] = [
 
 export default function RequestForm() {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const formColRef = useRef<HTMLDivElement>(null);
+  const faqColRef = useRef<HTMLDivElement>(null);
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
     mode: 'onSubmit',
   });
+
+  useEffect(() => {
+    if (!sectionRef.current || !headingRef.current || !formColRef.current || !faqColRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 72%',
+          toggleActions: 'play none none none',
+        },
+      });
+
+      tl.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 1.05, ease: 'sine.out', clearProps: 'transform' }
+      )
+        .fromTo(
+          formColRef.current,
+          { opacity: 0, x: -40 },
+          { opacity: 1, x: 0, duration: 1.0, ease: 'sine.out', clearProps: 'transform' },
+          '-=0.5'
+        )
+        .fromTo(
+          faqColRef.current,
+          { opacity: 0, x: 40 },
+          { opacity: 1, x: 0, duration: 1.0, ease: 'sine.out', clearProps: 'transform' },
+          '-=0.8'
+        );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const toggleFaq = (number: string) => {
     setOpenFaq((prev) => (prev === number ? null : number));
@@ -59,73 +102,83 @@ export default function RequestForm() {
     console.log('RequestForm submission:', data);
     reset();
   };
-  return (
-    <section className="bg-[#11122F] text-white py-20">
-      <div className="mx-auto w-[90%] 2xl:w-[75%] ">
-        <h2 className="text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-semibold mb-4 text-center lg:text-left BenzinSemibold  max-w-2xl">
-          <span className="text-[#F45B25]"> Get in Touch</span> With Our Team for a Custom Quote
-        </h2>
-        <p className="text-[#ADAECC] text-sm sm:text-base mb-12 text-center lg:text-left max-w-2xl">
-          Tell us about your project, ask a question, or just say hi. We're here to help bring your ideas to life with
-          clarity, creativity, and a seamless experience from start to finish.
-        </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+  return (
+    <section ref={sectionRef} className="bg-[#11122F] text-white py-20 overflow-x-hidden">
+      <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-full">
+        <div ref={headingRef}>
+          <h2 className="text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-semibold mb-4 text-center lg:text-left BenzinSemibold  max-w-2xl">
+            <span className="text-[#F45B25]"> Get in Touch</span> With Our Team for a Custom Quote
+          </h2>
+          <p className="text-[#ADAECC] text-sm sm:text-base mb-12 text-center lg:text-left max-w-2xl">
+            Tell us about your project, ask a question, or just say hi. We're here to help bring your ideas to life with
+            clarity, creativity, and a seamless experience from start to finish.
+          </p>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-12 w-full min-w-0">
           {/* Left Section: Form */}
-          <div className="">
-            <form className="grid grid-cols-1 sm:grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-col gap-2">
-                <input
-                  className="h-12 rounded-lg border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
-                  placeholder="First Name"
-                  type="text"
-                  {...register('firstName', { required: 'First name is required' })}
-                />
-                {errors.firstName ? (
-                  <span className="text-xs text-[#F45B25]">{errors.firstName.message}</span>
-                ) : null}
+          <div ref={formColRef} className="flex-1 min-w-0">
+            <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
+              {/* First and Last Name Row */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full">
+                <div className="flex flex-col gap-2 flex-1 min-w-0">
+                  <input
+                    className="h-12 w-full rounded-lg bg-white/5 border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
+                    placeholder="First Name"
+                    type="text"
+                    {...register('firstName', { required: 'First name is required' })}
+                  />
+                  {errors.firstName ? (
+                    <span className="text-xs text-[#F45B25]">{errors.firstName.message}</span>
+                  ) : null}
+                </div>
+                <div className="flex flex-col gap-2 flex-1 min-w-0">
+                  <input
+                    className="h-12 w-full rounded-lg bg-white/5 border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
+                    placeholder="Last Name"
+                    type="text"
+                    {...register('lastName', { required: 'Last name is required' })}
+                  />
+                  {errors.lastName ? (
+                    <span className="text-xs text-[#F45B25]">{errors.lastName.message}</span>
+                  ) : null}
+                </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <input
-                  className="h-12 rounded-lg  border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
-                  placeholder="Last Name"
-                  type="text"
-                  {...register('lastName', { required: 'Last name is required' })}
-                />
-                {errors.lastName ? (
-                  <span className="text-xs text-[#F45B25]">{errors.lastName.message}</span>
-                ) : null}
+
+              {/* Email and Phone Row */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full">
+                <div className="flex flex-col gap-2 flex-1 min-w-0">
+                  <input
+                    className="h-12 w-full rounded-lg bg-white/5 border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
+                    placeholder="Email"
+                    type="email"
+                    {...register('email', {
+                      required: 'Email is required',
+                      pattern: { value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, message: 'Enter a valid email' },
+                    })}
+                  />
+                  {errors.email ? (
+                    <span className="text-xs text-[#F45B25]">{errors.email.message}</span>
+                  ) : null}
+                </div>
+                <div className="flex flex-col gap-2 flex-1 min-w-0">
+                  <input
+                    className="h-12 w-full rounded-lg bg-white/5 border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
+                    placeholder="Phone Number"
+                    type="tel"
+                    {...register('phone', { required: 'Phone number is required' })}
+                  />
+                  {errors.phone ? (
+                    <span className="text-xs text-[#F45B25]">{errors.phone.message}</span>
+                  ) : null}
+                </div>
               </div>
-              <div className="flex flex-col gap-2">
-                               <input
-                  className="h-12 rounded-lg  border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
-                  placeholder="Email"
-                  type="email"
-                  {...register('email', {
-                    required: 'Email is required',
-                    pattern: { value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, message: 'Enter a valid email' },
-                  })}
-                />
-                {errors.email ? (
-                  <span className="text-xs text-[#F45B25]">{errors.email.message}</span>
-                ) : null}
-              </div>
-              <div className="flex flex-col gap-2">
-                
-                <input
-                  className="h-12 rounded-lg  border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25]"
-                  placeholder="Phone Number"
-                  type="tel"
-                  {...register('phone', { required: 'Phone number is required' })}
-                />
-                {errors.phone ? (
-                  <span className="text-xs text-[#F45B25]">{errors.phone.message}</span>
-                ) : null}
-              </div>
-              <div className="flex flex-col gap-2 sm:col-span-2">
-                
+
+              {/* Message Field */}
+              <div className="flex flex-col gap-2 w-full min-w-0">
                 <textarea
-                  className="min-h-[140px] rounded-lg  border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#F45B25]"
+                  className="min-h-[140px] w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#F45B25]"
                   placeholder="Message"
                   {...register('message', { required: 'Message is required' })}
                 />
@@ -133,7 +186,9 @@ export default function RequestForm() {
                   <span className="text-xs text-[#F45B25]">{errors.message.message}</span>
                 ) : null}
               </div>
-              <div className="sm:col-span-2">
+
+              {/* Submit Button */}
+              <div className="w-full">
                 <button
                   type="submit"
                   className="w-full h-12 rounded-lg bg-[#F45B25] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold"
@@ -145,19 +200,21 @@ export default function RequestForm() {
           </div>
 
           {/* Right Section: FAQs */}
-          <div>
-            <div className="space-y-6">
+          <div ref={faqColRef} className="flex-1 min-w-0">
+            <div className="flex flex-col gap-6 w-full">
               {FAQS.map((item) => (
-                <div key={item.number} className=" border border-white/10 rounded-md overflow-hidden ">
+                <div key={item.number} className="border border-white/10 rounded-md overflow-hidden w-full">
                   <button
                     type="button"
                     onClick={() => toggleFaq(item.number)}
                     className="flex w-full items-center gap-4 text-left hover:bg-white/5 transition-all duration-300"
-                  ><div className='flex gap-3  p-5'>
-                    <span className="text-white text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular">{item.number}</span>
-                    <h3 className=" text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular">{item.question}</h3></div>
+                  >
+                    <div className='flex gap-3 p-5 flex-1 min-w-0'>
+                      <span className="text-white text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular shrink-0">{item.number}</span>
+                      <h3 className="text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular">{item.question}</h3>
+                    </div>
                     <span
-                      className={`ml-auto flex  h-22 w-18 md:h-18 xl:w-18 items-center justify-center  text-3xl ${
+                      className={`flex shrink-0 h-12 w-12 md:h-14 md:w-14 items-center justify-center text-2xl ${
                         openFaq === item.number
                           ? 'bg-[#F45B25] text-white'
                           : 'bg-white/10 text-white/80'

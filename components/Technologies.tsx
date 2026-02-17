@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -81,7 +81,31 @@ const MobileTool = ({ name, icon }: { name: string; icon: string }) => (
 /* ---------- FOOTER ---------- */
 const Footer = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
   const [animationComplete, setAnimationComplete] = useState(false)
+
+  useEffect(() => {
+    if (!headingRef.current) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.05,
+          ease: 'sine.out',
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: 'top 78%',
+            toggleActions: 'play none none none',
+          },
+          clearProps: 'transform',
+        }
+      )
+    }, headingRef.current)
+    return () => ctx.revert()
+  }, [])
 
   const leftTools = [
     { name: 'Adobe Photoshop', icon: '/Ps.png', top: '6%', left: '12%', hoverColor: '#31A8FF' },
@@ -216,13 +240,12 @@ const Footer = () => {
 
       {/* CENTER CONTENT */}
       <div className="relative z-10 min-h-screen flex items-center justify-center ">
-        <div className="text-center w-[90%] lg:w-[50%] px-6">
+        <div ref={headingRef} className="text-center w-[90%] lg:w-[50%] px-6">
           <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
             Modern <span className="text-[#F45B25]">Tools & Technologies</span>
             <br />
             That Power Your Brand
           </h1>
-
           <p className="text-[#ADAECC] text-sm sm:text-base">
             We use industry-leading tools and technologies to build powerful,
             scalable, and visually stunning digital experiences.

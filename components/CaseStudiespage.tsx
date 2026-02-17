@@ -20,7 +20,6 @@ const CaseStudiespage = () => {
       <Navbar />
       <Herobarcase />
       <RecentProjects />
-      
       <WorkTogether />
       <Brandsspec />
       <RequestForm /> 

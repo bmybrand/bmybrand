@@ -133,8 +133,7 @@ const AboutBmy = () => {
           </h2>
 
           <p className="mt-5 text-base sm:text-lg text-white/70">
-            BMYBrand is a creative digital agency dedicated to helping businesses
-            build strong brands and succeed in the digital space.
+            BMYBrand is a creative digital agency dedicated to helping businesses build strong brands and succeed in the digital space. We specialize in branding, website design, e-commerce solutions, and digital marketing — creating experiences that connect brands with their audience and drive meaningful results.
           </p>
           <div className="mt-8 border-t border-white/10 pt-6">
             <div className="flex items-center gap-4">
@@ -156,7 +155,7 @@ const AboutBmy = () => {
         </div>
 
         {/* CENTER FEATURES */}
-        <div className="w-full lg:w-[30%] space-y-5 p-5 h-fit bg-white/5 rounded-xl">
+        <div className="w-full lg:w-[30%] p-5 h-[460px] flex flex-col gap-5 bg-white/5 rounded-xl">
           {[
             'Client-First Mindset',
             'Results-Driven Approach',
@@ -164,7 +163,7 @@ const AboutBmy = () => {
           ].map((title) => (
             <div
               key={title}
-              className="rounded-xl bg-[#21223F] p-5 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
+              className="rounded-xl bg-[#21223F] p-5 flex flex-col justify-center shadow-[0_10px_30px_rgba(0,0,0,0.25)] flex-1"
             >
               <h3 className="BenzinSemibold text-lg">{title}</h3>
               <p className="mt-2 text-sm text-white/70">
@@ -177,7 +176,7 @@ const AboutBmy = () => {
         {/* OVERLAPPING CARDS */}
 <div className="hidden w-full lg:flex lg:w-[30%] items-center justify-center">
   {/* Increased container height to fit full cards stack */}
-  <div className="relative h-[330px] w-full sm:h-100">
+  <div className="relative h-[460px] w-full sm:h-115">
     <div className="relative mx-auto h-full w-[80%] overflow-visible">
       {cards.map((index) => (
         <div
@@ -189,7 +188,7 @@ const AboutBmy = () => {
           style={{ zIndex: cards.length - index }}
         >
           <img
-            src={`https://picsum.photos/300/420?random=${index + 1}`}
+            src={`https://picsum.photos/300/550?random=${index + 1}`}
             alt={`About BMYBrand ${index + 1}`}
             className="h-full w-full object-cover"
           />
@@ -235,9 +234,9 @@ const AboutBmy = () => {
               className="group relative  overflow-hidden rounded-2xl bg-[#1A1B3C] shadow-[0_18px_35px_rgba(0,0,0,0.35)]"
             >
               <img
-                src={`https://picsum.photos/520/420?random=${index + 11}`}
+                src={`https://picsum.photos/520/550?random=${index + 11}`}
                 alt={service.title}
-                className="h-55 lg:h-122 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="h-80 lg:h-[460px] w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
               <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/20 bg-[linear-gradient(0deg,rgba(0,0,0,0.35),rgba(0,0,0,0.08)_55%,rgba(255,255,255,0.10)_100%)] p-4 shadow-[0_12px_28px_rgba(0,0,0,0.45)] backdrop-blur-xl backdrop-saturate-150">

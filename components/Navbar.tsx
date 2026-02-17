@@ -7,6 +7,7 @@ import { useState } from "react";
 const Navbar = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const isFountainHills = pathname === "/case-studies/fountain-hills";
 
   const linkClasses = (path: string) =>
     `block relative py-2 transition
@@ -24,17 +25,20 @@ const Navbar = () => {
      }`;
 
   return (
-    <header className="fixed top-7 left-1/2 -translate-x-1/2 w-[90%] 2xl:w-[85%] z-60 bg-[#21235C]/20 backdrop-blur border-2 border-white/20 rounded-2xl">
+    <header className="fixed top-7 left-1/2 -translate-x-1/2 w-[90%] 2xl:w-[85%] z-[9999] bg-[#FFFFFF]/5 backdrop-blur border-2 border-white/20 rounded-2xl">
       <nav className="mx-auto flex items-center justify-between px-10 py-4">
 
         {/* Logo */}
-        <div className="text-white font-bold text-xl">
-          <img src="/Group (22).svg" alt="Logo" />
-        </div>
+        <Link href="/" className="text-white font-bold text-xl">
+          <img 
+            src="/bmylogo.svg" 
+            alt="Logo" 
+            className={`lg:h-6 xl:h-8 2xl:h-10 mt-1 w-auto cursor-pointer ${isFountainHills ? 'brightness-0 invert' : ''}`}
+          />
+        </Link>
 
         {/* Desktop Links */}
-        <ul className="hidden xl:flex xl:w-[55%] justify-between text-base BenzinSemibold">
-          <li><Link href="/" className={linkClasses("/")}>Home</Link></li>
+        <ul className="hidden xl:flex xl:w-[50%] 2xl:w-[45%] justify-between text-base BenzinSemibold">
           <li><Link href="/about" className={linkClasses("/about")}>About</Link></li>
           <li><Link href="/services" className={linkClasses("/services")}>Services</Link></li>
           <li><Link href="/case-studies" className={linkClasses("/case-studies")}>Case Studies</Link></li>
@@ -45,9 +49,13 @@ const Navbar = () => {
         {/* Desktop CTA */}
         <Link
           href="/contact"
-          className="hidden xl:inline-flex items-center px-6 py-4 bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white rounded-lg text-lg font-medium hover:opacity-90 transition"
+          className={`hidden xl:inline-flex items-center px-6 py-4 rounded-lg text-lg font-medium hover:opacity-90 transition BenzinSemibold ${
+            isFountainHills 
+              ? 'bg-white text-[#100203]' 
+              : 'bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white'
+          }`}
         >
-          Get a Quote
+          Grow My Business
         </Link>
 
         {/* Hamburger */}
@@ -66,9 +74,6 @@ const Navbar = () => {
         `}
       >
         <ul className="flex flex-col gap-4 px-10  text-base BenzinSemibold">
-          <li onClick={() => setOpen(false)}>
-            <Link href="/" className={linkClasses("/")}>Home</Link>
-          </li>
           <li onClick={() => setOpen(false)}>
             <Link href="/about" className={linkClasses("/about")}>About</Link>
           </li>
@@ -89,9 +94,13 @@ const Navbar = () => {
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className="mt-4 inline-flex justify-center items-center px-6 py-4 bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white rounded-lg text-lg font-medium"
+            className={`mt-4 inline-flex justify-center items-center px-6 py-4 rounded-lg text-lg font-medium BenzinSemibold ${
+              isFountainHills 
+                ? 'bg-white text-[#100203]' 
+                : 'bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white'
+            }`}
           >
-            Get a Quote
+            Grow My Business
           </Link>
         </ul>
       </div>
