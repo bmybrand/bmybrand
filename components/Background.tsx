@@ -75,8 +75,8 @@ const Background = () => {
 
           {/* Right Sidebar - What We Did */}
           <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.0, delay: 0.3 }}
             className="lg:col-span-4"
