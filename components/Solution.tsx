@@ -34,7 +34,7 @@ const Solution = () => {
           transition={{ duration: 1.0 }}
           className="mb-16"
         >
-          <h2 className="text-3xl md:text-4xl  text-white BenzinSemibold mb-6">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white BenzinSemibold mb-6">
             The Solution
           </h2>
           <p className="text-white/70 text-base md:text-lg leading-relaxed mb-6 max-w-5xl">
@@ -53,7 +53,7 @@ const Solution = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-16"
         >
-          <h2 className="text-3xl md:text-4xl  text-white BenzinSemibold mb-6">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white BenzinSemibold mb-6">
             The Results
           </h2>
           <p className="text-white/70 text-base md:text-lg leading-relaxed mb-6 max-w-5xl">
@@ -72,7 +72,7 @@ const Solution = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-20"
         >
-          <h2 className="text-3xl md:text-4xl  text-white BenzinSemibold mb-8">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white BenzinSemibold mb-8">
             The Accomplishment
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -80,7 +80,7 @@ const Solution = () => {
               <div key={index} className="flex gap-4">
                 <div className="w-2 h-2 bg-[rgba(191,33,47,1)] rounded-full shrink-0 mt-2"></div>
                 <div>
-                  <h3 className="text-white text-lg md:text-xl BenzinSemibold mb-2">
+                  <h3 className="text-white text-base md:text-lg lg:text-xl BenzinSemibold mb-2">
                     {item.title}
                   </h3>
                   <p className="text-white/70 text-sm md:text-base leading-relaxed">

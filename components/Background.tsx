@@ -39,13 +39,13 @@ const Background = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-12"
             >
-              <h2 className="text-3xl md:text-4xl  text-white BenzinSemibold mb-6">
+              <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white BenzinSemibold mb-6">
                 The Background
               </h2>
-              <p className="text-white/70 text-base md:text-lg leading-relaxed mb-6">
+              <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed mb-6">
                 Fountain Hills Emergency Room and Medical Center serves the local community with 24/7 emergency care, in-house diagnostics, and patient-focused medical services. As a healthcare provider operating in urgent, high-stress situations, their website needed to deliver information clearly, quickly, and with immediate credibility.
               </p>
-              <p className="text-white/70 text-base md:text-lg leading-relaxed">
+              <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed">
                 The team required a modern, responsive platform that could communicate emergency availability, explain services without confusion, and guide patients to critical actions—such as calling, getting directions, or accessing billing and patient resources—without delay.
               </p>
             </motion.div>
@@ -58,16 +58,16 @@ const Background = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-12"
             >
-              <h2 className="text-3xl md:text-4xl  text-white BenzinSemibold mb-6">
+              <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white BenzinSemibold mb-6">
                 The Challenge
               </h2>
-              <p className="text-white/70 text-base md:text-lg leading-relaxed mb-6">
+              <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed mb-6">
                 Fountain Hills Emergency Room and Medical Center operates in a high-stakes healthcare environment where patients need clear information quickly and without confusion. Their digital presence needed to communicate 24/7 emergency availability, medical credibility, and service coverage—all while remaining calm, trustworthy, and easy to navigate.
               </p>
-              <p className="text-white/70 text-base md:text-lg leading-relaxed mb-6">
+              <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed mb-6">
                 Explaining advanced capabilities such as on-site imaging, laboratory services, and emergency care in a simple, non-overwhelming way was critical. At the same time, the website had to guide users toward immediate actions like calling the ER, getting directions, booking appointments, or accessing patient resources—especially during urgent moments.
               </p>
-              <p className="text-white/70 text-base md:text-lg leading-relaxed">
+              <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed">
                 In short, the challenge was to transform complex healthcare information into a clear, patient-first digital experience that builds trust instantly, reduces stress, and supports fast, confident decision-making across all devices.
               </p>
             </motion.div>

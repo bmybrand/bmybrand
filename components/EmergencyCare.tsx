@@ -63,7 +63,7 @@ const EmergencyCare = () => {
           </div>
 
           {/* Main Title */}
-          <h1 className="text-3xl md:text-4xl lg:text-5xl  text-white BenzinSemibold leading-tight mb-12">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold leading-tight mb-12">
             Building a Patient-First Digital<br />
             Experience for 24/7 Emergency Care
           </h1>
@@ -89,7 +89,7 @@ const EmergencyCare = () => {
               <p className="text-white/60 text-sm mb-2">Check it out</p>
               <a 
                 href="#" 
-                className="text-white text-xl md:text-2xl BenzinSemibold hover:text-[#F45B25] transition-colors inline-flex items-center gap-2"
+                className="text-white text-xl md:text-2xl BenzinSemibold hover:text-[#BF212F] transition-colors inline-flex items-center gap-2"
               >
                 Visit Website
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

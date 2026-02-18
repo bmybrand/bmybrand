@@ -13,7 +13,7 @@ export default function FountainHillsDetail() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] ">
+    <div className="min-h-screen bg-[#0D0D0D] overflow-x-hidden ">
       <Navbar />
       <EmergencyCare />
       <Background />

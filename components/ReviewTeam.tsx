@@ -13,6 +13,7 @@ type Review = {
 
 const ReviewTeam = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const reviews: Review[] = [
     {
@@ -40,10 +41,12 @@ const ReviewTeam = () => {
 
   const nextReview = () => {
     setCurrentIndex((prev) => (prev + 1) % reviews.length)
+    setIsExpanded(false)
   }
 
   const prevReview = () => {
     setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length)
+    setIsExpanded(false)
   }
 
   return (
@@ -58,7 +61,7 @@ const ReviewTeam = () => {
           viewport={{ once: true }}
           transition={{ duration: 1.0 }}
             >
-              <h2 className="text-3xl md:text-4xl  text-white BenzinSemibold mb-6 leading-tight">
+              <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white BenzinSemibold mb-6 leading-tight">
                 REVIEWS FROM<br />
                 FHMCAZ TEAM
               </h2>
@@ -70,7 +73,7 @@ const ReviewTeam = () => {
               <div className="flex gap-3">
                 <button
                   onClick={prevReview}
-                  className="w-12 h-12 rounded-full border-2 border-white/20 hover:border-[#F45B25] hover:bg-[#F45B25]/10 flex items-center justify-center text-white transition-all duration-300"
+                  className="w-12 h-12 rounded-full border-2 border-white/20 hover:border-[#BF212F] hover:bg-[#BF212F]/10 flex items-center justify-center text-white transition-all duration-300"
                   aria-label="Previous review"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +82,7 @@ const ReviewTeam = () => {
                 </button>
                 <button
                   onClick={nextReview}
-                  className="w-12 h-12 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] hover:shadow-[0_0_20px_rgba(244,91,37,0.5)] flex items-center justify-center text-white transition-all duration-300"
+                  className="w-12 h-12 rounded-full bg-[#BF212F] hover:shadow-[0_0_20px_rgba(191,33,47,0.5)] flex items-center justify-center text-white transition-all duration-300"
                   aria-label="Next review"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,34 +105,39 @@ const ReviewTeam = () => {
                 className="bg-[#1B1B1B] rounded-2xl p-8 md:p-10 relative min-h-[400px] md:min-h-[380px] lg:min-h-[350px] flex flex-col justify-between"
               >
                 {/* Decorative gradient */}
-                <div className="absolute top-0 right-0 w-48 h-48 bg-[#F45B25]/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 right-0 w-48 h-48 bg-[#BF212F]/10 rounded-full blur-3xl"></div>
 
-                <div className="relative z-10 flex flex-col md:flex-row gap-6">
-                  {/* Profile Image */}
-                  <div className="flex-shrink-0">
-                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden bg-gradient-to-br from-[#F45B25] to-[#FF843E] p-1">
+                <div className="relative z-10 flex flex-col md:flex-row gap-4">
+                  {/* Profile Image and Name */}
+                  <div className="flex flex-col items-center md:items-start w-full md:w-[30%]">
+                    <div className="lg:w-full w-48 h-32 md:h-40 rounded-2xl overflow-hidden border-4 border-[#BF212F] mb-4">
                       <img
                         src={reviews[currentIndex].image}
                         alt={reviews[currentIndex].name}
-                        className="w-full h-full object-cover rounded-xl"
+                        className="w-full h-full object-cover"
                       />
                     </div>
+                    <h3 className="text-white text-lg md:text-xl lg:text-2xl BenzinSemibold mb-1">
+                      {reviews[currentIndex].name}
+                    </h3>
+                    <p className="text-white/60 text-sm md:text-base">
+                      {reviews[currentIndex].position}
+                    </p>
                   </div>
 
                   {/* Content */}
-                  <div className="flex-1">
-                    <div className="mb-4">
-                      <h3 className="text-white text-xl md:text-2xl BenzinSemibold mb-1">
-                        {reviews[currentIndex].name}
-                      </h3>
-                      <p className="text-white/60 text-sm md:text-base">
-                        {reviews[currentIndex].position}
+                  <div className="flex flex-col px-4 border-l-2 border-[#3A2426] w-full md:w-[70%]">
+                    <div className={`${isExpanded ? 'max-h-none overflow-auto' : 'max-h-24 overflow-hidden'} md:max-h-none transition-all duration-300`}>
+                      <p className="text-white/80 text-sm md:text-base lg:text-lg leading-relaxed">
+                        {reviews[currentIndex].testimonial}
                       </p>
                     </div>
-
-                    <p className="text-white/80 text-base md:text-lg leading-relaxed">
-                      {reviews[currentIndex].testimonial}
-                    </p>
+                    <button
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      className="md:hidden text-[#BF212F] text-sm mt-2 hover:underline self-start"
+                    >
+                      {isExpanded ? 'Read Less' : 'Read More'}
+                    </button>
                   </div>
                 </div>
 
@@ -141,7 +149,7 @@ const ReviewTeam = () => {
                       onClick={() => setCurrentIndex(index)}
                       className={`h-2 rounded-full transition-all duration-300 ${
                         index === currentIndex
-                          ? 'w-8 bg-gradient-to-r from-[#F45B25] to-[#FF843E]'
+                          ? 'w-8 bg-[#BF212F]'
                           : 'w-2 bg-white/20 hover:bg-white/40'
                       }`}
                       aria-label={`Go to review ${index + 1}`}

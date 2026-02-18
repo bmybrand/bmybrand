@@ -28,7 +28,7 @@ const FHFooter = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-5xl md:text-7xl lg:text-6xl xl:text-9xl text-white BenzinSemibold mb-12 leading-tight"
+          className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-9xl text-white BenzinSemibold mb-12 leading-tight"
         >
           Let's Talk About<br />
           Your Project
