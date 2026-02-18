@@ -183,7 +183,7 @@ const DesignedGrow = () => {
     >
       {/* Checked box */}
       <div className="w-5 h-5 flex items-center justify-center
-                      rounded bg-[rgba(191,33,47,1)] text-white text-sm font-bold">
+                      rounded bg-[#F45B25] text-white text-sm font-bold">
         ✓
       </div>
       <span className="text-[#ADAECC] text-sm">
