@@ -9,11 +9,21 @@ export default function AIDrivenHero() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20  overflow-hidden">
+      <section className="relative pt-40 pb-20  overflow-hidden">
+        
         <div className="absolute inset-0 bg-linear-to-br" />
         <div className="w-[90%] 2xl:w-[75%] mx-auto relative z-10">
-
+        <button
+            onClick={() => router.push('/services')}
+            className="text-white/60 hover:text-white mb-8 flex items-center gap-2 transition-colors  "
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Services
+          </button>
           <div className="mb-4 flex items-center gap-2">
+            
             <span className="text-[#F45B25] text-sm tracking-wider uppercase BenzinSemibold">AI-SOLUTIONS</span>
             <div className="h-[2px] w-16 bg-[#F45B25]/30"></div>
           </div>
@@ -41,7 +51,7 @@ export default function AIDrivenHero() {
               { icon: '☑', text: 'Automated Report Gen' }
             ].map((item, index) => (
               <div key={index} className="flex items-center gap-3">
-                <div className="w-5 h-5 bg-[rgba(191,33,47,1)] rounded flex items-center justify-center shrink-0">
+                <div className="w-5 h-5 bg-[#F45B25] rounded flex items-center justify-center shrink-0">
                   <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>

@@ -166,7 +166,7 @@ export default function ServicesDetail() {
                       key={itemIndex}
                       className="flex items-center gap-2"
                     >
-                      <div className="w-5 h-5 bg-[rgba(191,33,47,1)] rounded flex items-center justify-center shrink-0">
+                      <div className="w-5 h-5 bg-[#F45B25] rounded flex items-center justify-center shrink-0">
                         <svg
                           className="w-3 h-3 text-white"
                           fill="none"
