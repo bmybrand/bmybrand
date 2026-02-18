@@ -47,7 +47,7 @@ const ReviewTeam = () => {
   }
 
   return (
-    <section className="bg-[#100203] py-16 md:py-20">
+    <section className="bg-[#0D0D0D] py-16 md:py-20">
       <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Side - Title and Navigation */}
@@ -99,7 +99,7 @@ const ReviewTeam = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.8 }}
-                className="bg-[#1C0F10] rounded-2xl p-8 md:p-10 relative min-h-[400px] md:min-h-[380px] lg:min-h-[350px] flex flex-col justify-between"
+                className="bg-[#1B1B1B] rounded-2xl p-8 md:p-10 relative min-h-[400px] md:min-h-[380px] lg:min-h-[350px] flex flex-col justify-between"
               >
                 {/* Decorative gradient */}
                 <div className="absolute top-0 right-0 w-48 h-48 bg-[#F45B25]/10 rounded-full blur-3xl"></div>

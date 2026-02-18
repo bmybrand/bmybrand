@@ -67,7 +67,7 @@ const projects = [
     buttonText: "View Full Case Study",
     src: "water.jpg",
     link: "/jiggy.svg",
-    logo: "/Jiggylogo.svg",
+    logo: "/jiggylogo.svg",
     gradient: "linear-gradient(180deg, #4A3A1A 0%, #1F1808 100%)",
     buttonColor: "#F59E0B",
     buttonIcon: "/arrowyellow.svg",

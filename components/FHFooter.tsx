@@ -51,22 +51,22 @@ const FHFooter = () => {
       </div>
 
       {/* Footer Bottom */}
-      <div className="relative border-t border-white/10 bg-black/20 backdrop-blur-sm">
+      <div className="relative border-t border-white/10 bg-[#242424]">
         <div className="w-[90%] lg:w-[90%] 2xl:w-[85%] mx-auto py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <img src="/bmylogo.svg" alt="BMYBrand Logo" className="h-8" />
+              <img src="/bmylogo.svg" alt="BMYBrand Logo" className="h-8 brightness-0 invert" />
             </div>
 
             {/* Copyright and Links */}
-            <div className="flex flex-wrap items-center justify-center gap-1 text-xs text-white/50">
+            <div className="flex flex-wrap items-center justify-center gap-1 text-xs text-white">
               <span>Copyright © 2026 BMYBrand | All Rights Reserved.</span>
-              <a href="#" className="text-[#F45B25] hover:underline">Terms of Use</a>
-              <span>|</span>
-              <a href="#" className="text-[#F45B25] hover:underline">Privacy Policy</a>
-              <span>|</span>
-              <a href="#" className="text-[#F45B25] hover:underline">Cookie Policy</a>
+              <a href="#" className="text-white hover:underline"> Terms of Use </a>
+              <span> | </span>
+              <a href="#" className="text-white hover:underline"> Privacy Policy </a>
+              <span> | </span>
+              <a href="#" className="text-white hover:underline"> Cookie Policy </a>
             </div>
           </div>
         </div>

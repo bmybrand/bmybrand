@@ -24,7 +24,7 @@ const Solution = () => {
   ]
 
   return (
-    <section className="bg-[#100203] py-16 md:py-20">
+    <section className="bg-[#0D0D0D] py-16 md:py-20">
       <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto">
         {/* The Solution */}
         <motion.div
@@ -97,7 +97,7 @@ const Solution = () => {
       </div>
       <div>
           {/* Monitor/Desktop Display */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+          <div className="bg-[#BF212F] border border-[#d42f3d]  p-4">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <img src="/BackgroundFh.svg" alt="Website Pages" className="w-full h-full object-cover" />
             </div>
