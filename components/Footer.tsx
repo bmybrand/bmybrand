@@ -140,9 +140,9 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Middle: Reviewed on platforms */}
-        <div className="flex flex-wrap items-center justify-between py-8 border-y border-white/10">
+        <div className="flex flex-wrap items-center lg:justify-between justify-center gap-6 sm:gap-4 py-8 border-y border-white/10">
           {REVIEW_PLATFORMS.map((platform) => (
-            <div key={platform.name} className="flex flex-col items-center gap-2">
+            <div key={platform.name} className="flex flex-col items-center gap-2 min-w-[80px]">
               <img
                 src={platform.logo}
                 alt={platform.name}

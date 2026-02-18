@@ -65,7 +65,7 @@ const DesignedGrow = () => {
       )
         .fromTo(
           leftItems,
-          { opacity: 0, x: -48 },
+          { opacity: 0, x: -24 },
           {
             opacity: 1,
             x: 0,
@@ -78,7 +78,7 @@ const DesignedGrow = () => {
         )
         .fromTo(
           rightColRef.current,
-          { opacity: 0, x: 40 },
+          { opacity: 0, x: 24 },
           {
             opacity: 1,
             x: 0,
@@ -107,7 +107,7 @@ const DesignedGrow = () => {
   }, [])
 
   return (
-    <div ref={sectionRef} className="flex flex-col items-center mb-30 ">
+    <div ref={sectionRef} className="flex flex-col items-center mb-30 overflow-hidden w-full">
       {/* Heading */}
       <div ref={headingRef} className="w-full flex flex-col justify-center items-center mt-30 ">
         <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
@@ -119,13 +119,14 @@ const DesignedGrow = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row w-[90%] 2xl:w-[75%] gap-12 mt-12">
+      <div className="flex flex-col lg:flex-row w-[90%] 2xl:w-[75%] gap-12 mt-12 overflow-x-hidden max-w-full">
         {/* LEFT - Text (items slide in from left) */}
-        <div ref={leftColRef} className="flex flex-col justify-center lg:w-1/2 gap-6 text-white">
+        <div ref={leftColRef} className="flex flex-col justify-center lg:w-1/2 gap-6 text-white w-full min-w-0">
           {items.map((item, index) => (
             <div
               key={index}
               onMouseEnter={() => setActiveIndex(index)}
+              onClick={() => setActiveIndex(index)}
               className={`relative overflow-hidden cursor-pointer transition-all duration-300 ${
                 activeIndex === index ? 'border-l-4 border-[#F45B25]' : 'border-l-2 border-[#F45B25]'
               }`}
@@ -150,7 +151,7 @@ const DesignedGrow = () => {
         </div>
 
         {/* RIGHT - Image (slides in from right) */}
-        <div ref={rightColRef} className="flex flex-col gap-6 lg:w-1/2 justify-center items-center relative">
+        <div ref={rightColRef} className="flex flex-col gap-6 lg:w-1/2 justify-center items-center relative w-full min-w-0">
           {items.map((item, index) => (
             <img
               key={index}
@@ -171,7 +172,7 @@ const DesignedGrow = () => {
       {/* Checklist */}
       <div
         ref={checklistRef}
-        className="flex flex-wrap justify-center gap-y-4 w-[90%] 2xl:w-[70%] mt-10"
+        className="flex flex-wrap justify-center gap-y-4 w-[90%] 2xl:w-[70%] mt-10 max-w-full"
       >
   {checklist.map((point, index) => (
     <div
