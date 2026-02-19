@@ -1,78 +1,14 @@
-"use client";
+'use client'
 
-import React, { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import React from 'react'
 
 const AddBlock = () => {
-  const blockRef = useRef<HTMLDivElement>(null);
-  const textSectionRef = useRef<HTMLDivElement>(null);
-  const imageWrapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!blockRef.current || !textSectionRef.current || !imageWrapRef.current) return;
-
-    const ctx = gsap.context(() => {
-      if (!textSectionRef.current) return;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: blockRef.current,
-          start: "top 72%",
-          toggleActions: "play none none none",
-        },
-      });
-
-      tl.to(blockRef.current, {
-          opacity: 1,
-          duration: 0.6,
-          ease: "sine.out",
-        })
-        .fromTo(
-          textSectionRef.current,
-          { opacity: 0, x: -32 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 1.0,
-            ease: "sine.out",
-            clearProps: "transform",
-          },
-          "-=0.3"
-        )
-        .fromTo(
-          imageWrapRef.current,
-          { opacity: 0, scale: 0.92, x: -80 },
-          {
-            opacity: 1,
-            scale: 1,
-            x: 0,
-            duration: 1.2,
-            ease: "sine.out",
-            clearProps: "transform",
-          },
-          "-=0.75"
-        );
-    }, blockRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div className="w-full flex flex-col items-center">
-      <div
-        ref={blockRef}
-        className="relative flex flex-col lg:flex-row bg-[#191a35] w-[90%] 2xl:w-[75%] mt-10 lg:mt-50 rounded-lg overflow-visible opacity-0
-                   lg:items-start text-center lg:text-left mb-10 "
-      >
-        {/* TEXT SECTION */}
-        <div
-          ref={textSectionRef}
-          className="flex flex-col justify-center gap-5 p-6 md:p-10 lg:p-14 xl:p-16 w-full lg:w-2/3 z-20"
-        >
-          <h2 className="text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl BenzinSemibold">
+    <section className='bg-[#11122F] py-20'>
+      <div className='mx-auto w-[90%] 2xl:w-[75%] h-fit rounded-xl relative '>
+        <img src="/ChatGPT.svg" alt="Rocket" className='absolute bottom-0 right-0 w-40 md:w-48 lg:w-[40%] lg:block hidden h-full z-20 object-contain lg:scale-110 xl:scale-120 2xl:scale-150 animate-bounceRocket -rotate-5' />
+        <div className='w-full lg:w-[90%] h-full bg-[#191A35] rounded-xl px-6 md:px-8 py-8 lg:py-20 flex flex-col justify-center gap-4'>
+          <h2 className='text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl BenzinSemibold w-full lg:w-3/5 leading-tight text-center lg:text-left'>
             Boost Your Brand <br /> Beyond the Competition
           </h2>
 
@@ -83,26 +19,12 @@ const AddBlock = () => {
             <span className="px-2">Try BMYBrand FREE for 14 Days</span>
           </button>
 
-          <p className="text-white/80 text-sm md:text-base">
+          <p className='text-white/70 text-sm md:text-base w-full lg:w-3/5 text-center lg:text-left'>
             Get started instantly. No credit card needed.
           </p>
         </div>
-
-        {/* IMAGE */}
-        <div className="relative w-full lg:w-1/3 flex justify-center lg:justify-end">
-          <div ref={imageWrapRef} className="hidden lg:block">
-            <img
-              src="/ChatGPT.svg"
-              alt="Rocket"
-              className="object-contain scale-150 animate-bounceRocket -rotate-5 w-full h-full"
-            />
-          </div>
-        </div>
       </div>
-
-      {/* HR */}
-      <hr className="w-[90%] 2xl:w-[75%] h-1.25 bg-[#2A2B47] rounded-full  my-10 lg:my-30 border-none" />
-    </div>
+    </section>
   );
 };
 

@@ -15,6 +15,7 @@ import CreativeProcess from '@/components/CreativeProcess';
 import Brandsspec from '@/components/Brandsspec';
 import RequestForm from '@/components/RequestForm';
 import Map from '@/components/Map';
+import Evaluate from '@/components/evaluate';
 
 // Map component temporarily disabled to avoid conflicts with horizontal scroll
 // const Map = dynamic(() => import('@/components/Map'), { ssr: false });
@@ -42,6 +43,7 @@ export default function Home() {
       <Technologies />
       <CreativeProcess />
       <Brandsspec />
+      <Evaluate />
       <RequestForm />
       <div ref={footerRef}>
   <Footer />
