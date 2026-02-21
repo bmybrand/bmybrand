@@ -8,7 +8,7 @@ export default function AISolutions() {
       {/* AI Solutions Section */}
       <section className="py-20 ">
         <div className="w-[90%] 2xl:w-[75%] mx-auto">
-          <h2 className="text-4xl md:text-5xl text-white BenzinSemibold mb-12 text-center">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold mb-12 text-center">
             Our AI Solutions, End-to-End
           </h2>
 
@@ -35,7 +35,7 @@ export default function AISolutions() {
                 className=" rounded-lg p-8 border border-white/10 hover:border-[#F45B25]/30 transition-all duration-300"
               >
                 <div className="text-6xl mb-6 text-[#F45B25]"><img src={solution.icon} alt="" /></div>
-                <h3 className="text-2xl text-white BenzinSemibold mb-6 whitespace-pre-line">
+                <h3 className="text-lg md:text-xl lg:text-2xl text-white BenzinSemibold mb-6 whitespace-pre-line">
                   {solution.title}
                 </h3>
                 <hr className="border-white/10 my-4" />
@@ -58,7 +58,7 @@ export default function AISolutions() {
       {/* Process Section */}
       <section className="pb-20 ">
         <div className="w-[90%] 2xl:w-[75%] mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl text-white BenzinSemibold mb-16 text-center">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-white BenzinSemibold mb-16 text-center">
             A Clear Process for<br />Delivering AI That Performs
           </h2>
 
@@ -108,7 +108,7 @@ export default function AISolutions() {
 
           {/* CTA */} 
           <div className="text-center w-full flex justify-center">
-            <p className="text-white/70 text-lg  bg-[#202141] border-2 border-[#2A2B47] rounded-full py-3 px-5 w-fit text-center flex items-center gap-2">
+            <p className="text-white/70 text-sm md:text-base lg:text-lg bg-[#202141] border-2 border-[#2A2B47] rounded-full py-3 px-5 w-fit text-center flex items-center gap-2">
               Ready to build smarter systems with AI?{' '}
               <button className="text-[#F45B25] hover:text-[#FF843E] hover:-translate-y-0.5 transition-all duration-300 BenzinSemibold inline-flex items-center gap-2">
                 → LET'S TALK

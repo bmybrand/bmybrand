@@ -81,7 +81,7 @@ export default function AIFaq() {
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Left - Heading */}
           <div className="lg:col-span-1">
-            <h2 className="text-white text-3xl md:text-4xl lg:text-5xl BenzinBold leading-tight">
+            <h2 className="text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl BenzinBold leading-tight">
               Frequently Asked Questions
             </h2>
           </div>
@@ -97,7 +97,7 @@ export default function AIFaq() {
                   onClick={() => toggleFaq(index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-all duration-300"
                 >
-                  <span className="text-white text-lg md:text-xl BenzinSemibold pr-8">
+                  <span className="text-white text-base md:text-lg lg:text-xl BenzinSemibold pr-8">
                     {faq.question}
                   </span>
                   <motion.div
@@ -129,7 +129,7 @@ export default function AIFaq() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <div className="px-6 pb-5 text-white/70 BenzinRegular text-base md:text-lg leading-relaxed">
+                      <div className="px-6 pb-5 text-white/70 BenzinRegular text-sm md:text-base lg:text-lg leading-relaxed">
                         {faq.answer}
                       </div>
                     </motion.div>
@@ -147,7 +147,7 @@ export default function AIFaq() {
           onMouseLeave={() => setIsLogoBarHovered(false)}
         >
           <div className="flex justify-center mb-[-20px] relative z-10">
-            <h3 className={`text-lg md:text-xl BenzinSemibold px-6 py-3 rounded-lg border border-white/20 bg-[#11122F] inline-block transition-colors duration-300 ${isLogoBarHovered ? 'text-[#F45B25]' : 'text-white'}`}>
+            <h3 className={`text-base md:text-lg lg:text-xl BenzinSemibold px-6 py-3 rounded-lg border border-white/20 bg-[#11122F] inline-block transition-colors duration-300 ${isLogoBarHovered ? 'text-[#F45B25]' : 'text-white'}`}>
               Our Globally 20K+ Clients.
             </h3>
           </div>

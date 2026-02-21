@@ -9,30 +9,21 @@ export default function AIDrivenHero() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20  overflow-hidden">
+      <section className="relative lg:pt-50 pt-40 pb-20  overflow-hidden">
         
         <div className="absolute inset-0 bg-linear-to-br" />
         <div className="w-[90%] 2xl:w-[75%] mx-auto relative z-10">
-        <button
-            onClick={() => router.push('/services')}
-            className="text-white/60 hover:text-white mb-8 flex items-center gap-2 transition-colors  "
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Services
-          </button>
           <div className="mb-4 flex items-center gap-2">
             
             <span className="text-[#F45B25] text-sm tracking-wider uppercase BenzinSemibold">AI-SOLUTIONS</span>
             <div className="h-[2px] w-16 bg-[#F45B25]/30"></div>
           </div>
 
-          <h1 className="text-6xl md:text-7xl lg:text-8xl text-white BenzinSemibold mb-8 leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white BenzinSemibold mb-8 leading-tight">
             AI-Driven<br />Solutions
           </h1>
 
-          <p className="text-base md:text-lg text-white/70 mb-12  leading-relaxed">
+          <p className="text-sm md:text-base lg:text-lg text-white/70 mb-12 leading-relaxed">
             We help businesses work smarter by integrating AI into everyday operations. From automation and intelligent analytics to advanced 
             system integrations, our AI-driven solutions are designed to reduce manual effort, improve accuracy, and speed up decision-making. Every 
             solution is tailored to your workflows—optimizing resources, saving costs today and scalability for the future.
@@ -81,17 +72,17 @@ export default function AIDrivenHero() {
       {/* Service Overview */}
       <section className="py-20 ">
         <div className="w-[90%] 2xl:w-[75%] mx-auto">
-          <h2 className="text-4xl md:text-5xl text-white BenzinSemibold mb-12">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold mb-12">
             Service Overview
           </h2>
           
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
-              <p className="text-white/60 text-base leading-relaxed mb-12">
+              <p className="text-white/60 text-sm md:text-base leading-relaxed mb-12">
                 AI-Driven Solutions focus on integrating intelligent systems into your business to automate processes, improve decision-making, and unlock new growth opportunities. From smart automation and AI assistants to advanced integrations and personalization, our solutions are designed to work seamlessly within your operations while scaling with your business needs.
               </p>
               
-              <h3 className="text-3xl md:text-4xl text-[#F45B25] BenzinSemibold mb-8">
+              <h3 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#F45B25] BenzinSemibold mb-8">
                 Where AI Creates Business Impact
               </h3>
               
@@ -128,7 +119,7 @@ export default function AIDrivenHero() {
                       {item.number}
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-lg text-white BenzinSemibold mb-2">{item.title}</h4>
+                      <h4 className="text-base md:text-lg text-white BenzinSemibold mb-2">{item.title}</h4>
                       <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
