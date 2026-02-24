@@ -105,7 +105,8 @@ export default function RequestForm() {
   const onSubmit = async (data: FormValues) => {
     setSubmitStatus('loading');
     try {
-      const { error } = await createClient().from('requestform').insert({
+      const client = createClient();
+      const { error } = await client.from('requestform').insert({
         'first name': data.firstName,
         'last name': data.lastName,
         email: data.email,
@@ -114,12 +115,14 @@ export default function RequestForm() {
         accesspage: pathname ?? '',
       });
       if (error) {
+        console.error('[RequestForm] Supabase error:', error.message, error.details);
         setSubmitStatus('error');
         return;
       }
       setSubmitStatus('success');
       reset();
-    } catch {
+    } catch (err) {
+      console.error('[RequestForm] Submit failed:', err);
       setSubmitStatus('error');
     }
   };
