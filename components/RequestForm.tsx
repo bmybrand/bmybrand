@@ -104,20 +104,24 @@ export default function RequestForm() {
 
   const onSubmit = async (data: FormValues) => {
     setSubmitStatus('loading');
-    const { error } = await createClient().from('requestform').insert({
-      'first name': data.firstName,
-      'last name': data.lastName,
-      email: data.email,
-      phonenumber: data.phone,
-      message: data.message,
-      accesspage: pathname ?? '',
-    });
-    if (error) {
+    try {
+      const { error } = await createClient().from('requestform').insert({
+        'first name': data.firstName,
+        'last name': data.lastName,
+        email: data.email,
+        phonenumber: data.phone,
+        message: data.message,
+        accesspage: pathname ?? '',
+      });
+      if (error) {
+        setSubmitStatus('error');
+        return;
+      }
+      setSubmitStatus('success');
+      reset();
+    } catch {
       setSubmitStatus('error');
-      return;
     }
-    setSubmitStatus('success');
-    reset();
   };
 
   return (
