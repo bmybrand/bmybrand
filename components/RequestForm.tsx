@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import { createClient } from '@/lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,7 +52,9 @@ const FAQS: FaqItem[] = [
 ];
 
 export default function RequestForm() {
+  const pathname = usePathname();
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const formColRef = useRef<HTMLDivElement>(null);
@@ -98,8 +102,21 @@ export default function RequestForm() {
     setOpenFaq((prev) => (prev === number ? null : number));
   };
 
-  const onSubmit = (data: FormValues) => {
-    console.log('RequestForm submission:', data);
+  const onSubmit = async (data: FormValues) => {
+    setSubmitStatus('loading');
+    const { error } = await createClient().from('requestform').insert({
+      'first name': data.firstName,
+      'last name': data.lastName,
+      email: data.email,
+      phonenumber: data.phone,
+      message: data.message,
+      accesspage: pathname ?? '',
+    });
+    if (error) {
+      setSubmitStatus('error');
+      return;
+    }
+    setSubmitStatus('success');
     reset();
   };
 
@@ -155,7 +172,7 @@ export default function RequestForm() {
                     type="email"
                     {...register('email', {
                       required: 'Email is required',
-                      pattern: { value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, message: 'Enter a valid email' },
+                      pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Enter a valid email' },
                     })}
                   />
                   {errors.email ? (
@@ -189,11 +206,18 @@ export default function RequestForm() {
 
               {/* Submit Button */}
               <div className="w-full">
+                {submitStatus === 'error' && (
+                  <p className="text-center text-sm text-[#F45B25] mb-2">Something went wrong. Please try again.</p>
+                )}
+                {submitStatus === 'success' && (
+                  <p className="text-center text-sm text-[#22c55e] mb-2">Request sent! We&apos;ll get back to you soon.</p>
+                )}
                 <button
                   type="submit"
-                  className="w-full h-12 rounded-lg bg-[#F45B25] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold"
+                  disabled={submitStatus === 'loading'}
+                  className="w-full h-12 rounded-lg bg-[#F45B25] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
-                  Request a Quote
+                  {submitStatus === 'loading' ? 'Sending...' : 'Request a Quote'}
                 </button>
               </div>
             </form>
