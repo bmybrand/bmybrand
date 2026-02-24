@@ -166,7 +166,7 @@ const MegaMenu = ({
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`rounded-2xl bg-[#FFFFFF]/5 border-2 border-white/20 shadow-xl ${isCompany ? "w-[min(90vw,44rem)]" : hasTwoColumnLayout ? "w-[min(90vw,50rem)]" : isIndustries ? "w-[min(90vw,22rem)]" : "w-[min(90vw,42rem)]"}`}
+      className={`rounded-2xl bg-[#FFFFFF]/5 border-2 border-white/20 shadow-xl ${isCompany ? "w-[min(90vw,44rem)]" : isServices ? "w-[min(90vw,53rem)]" : hasTwoColumnLayout ? "w-[min(90vw,50rem)]" : isIndustries ? "w-[min(90vw,22rem)]" : "w-[min(90vw,42rem)]"}`}
       style={{ WebkitBackdropFilter: "blur(24px)", backdropFilter: "blur(24px)" }}
       onMouseLeave={onClose}
     >
@@ -182,7 +182,7 @@ const MegaMenu = ({
               />
             </div>
             <div>
-              <Link href="#" className="text-white text-lg font-semibold hover:text-[#F45B25] transition-colors flex items-center gap-2 BenzinSemibold">
+              <Link href="#" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
                 View Open Positions
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -195,7 +195,7 @@ const MegaMenu = ({
 
         {/* Services: Left section with image + Explore All Services */}
         {isServices && (
-          <div className="lg:w-2/5 p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col ">
+          <div className="lg:w-[45%] p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col ">
             <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60">
               <img
                 src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop"
@@ -204,7 +204,7 @@ const MegaMenu = ({
               />
             </div>
             <div>
-              <Link href="/services" className="text-white text-lg font-semibold hover:text-[#F45B25] transition-colors flex items-center gap-2 BenzinSemibold">
+              <Link href="/services" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
                 Explore All Services
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -216,7 +216,7 @@ const MegaMenu = ({
         )}
 
         {/* Right section - Menu items */}
-        <div className={`${isCompany ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-3/5" : "lg:w-1/2"}` : ""}`}>
+        <div className={`${isCompany ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-[55%]" : "lg:w-1/2"}` : ""}`}>
           <div className={hasTwoColumnLayout ? "flex flex-col justify-between flex-1 min-h-0" : isIndustries ? "flex flex-col gap-1" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
             {(type === "company" ? companyMenuItems : type === "services" ? servicesMenuItems : type === "industries" ? industriesMenuItems : resourcesMenuItems).map(
               (item: { title: string; href: string; desc: string; icon?: React.ReactNode }, idx: number
@@ -224,7 +224,7 @@ const MegaMenu = ({
               <Link
                 key={idx}
                 href={item.href}
-                className={`flex rounded-xl transition-colors group ${hasTwoColumnLayout ? "gap-4 min-w-0 py-1.5 px-3" : isIndustries ? "gap-3 py-2 px-2 min-w-0" : "gap-4 p-4"}`}
+                className={`flex rounded-xl transition-colors group hover:bg-white/10 ${hasTwoColumnLayout ? "gap-4 min-w-0 py-1.5 px-3" : isIndustries ? "gap-3 py-2 px-2 min-w-0" : "gap-4 p-4"}`}
               >
                 {"icon" in item && item.icon && (
                   <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white shrink-0 group-hover:text-[#F45B25] transition-colors">
@@ -243,13 +243,15 @@ const MegaMenu = ({
     </motion.div>
   );
 
+  const pos = style as { top?: string; left?: string; transform?: string } | undefined;
   return typeof document !== "undefined"
     ? createPortal(
         <div
-          className="fixed -translate-x-1/2 z-[10000]"
+          className="fixed z-[10000]"
           style={{
-            top: style?.top ?? "5.5rem",
-            left: style?.left ?? "50%",
+            top: pos?.top ?? "5.5rem",
+            left: pos?.left ?? "50%",
+            transform: pos?.transform ?? "translateX(-50%)",
           }}
         >
           {menuContent}
@@ -262,8 +264,9 @@ const MegaMenu = ({
 const Navbar = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<"services" | "industries" | "company" | "resources" | null>(null);
   const [megaMenuOpen, setMegaMenuOpen] = useState<"services" | "industries" | "company" | "resources" | null>(null);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: "5.5rem", left: "50%" });
+  const [dropdownPosition, setDropdownPosition] = useState({ top: "5.5rem", left: "50%", transform: "translateX(-50%)" });
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tabRefs = useRef<Record<string, HTMLLIElement | null>>({
     services: null,
@@ -277,10 +280,16 @@ const Navbar = () => {
     const el = tabRefs.current[type];
     if (el) {
       const rect = el.getBoundingClientRect();
-      setDropdownPosition({
-        top: `${rect.bottom + 16}px`,
-        left: `${rect.left + rect.width / 2}px`,
-      });
+      const padding = 16;
+      if (type === "services") {
+        setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.left}px`, transform: "none" });
+      } else if (type === "industries") {
+        setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.left}px`, transform: "none" });
+      } else if (type === "company") {
+        setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.left + rect.width / 2}px`, transform: "translateX(-50%)" });
+      } else {
+        setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.right}px`, transform: "translateX(-100%)" });
+      }
     }
   };
 
@@ -320,7 +329,7 @@ const Navbar = () => {
           <img
             src="/bmylogo.svg"
             alt="Logo"
-            className={`lg:h-6 xl:h-8 2xl:h-10 mt-1 w-auto cursor-pointer ${isFountainHills ? "brightness-0 invert" : ""}`}
+            className={`h-7 sm:h-8 lg:h-8 xl:h-8 2xl:h-10 mt-1 w-auto cursor-pointer ${isFountainHills ? "brightness-0 invert" : ""}`}
           />
         </Link>
 
@@ -384,32 +393,136 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`xl:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-125 opacity-100 py-5" : "max-h-0 opacity-0"}`}>
-        <ul className="flex flex-col gap-4 px-10 text-base BenzinSemibold">
-          <li onClick={() => setOpen(false)}>
-            <Link href="/services" className={linkClasses("/services")}>Services</Link>
+      <div className={`xl:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-[80vh] opacity-100 py-4 overflow-y-auto" : "max-h-0 opacity-0"}`}>
+        <ul className="flex flex-col gap-2 px-6 BenzinSemibold" style={{ fontSize: "clamp(0.75rem, 3.5vw, 1rem)" }}>
+          {/* Services - expandable */}
+          <li>
+            <div className="flex items-center justify-between w-full py-2">
+              <Link href="/services" onClick={() => setOpen(false)} className={`flex-1 BenzinSemibold ${pathname.startsWith("/services") ? "text-[#F45B25]" : "text-white/80"}`}>
+                Services
+              </Link>
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); setMobileExpanded(mobileExpanded === "services" ? null : "services"); }}
+                className="p-2 -m-2 touch-manipulation"
+                aria-label="Toggle Services menu"
+              >
+                <svg className={`w-4 h-4 transition-transform text-[#F45B25] ${mobileExpanded === "services" ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+            {mobileExpanded === "services" && (
+              <ul className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-white/20 ml-1">
+                <li onClick={() => setOpen(false)}>
+                  <Link href="/services" className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>Explore All Services</Link>
+                </li>
+                {servicesMenuItems.map((item, idx) => (
+                  <li key={idx} onClick={() => setOpen(false)}>
+                    <Link href={item.href} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
-          <li onClick={() => setOpen(false)}>
-            <Link href="#" className={linkClasses("#")}>Industries</Link>
+
+          {/* Industries - expandable */}
+          <li>
+            <div className="flex items-center justify-between w-full py-2">
+              <Link href="#" onClick={() => setOpen(false)} className="flex-1 BenzinSemibold text-white/80">
+                Industries
+              </Link>
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); setMobileExpanded(mobileExpanded === "industries" ? null : "industries"); }}
+                className="p-2 -m-2 touch-manipulation"
+                aria-label="Toggle Industries menu"
+              >
+                <svg className={`w-4 h-4 transition-transform text-[#F45B25] ${mobileExpanded === "industries" ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+            {mobileExpanded === "industries" && (
+              <ul className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-white/20 ml-1">
+                {industriesMenuItems.map((item, idx) => (
+                  <li key={idx} onClick={() => setOpen(false)}>
+                    <Link href={item.href} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
+
+          {/* Case Studies - link */}
           <li onClick={() => setOpen(false)}>
             <Link href="/case-studies" className={linkClasses("/case-studies")}>Case Studies</Link>
           </li>
-          <li onClick={() => setOpen(false)}>
-            <Link href="/about" className={linkClasses("/about")}>About US</Link>
-          </li>
-          <li onClick={() => setOpen(false)}>
-            <Link href="/review" className={linkClasses("/review")}>Reviews</Link>
-          </li>
-          <li onClick={() => setOpen(false)}>
-            <Link href="/contact" className={linkClasses("/contact")}>Resources</Link>
+
+          {/* Company - expandable */}
+          <li>
+            <div className="flex items-center justify-between w-full py-2">
+              <Link href="/about" onClick={() => setOpen(false)} className={`flex-1 BenzinSemibold ${pathname === "/about" || pathname === "/review" ? "text-[#F45B25]" : "text-white/80"}`}>
+                Company
+              </Link>
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); setMobileExpanded(mobileExpanded === "company" ? null : "company"); }}
+                className="p-2 -m-2 touch-manipulation"
+                aria-label="Toggle Company menu"
+              >
+                <svg className={`w-4 h-4 transition-transform text-[#F45B25] ${mobileExpanded === "company" ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+            {mobileExpanded === "company" && (
+              <ul className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-white/20 ml-1">
+                <li onClick={() => setOpen(false)}>
+                  <Link href="#" className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>View Open Positions</Link>
+                </li>
+                {companyMenuItems.map((item, idx) => (
+                  <li key={idx} onClick={() => setOpen(false)}>
+                    <Link href={item.href} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
 
-          {/* Mobile CTA */}
+          {/* Resources - expandable */}
+          <li>
+            <div className="flex items-center justify-between w-full py-2">
+              <Link href="/contact" onClick={() => setOpen(false)} className={`flex-1 BenzinSemibold ${pathname === "/contact" ? "text-[#F45B25]" : "text-white/80"}`}>
+                Resources
+              </Link>
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); setMobileExpanded(mobileExpanded === "resources" ? null : "resources"); }}
+                className="p-2 -m-2 touch-manipulation"
+                aria-label="Toggle Resources menu"
+              >
+                <svg className={`w-4 h-4 transition-transform text-[#F45B25] ${mobileExpanded === "resources" ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+            {mobileExpanded === "resources" && (
+              <ul className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-white/20 ml-1">
+                {resourcesMenuItems.map((item, idx) => (
+                  <li key={idx} onClick={() => setOpen(false)}>
+                    <Link href={item.href} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+
+          {/* Mobile CTA - smaller */}
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className={`mt-4 inline-flex justify-center items-center px-6 py-4 rounded-lg text-lg font-medium BenzinSemibold ${
+            className={`mt-3 inline-flex justify-center items-center px-4 py-2.5 rounded-lg text-sm font-medium BenzinSemibold ${
               isFountainHills ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
             }`}
           >
