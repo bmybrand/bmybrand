@@ -40,16 +40,15 @@ export default function BrandFaq() {
   }
 
   const logos = [
-    { default: '/Vector (23).svg', hover: '/Vector (23)-orange.svg', alt: 'Abbott' },
-    { default: '/Vector (24).svg', hover: '/Vector (24)-orange.svg', alt: 'London Real' },
+    { default: '/Vector (23).svg', hover: '/Vector (24)-orange.svg', alt: 'Abbott' },
+    { default: '/Vector (24).svg', hover: '/Vector (26)-orange.svg', alt: 'London Real' },
     { default: '/Vector (25).svg', hover: '/Vector (25)-orange.svg', alt: 'Decathlon' },
-    { default: '/Vector (26).svg', hover: '/Vector (26)-orange.svg', alt: 'Targus' },
-    { default: '/Vector (27).svg', hover: '/Vector (27)-orange.svg', alt: 'Single Grain' },
-    { default: '/Vector (28).svg', hover: '/Vector (28)-orange.svg', alt: 'York University' }
+    { default: '/Vector (26).svg', hover: '/Vector (28)-orange.svg', alt: 'Targus' },
+    { default: '/Vector (27).svg', hover: '/Vector (23)-orange.svg', alt: 'Single Grain' },
+    { default: '/Vector (28).svg', hover: '/Vector (27)-orange.svg', alt: 'York University' }
   ]
-
   return (
-    <section className="py-20 px-6 bg-[#1a1a2e]">
+    <section className="py-20 px-6 ">
       <div className="max-w-7xl mx-auto">
         {/* Images Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
@@ -147,7 +146,7 @@ export default function BrandFaq() {
           onMouseLeave={() => setIsLogoBarHovered(false)}
         >
           <div className="flex justify-center mb-[-20px] relative z-10">
-            <h3 className={`text-lg md:text-xl BenzinSemibold px-6 py-3 rounded-lg border border-white/20 bg-[#1a1a2e] inline-block transition-colors duration-300 ${isLogoBarHovered ? 'text-[#F45B25]' : 'text-white'}`}>
+            <h3 className={`text-base md:text-lg lg:text-xl BenzinSemibold px-6 py-3 rounded-lg border border-white/20 bg-[#11122F] inline-block transition-colors duration-300 ${isLogoBarHovered ? 'text-[#F45B25]' : 'text-white'}`}>
               Our Globally 20K+ Clients.
             </h3>
           </div>

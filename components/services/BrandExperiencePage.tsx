@@ -4,6 +4,8 @@ import React from 'react'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 import WorkTogether from '../WorkTogether'
+import Evaluate from '../evaluatCTA'
+import Brandsspec from '../Brandsspec'
 import RequestForm from '../RequestForm'
 import HerobarBrand from './herobarBrand'
 import BrandExperienceHero from './BrandExperienceHero'
@@ -19,6 +21,8 @@ export default function BrandExperiencePage() {
       <BrandSolutions />
       <BrandFaq />
       <WorkTogether />
+      <Evaluate />
+      <Brandsspec />
       <RequestForm />
       <Footer />
     </div>

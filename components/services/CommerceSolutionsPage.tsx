@@ -4,6 +4,8 @@ import React from 'react'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 import WorkTogether from '../WorkTogether'
+import Evaluate from '../evaluatCTA'
+import Brandsspec from '../Brandsspec'
 import RequestForm from '../RequestForm'
 import HerobarCommerce from './herobarCommerce'
 import CommerceSolutionsHero from './CommerceSolutionsHero'
@@ -19,6 +21,8 @@ export default function CommerceSolutionsPage() {
       <CommerceSolutions />
       <CommerceFaq />
       <WorkTogether />
+      <Evaluate />
+      <Brandsspec />
       <RequestForm />
       <Footer />
     </div>

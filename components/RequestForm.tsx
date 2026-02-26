@@ -53,7 +53,7 @@ const FAQS: FaqItem[] = [
 
 export default function RequestForm() {
   const pathname = usePathname();
-  const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [openFaq, setOpenFaq] = useState<string | null>('01');
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
@@ -130,7 +130,13 @@ export default function RequestForm() {
   return (
     <section ref={sectionRef} className="bg-[#11122F] text-white py-20 overflow-x-hidden">
       <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-full">
-        <div ref={headingRef}>
+        
+
+        <div className="flex flex-col lg:flex-row gap-12 w-full min-w-0">
+          
+          {/* Left Section: Form */}
+          <div ref={formColRef} className="flex-1 min-w-0">
+          <div ref={headingRef}>
           <h2 className="text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-semibold mb-4 text-center lg:text-left BenzinSemibold  max-w-2xl">
             <span className="text-[#F45B25]"> Get in Touch</span> With Our Team for a Custom Quote
           </h2>
@@ -139,10 +145,6 @@ export default function RequestForm() {
             clarity, creativity, and a seamless experience from start to finish.
           </p>
         </div>
-
-        <div className="flex flex-col lg:flex-row gap-12 w-full min-w-0">
-          {/* Left Section: Form */}
-          <div ref={formColRef} className="flex-1 min-w-0">
             <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
               {/* First and Last Name Row */}
               <div className="flex flex-col sm:flex-row gap-4 w-full">

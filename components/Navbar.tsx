@@ -173,7 +173,7 @@ const MegaMenu = ({
       <div className={`flex ${hasTwoColumnLayout ? "flex-col lg:flex-row" : ""}`}>
         {/* Company: Left section with image + View Open Positions */}
         {isCompany && (
-          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-3">
+          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4">
             <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44">
               <img
                 src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop"
@@ -195,15 +195,15 @@ const MegaMenu = ({
 
         {/* Services: Left section with image + Explore All Services */}
         {isServices && (
-          <div className="lg:w-[45%] p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col ">
-            <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60">
+          <div className="lg:w-[45%] p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 overflow-hidden">
+            <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60 shrink-0">
               <img
                 src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop"
                 alt="Quality mockups"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
+            <div className="min-h-0">
               <Link href="/services" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
                 Explore All Services
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

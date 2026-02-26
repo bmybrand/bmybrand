@@ -92,8 +92,8 @@ export default function CommerceSolutions() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
               {process.map((step, index) => (
-                <div key={index} className="text-center relative">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#F45B25] flex items-center justify-center relative z-10 border-4 border-[#15173A]">
+                <div key={index} className="text-center relative group">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#202141] group-hover:bg-[#F45B25] flex items-center justify-center relative z-10 border-4 border-[#15173A] transition-colors duration-300">
                     <span className="text-white text-xl BenzinBold">{step.number}</span>
                   </div>
                   <h3 className="text-white text-xl BenzinBold mb-3">{step.title}</h3>

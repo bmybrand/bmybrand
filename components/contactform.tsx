@@ -88,14 +88,14 @@ export default function ContactForm() {
         <div className="flex flex-col lg:flex-row gap-12 w-full min-w-0">
           
           {/* Left Section - Contact Options */}
-          <div className="flex-1 min-w-0 space-y-6">
+          <div className="flex-1 min-w-0 flex flex-col justify-between min-h-0">
             {contactOptions.map((option, index) => (
               <div key={index} className="flex gap-4 items-start">
                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white shrink-0">
                   {option.icon}
                 </div>
                 <div>
-                  <h3 className="text-white text-base md:text-lg BenzinSemibold mb-1">
+                  <h3 className="text-white text-base md:text-lg xl:text-xl 2xl:text-2xl BenzinSemibold mb-1">
                     {option.title}
                   </h3>
                   <p className="text-white/60 text-sm">

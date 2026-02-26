@@ -4,6 +4,8 @@ import React from 'react'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 import WorkTogether from '../WorkTogether'
+import Evaluate from '../evaluatCTA'
+import Brandsspec from '../Brandsspec'
 import RequestForm from '../RequestForm'
 import HerobarSoftware from './herobarSoftware'
 import SoftwareDevelopmentHero from './SoftwareDevelopmentHero'
@@ -19,6 +21,8 @@ export default function SoftwareDevelopmentPage() {
       <SoftwareSolutions />
       <SoftwareFaq />
       <WorkTogether />
+      <Evaluate />
+      <Brandsspec />
       <RequestForm />
       <Footer />
     </div>

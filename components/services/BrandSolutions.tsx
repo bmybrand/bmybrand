@@ -5,19 +5,19 @@ import React from 'react'
 export default function BrandSolutions() {
   const solutions = [
     {
-      icon: '🎨',
+      icon: '/Background1.svg',
       title: 'Brand Identity Design',
-      description: 'Complete visual identity systems including logos, color palettes, typography, and brand guidelines that ensure consistency across all touchpoints.'
+      description: 'Complete visual identity systems that reflect your brand\'s purpose and personality. From logo architecture and color palettes to typography and brand guidelines, we create cohesive identities that ensure clarity and consistency across every touchpoint.'
     },
     {
-      icon: '💎',
-      title: 'Brand Strategy & Positioning',
-      description: 'Strategic frameworks that define your brand purpose, values, voice, and market positioning to differentiate you from competitors.'
+      icon: '/Background2.svg',
+      title: 'Brand Strategy & Direction',
+      description: 'Strategic brand foundations built on research, competitive insight, and market clarity. We define your positioning, value proposition, and messaging framework to clearly differentiate your brand, strengthen credibility, & establish long-term authority within your industry.'
     },
     {
-      icon: '✨',
+      icon: '/Background3.svg',
       title: 'UI/UX & Visual Design',
-      description: 'Beautiful, user-centric interfaces with comprehensive design systems, style guides, and marketing materials that bring your brand to life.'
+      description: 'User-centered digital experiences designed to drive engagement and meaningful conversions. Through intuitive interfaces, mobile-first layouts, and scalable design systems, we transform brand strategy into seamless, high-performing digital interactions.'
     }
   ]
 
@@ -47,14 +47,14 @@ export default function BrandSolutions() {
   return (
     <>
       {/* Brand Solutions Section */}
-      <section className="py-20 px-6 bg-[#11122F]">
+      <section className="py-20 px-6  bg-[#191A35]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-white text-4xl md:text-5xl lg:text-6xl BenzinBold mb-6">
               Our Brand Solutions, End-to-End
             </h2>
-            <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto BenzinRegular">
-              From initial strategy to final implementation, we provide comprehensive brand solutions that drive business growth.
+            <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto ">
+              At BMYBrand, we deliver complete brand ecosystems — not just visual updates. From defining your strategic positioning to designing scalable identity systems and high-performing digital experiences, we build brands with purpose and precision.
             </p>
           </div>
 
@@ -62,11 +62,13 @@ export default function BrandSolutions() {
             {solutions.map((solution, index) => (
               <div 
                 key={index}
-                className="bg-[#1a1a2e] p-8 rounded-2xl border border-white/10 hover:border-[#F45B25]/50 transition-all duration-300"
+                className=" bg-[#191A35] p-8 rounded-2xl border border-white/10 hover:border-[#F45B25]/50 transition-all duration-300"
               >
-                <div className="text-5xl mb-6">{solution.icon}</div>
-                <h3 className="text-white text-2xl BenzinBold mb-4">{solution.title}</h3>
-                <p className="text-white/70 BenzinRegular leading-relaxed">{solution.description}</p>
+                <div className="w-16 h-16 mb-6 flex items-center justify-center">
+                  <img src={solution.icon} alt="" className="w-full h-full object-contain" />
+                </div>
+                <h3 className="text-white text-lg BenzinBold  border-b border-white/10 pb-8">{solution.title}</h3>
+                <p className="mt-8 text-white/70  leading-relaxed">{solution.description}</p>
               </div>
             ))}
           </div>
@@ -74,13 +76,13 @@ export default function BrandSolutions() {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 px-6 bg-[#15173A]">
+      <section className="py-20 px-6 ">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-white text-4xl md:text-5xl lg:text-6xl BenzinBold mb-6">
               A Clear Process for Delivering Brands That Perform
             </h2>
-            <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto BenzinRegular">
+            <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto ">
               Our proven methodology ensures your brand not only looks great but drives measurable business results.
             </p>
           </div>
@@ -92,12 +94,12 @@ export default function BrandSolutions() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
               {process.map((step, index) => (
-                <div key={index} className="text-center relative">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#F45B25] flex items-center justify-center relative z-10 border-4 border-[#15173A]">
+                <div key={index} className="text-center relative group">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#202141] group-hover:bg-[#F45B25] flex items-center justify-center relative z-10 border-4 border-[#15173A] transition-colors duration-300">
                     <span className="text-white text-xl BenzinBold">{step.number}</span>
                   </div>
                   <h3 className="text-white text-xl BenzinBold mb-3">{step.title}</h3>
-                  <p className="text-white/70 BenzinRegular leading-relaxed">{step.description}</p>
+                  <p className="text-white/70  leading-relaxed">{step.description}</p>
                 </div>
               ))}
             </div>

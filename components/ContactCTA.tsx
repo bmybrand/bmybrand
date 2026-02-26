@@ -11,9 +11,9 @@ export default function ContactCTA() {
     <section className="bg-[#11122F] py-20 overflow-x-hidden">
       <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-full">
         <div className="relative bg-[#15173A] rounded-3xl border-2 border-[#F45B25]/20 overflow-hidden">
-          <div className="relative flex flex-col lg:flex-row items-center gap-12 p-8 md:p-12 lg:p-16">
+          <div className="relative flex flex-col lg:flex-row items-center gap-12 ">
             {/* Left Content */}
-            <div className="flex-1 z-10">
+            <div className="flex-1 z-10 p-8 md:p-12 lg:p-16">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -62,16 +62,16 @@ export default function ContactCTA() {
               </motion.div>
             </div>
 
-            {/* Right Image - Bear Superhero */}
+            {/* Right Image - Bear Superhero (hidden below lg) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative w-full lg:w-auto flex justify-center z-20"
+              className="hidden lg:flex relative w-full lg:w-auto justify-center z-20 lg:pr-10"
             >
               <img 
-                src="/techbear.svg" 
+                src="/CTA Character 1.svg" 
                 alt="BMYBrand Bear Superhero" 
                 className="w-64 md:w-80 lg:w-96 h-auto object-contain relative z-20"
               />
@@ -81,7 +81,7 @@ export default function ContactCTA() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, repeat: Infinity, repeatType: "reverse", repeatDelay: 2 }}
-                className="absolute top-8 -left-4 lg:left-0 w-12 h-12 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center"
+                className="absolute top-8 -left-4 lg:left-0 w-12 h-12 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center z-30"
               >
                 <svg className="w-6 h-6 text-[#F45B25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
@@ -92,7 +92,7 @@ export default function ContactCTA() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.6, repeat: Infinity, repeatType: "reverse", repeatDelay: 2.5 }}
-                className="absolute top-20 -left-8 lg:-left-4 w-14 h-14 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center"
+                className="absolute top-20 -left-8 lg:-left-4 w-14 h-14 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center z-30"
               >
                 <svg className="w-7 h-7 text-[#F45B25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
@@ -103,7 +103,7 @@ export default function ContactCTA() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7, repeat: Infinity, repeatType: "reverse", repeatDelay: 3 }}
-                className="absolute top-4 right-0 lg:right-4 w-12 h-12 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center"
+                className="absolute top-4 right-0 lg:right-4 w-12 h-12 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center z-30"
               >
                 <svg className="w-6 h-6 text-[#F45B25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
@@ -111,10 +111,10 @@ export default function ContactCTA() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: 0 }}
+                animate={{ opacity: 1, x: -40 }}
                 transition={{ duration: 0.8, delay: 0.8, repeat: Infinity, repeatType: "reverse", repeatDelay: 2.2 }}
-                className="absolute top-32 -right-4 lg:right-0 w-14 h-14 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center"
+                className="absolute top-22 -right-4 lg:right-0 w-14 h-14 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center z-30"
               >
                 <svg className="w-7 h-7 text-[#F45B25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -125,7 +125,7 @@ export default function ContactCTA() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.9, repeat: Infinity, repeatType: "reverse", repeatDelay: 2.8 }}
-                className="absolute bottom-8 left-4 lg:left-8 w-12 h-12 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center"
+                className="absolute bottom-8 left-4 lg:left-8 w-12 h-12 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center z-30"
               >
                 <svg className="w-6 h-6 text-[#F45B25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -136,7 +136,7 @@ export default function ContactCTA() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1, repeat: Infinity, repeatType: "reverse", repeatDelay: 3.2 }}
-                className="absolute bottom-20 right-8 lg:right-12 w-14 h-14 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center"
+                className="absolute bottom-20 right-8 lg:right-12 w-14 h-14 bg-[#F45B25]/20 border-2 border-[#F45B25] rounded-lg flex items-center justify-center z-30"
               >
                 <svg className="w-7 h-7 text-[#F45B25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />

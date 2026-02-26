@@ -4,6 +4,8 @@ import React from 'react'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 import WorkTogether from '../WorkTogether'
+import Evaluate from '../evaluatCTA'
+import Brandsspec from '../Brandsspec'
 import RequestForm from '../RequestForm'
 import HerobarOperations from './herobarOperations'
 import BusinessOperationsHero from './BusinessOperationsHero'
@@ -19,6 +21,8 @@ export default function BusinessOperationsPage() {
       <OperationsSolutions />
       <OperationsFaq />
       <WorkTogether />
+      <Evaluate />
+      <Brandsspec />
       <RequestForm />
       <Footer />
     </div>
