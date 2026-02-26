@@ -96,7 +96,7 @@ export default function BrandFaq() {
                   onClick={() => toggleFaq(index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-all duration-300"
                 >
-                  <span className="text-white text-lg md:text-xl BenzinSemibold pr-8">
+                  <span className="text-white text-base md:text-lg lg:text-xl BenzinSemibold pr-8">
                     {faq.question}
                   </span>
                   <motion.div
@@ -128,7 +128,7 @@ export default function BrandFaq() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <div className="px-6 pb-5 text-white/70 BenzinRegular text-base md:text-lg leading-relaxed">
+                      <div className="px-6 pb-5 text-white/70  text-sm md:text-base lg:text-lg leading-relaxed">
                         {faq.answer}
                       </div>
                     </motion.div>

@@ -129,7 +129,7 @@ export default function AIFaq() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <div className="px-6 pb-5 text-white/70 BenzinRegular text-sm md:text-base lg:text-lg leading-relaxed">
+                      <div className="px-6 pb-5 text-white/70  text-sm md:text-base lg:text-lg leading-relaxed">
                         {faq.answer}
                       </div>
                     </motion.div>
