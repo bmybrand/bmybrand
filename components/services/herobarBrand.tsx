@@ -9,6 +9,15 @@ export default function HerobarBrand() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
       <div className="absolute inset-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/strock animation2a.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>
 
