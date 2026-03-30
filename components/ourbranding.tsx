@@ -143,6 +143,8 @@ const OurBranding: React.FC = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
                 className="absolute z-30 w-90 bg-[#191A35] border border-[#2A2B47] rounded-xl py-4 px-6
+                           lg:border-white/18 lg:bg-white/[0.06] lg:backdrop-blur-xl lg:backdrop-saturate-125
+                           xl:bg-[#191A35] xl:border-[#2A2B47] xl:backdrop-blur-none xl:backdrop-saturate-100 xl:shadow-none
                            transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]"
                 style={positions[index]}
               >
