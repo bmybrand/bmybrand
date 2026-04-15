@@ -83,21 +83,21 @@ const FullyAnimatedGrid: React.FC = () => {
       title: "Brand Experience",
       text:
         "We create logos, visual styles, and brand guides that help your business stand out and communicate clearly.",
-      img: "/Brand Experience.svg",
+      img: "/brand experience.svg",
       delay: 0.1,
     },
     {
       title: "Software Development",
       text:
         "Get responsive, user-friendly websites built to convert visitors into customers and represent your brand professionally.",
-      img: "/Software Development.svg",
+      img: "/software development.svg",
       delay: 0.3,
     },
     {
       title: "Commerce Solutions",
       text:
         "We build secure online stores with easy product management, smooth payments, and a seamless shopping experience.",
-      img: "/Commerce Solutions.svg",
+      img: "/commerce solutions.svg",
       delay: 0.5,
     },
   ];
@@ -107,14 +107,14 @@ const FullyAnimatedGrid: React.FC = () => {
       title: "Digital Marketing",
       text:
         "From SEO to social media, we boost visibility, attract the right audience, and drive business growth.",
-      img: "/Digital Marketing.svg",
+      img: "/digital marketing.svg",
       delay: 0.1,
     },
     {
       title: "Creative Production",
       text:
         "Engage your audience with custom graphics, illustrations, and animations that bring your ideas to life.",
-      img: "/Creative Production.svg",
+      img: "/creative production.svg",
       delay: 0.3,
     },
     {
@@ -184,7 +184,7 @@ const FullyAnimatedGrid: React.FC = () => {
 
         {/* CENTER */}
         <div
-          className={`bg-[url('/FullImage.svg')] bg-center bg-cover rounded-lg w-full 
+          className={`bg-[url('/fullimage.svg')] bg-center bg-cover rounded-lg w-full 
 h-145 sm:h-145 md:h-165 lg:h-auto
 transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
   isHovered ? "lg:w-1/3" : "lg:w-full"
@@ -193,7 +193,7 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
         {/* {for mobile} */}
           <div className="flex flex-col items-center lg:hidden w-full">
             <img
-              src="/Character-2 1.svg"
+              src="/character-2 1.svg"
               alt=""
               className="absolute lg:-top-10 left-1/2 lg:-translate-y-0 -translate-y-2/3 transform -translate-x-1/2 top-1/2"
             />
@@ -215,7 +215,7 @@ transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center te
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <motion.img
-        src="/Character-2 1.svg"
+        src="/character-2 1.svg"
         alt=""
         className="absolute -top-10 left-1/2 -translate-x-1/2"
         initial={{

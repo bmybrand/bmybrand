@@ -1,18 +1,18 @@
 'use client'
 
 import React, { useRef } from 'react'
-import Navbar from './Navbar'
+import Navbar from './navbar'
 import Herobar from './herobar'
 import Aboutbmy from './aboutbmy'
 import BrandStats from './brandstats'
-import DesignedGrow from './DesignedGrow'
-import BottomCTA from './BottomCTA'
-import CreativeProcess from './CreativeProcess'
-import Brandsspec from './Brandsspec'
-import RequestForm from './RequestForm'
-import Footer from './Footer'
+import DesignedGrow from './designedgrow'
+import BottomCTA from './bottomcta'
+import CreativeProcess from './creativeprocess'
+import Brandsspec from './brandsspec'
+import RequestForm from './requestform'
+import Footer from './footer'
 import StaticProcess from './staticprocess'
-import WorkTogether from './WorkTogether'
+import WorkTogether from './worktogether'
 
 const Aboutpage = () => {
   const designedGrowRef = useRef<HTMLDivElement>(null)

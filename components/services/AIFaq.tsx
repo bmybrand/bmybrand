@@ -40,12 +40,12 @@ export default function AIFaq() {
   }
 
   const logos = [
-    { default: '/Vector (23).svg', hover: '/Vector (24)-orange.svg', alt: 'Abbott' },
-    { default: '/Vector (24).svg', hover: '/Vector (26)-orange.svg', alt: 'London Real' },
-    { default: '/Vector (25).svg', hover: '/Vector (25)-orange.svg', alt: 'Decathlon' },
-    { default: '/Vector (26).svg', hover: '/Vector (28)-orange.svg', alt: 'Targus' },
-    { default: '/Vector (27).svg', hover: '/Vector (23)-orange.svg', alt: 'Single Grain' },
-    { default: '/Vector (28).svg', hover: '/Vector (27)-orange.svg', alt: 'York University' }
+    { default: '/vector (23).svg', hover: '/vector (24)-orange.svg', alt: 'Abbott' },
+    { default: '/vector (24).svg', hover: '/vector (26)-orange.svg', alt: 'London Real' },
+    { default: '/vector (25).svg', hover: '/vector (25)-orange.svg', alt: 'Decathlon' },
+    { default: '/vector (26).svg', hover: '/vector (28)-orange.svg', alt: 'Targus' },
+    { default: '/vector (27).svg', hover: '/vector (23)-orange.svg', alt: 'Single Grain' },
+    { default: '/vector (28).svg', hover: '/vector (27)-orange.svg', alt: 'York University' }
   ]
 
   return (

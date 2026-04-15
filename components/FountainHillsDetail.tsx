@@ -2,12 +2,12 @@
 
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import EmergencyCare from './EmergencyCare'
-import Background from './Background'
-import Solution from './Solution'
-import ReviewTeam from './ReviewTeam'
-import FHFooter from './FHFooter'
-import Navbar from './Navbar'
+import EmergencyCare from './emergencycare'
+import Background from './background'
+import Solution from './solution'
+import ReviewTeam from './reviewteam'
+import FHFooter from './fhfooter'
+import Navbar from './navbar'
 
 export default function FountainHillsDetail() {
   const router = useRouter()

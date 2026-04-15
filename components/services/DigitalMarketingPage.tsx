@@ -1,16 +1,16 @@
 'use client'
 
 import React from 'react'
-import Navbar from '../Navbar'
-import Footer from '../Footer'
-import WorkTogether from '../WorkTogether'
-import Evaluate from '../evaluatCTA'
-import Brandsspec from '../Brandsspec'
-import RequestForm from '../RequestForm'
-import HerobarMarketing from './herobarMarketing'
-import DigitalMarketingHero from './DigitalMarketingHero'
-import MarketingSolutions from './MarketingSolutions'
-import MarketingFaq from './MarketingFaq'
+import Navbar from '../navbar'
+import Footer from '../footer'
+import WorkTogether from '../worktogether'
+import Evaluate from '../evaluatcta'
+import Brandsspec from '../brandsspec'
+import RequestForm from '../requestform'
+import HerobarMarketing from './herobarmarketing'
+import DigitalMarketingHero from './digitalmarketinghero'
+import MarketingSolutions from './marketingsolutions'
+import MarketingFaq from './marketingfaq'
 
 export default function DigitalMarketingPage() {
   return (

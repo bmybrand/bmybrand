@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useRef } from 'react'
-import Navbar from './Navbar'
-import RequestForm from './RequestForm'
-import Footer from './Footer'
-import WorkTogether from './WorkTogether'
+import Navbar from './navbar'
+import RequestForm from './requestform'
+import Footer from './footer'
+import WorkTogether from './worktogether'
 import Herobarreview from './herobarreview'
-import VerticalReviewColumns from './VerticalReviewColumns'
+import VerticalReviewColumns from './verticalreviewcolumns'
 
 const Aboutpage = () => {
   const designedGrowRef = useRef<HTMLDivElement>(null)

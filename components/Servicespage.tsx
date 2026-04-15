@@ -1,14 +1,14 @@
 'use client'
 
 import React, { useRef } from 'react'
-import Navbar from './Navbar'
+import Navbar from './navbar'
 import Herobar from './herobar'
 import Evaluate from './evaluatCTA'
-import Brandsspec from './Brandsspec'
-import RequestForm from './RequestForm'
-import Footer from './Footer'
-import WorkTogether from './WorkTogether'
-import ServicesDetail from './ServicesDetail'
+import Brandsspec from './brandsspec'
+import RequestForm from './requestform'
+import Footer from './footer'
+import WorkTogether from './worktogether'
+import ServicesDetail from './servicesdetail'
 import Herobarserv from './herobarserv'
 
 const Servicespage = () => {

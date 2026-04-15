@@ -4,10 +4,10 @@ import React from 'react'
 
 export default function BrandExperienceHero() {
   const features = [
-    { image: '/Background+Shadow.svg', title: 'Strategic Positioning', description: 'Define your brand\'s unique value, voice, and market advantage.' },
-    { image: '/Background+Shadow-1.svg', title: 'Visual Identity', description: 'Craft a cohesive visual system that reflects authority and trust.' },
-    { image: '/Background+Shadow-2.svg', title: 'Brand Storytelling', description: 'Create narratives that connect with your audience on a deeper level.' },
-    { image: '/Background+Shadow-3.svg', title: 'Design Systems', description: 'Develop scalable brand guidelines for consistent growth.' }
+    { image: '/background+shadow.svg', title: 'Strategic Positioning', description: 'Define your brand\'s unique value, voice, and market advantage.' },
+    { image: '/background+shadow-1.svg', title: 'Visual Identity', description: 'Craft a cohesive visual system that reflects authority and trust.' },
+    { image: '/background+shadow-2.svg', title: 'Brand Storytelling', description: 'Create narratives that connect with your audience on a deeper level.' },
+    { image: '/background+shadow-3.svg', title: 'Design Systems', description: 'Develop scalable brand guidelines for consistent growth.' }
   ]
 
   const impactAreas = [

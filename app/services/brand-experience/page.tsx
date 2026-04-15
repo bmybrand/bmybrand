@@ -1,4 +1,4 @@
-import BrandExperiencePage from '@/components/services/BrandExperiencePage'
+import BrandExperiencePage from '@/components/services/brandexperiencepage'
 
 export default function Page() {
   return <BrandExperiencePage />

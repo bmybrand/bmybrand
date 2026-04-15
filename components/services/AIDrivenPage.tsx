@@ -1,13 +1,13 @@
 'use client'
 
 import React from 'react'
-import Navbar from '../Navbar'
-import Footer from '../Footer'
-import WorkTogether from '../WorkTogether'
-import RequestForm from '../RequestForm'
-import AIDrivenHero from './AIDrivenHero'
-import AISolutions from './AISolutions'
-import AIFaq from './AIFaq'
+import Navbar from '../navbar'
+import Footer from '../footer'
+import WorkTogether from '../worktogether'
+import RequestForm from '../requestform'
+import AIDrivenHero from './aidrivenhero'
+import AISolutions from './aisolutions'
+import AIFaq from './aifaq'
 
 export default function AIDrivenPage() {
   return (

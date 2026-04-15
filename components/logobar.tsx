@@ -12,16 +12,16 @@ const Logos = [
     hover: "/abboott.svg (1).svg",
   },
   {
-    normal: "/Mask group (3).svg",
-    hover: "/Mask group (2).svg",
+    normal: "/mask group (3).svg",
+    hover: "/mask group (2).svg",
   },
   {
     normal: "/client_logo3.svg.svg",
     hover: "/client_logo3.svg (1).svg",
   },
   {
-    normal: "/Vector (9).svg",
-    hover: "/Vector (15).svg",
+    normal: "/vector (9).svg",
+    hover: "/vector (15).svg",
   },
   {
     normal: "/client_logo5.svg.svg",
@@ -32,20 +32,20 @@ const Logos = [
     hover: "/client_logo6.svg (1).svg",
   },
   {
-    normal: "/Vector (11).svg",
-    hover: "/Vector (16).svg",
+    normal: "/vector (11).svg",
+    hover: "/vector (16).svg",
   },
   {
-    normal: "/Universal.svg",
-    hover: "/Universal (1).svg",
+    normal: "/universal.svg",
+    hover: "/universal (1).svg",
   },
   {
     normal: "/client_logo9.svg fill.svg",
     hover: "/client_logo9.svg fill (1).svg",
   },
   {
-    normal: "/Mask group (1).svg",
-    hover: "/Mask group (4).svg",
+    normal: "/mask group (1).svg",
+    hover: "/mask group (4).svg",
   },
 ];
 

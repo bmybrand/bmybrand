@@ -1,10 +1,10 @@
 import React from 'react'
-import Navbar from './Navbar'
+import Navbar from './navbar'
 import HerobarContact from './herobarcontact'
 import ContactForm from './contactform'
-import Footer from './Footer'
-import ContactLocations from './ContactLocations'
-import ContactCTA from './ContactCTA'
+import Footer from './footer'
+import ContactLocations from './contactlocations'
+import ContactCTA from './contactcta'
 
 const contact = () => {
   return (

@@ -71,7 +71,7 @@ export default function ContactCTA() {
               className="hidden lg:flex relative w-full lg:w-auto justify-center z-20 lg:pr-10"
             >
               <img 
-                src="/CTA Character 1.svg" 
+                src="/cta character 1.svg" 
                 alt="BMYBrand Bear Superhero" 
                 className="w-64 md:w-80 lg:w-96 h-auto object-contain relative z-20"
               />

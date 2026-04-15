@@ -17,42 +17,42 @@ const cards: Card[] = [
   {
     title: "Creative Consistency",
     desc: "Keep your brand looking clean, modern, and aligned everywhere.",
-    icon: "/Creative Consistency.svg",
+    icon: "/creative consistency.svg",
   },
   {
     title: "Detail-Driven Quality",
     desc: "Experience designs crafted with precision, clarity, and detail.",
-    icon: "/Detail-Driven Quality.svg",
+    icon: "/detail-driven quality.svg",
   },
   {
     title: "Reliable Workflow",
     desc: "Enjoy a smooth, organized process from start to finish.",
-    icon: "/Reliable Workflow.svg",
+    icon: "/reliable workflow.svg",
   },
   {
     title: "Smart Optimization",
     desc: "We build for speed, performance, and better results.",
-    icon: "/Smart Optimization.svg",
+    icon: "/smart optimization.svg",
   },
   {
     title: "Clear Communication",
     desc: "Clear updates, real feedback, and open collaboration.",
-    icon: "/Clear Communication.svg",
+    icon: "/clear communication.svg",
   },
   {
     title: "Flexible Creativity",
     desc: "Bring any idea to life with adaptable, brand-focused creativity.",
-    icon: "/Flexible Creativity.svg",
+    icon: "/flexible creativity.svg",
   },
   {
     title: "Long-Term Stability",
     desc: "Build a digital presence that stays strong and future-ready.",
-    icon: "/Long-Term Stability.svg",
+    icon: "/long-term stability.svg",
   },
   {
     title: "Built for Growth",
     desc: "Build on a structure designed to scale as your business grows.",
-    icon: "/Built for Growth.svg",
+    icon: "/built for growth.svg",
   },
 ];
 
@@ -128,7 +128,7 @@ const OurBranding: React.FC = () => {
         {/* LG+ absolute layout */}
         <div className="hidden lg:block relative w-full h-150">
           <img
-            src="/Group 1597883284.svg"
+            src="/group 1597883284.svg"
             alt=""
             className=" relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
           />

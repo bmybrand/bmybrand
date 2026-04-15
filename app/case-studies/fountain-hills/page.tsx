@@ -1,6 +1,6 @@
-import FountainHillsDetail from '@/components/FountainHillsDetail'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import FountainHillsDetail from '@/components/fountainhillsdetail'
+import Navbar from '@/components/navbar'
+import Footer from '@/components/footer'
 
 export default function FountainHillsPage() {
   return (

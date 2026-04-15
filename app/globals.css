@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'BenzinBold';
-  src: url('/fonts/BenzinBold.ttf') format('truetype');
+  src: url('/fonts/benzinbold.ttf') format('truetype');
   font-style: normal;
   font-display: swap;
 }
@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: 'BenzinSemibold';
-  src: url('/fonts/BenzinSemibold.ttf') format('truetype');
+  src: url('/fonts/benzinsemibold.ttf') format('truetype');
   font-style: normal;
   font-display: swap;
 }
@@ -21,7 +21,7 @@
 }
 @font-face {
   font-family: 'BenzinRegular';
-  src: url('/fonts/BenzinRegular.ttf') format('truetype');
+  src: url('/fonts/benzinregular.ttf') format('truetype');
   font-style: normal;
   font-display: swap;
 }

@@ -1,16 +1,16 @@
 'use client'
 
 import React from 'react'
-import Navbar from '../Navbar'
-import Footer from '../Footer'
-import WorkTogether from '../WorkTogether'
-import Evaluate from '../evaluatCTA'
-import Brandsspec from '../Brandsspec'
-import RequestForm from '../RequestForm'
-import HerobarOperations from './herobarOperations'
-import BusinessOperationsHero from './BusinessOperationsHero'
-import OperationsSolutions from './OperationsSolutions'
-import OperationsFaq from './OperationsFaq'
+import Navbar from '../navbar'
+import Footer from '../footer'
+import WorkTogether from '../worktogether'
+import Evaluate from '../evaluatcta'
+import Brandsspec from '../brandsspec'
+import RequestForm from '../requestform'
+import HerobarOperations from './herobaroperations'
+import BusinessOperationsHero from './businessoperationshero'
+import OperationsSolutions from './operationssolutions'
+import OperationsFaq from './operationsfaq'
 
 export default function BusinessOperationsPage() {
   return (

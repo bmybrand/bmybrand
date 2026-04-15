@@ -1,16 +1,16 @@
 'use client'
 
 import React from 'react'
-import Navbar from '../Navbar'
-import Footer from '../Footer'
-import WorkTogether from '../WorkTogether'
-import Evaluate from '../evaluatCTA'
-import Brandsspec from '../Brandsspec'
-import RequestForm from '../RequestForm'
-import HerobarSoftware from './herobarSoftware'
-import SoftwareDevelopmentHero from './SoftwareDevelopmentHero'
-import SoftwareSolutions from './SoftwareSolutions'
-import SoftwareFaq from './SoftwareFaq'
+import Navbar from '../navbar'
+import Footer from '../footer'
+import WorkTogether from '../worktogether'
+import Evaluate from '../evaluatcta'
+import Brandsspec from '../brandsspec'
+import RequestForm from '../requestform'
+import HerobarSoftware from './herobarsoftware'
+import SoftwareDevelopmentHero from './softwaredevelopmenthero'
+import SoftwareSolutions from './softwaresolutions'
+import SoftwareFaq from './softwarefaq'
 
 export default function SoftwareDevelopmentPage() {
   return (

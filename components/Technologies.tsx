@@ -108,20 +108,20 @@ const Footer = () => {
   }, [])
 
   const leftTools = [
-    { name: 'Adobe Photoshop', icon: '/Ps.png', top: '6%', left: '12%', hoverColor: '#31A8FF' },
-    { name: 'Adobe Illustrator', icon: '/Ai.png', top: '20%', left: '8%', hoverColor: '#FF9A00' },
-    { name: 'Adobe XD', icon: '/Xd.png', top: '34%', left: '6%', hoverColor: '#FF61F6' },
+    { name: 'Adobe Photoshop', icon: '/ps.png', top: '6%', left: '12%', hoverColor: '#31A8FF' },
+    { name: 'Adobe Illustrator', icon: '/ai.png', top: '20%', left: '8%', hoverColor: '#FF9A00' },
+    { name: 'Adobe XD', icon: '/xd.png', top: '34%', left: '6%', hoverColor: '#FF61F6' },
     { name: 'Figma', icon: '/figma.png', top: '48%', left: '5%', hoverColor: '#F24E1E' },
-    { name: 'Adobe InDesign', icon: '/Id.png', top: '62%', left: '6%', hoverColor: '#FF3366' },
-    { name: 'Premiere Pro', icon: '/Pr.png', top: '76%', left: '8%', hoverColor: '#9999FF' },
-    { name: 'After Effects', icon: '/Ae.png', top: '90%', left: '12%', hoverColor: '#9999FF' },
+    { name: 'Adobe InDesign', icon: '/id.png', top: '62%', left: '6%', hoverColor: '#FF3366' },
+    { name: 'Premiere Pro', icon: '/pr.png', top: '76%', left: '8%', hoverColor: '#9999FF' },
+    { name: 'After Effects', icon: '/ae.png', top: '90%', left: '12%', hoverColor: '#9999FF' },
   ]
 
   const rightTools = [
     { name: 'WordPress', icon: '/wordpress.png', top: '6%', right: '12%', hoverColor: '#21759B' },
     { name: 'React', icon: '/react.png', top: '20%', right: '8%', hoverColor: '#61DAFB' },
     { name: 'Node JS', icon: '/node js.png', top: '34%', right: '6%', hoverColor: '#339933' },
-    { name: 'Next JS', icon: '/Next.png', top: '48%', right: '5%', hoverColor: '#FFFFFF' },
+    { name: 'Next JS', icon: '/next.png', top: '48%', right: '5%', hoverColor: '#FFFFFF' },
     { name: 'Flutter', icon: '/flutter.png', top: '62%', right: '6%', hoverColor: '#02569B' },
     { name: 'Android', icon: '/android.png', top: '76%', right: '8%', hoverColor: '#3DDC84' },
     { name: 'Shopify', icon: '/spotify.png', top: '90%', right: '12%', hoverColor: '#1DB954' },

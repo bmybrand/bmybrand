@@ -1,15 +1,15 @@
 'use client'
 
 import React, { useRef } from 'react'
-import Navbar from './Navbar'
+import Navbar from './navbar'
 import Herobar from './herobar'
-import Brandsspec from './Brandsspec'
-import RequestForm from './RequestForm'
-import Footer from './Footer'
-import WorkTogether from './WorkTogether'
-import ServicesDetail from './ServicesDetail'
+import Brandsspec from './brandsspec'
+import RequestForm from './requestform'
+import Footer from './footer'
+import WorkTogether from './worktogether'
+import ServicesDetail from './servicesdetail'
 import Herobarcase from './herobarcase'
-import RecentProjects from './RecentProjects'
+import RecentProjects from './recentprojects'
 
 const CaseStudiespage = () => {
   const designedGrowRef = useRef<HTMLDivElement>(null)

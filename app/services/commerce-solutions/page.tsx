@@ -1,4 +1,4 @@
-import CommerceSolutionsPage from '@/components/services/CommerceSolutionsPage'
+import CommerceSolutionsPage from '@/components/services/commercesolutionspage'
 
 export default function Page() {
   return <CommerceSolutionsPage />

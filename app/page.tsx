@@ -2,22 +2,22 @@
 import React, { useRef } from 'react'
 import Heropage from "@/components/heropage";
 import Logobar from "@/components/logobar";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import Flyingbear from "@/components/flyingbear";
 import Addblock from "@/components/addblock";
 import Ourbranding from "@/components/ourbranding";
-import StackingCards from "@/components/StackingCards";
-import DesignedGrow from "@/components/DesignedGrow";
-import BottomCTA from "@/components/BottomCTA";
-import Footer from '@/components/Footer';
-import Technologies from '@/components/Technologies';
-import CreativeProcess from '@/components/CreativeProcess';
-import Brandsspec from '@/components/Brandsspec';
-import RequestForm from '@/components/RequestForm';
-import Map from '@/components/Map';
+import StackingCards from "@/components/stackingcards";
+import DesignedGrow from "@/components/designedgrow";
+import BottomCTA from "@/components/bottomcta";
+import Footer from '@/components/footer';
+import Technologies from '@/components/technologies';
+import CreativeProcess from '@/components/creativeprocess';
+import Brandsspec from '@/components/brandsspec';
+import RequestForm from '@/components/requestform';
+import Map from '@/components/map';
 
 // Map component temporarily disabled to avoid conflicts with horizontal scroll
-// const Map = dynamic(() => import('@/components/Map'), { ssr: false });
+// const Map = dynamic(() => import('@/components/map'), { ssr: false });
 export default function Home() {
   const designedGrowRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLDivElement>(null) // placeholder footer

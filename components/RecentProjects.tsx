@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState } from 'react'
-import CaseStudyModal from './CaseStudyModal'
+import CaseStudyModal from './casestudymodal'
 
 type Project = {
   id: string
@@ -219,12 +219,12 @@ function ProjectCard({
         >
           <div className="bg-white p-4 rounded-lg">
             <img 
-              src="/Group119.svg" 
+              src="/group119.svg" 
               alt="" 
               className="w-4 h-4 group-hover:hidden" 
             />
             <img 
-              src="/Group1190.svg" 
+              src="/group1190.svg" 
               alt="" 
               className="w-4 h-4 hidden group-hover:block" 
             />

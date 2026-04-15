@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import Navbar from '../Navbar'
-import Footer from '../Footer'
-import WorkTogether from '../WorkTogether'
-import Evaluate from '../evaluatCTA'
-import Brandsspec from '../Brandsspec'
-import RequestForm from '../RequestForm'
+import Navbar from '../navbar'
+import Footer from '../footer'
+import WorkTogether from '../worktogether'
+import Evaluate from '../evaluatcta'
+import Brandsspec from '../brandsspec'
+import RequestForm from '../requestform'
 
 export default function AIDrivenServicePage() {
   const router = useRouter()
