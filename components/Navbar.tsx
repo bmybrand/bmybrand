@@ -86,7 +86,7 @@ const servicesMenuItems = [
 const industriesMenuItems = [
   {
     title: "Healthcare",
-    href: "#",
+    href: "/industries/healthcare",
     desc: "Tailored solutions for clinics, practices, and health organizations.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -275,6 +275,7 @@ const Navbar = () => {
     resources: null,
   });
   const isFountainHills = pathname === "/case-studies/fountain-hills";
+  const isIndustriesPage = pathname.startsWith("/industries");
 
   const updateDropdownPosition = (type: "services" | "industries" | "company" | "resources") => {
     const el = tabRefs.current[type];
@@ -350,7 +351,15 @@ const Navbar = () => {
             onMouseEnter={handleMegaMenuEnter("industries")}
             onMouseLeave={handleMegaMenuLeave}
           >
-            <span className={`cursor-pointer ${linkClasses("#")}`}>Industries</span>
+            <span
+              className={`cursor-pointer block relative py-2 transition ${
+                isIndustriesPage ? "text-[#F45B25]" : "text-white/80 hover:text-[#F45B25]"
+              } after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full after:bg-[#F45B25] after:origin-left after:transition ${
+                isIndustriesPage ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100"
+              }`}
+            >
+              Industries
+            </span>
             <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} type="industries" style={dropdownPosition} />
           </li>
           <li>
@@ -429,7 +438,11 @@ const Navbar = () => {
           {/* Industries - expandable */}
           <li>
             <div className="flex items-center justify-between w-full py-2">
-              <Link href="#" onClick={() => setOpen(false)} className="flex-1 BenzinSemibold text-white/80">
+              <Link
+                href="/industries/healthcare"
+                onClick={() => setOpen(false)}
+                className={`flex-1 BenzinSemibold ${isIndustriesPage ? "text-[#F45B25]" : "text-white/80"}`}
+              >
                 Industries
               </Link>
               <button

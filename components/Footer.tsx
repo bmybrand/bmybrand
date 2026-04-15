@@ -95,9 +95,9 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-white font-semibold text-base lg:text-lg mb-4 BenzinSemibold">Specialized Industry</h3>
             <ul className="space-y-2.5 text-sm lg:text-base text-white/70">
-              {['Healthcare', 'E-Commerce', 'SaaS & Startups', 'Finance & Fintech', 'Industrial & Engineering', 'NGOs & Nonprofits'].map((label) => (
+              {[{ label: 'Healthcare', href: '/industries/healthcare' }, { label: 'E-Commerce', href: '#' }, { label: 'SaaS & Startups', href: '#' }, { label: 'Finance & Fintech', href: '#' }, { label: 'Industrial & Engineering', href: '#' }, { label: 'NGOs & Nonprofits', href: '#' }].map(({ label, href }) => (
                 <li key={label}>
-                  <a href="#" className="hover:text-white transition-colors">{label}</a>
+                  <Link href={href} className="hover:text-white transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>

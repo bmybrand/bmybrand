@@ -3,7 +3,7 @@
 import React, { useRef } from 'react'
 import Navbar from './navbar'
 import Herobar from './herobar'
-import Evaluate from './evaluatCTA'
+import Evaluate from './evaluatcta'
 import Brandsspec from './brandsspec'
 import RequestForm from './requestform'
 import Footer from './footer'
