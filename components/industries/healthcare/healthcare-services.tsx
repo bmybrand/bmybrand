@@ -101,13 +101,11 @@ export default function HealthcareServices() {
   }
 
   return (
-    <section className="min-h-screen bg-[#11122F] pt-32 pb-20">
+    <section className="min-h-screen bg-[#11122F] ">
       <div className="w-[90%] 2xl:w-[75%] mx-auto">
-        <div className="text-left w-full lg:w-[50%] px-0">
+        <div className="text-left w-full max-w-3xl px-0">
           <h2 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-            End-To-End Growth Solutions
-            <br />
-            For Healthcare Brands
+            End-To-End Growth Solutions For Healthcare Brands
           </h2>
         </div>
 

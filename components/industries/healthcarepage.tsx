@@ -3,12 +3,16 @@
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import HealthcareGrowth from './healthcare/healthcare-growth'
+import HealthcareAdvantage from './healthcare/healthcare-advantage'
 import HealthcareHero from './healthcare/healthcare-hero'
 import HealthcareLogoBelt from './healthcare/healthcare-logo-belt'
 import HealthcareProcess from './healthcare/healthcare-process'
 import HealthcareProjects from './healthcare/healthcare-projects'
 import HealthcareServices from './healthcare/healthcare-services'
+import HealthcareFAQ from './healthcare/healthcare-faq'
+import IndustriesHero from './industries-hero'
 import HealthcareSlider from './healthcare/healthcare-slider'
+import HealthcareSpotlight from './healthcare/healthcare-spotlight'
 import HealthcareStories from './healthcare/healthcare-stories'
 
 export default function HealthcarePage() {
@@ -23,9 +27,13 @@ export default function HealthcarePage() {
           <HealthcareSlider />
           <HealthcareGrowth />
           <HealthcareStories />
-          <HealthcareProjects />
           <HealthcareProcess />
+          <HealthcareProjects />
           <HealthcareServices />
+          <HealthcareAdvantage />
+          <HealthcareSpotlight />
+          <IndustriesHero />
+          <HealthcareFAQ />
         </section>
       </main>
 
