@@ -101,7 +101,7 @@ export default function HealthcareServices() {
   }
 
   return (
-    <section className="min-h-screen bg-[#15173A] pt-32 pb-20">
+    <section className="min-h-screen bg-[#11122F] pt-32 pb-20">
       <div className="w-[90%] 2xl:w-[75%] mx-auto">
         <div className="text-left w-full lg:w-[50%] px-0">
           <h2 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
@@ -111,9 +111,9 @@ export default function HealthcareServices() {
           </h2>
         </div>
 
-        <div className="flex flex-col lg:flex-row py-20 gap-8">
-          <div className="lg:w-[35%] shrink-0">
-            <div className="rounded-2xl p-4 sticky top-1/5">
+        <div className="flex flex-col gap-8 py-20 lg:flex-row lg:items-start">
+          <div className="self-start shrink-0 lg:sticky lg:top-24 lg:w-[35%]">
+            <div className="rounded-2xl p-4">
               {services.map((service) => (
                 <button
                   key={service.id}
@@ -141,7 +141,7 @@ export default function HealthcareServices() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-[#1E2044] rounded-2xl p-8 md:p-10 scroll-mt-32"
+                className="bg-[#191A35] rounded-2xl p-8 md:p-10 scroll-mt-32"
                 id={service.id}
               >
                 <div className="flex items-center gap-4 mb-6">

@@ -96,7 +96,7 @@ export default function ServicesDetail() {
   }
 
   return (
-    <section className="min-h-screen bg-[#15173A] pt-32 pb-20">
+    <section className="min-h-screen bg-[#11122F] pt-32 pb-20">
        <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
           Discover BMYBrand's Core <span className="text-[#F45B25]"> Services</span>
@@ -141,7 +141,7 @@ export default function ServicesDetail() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-[#1E2044] rounded-2xl p-8 md:p-10 scroll-mt-32"
+                className="bg-[#191A35] rounded-2xl p-8 md:p-10 scroll-mt-32"
                 id={service.id}
               >
                 {/* Service Icon & Title */}

@@ -16,7 +16,7 @@ export default function HealthcarePage() {
     <div className="min-h-screen bg-[#11122F]">
       <Navbar />
 
-      <main className="relative overflow-hidden pt-36 pb-12 sm:pt-40 lg:pt-44 ">
+      <main className="relative pt-36 pb-12 sm:pt-40 lg:pt-44 ">
         <section className="relative mx-auto w-full">
           <HealthcareHero />
           <HealthcareLogoBelt />
@@ -24,8 +24,8 @@ export default function HealthcarePage() {
           <HealthcareGrowth />
           <HealthcareStories />
           <HealthcareProjects />
-          <HealthcareServices />
           <HealthcareProcess />
+          <HealthcareServices />
         </section>
       </main>
 

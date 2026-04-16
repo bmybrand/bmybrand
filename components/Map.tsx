@@ -115,7 +115,7 @@ export default function Map() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="bg-[#0F1035] py-20">
+    <section ref={sectionRef} className="bg-[#11122F] py-20">
       <div className="w-[90%] lg:w-[85%] 2xl:w-[80%] mx-auto">
         <div ref={headingRef} className="text-center mb-12">
           <h2 className="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-white BenzinSemibold mb-4">
@@ -245,4 +245,3 @@ export default function Map() {
     </section>
   )
 }
-
