@@ -79,7 +79,7 @@ export default function HealthcareStories() {
             <p className="mt-6 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/65 ">
               Working with BMYBrand transformed how we present our services online. The improved structure, clarity,
               and overall performance have significantly enhanced how clients interact with our brand, making the
-              experience more intuitive, engaging, and .
+              experience more intuitive, engaging, and effective.
             </p>
 
             <div className="mt-auto pt-8 flex items-center gap-3">

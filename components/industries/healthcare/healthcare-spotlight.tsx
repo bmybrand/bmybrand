@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Stack, { type StackHandle } from '@/components/Stack'
+import Stack, { type StackHandle } from '@/components/stack'
 
 export default function HealthcareSpotlight() {
   const videoPool = ["/rickroll.mp4", "/strock animation_1.mp4"]
