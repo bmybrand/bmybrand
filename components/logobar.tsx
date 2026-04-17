@@ -25,7 +25,7 @@ const Logos = [
   },
   {
     normal: "/client_logo5.svg.svg",
-    hover: "client_logo5.svg (1).svg",
+    hover: "/client_logo5.svg (1).svg",
   },
   {
     normal: "/client_logo6.svg.svg",

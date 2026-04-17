@@ -80,7 +80,7 @@ const BrandStats = () => {
 
         <div className="  pointer-events-none relative mt-10 flex justify-center">
           <img
-            src="/Superherobearsky.svg"
+            src="/superherobearsky.svg"
             alt="BMY Brand character"
             className={`relative z-50 lg:-bottom-8 lg:w-2/5 lg:scale-140 ${bearIn ? 'animate-bearFlyIn' : 'opacity-0 -translate-x-12 translate-y-10'}`}
           />

@@ -30,7 +30,7 @@ export default function HealthcareStories() {
 
           <div className="rounded-[14px] bg-white/[0.04] px-6 py-6 sm:px-7 sm:py-7 flex flex-col">
             <img
-              src="/fh-emergencyroom-logo-erclinic-1 2.svg"
+              src="/FH-EmergencyRoom-Logo-ERClinic-1 2.svg"
               alt="Fountain Hills Emergency Room"
               className="block h-12 w-auto object-contain object-left self-start"
             />

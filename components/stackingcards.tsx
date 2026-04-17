@@ -16,7 +16,7 @@ const projects = [
     buttonText: "View Full Case Study",
     src: "water.jpg",
     link: "/fountainhills.svg",
-    logo: "/fh-emergencyroom-logo-erclinic-1 2.svg",
+    logo: "/FH-EmergencyRoom-Logo-ERClinic-1 2.svg",
     gradient: "linear-gradient(180deg, #270508 0%, #110204 100%)",
     buttonColor: "#B91E2C",
     buttonIcon: "/arrowred.svg",
