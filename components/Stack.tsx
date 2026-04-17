@@ -14,6 +14,7 @@ type StackProps = {
   pauseOnHover?: boolean
   mobileClickOnly?: boolean
   mobileBreakpoint?: number
+  onActiveIndexChange?: (index: number) => void
 }
 
 type StackCard = {
@@ -86,6 +87,7 @@ const Stack = forwardRef<StackHandle, StackProps>(function Stack(
     pauseOnHover = false,
     mobileClickOnly = false,
     mobileBreakpoint = 768,
+    onActiveIndexChange,
   },
   ref
 ) {
@@ -106,6 +108,11 @@ const Stack = forwardRef<StackHandle, StackProps>(function Stack(
   useEffect(() => {
     setStack(cards.map((content, index) => ({ id: index + 1, content })))
   }, [cards])
+
+  useEffect(() => {
+    if (!onActiveIndexChange || stack.length === 0) return
+    onActiveIndexChange(stack[stack.length - 1].id - 1)
+  }, [onActiveIndexChange, stack])
 
   const shouldDisableDrag = mobileClickOnly && isMobile
   const shouldEnableClick = sendToBackOnClick || shouldDisableDrag

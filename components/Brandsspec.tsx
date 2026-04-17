@@ -66,13 +66,12 @@ export default function Brandsspec() {
   const row2Ref = useRef<HTMLDivElement | null>(null)
   const anims = useRef<gsap.core.Tween[]>([])
 
-  // create a single block (one sequence of items)
   const makeBlock = (row: HTMLDivElement, items: Review[]) => {
     const block = document.createElement('div')
     block.style.display = 'flex'
-    // inner items rely on the row's gap via block's gap
     block.style.gap = getComputedStyle(row).gap || '0px'
     block.style.flex = 'none'
+
     items.forEach((review) => {
       const it = document.createElement('div')
       it.className = ITEM_CLASS
@@ -122,10 +121,10 @@ export default function Brandsspec() {
       it.appendChild(quote)
       block.appendChild(it)
     })
+
     return block
   }
 
-  // helper: create spacer element matching the row gap
   const makeSpacer = (gapPx: number) => {
     const sp = document.createElement('div')
     sp.style.width = `${gapPx}px`
@@ -133,7 +132,6 @@ export default function Brandsspec() {
     return sp
   }
 
-  // build track with N blocks (blocks side-by-side) and spacer between them
   const buildTrackWithBlocks = (row: HTMLDivElement, items: Review[], nBlocks: number, gapPx: number) => {
     row.innerHTML = ''
     const track = document.createElement('div')
@@ -141,11 +139,12 @@ export default function Brandsspec() {
     track.style.width = 'max-content'
     track.style.alignItems = 'center'
     track.style.willChange = 'transform'
+
     for (let i = 0; i < nBlocks; i++) {
       track.appendChild(makeBlock(row, items))
-      // add spacer between blocks (but not after the last block)
       if (i < nBlocks - 1) track.appendChild(makeSpacer(gapPx))
     }
+
     row.appendChild(track)
     return track
   }
@@ -159,14 +158,13 @@ export default function Brandsspec() {
     if (!rowRef.current) return
     const row = rowRef.current
 
-    // start with a measuring track: one block + spacer + one block
     row.innerHTML = ''
     const measuringTrack = document.createElement('div')
     measuringTrack.style.display = 'flex'
     measuringTrack.style.width = 'max-content'
+
     const blockA = makeBlock(row, items)
     const blockB = makeBlock(row, items)
-    // measure gap from computed style (in px)
     const gapStr = getComputedStyle(row).gap || '0px'
     const gapPx = parseFloat(gapStr) || 0
 
@@ -175,19 +173,17 @@ export default function Brandsspec() {
     measuringTrack.appendChild(blockB)
     row.appendChild(measuringTrack)
 
-    // measure after layout
     requestAnimationFrame(() => {
       const measuredBlock = measuringTrack.children[0] as HTMLElement
       const blockWidth = measuredBlock.scrollWidth
       const blockWidthWithGap = blockWidth + gapPx
       const containerWidth = row.parentElement?.offsetWidth || window.innerWidth
 
-      // safety: if measurement fails, fall back to 2 blocks without spacer
       if (!blockWidthWithGap || blockWidthWithGap <= 0) {
         const fallback = buildTrackWithBlocks(row, items, 2, gapPx)
         gsap.set(fallback, { x: 0 })
         const t = gsap.to(fallback, {
-          x: moveRight ? `+=${1}` : `-=${1}`,
+          x: moveRight ? '+=1' : '-=1',
           duration,
           ease: 'linear',
           repeat: -1,
@@ -196,15 +192,10 @@ export default function Brandsspec() {
         return
       }
 
-      // number of blocks so track width >= containerWidth + blockWidthWithGap
-      // ensures full coverage for any x in [-blockWidthWithGap, 0]
       const needed = Math.max(2, Math.ceil((containerWidth + blockWidthWithGap) / blockWidthWithGap))
-
-      // build final track with needed blocks and spacers
       const track = buildTrackWithBlocks(row, items, needed, gapPx)
-
-      // wrap-based animation (no jump)
       const wrap = gsap.utils.wrap
+
       gsap.set(track, { x: 0 })
 
       if (moveRight) {
@@ -240,9 +231,8 @@ export default function Brandsspec() {
   }
 
   useLayoutEffect(() => {
-    // initial
-    setup(row1Ref, reviewsRow1, 20, true) // top moves right
-    setup(row2Ref, reviewsRow2, 25, false) // bottom moves left
+    setup(row1Ref, reviewsRow1, 20, true)
+    setup(row2Ref, reviewsRow2, 25, false)
 
     const onResize = () => {
       anims.current.forEach((a) => a.kill())
@@ -256,7 +246,6 @@ export default function Brandsspec() {
       anims.current.forEach((a) => a.kill())
       window.removeEventListener('resize', onResize)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -266,37 +255,18 @@ export default function Brandsspec() {
           Built With Care. <span className="text-[#F45B25]">Trusted By </span>Brands.
         </h1>
         <p className="text-[#ADAECC] text-sm sm:text-base">
-          At BMYBrand, businesses trust us for clean design, smooth functionality, and results that help their brand grow. Here's what our clients are saying.
+          At BMYBrand, businesses trust us for clean design, smooth functionality, and results that help
+          their brand grow. Here's what our clients are saying.
         </p>
       </div>
 
-      {/* Top Row → */}
       <div className="relative overflow-hidden w-full">
-        <div ref={row1Ref} className="flex gap-8" />
-        {/* Left fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#11122F] to-transparent pointer-events-none z-10" />
-        {/* Right fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#11122F] to-transparent pointer-events-none z-10" />
+        <div ref={row1Ref} className="flex gap-4 md:gap-5" />
       </div>
 
-      {/* Bottom Row ← */}
       <div className="relative overflow-hidden w-full">
-        <div ref={row2Ref} className="flex gap-8" />
-        {/* Left fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#11122F] to-transparent pointer-events-none z-10" />
-        {/* Right fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#11122F] to-transparent pointer-events-none z-10" />
+        <div ref={row2Ref} className="flex gap-4 md:gap-5" />
       </div>
     </div>
   )
 }
-
-
-
-
-
-
-
-
-
-

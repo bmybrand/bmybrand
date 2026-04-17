@@ -22,13 +22,13 @@ export default function HealthcareHero() {
 
       <div className="mt-7 flex flex-col gap-4 sm:flex-row BenzinSemibold">
         <Link
-          href="/contact"
+          href="/strategy-call"
           className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2"
         >
           <div className="bg-white p-4 rounded-lg">
             <img src="/group1190.svg" alt="" className="w-4 h-4" />
           </div>
-          <span className="px-2">Get Started Now</span>
+          <span className="px-2">Free strategy call</span>
         </Link>
 
         <Link

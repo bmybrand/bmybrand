@@ -2,7 +2,18 @@
 
 import Link from 'next/link'
 
-const projectCards = [
+type ProjectCard = {
+  brandTitle: string
+  brandSubtitle?: string
+  title: string
+  image: string
+  tag: string
+  href: string
+  imageClassName: string
+  featured?: boolean
+}
+
+const projectCards: ProjectCard[] = [
   {
     brandTitle: 'FOUNTAIN HILLS',
     brandSubtitle: 'EMERGENCY ROOM & MEDICAL CENTER',

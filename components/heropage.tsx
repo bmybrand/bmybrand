@@ -120,14 +120,12 @@ const Heropage: React.FC = () => {
           ref={buttonsRef}
           className="mt-6 mb-8 flex flex-col sm:flex-row gap-4 BenzinSemibold"
         >
-  <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 opacity-0"
-    style={{ transform: "translateY(14px)" }}
-  >
+  <a href="/strategy-call" className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 opacity-0" style={{ transform: "translateY(14px)" }}>
     <div className="bg-white p-4 rounded-lg">
-    <img src="/group1190.svg" alt="" className="w-4 h-4" />
+      <img src="/group1190.svg" alt="" className="w-4 h-4" />
     </div>
-    <span className="px-2">Get Started Now</span>
-  </button>
+    <span className="px-2">Free strategy call</span>
+  </a>
 
   <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2 opacity-0" style={{ transform: "translateY(14px)" }}>
 
