@@ -32,7 +32,6 @@ export default function Home() {
       <Ourbranding />
       <StackingCards />
       <Map />
-      {/* DesignedGrow section with ref */}
       <div ref={designedGrowRef}>
         <DesignedGrow />
       </div>
