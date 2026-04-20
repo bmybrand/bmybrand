@@ -19,6 +19,25 @@ export default function GrowMyBusinessPage() {
   const [websiteGoal, setWebsiteGoal] = useState("");
   const canStartAudit = industry !== "" && websiteGoal !== "";
 
+  const resolveAuditSiteInput = (value: string) => {
+    const trimmedValue = value.trim();
+    if (!trimmedValue) return trimmedValue;
+
+    try {
+      const normalizedValue = /^https?:\/\//i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
+      const parsedUrl = new URL(normalizedValue);
+
+      if (parsedUrl.hostname === "localhost" || parsedUrl.hostname === "127.0.0.1") {
+        const currentOrigin = window.location.origin;
+        return `${currentOrigin}${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
+      }
+
+      return normalizedValue;
+    } catch {
+      return trimmedValue;
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!website.trim()) return;
@@ -30,7 +49,8 @@ export default function GrowMyBusinessPage() {
     if (!canStartAudit) return;
     setSubmitted(true);
     setAuditModalOpen(false);
-    router.push(`/grow-my-business/analyzing?site=${encodeURIComponent(website.trim())}`);
+    const resolvedSite = resolveAuditSiteInput(website);
+    router.push(`/grow-my-business/analyzing?site=${encodeURIComponent(resolvedSite)}`);
   };
 
   useEffect(() => {
