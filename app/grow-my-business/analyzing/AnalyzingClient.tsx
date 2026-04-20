@@ -20,8 +20,10 @@ export default function AnalyzingClient({ site }: { site?: string }) {
   const [logoHidden, setLogoHidden] = useState(false);
   const [runPreviewFlash, setRunPreviewFlash] = useState(false);
   const [previewDimmed, setPreviewDimmed] = useState(false);
+  const [canRevealPreview, setCanRevealPreview] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const sequenceStartedRef = useRef(false);
+  const shouldRevealPreview = canRevealPreview && (previewLoaded || previewFailed);
   const previewSrc = useMemo(
     () => `/api/screenshot?site=${encodeURIComponent(siteLabel)}`,
     [siteLabel]
@@ -42,7 +44,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
   }, []);
 
   useEffect(() => {
-    if (!previewLoaded || sequenceStartedRef.current) return;
+    if (sequenceStartedRef.current) return;
 
     sequenceStartedRef.current = true;
 
@@ -51,7 +53,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
     }, 3000);
 
     const previewShowTimer = window.setTimeout(() => {
-      setShowPreview(true);
+      setCanRevealPreview(true);
     }, 3000);
 
     const logoHideTimer = window.setTimeout(() => {
@@ -68,7 +70,12 @@ export default function AnalyzingClient({ site }: { site?: string }) {
       window.clearTimeout(logoHideTimer);
       window.clearTimeout(previewFlashTimer);
     };
-  }, [previewLoaded]);
+  }, []);
+
+  useEffect(() => {
+    if (!shouldRevealPreview) return;
+    setShowPreview(true);
+  }, [shouldRevealPreview]);
 
   useEffect(() => {
     if (!runPreviewFlash) return;
