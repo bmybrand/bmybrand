@@ -147,10 +147,6 @@ export default function AnalyzingClient({ site }: { site?: string }) {
                 28% { opacity: 0.96; transform: scale(1.03); }
                 100% { opacity: 0; transform: scale(1.06); }
               }
-              @keyframes previewIntro {
-                0% { opacity: 0; }
-                100% { opacity: 1; }
-              }
               @keyframes dotFade {
                 0%, 100% { opacity: 0.92; }
                 50% { opacity: 0.32; }
@@ -198,8 +194,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
                 style={{
                   opacity: showPreview ? (previewDimmed ? 0 : 1) : 0,
                   willChange: "opacity",
-                  transition: runPreviewFlash ? "opacity 420ms ease-out" : undefined,
-                  animation: !showPreview ? undefined : !runPreviewFlash ? "previewIntro 0.45s ease-out 1" : undefined,
+                  transition: runPreviewFlash ? "opacity 420ms ease-out" : "opacity 450ms ease-out",
                 }}
               >
                 <div className="relative w-full max-w-[60rem]">
