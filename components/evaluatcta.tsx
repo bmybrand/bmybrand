@@ -7,7 +7,7 @@ const evaluate = () => {
   const router = useRouter()
 
   return (
-    <section className='bg-[#11122F] mt-30 '>
+    <section className='bg-[#11122F] py-10'>
       <div className='mx-auto w-[90%] 2xl:w-[75%] h-fit rounded-xl relative'>
       <img src="/techbear.svg" alt="" className='absolute bottom-0 right-0 w-40 md:w-48 lg:w-[45%] lg:block hidden h-full z-20 animate-bounceRocket' />
       <div className='w-full lg:w-[90%] h-full bg-[#191A35] rounded-xl px-6 md:px-8 py-8   lg:py-20 flex flex-col justify-center gap-4'>

@@ -387,7 +387,7 @@ const Navbar = () => {
 
         {/* Desktop CTA */}
         <Link
-          href="/contact"
+          href="/grow-my-business"
           className={`hidden xl:inline-flex items-center px-6 py-4 rounded-lg text-lg font-medium hover:opacity-90 transition BenzinSemibold ${
             isFountainHills ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
           }`}
@@ -533,7 +533,7 @@ const Navbar = () => {
 
           {/* Mobile CTA - smaller */}
           <Link
-            href="/contact"
+            href="/grow-my-business"
             onClick={() => setOpen(false)}
             className={`mt-3 inline-flex justify-center items-center px-4 py-2.5 rounded-lg text-sm font-medium BenzinSemibold ${
               isFountainHills ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"

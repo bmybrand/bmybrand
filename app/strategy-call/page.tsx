@@ -101,7 +101,7 @@ export default function StrategyCallPage() {
   const [budget, setBudget] = useState("");
   const [callNotes, setCallNotes] = useState("");
   const [source, setSource] = useState("");
-  const [step, setStep] = useState<"form" | "time">("form");
+  const [step, setStep] = useState<"form" | "time" | "complete">("form");
   const [calendarDate, setCalendarDate] = useState(new Date(2026, 3, 1));
   const [selectedDate, setSelectedDate] = useState(6);
   const [selectedTime, setSelectedTime] = useState("");
@@ -110,11 +110,15 @@ export default function StrategyCallPage() {
   const [selectedTimezone, setSelectedTimezone] = useState("Asia/Pakistan/Karachi");
   const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h");
   const [hoveredSlot, setHoveredSlot] = useState<string | null>(null);
+  const [activeAgenda, setActiveAgenda] = useState(0);
+  const [completionVideoPaused, setCompletionVideoPaused] = useState(false);
+  const [completionVideoMuted, setCompletionVideoMuted] = useState(true);
   const [reviewCardWidth, setReviewCardWidth] = useState(0);
   const [reviewCardHeight, setReviewCardHeight] = useState(0);
   const [currentReview, setCurrentReview] = useState(0);
   const beltViewportRef = useRef<HTMLDivElement | null>(null);
   const beltTrackRef = useRef<HTMLDivElement | null>(null);
+  const completionVideoRef = useRef<HTMLVideoElement | null>(null);
   const animRef = useRef<gsap.core.Tween | null>(null);
   const cardWidthRef = useRef(0);
 
@@ -194,6 +198,24 @@ export default function StrategyCallPage() {
   const filteredTimezones = timezoneOptions.filter((option) =>
     option.label.toLowerCase().includes(timezoneQuery.toLowerCase())
   );
+  const agendaItems = [
+    {
+      title: "Discovery Call",
+      body: "We’ll learn about your healthcare organization, goals, and current digital challenges.",
+    },
+    {
+      title: "Strategy Discussion",
+      body: "We’ll review the opportunities we identified and discuss the best direction for your brand, site, and growth systems.",
+    },
+    {
+      title: "Scope & Recommendations",
+      body: "You’ll leave with clear priorities, recommended actions, and a practical path forward.",
+    },
+    {
+      title: "Meet the Team",
+      body: "You’ll get introduced to the specialists who would support design, development, and execution after the call.",
+    },
+  ];
 
   const monthLabel = calendarDate.toLocaleDateString("en-US", {
     month: "long",
@@ -257,6 +279,28 @@ export default function StrategyCallPage() {
     setStep("time");
   };
 
+  const toggleCompletionVideo = () => {
+    const video = completionVideoRef.current;
+    if (!video) return;
+
+    if (completionVideoPaused) {
+      void video.play().catch(() => {});
+      setCompletionVideoPaused(false);
+    } else {
+      video.pause();
+      setCompletionVideoPaused(true);
+    }
+  };
+
+  const toggleCompletionVideoMuted = () => {
+    const video = completionVideoRef.current;
+    if (!video) return;
+
+    const nextMuted = !completionVideoMuted;
+    video.muted = nextMuted;
+    setCompletionVideoMuted(nextMuted);
+  };
+
   return (
     <div className="min-h-screen bg-[#11122F]">
       <div className="mx-auto w-[90%] 2xl:w-[85%] px-2 py-8">
@@ -264,9 +308,124 @@ export default function StrategyCallPage() {
           <Navbar />
         </header>
 
-        <main className="mx-auto mt-24 flex max-w-7xl flex-col gap-12 lg:mt-32 lg:flex-row lg:items-start lg:gap-14">
+        <main className="mx-auto mt-24 max-w-7xl lg:mt-32">
+          {step === "complete" ? (
+            <section className="px-2 py-2 lg:px-0 lg:py-0">
+              <div className="grid gap-10 lg:grid-cols-[minmax(0,0.88fr)_minmax(540px,1.02fr)] lg:items-start">
+                <div>
+                  <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#1B1C3A] px-4 text-[0.8rem] text-white/90">
+                    <span className="text-white/85">✦</span>
+                    <span>Thank you for booking</span>
+                  </div>
+
+                  <h2 className="mt-6 max-w-[12ch] text-[45px] leading-[0.98] text-white BenzinSemibold">
+                    You&apos;re All Set For Your Strategy Call
+                  </h2>
+
+                  <p className="mt-5 max-w-[42rem] text-[1.02rem] leading-9 text-[#9EA2C5]">
+                    Your call has been confirmed. Below is a quick overview of what to expect as we
+                    discuss your healthcare brand, digital challenges, and growth opportunities.
+                  </p>
+
+                  <div className="mt-8 space-y-4">
+                    {agendaItems.map((item, index) => {
+                      const open = activeAgenda === index;
+                      return (
+                        <button
+                          key={item.title}
+                          type="button"
+                          onClick={() => setActiveAgenda(open ? -1 : index)}
+                          className="block w-full rounded-[14px] border border-[#2A2B47] bg-transparent px-5 py-4 text-left transition-colors hover:bg-[#1B1C3A]"
+                        >
+                          <div className="flex items-center justify-between gap-4">
+                            <div className="text-[1.05rem] text-white BenzinRegular sm:text-[1.1rem]">{item.title}</div>
+                            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#232544] text-white/80">
+                              <svg
+                                className={`h-4 w-4 transition-transform duration-300 ease-out ${open ? "rotate-180" : "rotate-0"}`}
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6" />
+                              </svg>
+                            </span>
+                          </div>
+                          <div
+                            className={`grid transition-all duration-300 ease-out ${
+                              open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                            }`}
+                          >
+                            <div className="overflow-hidden">
+                              <p className="mt-3 max-w-[39rem] text-base leading-8 text-white/55">
+                                {item.body}
+                              </p>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="group mx-auto w-full max-w-[32rem]">
+                  <div className="relative overflow-hidden rounded-[14px]">
+                    <video
+                      ref={completionVideoRef}
+                      src="/rickroll.mp4"
+                      className="h-[40rem] w-full object-cover"
+                      autoPlay
+                      muted={completionVideoMuted}
+                      loop
+                      playsInline
+                    />
+                    <button
+                      type="button"
+                      onClick={toggleCompletionVideoMuted}
+                      className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-[#17183B]/88 text-white shadow-[0_10px_24px_rgba(0,0,0,0.22)] transition-all duration-200 hover:scale-[1.03] hover:bg-[#202141]"
+                      aria-label={completionVideoMuted ? "Unmute video" : "Mute video"}
+                    >
+                      {completionVideoMuted ? (
+                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                          <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                          <path d="m22 9-6 6" />
+                          <path d="m16 9 6 6" />
+                        </svg>
+                      ) : (
+                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                          <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                          <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                          <path d="M18.5 6a8.5 8.5 0 0 1 0 12" />
+                        </svg>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={toggleCompletionVideo}
+                      className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-[#17183B] bg-white text-[#17183B] opacity-0 shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-all duration-200 group-hover:opacity-100 hover:scale-[1.03]"
+                      aria-label={completionVideoPaused ? "Play video" : "Pause video"}
+                    >
+                      <div className="flex h-7 w-7 items-center justify-center rounded-[4px] bg-[#2589D0]">
+                        {completionVideoPaused ? (
+                          <svg className="ml-0.5 h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M8 6.5v11l8-5.5-8-5.5z" />
+                          </svg>
+                        ) : (
+                          <svg className="h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M8 6h3v12H8zM13 6h3v12h-3z" />
+                          </svg>
+                        )}
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          ) : (
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-14">
           <section className="w-full lg:w-[62%]">
-            <div className="inline-flex items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#191A35] px-4 py-2 text-[0.8rem] text-white/90">
+            <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#191A35] px-4 text-[0.8rem] text-white/90">
               <span className="text-white/85">*</span>
               <span>Book a strategy call</span>
             </div>
@@ -778,6 +937,7 @@ export default function StrategyCallPage() {
                       <div className="overflow-hidden">
                         <button
                           type="button"
+                          onClick={() => setStep("complete")}
                           className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] py-3.5 text-[1.05rem] text-white transition-all duration-200 hover:brightness-110 BenzinSemibold"
                         >
                           Finish
@@ -789,8 +949,11 @@ export default function StrategyCallPage() {
               )}
             </div>
           </aside>
+            </div>
+          )}
         </main>
       </div>
+
     </div>
   );
 }

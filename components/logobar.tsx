@@ -92,7 +92,7 @@ const Logobar = () => {
       style={{ transform: "translateY(24px)" }}
     >
       {/* Heading */}
-      <div className="w-full flex justify-center mt-30">
+      <div className="w-full flex justify-center">
         <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[42px] 2xl:leading-[50px]">
           Every day, <span className="text-[#F45B25]">BMYBrand</span> is trusted by
           businesses, startups, and creators worldwide.

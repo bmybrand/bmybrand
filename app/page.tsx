@@ -25,7 +25,9 @@ export default function Home() {
   return (
     <div className="bg-[#11122F]">
       <Navbar />
-      <Heropage />
+      <div className="pb-30">
+        <Heropage />
+      </div>
       <Logobar />
       <Flyingbear />
       <Addblock />
