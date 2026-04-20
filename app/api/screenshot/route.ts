@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
       animations: "disabled",
     });
 
-    return new NextResponse(imageBuffer, {
+    return new NextResponse(new Uint8Array(imageBuffer), {
       status: 200,
       headers: {
         "Content-Type": "image/jpeg",
