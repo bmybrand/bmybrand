@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         ? {
             args: chromium.args,
             executablePath: await chromium.executablePath(),
-            headless: chromium.headless,
+            headless: true,
           }
         : {
             channel: "chrome",
