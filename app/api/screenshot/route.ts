@@ -1,5 +1,6 @@
-import { chromium } from "playwright";
 import { NextRequest, NextResponse } from "next/server";
+import chromium from "@sparticuz/chromium";
+import { chromium as playwrightChromium } from "playwright-core";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,12 +19,24 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Missing site parameter." }, { status: 400 });
   }
 
-  let browser: Awaited<ReturnType<typeof chromium.launch>> | null = null;
+  let browser: Awaited<ReturnType<typeof playwrightChromium.launch>> | null = null;
 
   try {
-    browser = await chromium.launch({
-      headless: true,
-    });
+    const isVercel = Boolean(process.env.VERCEL);
+
+    browser = await playwrightChromium.launch(
+      isVercel
+        ? {
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+          }
+        : {
+            channel: "chrome",
+            headless: true,
+          }
+    );
 
     const page = await browser.newPage({
       viewport: { width: 1600, height: 1200 },
