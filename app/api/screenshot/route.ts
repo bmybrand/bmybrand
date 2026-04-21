@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
       isVercel
         ? {
             args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
             executablePath: await chromium.executablePath(),
             headless: chromium.headless,
           }
