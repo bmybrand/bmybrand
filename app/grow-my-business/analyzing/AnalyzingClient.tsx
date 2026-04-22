@@ -85,7 +85,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
       window.setTimeout(() => {
         setPreviewDimmed(false);
       }, 420);
-    }, 3200);
+    }, 5200);
 
     return () => window.clearInterval(interval);
   }, [runPreviewFlash]);
