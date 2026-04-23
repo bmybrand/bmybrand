@@ -38,7 +38,7 @@ const advantageCards = [
   },
 ]
 
-const avatarColors = ['#9FC5FF', '#FFD59D', '#B9C7FF', '#8FD7C2', '#F0B6D1']
+const avatarImages = [13, 22, 34, 47, 58]
 
 export default function HealthcareAdvantage() {
   return (
@@ -96,13 +96,17 @@ export default function HealthcareAdvantage() {
 
               {card.type === 'avatars' && (
                 <div className="absolute bottom-7 right-7 z-20 flex items-center">
-                  {avatarColors.map((color, index) => (
+                  {avatarImages.map((imageId, index) => (
                     <div
-                      key={color}
-                      className="-ml-2 first:ml-0 flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#191A35] text-[11px] text-[#191A35] transition-transform duration-300 group-hover:-translate-y-1 BenzinSemibold"
-                      style={{ backgroundColor: color, transitionDelay: `${index * 35}ms` }}
+                      key={imageId}
+                      className="-ml-2 first:ml-0 h-12 w-12 overflow-hidden rounded-full border-2 border-[#191A35] transition-transform duration-300 group-hover:-translate-y-1"
+                      style={{ transitionDelay: `${index * 35}ms` }}
                     >
-                      {index + 1}
+                      <img
+                        src={`https://i.pravatar.cc/96?img=${imageId}`}
+                        alt=""
+                        className="h-full w-full object-cover"
+                      />
                     </div>
                   ))}
                 </div>

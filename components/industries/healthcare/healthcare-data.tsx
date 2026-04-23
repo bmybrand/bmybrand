@@ -39,7 +39,7 @@ export const capabilityItems: Array<{
     description:
       'HIPAA-aware, conversion-focused websites designed to build trust, improve usability, and guide patients smoothly from first visit to appointment booking.',
     icon: (
-      <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <rect x="3" y="4" width="18" height="14" rx="2" strokeWidth="1.7" />
         <path d="M7 8h10M7 12h4M14 12h3M7 15h6" strokeWidth="1.7" strokeLinecap="round" />
         <path d="M10 20h4" strokeWidth="1.7" strokeLinecap="round" />
@@ -51,7 +51,7 @@ export const capabilityItems: Array<{
     description:
       'Professional brand systems that build credibility, reflect compassion, and maintain consistent authority across every patient touchpoint.',
     icon: (
-      <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M12 3l2.1 4.26L19 9.02l-3.5 3.4.83 4.81L12 15l-4.33 2.23.83-4.81L5 9.02l4.9-1.76L12 3z" strokeWidth="1.7" strokeLinejoin="round" />
         <path d="M9.5 11.5c.8.67 1.63 1 2.5 1s1.7-.33 2.5-1" strokeWidth="1.7" strokeLinecap="round" />
       </svg>
@@ -62,7 +62,7 @@ export const capabilityItems: Array<{
     description:
       'AI-powered tools, automation, and targeted marketing strategies designed to increase visibility, improve response times, and drive steady patient acquisition.',
     icon: (
-      <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M16 19a4 4 0 00-8 0" strokeWidth="1.7" strokeLinecap="round" />
         <circle cx="12" cy="9" r="3" strokeWidth="1.7" />
         <path d="M5 19a3 3 0 013-3M19 19a3 3 0 00-3-3" strokeWidth="1.7" strokeLinecap="round" />

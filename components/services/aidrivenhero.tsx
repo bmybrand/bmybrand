@@ -116,11 +116,13 @@ export default function AIDrivenHero() {
                     title: 'Data & Decision Intelligence',
                     desc: 'Make better business calls using insights, forecasting, and performance reporting powered by AI.',
                   },
-                ].map((item) => (
+                ].map((item, index) => (
                   <div key={item.number} className="flex gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#21223F] text-lg text-white BenzinBold">
-                      {item.number}
-                    </div>
+                    <img
+                      src={`https://i.pravatar.cc/96?img=${index + 11}`}
+                      alt=""
+                      className="h-12 w-12 shrink-0 rounded-full object-cover"
+                    />
                     <div className="flex-1">
                       <h4 className="mb-2 text-base text-white md:text-lg BenzinSemibold">{item.title}</h4>
                       <p className="text-sm leading-relaxed text-white/50">{item.desc}</p>

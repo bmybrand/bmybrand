@@ -84,9 +84,11 @@ export default function BrandExperienceHero() {
             <div className="flex flex-col justify-between h-full">
               {impactAreas.map((item, index) => (
                 <div key={index} className="flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-lg text-white BenzinBold shrink-0">
-                    {item.number}
-                  </div>
+                  <img
+                    src={`https://i.pravatar.cc/96?img=${index + 21}`}
+                    alt=""
+                    className="h-12 w-12 shrink-0 rounded-full object-cover"
+                  />
                   <div>
                     <h3 className="text-white text-xl BenzinSemibold mb-2">{item.title}</h3>
                     <p className="text-white/60  leading-relaxed">{item.description}</p>

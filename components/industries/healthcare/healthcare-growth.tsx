@@ -41,19 +41,19 @@ export default function HealthcareGrowth() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-12">
+        <div className="mt-10 grid gap-4 md:auto-rows-fr md:grid-cols-12">
           {growthCards.map((card) => (
             <div
               key={card.number}
-              className={`overflow-hidden rounded-[10px] bg-white/[0.03] ${
+              className={`h-full overflow-hidden rounded-[10px] bg-white/[0.03] ${
                 card.image
-                  ? 'md:col-span-7 pl-6 pr-0 pt-6 pb-0 sm:pl-8 sm:pt-7'
+                  ? 'md:col-span-7'
                   : 'md:col-span-5 min-h-[250px] px-6 py-6 sm:px-8 sm:py-7'
               }`}
             >
               {card.image ? (
-                <div className="flex flex-col items-start gap-6 lg:flex-row lg:justify-between lg:gap-0">
-                  <div className="flex w-full self-start flex-col lg:w-[58%] lg:pr-6 pb-6 sm:lg:pr-8 sm:pb-7">
+                <div className="grid h-full gap-0 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-stretch">
+                  <div className="flex min-w-0 flex-col px-6 py-6 sm:px-8 sm:py-7">
                     <div className="text-xl tracking-[0.18em] text-white/20 BenzinSemibold">{card.number}</div>
                     <h3 className="mt-6 text-white text-[40px] leading-[1.15] BenzinSemibold">
                       {card.title}
@@ -62,16 +62,16 @@ export default function HealthcareGrowth() {
                       {card.description}
                     </p>
                   </div>
-                  <div className="flex w-full justify-end self-end lg:w-[42%] lg:items-end">
+                  <div className="flex min-h-[180px] w-full items-end justify-center lg:min-h-0 lg:justify-end">
                     <img
                       src={card.image}
                       alt=""
-                      className="h-auto w-full max-w-[260px] lg:max-w-none object-contain object-right-bottom"
+                      className="h-full max-h-[240px] w-full object-contain object-right-bottom"
                     />
                   </div>
                 </div>
               ) : (
-                <>
+                <div className="flex h-full flex-col">
                   <div className="text-xl tracking-[0.18em] text-white/20 BenzinSemibold">{card.number}</div>
                   <h3 className="mt-6 text-white text-[40px] leading-[1.15] BenzinSemibold">
                     {card.title}
@@ -79,7 +79,7 @@ export default function HealthcareGrowth() {
                   <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
                     {card.description}
                   </p>
-                </>
+                </div>
               )}
             </div>
           ))}

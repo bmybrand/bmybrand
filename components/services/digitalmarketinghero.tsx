@@ -79,9 +79,11 @@ export default function DigitalMarketingHero() {
             <div className="space-y-6">
               {impactAreas.map((item, index) => (
                 <div key={index} className="flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center text-lg text-white/60 BenzinBold shrink-0">
-                    {item.number}
-                  </div>
+                  <img
+                    src={`https://i.pravatar.cc/96?img=${index + 51}`}
+                    alt=""
+                    className="h-12 w-12 shrink-0 rounded-full object-cover"
+                  />
                   <div>
                     <h3 className="text-white text-xl BenzinSemibold mb-2">{item.title}</h3>
                     <p className="text-white/60 BenzinRegular leading-relaxed">{item.description}</p>

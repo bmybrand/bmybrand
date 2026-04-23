@@ -51,7 +51,7 @@ const processSteps = [
   },
 ]
 
-const avatarColors = ['#8BC5FF', '#FFD39B', '#C7B7FF', '#9EE2C4', '#F6B8C8']
+const avatarImages = [14, 27, 33, 45, 52]
 
 export default function HealthcareProcess() {
   return (
@@ -120,13 +120,16 @@ export default function HealthcareProcess() {
             </div>
 
             <div className="mt-8 flex items-center gap-0">
-              {avatarColors.map((color, index) => (
+              {avatarImages.map((imageId) => (
                 <div
-                  key={color}
-                  className="-ml-2 first:ml-0 flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#191A35]"
-                  style={{ backgroundColor: color }}
+                  key={imageId}
+                  className="-ml-2 first:ml-0 h-14 w-14 overflow-hidden rounded-full border-2 border-[#191A35]"
                 >
-                  <span className="text-sm text-[#191A35] BenzinSemibold">{index + 1}</span>
+                  <img
+                    src={`https://i.pravatar.cc/112?img=${imageId}`}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               ))}
             </div>
