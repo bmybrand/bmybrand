@@ -5,6 +5,8 @@ import Navbar from '../navbar'
 import Footer from '../footer'
 import WorkTogether from '../worktogether'
 import RequestForm from '../requestform'
+import EvaluatCTA from '../evaluatcta'
+import Brandsspec from '../brandsspec'
 import AIDrivenHero from './aidrivenhero'
 import AISolutions from './aisolutions'
 import AIFaq from './aifaq'
@@ -18,6 +20,8 @@ export default function AIDrivenPage() {
       <AIFaq />
       <WorkTogether />
       <RequestForm />
+      <EvaluatCTA />
+      <Brandsspec />
       <Footer />
     </div>
   )

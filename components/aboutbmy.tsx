@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -215,12 +216,23 @@ const AboutBmy = () => {
       {/* CORE SERVICES */}
       <div ref={servicesRef} className="relative mx-auto mt-24 w-[90%] 2xl:w-[85%]">
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="relative z-10">
+          <div className="relative z-10 max-w-[720px]">
             <h3 className="BenzinSemibold text-2xl sm:text-3xl lg:text-4x">
               Discover BMYBrand's
               <br />
               <span className="text-[#F45B25]">Core Services</span>
             </h3>
+          </div>
+          <div className="relative z-10 lg:shrink-0">
+            <Link
+              href="/strategy-call"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)]"
+            >
+              <div className="rounded-lg bg-white p-4">
+                <img src="/group1190.svg" alt="" className="h-4 w-4" />
+              </div>
+              <span className="px-2">Free strategy call</span>
+            </Link>
           </div>
         </div>
 

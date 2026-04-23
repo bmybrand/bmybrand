@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,12 +16,12 @@ const FullyAnimatedGrid: React.FC = () => {
 
   const expansionDelay = 500;
   const fadeDuration = 700;
-  const collapseDelay = fadeDuration + 120;
   const hasTriggered = useRef(false);
   const headingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!headingRef.current) return;
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         headingRef.current,
@@ -41,6 +40,7 @@ const FullyAnimatedGrid: React.FC = () => {
         }
       );
     }, headingRef.current);
+
     return () => ctx.revert();
   }, []);
 
@@ -56,27 +56,25 @@ const FullyAnimatedGrid: React.FC = () => {
     if (!element) return;
 
     const observer = new IntersectionObserver(
-  ([entry]) => {
-    if (entry.isIntersecting && !hasTriggered.current) {
-      hasTriggered.current = true;
+      ([entry]) => {
+        if (entry.isIntersecting && !hasTriggered.current) {
+          hasTriggered.current = true;
+          setIsHovered(true);
 
-      setIsHovered(true);
+          showTimer.current = window.setTimeout(() => {
+            setShowContent(true);
+          }, expansionDelay);
 
-      showTimer.current = window.setTimeout(() => {
-        setShowContent(true);
-      }, expansionDelay);
-
-      observer.disconnect(); // 🔥 trigger once
-    }
-  },
-  { threshold: 0.7 }
-);
-
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.7 }
+    );
 
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, []);
+  }, [expansionDelay]);
 
   const leftItems = [
     {
@@ -127,54 +125,70 @@ const FullyAnimatedGrid: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center ">
+    <div className="flex flex-col items-center">
       <div
         ref={headingRef}
-        className="w-full flex flex-col items-center justify-center mt-30 mb-20"
+        className="mt-30 mb-20 flex w-[90%] flex-col items-center justify-center 2xl:w-[75%]"
       >
-        <h2 className="mb-6 w-[90%] 2xl:w-[60%] text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-          Discover BMYBrand’s Core <span className="text-[#F45B25]">Services</span>
-        </h2>
-        <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
-          Your all-in-one creative & digital partner — helping your business grow with
-          premium branding, websites, and marketing solutions.
-        </p>
+        <div className="flex w-full flex-col items-center">
+          <h2 className="mb-6 text-center text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold">
+            Discover BMYBrand&apos;s Core <span className="text-[#F45B25]">Services</span>
+          </h2>
+          <p className="text-center text-base text-[#ADAECC]">
+            Your all-in-one creative & digital partner helping your business grow with
+            premium branding, websites, and marketing solutions.
+          </p>
+        </div>
       </div>
 
       <div
         ref={gridRef}
-        className="flex flex-col lg:flex-row w-[90%] 2xl:w-[75%] gap-5 rounded-xl relative"
+        className="relative flex w-[90%] flex-col gap-5 rounded-xl 2xl:w-[75%] lg:flex-row"
       >
-        {/* LEFT */}
         <div
-          className={`flex flex-col justify-around text-white gap-5 w-full lg:w-0 transition-all duration-700 overflow-hidden ${
+          className={`flex w-full flex-col justify-around gap-5 overflow-hidden text-white transition-all duration-700 ${
             isHovered ? "lg:w-1/3" : "lg:w-0"
           }`}
         >
           {leftItems.map((item, idx) => (
-            <div key={idx} className="group bg-[#191A35] rounded-lg p-4 lg:p-8 h-64 flex flex-col justify-center hover:bg-[#F96F31] transition-all duration-300 cursor-pointer">
-              <div className="flex flex-col lg:hidden w-full">
-                <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
-                <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
+            <div
+              key={idx}
+              className="group flex h-64 cursor-pointer flex-col justify-center rounded-lg bg-[#191A35] p-4 transition-all duration-300 hover:bg-[#F96F31] lg:p-8"
+            >
+              <div className="flex w-full flex-col lg:hidden">
+                <img
+                  src={item.img}
+                  alt=""
+                  className="w-12 py-3 transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                />
+                <h3 className="mb-2 text-left text-xl font-semibold BenzinSemibold transition-colors duration-300 group-hover:text-white">
                   {item.title}
                 </h3>
-                <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
+                <p className="text-left text-base text-[#ADAECC] transition-colors duration-300 group-hover:text-white">
+                  {item.text}
+                </p>
               </div>
 
               <AnimatePresence>
                 {showContent && (
                   <motion.div
-                    className="hidden lg:flex flex-col w-full"
+                    className="hidden w-full flex-col lg:flex"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: item.delay, duration: fadeDuration / 1000 }}
                   >
-                    <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
-                    <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
+                    <img
+                      src={item.img}
+                      alt=""
+                      className="w-12 py-3 transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                    />
+                    <h3 className="mb-2 text-left text-xl font-semibold BenzinSemibold transition-colors duration-300 group-hover:text-white">
                       {item.title}
                     </h3>
-                    <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
+                    <p className="text-left text-base text-[#ADAECC] transition-colors duration-300 group-hover:text-white">
+                      {item.text}
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -182,109 +196,117 @@ const FullyAnimatedGrid: React.FC = () => {
           ))}
         </div>
 
-        {/* CENTER */}
         <div
-          className={`bg-[url('/fullimage.svg')] bg-center bg-cover rounded-lg w-full 
-h-145 sm:h-145 md:h-165 lg:h-auto
-transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
-  isHovered ? "lg:w-1/3" : "lg:w-full"
-}`}
+          className={`bg-[url('/fullimage.svg')] bg-cover bg-center rounded-lg w-full h-145 sm:h-145 md:h-165 lg:h-auto transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
+            isHovered ? "lg:w-1/3" : "lg:w-full"
+          }`}
         >
-        {/* {for mobile} */}
-          <div className="flex flex-col items-center lg:hidden w-full">
+          <div className="flex w-full flex-col items-center lg:hidden">
             <img
               src="/character-2 1.svg"
               alt=""
-              className="absolute lg:-top-10 left-1/2 lg:-translate-y-0 -translate-y-2/3 transform -translate-x-1/2 top-1/2"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2/3 transform lg:-top-10 lg:-translate-y-0"
             />
-            <h2 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold mb-4 text-center">
+            <h2 className="mb-4 text-center text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold">
               One Agency For All Your Branding, Design & Digital Needs
             </h2>
-            <button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-4 py-4 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
+            <button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
               Get Started Now
             </button>
           </div>
 
           <AnimatePresence>
-  {showContent && (
-    <motion.div
-      className="hidden lg:flex flex-col items-center w-full z-20"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <motion.img
-        src="/character-2 1.svg"
-        alt=""
-        className="absolute -top-10 left-1/2 -translate-x-1/2"
-        initial={{
-          opacity: 0,
-          y: 80,
-          x: -40,
-          rotate: -8,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-          x: 0,
-          rotate: 0,
-        }}
-        exit={{
-          opacity: 0,
-          y: -80,
-          x: 40,
-          rotate: 8,
-        }}
-        transition={{
-          duration: 1.2,
-          ease: "easeOut",
-        }}
-      />
-{/* {for desktop} */}
-      <motion.h2 className="text-base md:text-xl lg:text-2xl 2xl:text-3xl mb-4 BenzinSemibold text-center">
-        One Agency For All Your Branding, Design & Digital Needs
-      </motion.h2>
+            {showContent && (
+              <motion.div
+                className="z-20 hidden w-full flex-col items-center lg:flex"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <motion.img
+                  src="/character-2 1.svg"
+                  alt=""
+                  className="absolute -top-10 left-1/2 -translate-x-1/2"
+                  initial={{
+                    opacity: 0,
+                    y: 80,
+                    x: -40,
+                    rotate: -8,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    x: 0,
+                    rotate: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: -80,
+                    x: 40,
+                    rotate: 8,
+                  }}
+                  transition={{
+                    duration: 1.2,
+                    ease: "easeOut",
+                  }}
+                />
+                <motion.h2 className="mb-4 text-center text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold">
+                  One Agency For All Your Branding, Design & Digital Needs
+                </motion.h2>
 
-      <motion.button className="w-full text-lg BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-4 py-4 rounded-lg   hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
-        Get Started Now
-      </motion.button>
-    </motion.div>
-  )}
-</AnimatePresence>
-
+                <motion.button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
+                  Get Started Now
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* RIGHT */}
         <div
-          className={`flex flex-col justify-around text-white gap-5 w-full lg:w-0 transition-all duration-700 overflow-hidden ${
+          className={`flex w-full flex-col justify-around gap-5 overflow-hidden text-white transition-all duration-700 ${
             isHovered ? "lg:w-1/3" : "lg:w-0"
           }`}
         >
           {rightItems.map((item, idx) => (
-            <div key={idx} className="group bg-[#191A35] rounded-lg p-4 lg:p-8 h-64 flex flex-col justify-center hover:bg-[#F96F31] transition-all duration-300 cursor-pointer">
-              <div className="flex flex-col lg:hidden w-full">
-                <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
-                <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
+            <div
+              key={idx}
+              className="group flex h-64 cursor-pointer flex-col justify-center rounded-lg bg-[#191A35] p-4 transition-all duration-300 hover:bg-[#F96F31] lg:p-8"
+            >
+              <div className="flex w-full flex-col lg:hidden">
+                <img
+                  src={item.img}
+                  alt=""
+                  className="w-12 py-3 transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                />
+                <h3 className="mb-2 text-left text-xl font-semibold BenzinSemibold transition-colors duration-300 group-hover:text-white">
                   {item.title}
                 </h3>
-                <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
+                <p className="text-left text-base text-[#ADAECC] transition-colors duration-300 group-hover:text-white">
+                  {item.text}
+                </p>
               </div>
 
               <AnimatePresence>
                 {showContent && (
                   <motion.div
-                    className="hidden lg:flex flex-col w-full"
+                    className="hidden w-full flex-col lg:flex"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: item.delay, duration: fadeDuration / 1000 }}
                   >
-                    <img src={item.img} alt="" className="py-3 group-hover:brightness-0 group-hover:invert transition-all duration-300 w-12" />
-                    <h3 className="font-semibold text-xl mb-2 BenzinSemibold text-left group-hover:text-white transition-colors duration-300">
+                    <img
+                      src={item.img}
+                      alt=""
+                      className="w-12 py-3 transition-all duration-300 group-hover:brightness-0 group-hover:invert"
+                    />
+                    <h3 className="mb-2 text-left text-xl font-semibold BenzinSemibold transition-colors duration-300 group-hover:text-white">
                       {item.title}
                     </h3>
-                    <p className="text-base text-[#ADAECC] text-left group-hover:text-white transition-colors duration-300">{item.text}</p>
+                    <p className="text-left text-base text-[#ADAECC] transition-colors duration-300 group-hover:text-white">
+                      {item.text}
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>

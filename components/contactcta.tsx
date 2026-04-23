@@ -4,16 +4,16 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
-export default function ContactCTA() {
+export default function ContactCTA({ compact = false }: { compact?: boolean }) {
   const router = useRouter()
 
   return (
-    <section className="bg-[#11122F] py-20 overflow-x-hidden">
+    <section className={`mt-12 md:mt-16 bg-[#11122F] overflow-x-hidden ${compact ? 'py-8 md:py-10' : 'py-20'}`}>
       <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-full">
         <div className="relative bg-[#15173A] rounded-3xl border-2 border-[#F45B25]/20 overflow-hidden">
           <div className="relative flex flex-col lg:flex-row items-center gap-12 ">
             {/* Left Content */}
-            <div className="flex-1 z-10 p-8 md:p-12 lg:p-16">
+            <div className={`flex-1 z-10 ${compact ? 'p-8 md:p-10 lg:p-12' : 'p-8 md:p-12 lg:p-16'}`}>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

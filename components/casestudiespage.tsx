@@ -3,6 +3,7 @@
 import React, { useRef } from 'react'
 import Navbar from './navbar'
 import Herobar from './herobar'
+import Evaluate from './evaluatcta'
 import Brandsspec from './brandsspec'
 import RequestForm from './requestform'
 import Footer from './footer'
@@ -21,6 +22,7 @@ const CaseStudiespage = () => {
       <Herobarcase />
       <RecentProjects />
       <WorkTogether />
+      <Evaluate />
       <Brandsspec />
       <RequestForm /> 
       <Footer />

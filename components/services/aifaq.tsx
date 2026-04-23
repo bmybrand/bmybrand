@@ -66,12 +66,12 @@ export default function AIFaq() {
           </div>
           <div className="rounded-2xl overflow-hidden h-64 md:h-80">
             <img 
-              src="/servicefaq.svg" 
+              src="/servicefaq2.svg" 
               alt="AI Business Meeting" 
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
-                e.currentTarget.parentElement!.innerHTML = '<div class="flex items-center justify-center h-full text-white/40 text-6xl"><img src="/servicefaq.svg" alt="" /></div>'
+                e.currentTarget.parentElement!.innerHTML = '<div class="flex items-center justify-center h-full text-white/40 text-6xl"><img src="/servicefaq2.svg" alt="" /></div>'
               }}
             />
           </div>

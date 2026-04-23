@@ -14,8 +14,8 @@ const projects = [
     description:
       "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
     buttonText: "View Full Case Study",
-    src: "water.jpg",
-    link: "/fountainhills.svg",
+    src: "/fountainhills.svg",
+    link: "/case-studies/fountain-hills",
     logo: "/FH-EmergencyRoom-Logo-ERClinic-1 2.svg",
     gradient: "linear-gradient(180deg, #270508 0%, #110204 100%)",
     buttonColor: "#B91E2C",
@@ -31,7 +31,7 @@ const projects = [
     description:
       "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
     buttonText: "View Full Case Study",
-    src: "water.jpg",
+    src: "/pinkme.svg",
     link: "/pinkme.svg",
     logo: "/pm-logo.svg",
     gradient: "linear-gradient(180deg, #661041 0%, #250617 100%)",
@@ -48,7 +48,7 @@ const projects = [
     description:
       "EPCI is A Full-Service Training And Leadership Institute For Showcase Expertise, Improve Client Engagement, And Drive User Action Across All Platforms.",
     buttonText: "View Full Case Study",
-    src: "water.jpg",
+    src: "/epci.svg",
     link: "/epci.svg",
     logo: "/ecpi.svg",
     gradient: "linear-gradient(180deg, #0C2F47 0%, #051419 100%)",
@@ -65,7 +65,7 @@ const projects = [
     description:
       "Famous About Town, A Classic MTV-Style, Legal Jerky Is Made For Jerky Lovers Who Want Bold Flavors Without The Fuss— Smoky, Savory, And Bold. That's Just Like It.",
     buttonText: "View Full Case Study",
-    src: "water.jpg",
+    src: "/jiggy.svg",
     link: "/jiggy.svg",
     logo: "/jiggylogo.svg",
     gradient: "linear-gradient(180deg, #4A3A1A 0%, #1F1808 100%)",
@@ -96,6 +96,7 @@ export default function Index(): JSX.Element {
                 description={project.description}
                 buttonText={project.buttonText}
                 url={project.link}
+                imageSrc={project.src}
                 logo={project.logo}
                 gradient={project.gradient}
                 progress={scrollYProgress}
@@ -119,6 +120,7 @@ interface CardProps {
   description: string;
   buttonText: string;
   url: string;
+  imageSrc: string;
   logo: string;
   gradient: string;
   progress: MotionValue<number>;
@@ -135,6 +137,7 @@ export const Card: React.FC<CardProps> = ({
   description,
   buttonText,
   url,
+  imageSrc,
   logo,
   gradient,
   progress,
@@ -189,7 +192,8 @@ export const Card: React.FC<CardProps> = ({
             </p>
 
             {/* BUTTON */}
-            <button
+            <a
+              href={url}
               style={{ backgroundColor: buttonColor }}
               className="mt-4 text-white px-2 py-2 BenzinSemibold rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 w-fit"
             >
@@ -197,14 +201,14 @@ export const Card: React.FC<CardProps> = ({
                 <img src={buttonIcon} alt="button icon" className="w-4 h-4" />
               </div>
               <span className="px-2">{buttonText}</span>
-            </button>
+            </a>
           </div>
 
           {/* IMAGE RIGHT */}
           <div className="flex-1 relative rounded-lg overflow-visible">
             <motion.div className="w-full h-full">
               <Image
-                src={url}
+                src={imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`}
                 alt="Project image"
                 fill
                 className="object-cover "

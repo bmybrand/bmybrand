@@ -88,8 +88,8 @@ const Background = () => {
               <ul className="space-y-4">
                 {whatWeDidItems.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-[#ff4a59] rounded-full flex items-center justify-center shrink-0 mt-1">
-                      <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center shrink-0 mt-1">
+                      <svg className="w-3.5 h-3.5 text-[#ff4a59]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
@@ -110,7 +110,7 @@ const Background = () => {
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
         >
           {/* Left Image */}
-          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] bg-[#BF212F] border border-[#d42f3d] rounded-2xl p-4">
+          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] rounded-2xl overflow-hidden">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <img
                 src="https://picsum.photos/400/600?random=31"
@@ -121,7 +121,7 @@ const Background = () => {
           </div>
 
           {/* Center Image */}
-          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] bg-[#BF212F] border border-[#d42f3d] rounded-2xl p-4">
+          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] rounded-2xl overflow-hidden">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <img
                 src="https://picsum.photos/400/600?random=32"
@@ -132,7 +132,7 @@ const Background = () => {
           </div>
 
           {/* Right Image */}
-          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] bg-[#BF212F] border border-[#d42f3d] rounded-2xl p-4">
+          <div className="relative h-[500px] md:h-[550px] lg:h-[600px] rounded-2xl overflow-hidden">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <img
                 src="https://picsum.photos/400/600?random=33"

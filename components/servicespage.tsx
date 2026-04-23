@@ -21,10 +21,10 @@ const Servicespage = () => {
       <Herobarserv />
       <ServicesDetail />
       <WorkTogether />
+      <RequestForm />
       <Evaluate />
       <Brandsspec />
-      <RequestForm />
-        <Footer />
+      <Footer />
     </div>
   )
 }

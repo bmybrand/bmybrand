@@ -48,9 +48,9 @@ const BrandStats = () => {
     <section ref={sectionRef} className="relative w-full bg-[#050A22] pt-30 text-white ">
       <div className="absolute inset-0 overflow-hidden">
         <img
-          src="/spaceoverlay.svg"
+          src="/flybearbg.svg"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-20 transition-transform duration-1400 scale-125 ease-out"
+          className="absolute inset-0 h-full w-full object-cover  transition-transform duration-1400 scale-125 ease-out"
           style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
         />
       </div>

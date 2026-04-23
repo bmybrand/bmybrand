@@ -8,134 +8,133 @@ export default function AIDrivenHero() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative lg:pt-50 pt-40 pb-20  overflow-hidden">
-        
+      <section className="relative overflow-hidden pt-40 pb-20 lg:pt-50">
         <div className="absolute inset-0 bg-linear-to-br" />
-        <div className="w-[90%] 2xl:w-[75%] mx-auto relative z-10">
+        <div className="relative z-10 mx-auto w-[90%] 2xl:w-[75%]">
           <div className="mb-4 flex items-center gap-2">
-            
-            <span className="text-[#F45B25] text-sm tracking-wider uppercase BenzinSemibold">AI-SOLUTIONS</span>
-            <div className="h-[2px] w-16 bg-[#F45B25]/30"></div>
+            <span className="text-sm tracking-wider text-[#F45B25] uppercase BenzinSemibold">
+              AI-SOLUTIONS
+            </span>
+            <div className="h-[2px] w-16 bg-[#F45B25]/30" />
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white BenzinSemibold mb-8 leading-tight">
-            AI-Driven<br />Solutions
+          <h1 className="mb-8 text-3xl leading-tight text-white md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl BenzinSemibold">
+            AI-Driven
+            <br />
+            Solutions
           </h1>
 
-          <p className="text-sm md:text-base lg:text-lg text-white/70 mb-12 leading-relaxed">
-            We help businesses work smarter by integrating AI into everyday operations. From automation and intelligent analytics to advanced 
-            system integrations, our AI-driven solutions are designed to reduce manual effort, improve accuracy, and speed up decision-making. Every 
-            solution is tailored to your workflows—optimizing resources, saving costs today and scalability for the future.
+          <p className="mb-12 text-sm leading-relaxed text-white/70 md:text-base lg:text-lg">
+            We help businesses work smarter by integrating AI into everyday operations. From automation and
+            intelligent analytics to advanced system integrations, our AI-driven solutions are designed to
+            reduce manual effort, improve accuracy, and speed up decision-making. Every solution is tailored
+            to your workflows, optimizing resources, saving costs today and scalability for the future.
           </p>
 
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: '☑', text: '3D Process Automation' },
-              { icon: '☑', text: 'Smart Workforce Systesm' },
-              { icon: '☑', text: 'AI Framework for Scalion' },
-              { icon: '☑', text: 'AI Solutions for Teams' },
-              { icon: '☑', text: 'AI Powered Documentation' },
-              { icon: '☑', text: 'Real-time Data Inference' },
-              { icon: '☑', text: 'Integrated Analytics' },
-              { icon: '☑', text: 'Automated Report Gen' }
-            ].map((item, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <div className="w-5 h-5 bg-[#F45B25] rounded flex items-center justify-center shrink-0">
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              '3D Process Automation',
+              'Smart Workforce Systesm',
+              'AI Framework for Scalion',
+              'AI Solutions for Teams',
+              'AI Powered Documentation',
+              'Real-time Data Inference',
+              'Integrated Analytics',
+              'Automated Report Gen',
+            ].map((text) => (
+              <div key={text} className="flex items-center gap-3">
+                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[#F45B25]">
+                  <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-white/80 text-sm">{item.text}</span>
+                <span className="text-sm text-white/80">{text}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Hero Image */}
-      <section className="">
-        <div className="">
-          <img 
-              src="/service-banner.svg" 
-              alt="AI Solutions in Action" 
-              className="w-full h-auto object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-                e.currentTarget.parentElement!.innerHTML = '<div class="flex items-center justify-center h-96 text-white/40 text-6xl">🤖</div>'
-              }}
-            />
+      <section>
+        <div>
+          <img
+            src="/service-banner.svg"
+            alt="AI Solutions in Action"
+            className="h-auto w-full object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+              e.currentTarget.parentElement!.innerHTML =
+                '<div class="flex h-96 items-center justify-center text-6xl text-white/40">AI</div>'
+            }}
+          />
         </div>
       </section>
 
-      {/* Service Overview */}
-      <section className="py-20 ">
-        <div className="w-[90%] 2xl:w-[75%] mx-auto">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold mb-12">
+      <section className="py-20">
+        <div className="mx-auto w-[90%] 2xl:w-[75%]">
+          <h2 className="mb-12 text-2xl text-white md:text-3xl lg:text-4xl xl:text-5xl BenzinSemibold">
             Service Overview
           </h2>
-          
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div>
-              <p className="text-white/60 text-sm md:text-base leading-relaxed mb-12">
-                AI-Driven Solutions focus on integrating intelligent systems into your business to automate processes, improve decision-making, and unlock new growth opportunities. From smart automation and AI assistants to advanced integrations and personalization, our solutions are designed to work seamlessly within your operations while scaling with your business needs.
+
+          <div className="grid items-stretch gap-12 lg:grid-cols-2">
+            <div className="h-full">
+              <p className="mb-12 text-sm leading-relaxed text-white/60 md:text-base">
+                AI-Driven Solutions focus on integrating intelligent systems into your business to automate
+                processes, improve decision-making, and unlock new growth opportunities. From smart automation
+                and AI assistants to advanced integrations and personalization, our solutions are designed to
+                work seamlessly within your operations while scaling with your business needs.
               </p>
-              
-              <h3 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#F45B25] BenzinSemibold mb-8">
+
+              <h3 className="mb-8 text-xl text-[#F45B25] md:text-2xl lg:text-3xl xl:text-4xl BenzinSemibold">
                 Where AI Creates Business Impact
               </h3>
-              
+
               <div className="space-y-6">
                 {[
                   {
                     number: '01',
                     title: 'Operations & Productivity',
-                    desc: 'Reduce manual workload and speed up execution with smarter internal workflows.'
+                    desc: 'Reduce manual workload and speed up execution with smarter internal workflows.',
                   },
                   {
                     number: '02',
                     title: 'Customer Support & Experience',
-                    desc: 'Handle requests faster, improve satisfaction, and support customers anytime with AI-powered help.'
+                    desc: 'Handle requests faster, improve satisfaction, and support customers anytime with AI-powered help.',
                   },
                   {
                     number: '03',
                     title: 'Sales Enablement & Lead Flow',
-                    desc: 'Qualify leads, respond faster, and guide customers toward action with intelligent assistance.'
+                    desc: 'Qualify leads, respond faster, and guide customers toward action with intelligent assistance.',
                   },
                   {
                     number: '04',
                     title: 'Marketing Personalization',
-                    desc: 'Deliver more relevant messaging and experiences with AI-driven personalization and segmentation.'
+                    desc: 'Deliver more relevant messaging and experiences with AI-driven personalization and segmentation.',
                   },
                   {
                     number: '05',
                     title: 'Data & Decision Intelligence',
-                    desc: 'Make better business calls using insights, forecasting, and performance reporting powered by AI.'
-                  }
-                ].map((item, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-full bg-[#21223F] flex items-center justify-center text-lg text-white BenzinBold shrink-0">
+                    desc: 'Make better business calls using insights, forecasting, and performance reporting powered by AI.',
+                  },
+                ].map((item) => (
+                  <div key={item.number} className="flex gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#21223F] text-lg text-white BenzinBold">
                       {item.number}
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-base md:text-lg text-white BenzinSemibold mb-2">{item.title}</h4>
-                      <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
+                      <h4 className="mb-2 text-base text-white md:text-lg BenzinSemibold">{item.title}</h4>
+                      <p className="text-sm leading-relaxed text-white/50">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            
-            <div className="rounded-2xl overflow-hidden ">
-              <img 
-                src="/aioverview.svg" 
-                alt="AI Smart Assistant Interface" 
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none'
-                  e.currentTarget.parentElement!.innerHTML = '<div class="flex items-center justify-center h-full min-h-[600px] bg-linear-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/20 rounded-2xl text-white/40 text-6xl">🤖</div>'
-                }}
+
+            <div className="relative min-h-[320px] overflow-hidden rounded-2xl lg:h-full lg:min-h-0">
+              <img
+                src="/aioverview.svg"
+                alt="AI Smart Assistant Interface"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
           </div>

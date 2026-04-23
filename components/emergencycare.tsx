@@ -115,7 +115,7 @@ const EmergencyCare = () => {
           {[...Array(2)].map((_, setIndex) => (
             <React.Fragment key={setIndex}>
               {/* Left - Mobile View */}
-              <div className="relative h-[350px] md:h-[400px] lg:h-[450px] w-[550px] md:w-[650px] lg:w-[750px] flex-shrink-0 rounded-2xl overflow-hidden bg-gradient-to-br from-pink-100 to-pink-50">
+              <div className="relative h-[350px] md:h-[400px] lg:h-[450px] w-[550px] md:w-[650px] lg:w-[750px] flex-shrink-0 overflow-hidden">
                 <img
                   src="https://picsum.photos/400/600?random=11"
                   alt="Mobile View"
@@ -124,7 +124,7 @@ const EmergencyCare = () => {
               </div>
 
               {/* Center - Desktop View */}
-              <div className="relative h-[350px] md:h-[400px] lg:h-[450px] w-[550px] md:w-[650px] lg:w-[750px] flex-shrink-0 rounded-2xl overflow-hidden bg-[#1A1B2E]">
+              <div className="relative h-[350px] md:h-[400px] lg:h-[450px] w-[550px] md:w-[650px] lg:w-[750px] flex-shrink-0 overflow-hidden">
                 <img
                   src="https://picsum.photos/800/500?random=12"
                   alt="Desktop View"
@@ -133,7 +133,7 @@ const EmergencyCare = () => {
               </div>
 
               {/* Right - Tablet/Multiple Views */}
-              <div className="relative h-[350px] md:h-[400px] lg:h-[450px] w-[550px] md:w-[650px] lg:w-[750px] flex-shrink-0 rounded-2xl overflow-hidden bg-gradient-to-br from-pink-100 to-pink-50">
+              <div className="relative h-[350px] md:h-[400px] lg:h-[450px] w-[550px] md:w-[650px] lg:w-[750px] flex-shrink-0 overflow-hidden">
                 <img
                   src="https://picsum.photos/400/600?random=13"
                   alt="Tablet View"
