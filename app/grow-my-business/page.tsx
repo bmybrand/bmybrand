@@ -24,7 +24,7 @@ export default function GrowMyBusinessPage() {
     if (!trimmedValue) return trimmedValue;
 
     try {
-      const normalizedValue = /^https?:///i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
+      const normalizedValue = /^https?:\/\//i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
       const parsedUrl = new URL(normalizedValue);
 
       if (parsedUrl.hostname === "localhost" || parsedUrl.hostname === "127.0.0.1") {

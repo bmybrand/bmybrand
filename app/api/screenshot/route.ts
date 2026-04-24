@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 function normalizeTargetUrl(site: string) {
   if (!site) return "";
-  if (/^https?:///i.test(site)) return site;
+  if (/^https?:\/\//i.test(site)) return site;
   return `https://${site}`;
 }
 

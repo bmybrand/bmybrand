@@ -7,7 +7,7 @@ const progressStops = [14, 21, 32, 41, 53, 61, 68];
 
 function normalizeSiteLabel(site: string) {
   if (!site) return "https://www.mrclean.com/en-us";
-  if (/^https?:///i.test(site)) return site;
+  if (/^https?:\/\//i.test(site)) return site;
   return `https://${site}`;
 }
 
