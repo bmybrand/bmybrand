@@ -8,7 +8,7 @@ const FHFooter = () => {
   const router = useRouter()
 
   return (
-    <footer className="relative bg-[url('/footerbg.svg')] bg-cover bg-center bg-no-repeat">
+    <footer className="relative bg-[url('/bmyb-footer-footerbg-01.svg')] bg-cover bg-center bg-no-repeat">
       {/* Main CTA Section */}
       <div className="relative py-20 md:py-32 text-center">
         {/* Small top text */}
@@ -56,7 +56,7 @@ const FHFooter = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <img src="/bmylogo.svg" alt="BMYBrand Logo" className="h-8 brightness-0 invert" />
+              <img src="/bmyb-logo-bmylogo-01.svg" alt="BMYBrand Logo" className="h-8 brightness-0 invert" />
             </div>
 
             {/* Copyright and Links */}

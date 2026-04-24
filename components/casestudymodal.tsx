@@ -195,7 +195,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
                     className="w-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white  py-3 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold flex items-center justify-center text-lg"
                   >
                     <div className="bg-white p-4 rounded-lg ml-3">
-                      <img src="/group1190.svg" alt="" className="w-4 h-4" />
+                      <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
                     </div>
                     <span className="px-2 flex-1 text-center">View Full Case Study</span>
                   </button>

@@ -45,7 +45,7 @@ const EmergencyCare = () => {
             {/* Logo */}
             <div className="flex items-center gap-3">
               <img 
-                src="/FH-EmergencyRoom-Logo-ERClinic-1 2.svg" 
+                src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg" 
                 alt="Fountain Hills Logo" 
                 className="h-12 w-auto"
               />

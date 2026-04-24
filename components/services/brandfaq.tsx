@@ -40,12 +40,12 @@ export default function BrandFaq() {
   }
 
   const logos = [
-    { default: '/vector (23).svg', hover: '/vector (24)-orange.svg', alt: 'Abbott' },
-    { default: '/vector (24).svg', hover: '/vector (26)-orange.svg', alt: 'London Real' },
-    { default: '/vector (25).svg', hover: '/vector (25)-orange.svg', alt: 'Decathlon' },
-    { default: '/vector (26).svg', hover: '/vector (28)-orange.svg', alt: 'Targus' },
-    { default: '/vector (27).svg', hover: '/vector (23)-orange.svg', alt: 'Single Grain' },
-    { default: '/vector (28).svg', hover: '/vector (27)-orange.svg', alt: 'York University' }
+    { default: '/bmyb-logo-vector-08.svg', hover: '/bmyb-logo-vector-orange-02.svg', alt: 'Abbott' },
+    { default: '/bmyb-logo-vector-09.svg', hover: '/bmyb-logo-vector-orange-04.svg', alt: 'London Real' },
+    { default: '/bmyb-logo-vector-10.svg', hover: '/bmyb-logo-vector-orange-03.svg', alt: 'Decathlon' },
+    { default: '/bmyb-logo-vector-11.svg', hover: '/bmyb-logo-vector-orange-06.svg', alt: 'Targus' },
+    { default: '/bmyb-logo-vector-12.svg', hover: '/bmyb-logo-vector-orange-01.svg', alt: 'Single Grain' },
+    { default: '/bmyb-logo-vector-13.svg', hover: '/bmyb-logo-vector-orange-05.svg', alt: 'York University' }
   ]
   return (
     <section className="py-20 px-6 ">
@@ -54,7 +54,7 @@ export default function BrandFaq() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div className="rounded-2xl overflow-hidden h-64 md:h-80">
             <img 
-              src="/servicefaq.svg" 
+              src="/bmyb-services-servicefaq-01.svg" 
               alt="Brand Design" 
               className="w-full h-full object-cover"
               onError={(e) => {
@@ -65,7 +65,7 @@ export default function BrandFaq() {
           </div>
           <div className="rounded-2xl overflow-hidden h-64 md:h-80">
             <img 
-              src="/servicefaq.svg" 
+              src="/bmyb-services-servicefaq-01.svg" 
               alt="Brand Strategy" 
               className="w-full h-full object-cover"
               onError={(e) => {

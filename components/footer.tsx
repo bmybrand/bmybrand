@@ -23,12 +23,12 @@ const SERVICE_LINKS = [
 ]
 
 const REVIEW_PLATFORMS = [
-  { name: 'Clutch', logo: '/clutchco.svg' },
-  { name: 'Yelp', logo: '/yelp.svg' },
-  { name: 'Bark', logo: '/bark.svg' },
-  { name: 'Upwork', logo: '/upwork.svg' },
-  { name: 'Trustpilot', logo: '/trustpilot-1.svg' },
-  { name: 'Google', logo: '/google.svg' },
+  { name: 'Clutch', logo: '/bmyb-logo-clutchco-01.svg' },
+  { name: 'Yelp', logo: '/bmyb-logo-yelp-01.svg' },
+  { name: 'Bark', logo: '/bmyb-global-bark-01.svg' },
+  { name: 'Upwork', logo: '/bmyb-logo-upwork-01.svg' },
+  { name: 'Trustpilot', logo: '/bmyb-logo-trustpilot-1-01.svg' },
+  { name: 'Google', logo: '/bmyb-logo-google-01.svg' },
 ]
 
 const SOCIAL_LINKS = [

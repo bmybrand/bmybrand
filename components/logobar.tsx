@@ -8,44 +8,44 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Logos = [
   {
-    normal: "/abboott.svg.svg",
-    hover: "/abboott.svg (1).svg",
+    normal: "/bmyb-logo-abboott-01.svg",
+    hover: "/bmyb-logo-abboott-svg-01.svg",
   },
   {
-    normal: "/mask group (3).svg",
-    hover: "/mask group (2).svg",
+    normal: "/bmyb-logo-mask-group-03.svg",
+    hover: "/bmyb-logo-mask-group-02.svg",
   },
   {
-    normal: "/client_logo3.svg.svg",
-    hover: "/client_logo3.svg (1).svg",
+    normal: "/bmyb-logo-client-logo3-01.svg",
+    hover: "/bmyb-logo-client-logo3-svg-01.svg",
   },
   {
-    normal: "/vector (9).svg",
-    hover: "/vector (15).svg",
+    normal: "/bmyb-logo-vector-14.svg",
+    hover: "/bmyb-logo-vector-06.svg",
   },
   {
-    normal: "/client_logo5.svg.svg",
-    hover: "/client_logo5.svg (1).svg",
+    normal: "/bmyb-logo-client-logo5-01.svg",
+    hover: "/bmyb-logo-client-logo5-svg-01.svg",
   },
   {
-    normal: "/client_logo6.svg.svg",
-    hover: "/client_logo6.svg (1).svg",
+    normal: "/bmyb-logo-client-logo6-01.svg",
+    hover: "/bmyb-logo-client-logo6-svg-01.svg",
   },
   {
-    normal: "/vector (11).svg",
-    hover: "/vector (16).svg",
+    normal: "/bmyb-logo-vector-03.svg",
+    hover: "/bmyb-logo-vector-07.svg",
   },
   {
-    normal: "/universal.svg",
-    hover: "/universal (1).svg",
+    normal: "/bmyb-logo-universal-02.svg",
+    hover: "/bmyb-logo-universal-01.svg",
   },
   {
-    normal: "/client_logo9.svg fill.svg",
-    hover: "/client_logo9.svg fill (1).svg",
+    normal: "/bmyb-logo-client-logo9-svg-fill-02.svg",
+    hover: "/bmyb-logo-client-logo9-svg-fill-01.svg",
   },
   {
-    normal: "/mask group (1).svg",
-    hover: "/mask group (4).svg",
+    normal: "/bmyb-logo-mask-group-01.svg",
+    hover: "/bmyb-logo-mask-group-04.svg",
   },
 ];
 

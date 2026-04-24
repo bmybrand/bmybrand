@@ -14,13 +14,13 @@ const projects = [
     description:
       "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
     buttonText: "View Full Case Study",
-    src: "/fountainhills.svg",
+    src: "/bmyb-case-fountain-hills-fountainhills-01.svg",
     link: "/case-studies/fountain-hills",
-    logo: "/FH-EmergencyRoom-Logo-ERClinic-1 2.svg",
+    logo: "/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg",
     gradient: "linear-gradient(180deg, #270508 0%, #110204 100%)",
     buttonColor: "#B91E2C",
-    buttonIcon: "/arrowred.svg",
-    backgroundImage: "/fountainhillsbg.svg",
+    buttonIcon: "/bmyb-global-arrowred-01.svg",
+    backgroundImage: "/bmyb-case-fountain-hills-fountainhillsbg-01.svg",
   },
   {
     title: (
@@ -31,13 +31,13 @@ const projects = [
     description:
       "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
     buttonText: "View Full Case Study",
-    src: "/pinkme.svg",
-    link: "/pinkme.svg",
-    logo: "/pm-logo.svg",
+    src: "/bmyb-case-pink-me-pinkme-01.svg",
+    link: "/bmyb-case-pink-me-pinkme-01.svg",
+    logo: "/bmyb-case-pink-me-pm-logo-01.svg",
     gradient: "linear-gradient(180deg, #661041 0%, #250617 100%)",
     buttonColor: "#ED349D",
-    buttonIcon: "/arrowpink.svg",
-    backgroundImage: "/pinkmebg.svg",
+    buttonIcon: "/bmyb-global-arrowpink-01.svg",
+    backgroundImage: "/bmyb-case-pink-me-pinkmebg-01.svg",
   },
   {
     title: (
@@ -48,13 +48,13 @@ const projects = [
     description:
       "EPCI is A Full-Service Training And Leadership Institute For Showcase Expertise, Improve Client Engagement, And Drive User Action Across All Platforms.",
     buttonText: "View Full Case Study",
-    src: "/epci.svg",
-    link: "/epci.svg",
-    logo: "/ecpi.svg",
+    src: "/bmyb-case-epci-epci-01.svg",
+    link: "/bmyb-case-epci-epci-01.svg",
+    logo: "/bmyb-case-epci-ecpi-01.svg",
     gradient: "linear-gradient(180deg, #0C2F47 0%, #051419 100%)",
     buttonColor: "#0EA5E9",
-    buttonIcon: "/arrowblue.svg",
-    backgroundImage: "/epcibg.svg",
+    buttonIcon: "/bmyb-global-arrowblue-01.svg",
+    backgroundImage: "/bmyb-case-epci-epcibg-01.svg",
   },
   {
     title: (
@@ -65,13 +65,13 @@ const projects = [
     description:
       "Famous About Town, A Classic MTV-Style, Legal Jerky Is Made For Jerky Lovers Who Want Bold Flavors Without The Fuss— Smoky, Savory, And Bold. That's Just Like It.",
     buttonText: "View Full Case Study",
-    src: "/jiggy.svg",
-    link: "/jiggy.svg",
-    logo: "/jiggylogo.svg",
+    src: "/bmyb-case-jiggy-jerky-jiggy-01.svg",
+    link: "/bmyb-case-jiggy-jerky-jiggy-01.svg",
+    logo: "/bmyb-case-jiggy-jerky-jiggylogo-01.svg",
     gradient: "linear-gradient(180deg, #4A3A1A 0%, #1F1808 100%)",
     buttonColor: "#F59E0B",
-    buttonIcon: "/arrowyellow.svg",
-    backgroundImage: "/jiggybg.svg",
+    buttonIcon: "/bmyb-global-arrowyellow-01.svg",
+    backgroundImage: "/bmyb-case-jiggy-jerky-jiggybg-01.svg",
   },
 ];
 

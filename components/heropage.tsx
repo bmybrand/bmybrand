@@ -83,7 +83,7 @@ const Heropage: React.FC = () => {
   };
 
   return (
-    <div className=" overflow-hidden bg-[url('/frame6.png')] bg-cover bg-center bg-no-repeat ">
+    <div className=" overflow-hidden bg-[url('/bmyb-global-frame6-01.png')] bg-cover bg-center bg-no-repeat ">
       <div
         className="relative flex flex-col lg:flex-row pt-32 sm:pt-36 lg:pt-40 pb-0 lg:min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto lg:gap-20 gap-10"
         onMouseMove={handleMouseMove}
@@ -122,7 +122,7 @@ const Heropage: React.FC = () => {
         >
   <a href="/strategy-call" className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 opacity-0" style={{ transform: "translateY(14px)" }}>
     <div className="bg-white p-4 rounded-lg">
-      <img src="/group1190.svg" alt="" className="w-4 h-4" />
+      <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
     </div>
     <span className="px-2">Free strategy call</span>
   </a>
@@ -130,7 +130,7 @@ const Heropage: React.FC = () => {
   <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2 opacity-0" style={{ transform: "translateY(14px)" }}>
 
      <div className="bg-white p-4 rounded-lg">
-    <img src="/group119.svg" alt="" className="w-4 h-4" />
+    <img src="/bmyb-logo-group119-01.svg" alt="" className="w-4 h-4" />
     </div>
     <span className="px-2">Explore Our Work</span>
   </button>
@@ -142,7 +142,7 @@ const Heropage: React.FC = () => {
         <div className="w-full xl:w-1/2 lg:min-h-[calc(100vh-160px)] relative flex items-end justify-center">
           {/* Tilting background image */}
           <img
-            src="/group15.svg"
+            src="/bmyb-logo-group15-01.svg"
             alt="Hero Illustration"
             className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-all duration-700 ease-out
               ${loaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
@@ -157,7 +157,7 @@ const Heropage: React.FC = () => {
 
           {/* Foreground hero layer with offset, shadow and hover effect */}
           <img
-  src="/layer 1 1.svg"
+  src="/bmyb-global-layer-1-1-01.svg"
   alt="Hero Layer"
   className={`relative z-10 transition-transform duration-1000 ease-out
     ${loaded ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"}`}

@@ -328,7 +328,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link href="/" className="text-white font-bold text-xl">
           <img
-            src="/bmybrand-01.svg"
+            src="/bmyb-services-brand-bmybrand-01-01.svg"
             alt="Logo"
             className={`h-9 sm:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto cursor-pointer ${isFountainHills ? "brightness-0 invert" : ""}`}
           />

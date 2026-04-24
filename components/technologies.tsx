@@ -108,23 +108,23 @@ const Footer = () => {
   }, [])
 
   const leftTools = [
-    { name: 'Adobe Photoshop', icon: '/ps.png', top: '6%', left: '12%', hoverColor: '#31A8FF' },
-    { name: 'Adobe Illustrator', icon: '/ai.png', top: '20%', left: '8%', hoverColor: '#FF9A00' },
-    { name: 'Adobe XD', icon: '/xd.png', top: '34%', left: '6%', hoverColor: '#FF61F6' },
-    { name: 'Figma', icon: '/figma.png', top: '48%', left: '5%', hoverColor: '#F24E1E' },
-    { name: 'Adobe InDesign', icon: '/id.png', top: '62%', left: '6%', hoverColor: '#FF3366' },
-    { name: 'Premiere Pro', icon: '/pr.png', top: '76%', left: '8%', hoverColor: '#9999FF' },
-    { name: 'After Effects', icon: '/ae.png', top: '90%', left: '12%', hoverColor: '#9999FF' },
+    { name: 'Adobe Photoshop', icon: '/bmyb-tech-ps-01.png', top: '6%', left: '12%', hoverColor: '#31A8FF' },
+    { name: 'Adobe Illustrator', icon: '/bmyb-global-ai-01.png', top: '20%', left: '8%', hoverColor: '#FF9A00' },
+    { name: 'Adobe XD', icon: '/bmyb-tech-xd-01.png', top: '34%', left: '6%', hoverColor: '#FF61F6' },
+    { name: 'Figma', icon: '/bmyb-tech-figma-01.png', top: '48%', left: '5%', hoverColor: '#F24E1E' },
+    { name: 'Adobe InDesign', icon: '/bmyb-tech-id-01.png', top: '62%', left: '6%', hoverColor: '#FF3366' },
+    { name: 'Premiere Pro', icon: '/bmyb-tech-pr-01.png', top: '76%', left: '8%', hoverColor: '#9999FF' },
+    { name: 'After Effects', icon: '/bmyb-tech-ae-01.png', top: '90%', left: '12%', hoverColor: '#9999FF' },
   ]
 
   const rightTools = [
-    { name: 'WordPress', icon: '/wordpress.png', top: '6%', right: '12%', hoverColor: '#21759B' },
-    { name: 'React', icon: '/react.png', top: '20%', right: '8%', hoverColor: '#61DAFB' },
-    { name: 'Node JS', icon: '/node js.png', top: '34%', right: '6%', hoverColor: '#339933' },
-    { name: 'Next JS', icon: '/next.png', top: '48%', right: '5%', hoverColor: '#FFFFFF' },
-    { name: 'Flutter', icon: '/flutter.png', top: '62%', right: '6%', hoverColor: '#02569B' },
-    { name: 'Android', icon: '/android.png', top: '76%', right: '8%', hoverColor: '#3DDC84' },
-    { name: 'Shopify', icon: '/spotify.png', top: '90%', right: '12%', hoverColor: '#1DB954' },
+    { name: 'WordPress', icon: '/bmyb-tech-wordpress-01.png', top: '6%', right: '12%', hoverColor: '#21759B' },
+    { name: 'React', icon: '/bmyb-tech-react-01.png', top: '20%', right: '8%', hoverColor: '#61DAFB' },
+    { name: 'Node JS', icon: '/bmyb-tech-node-js-01.png', top: '34%', right: '6%', hoverColor: '#339933' },
+    { name: 'Next JS', icon: '/bmyb-tech-next-01.png', top: '48%', right: '5%', hoverColor: '#FFFFFF' },
+    { name: 'Flutter', icon: '/bmyb-tech-flutter-01.png', top: '62%', right: '6%', hoverColor: '#02569B' },
+    { name: 'Android', icon: '/bmyb-tech-android-01.png', top: '76%', right: '8%', hoverColor: '#3DDC84' },
+    { name: 'Shopify', icon: '/bmyb-logo-spotify-01.png', top: '90%', right: '12%', hoverColor: '#1DB954' },
   ]
 
   /* ---------- SCROLL + HOVER ANIMATION ---------- */
@@ -192,7 +192,7 @@ const Footer = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative h-fit lg:h-screen bg-[url('/technologybg.svg')] bg-cover bg-center overflow-hidden"
+      className="relative h-fit lg:h-screen bg-[url('/bmyb-global-technologybg-01.svg')] bg-cover bg-center overflow-hidden"
     >
       {/* DESKTOP */}
       <div className="hidden lg:block">

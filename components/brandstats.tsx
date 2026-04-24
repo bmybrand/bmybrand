@@ -48,7 +48,7 @@ const BrandStats = () => {
     <section ref={sectionRef} className="relative w-full bg-[#050A22] pt-30 text-white ">
       <div className="absolute inset-0 overflow-hidden">
         <img
-          src="/flybearbg.svg"
+          src="/bmyb-global-flybearbg-01.svg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover  transition-transform duration-1400 scale-125 ease-out"
           style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
@@ -80,7 +80,7 @@ const BrandStats = () => {
 
         <div className="  pointer-events-none relative mt-10 flex justify-center">
           <img
-            src="/superherobearsky.svg"
+            src="/bmyb-global-superherobearsky-01.svg"
             alt="BMY Brand character"
             className={`relative z-50 lg:-bottom-8 lg:w-2/5 lg:scale-140 ${bearIn ? 'animate-bearFlyIn' : 'opacity-0 -translate-x-12 translate-y-10'}`}
           />

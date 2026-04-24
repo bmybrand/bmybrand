@@ -167,7 +167,7 @@ export default function StaticProcess() {
                     <span className="text-base sm:text-3xl text-white  flex items-center gap-1">
                       {item.step}{' '}
                       <img
-                        src="/aiicon.svg"
+                        src="/bmyb-services-ai-aiicon-01.svg"
                         alt=""
                         className="transition-transform duration-300 group-hover:rotate-45"
                       />

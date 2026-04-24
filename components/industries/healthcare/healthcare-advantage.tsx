@@ -15,7 +15,7 @@ const advantageCards = [
     description:
       'We follow a clear, structured workflow that keeps timelines, communication, and deliverables aligned so your healthcare projects move forward efficiently and without delays.',
     type: 'dashboard' as const,
-    image: '/healthcare-workflow.svg',
+    image: '/bmyb-industries-healthcare-healthcare-workflow-01.svg',
     span: 'md:col-span-7',
   },
   {
@@ -24,7 +24,7 @@ const advantageCards = [
     description:
       'From branding and websites to AI systems and growth marketing, we provide complete digital solutions designed to improve patient experience and drive measurable results.',
     type: 'website' as const,
-    image: '/healthcare-compliance.svg',
+    image: '/bmyb-industries-healthcare-healthcare-compliance-01.svg',
     span: 'md:col-span-7',
   },
   {
@@ -33,7 +33,7 @@ const advantageCards = [
     description:
       'Our QA and compliance approach ensures secure, reliable projects aligned with healthcare standards and built for long-term trust.',
     type: 'compliance' as const,
-    image: '/healthcare-brand-system.svg',
+    image: '/bmyb-industries-healthcare-healthcare-brand-system-01.svg',
     span: 'md:col-span-5',
   },
 ]

@@ -73,7 +73,7 @@ function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
   return (
     <article className="review-card flex h-full w-full shrink-0 flex-col rounded-[22px] border border-[#2A2B47] bg-[#191A35] px-6 py-6 sm:px-7 sm:py-7">
       <div className="text-[#F45B25]">
-        <img src="/doubleqoma.svg" alt="" className="h-7 w-auto" />
+        <img src="/bmyb-global-doubleqoma-01.svg" alt="" className="h-7 w-auto" />
       </div>
 
       <p className="mt-5 text-[1.125rem] leading-8 text-[#8B90B6]">
@@ -373,7 +373,7 @@ export default function StrategyCallPage() {
                   <div className="relative overflow-hidden rounded-[14px]">
                     <video
                       ref={completionVideoRef}
-                      src="/rickroll.mp4"
+                      src="/bmyb-global-rickroll-01.mp4"
                       className="h-[40rem] w-full object-cover"
                       autoPlay
                       muted={completionVideoMuted}
@@ -529,7 +529,7 @@ export default function StrategyCallPage() {
               {step === "form" ? (
                 <>
                   <div className="mt-1 flex items-center gap-2">
-                    <img src="/bmybrand-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                    <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
                   </div>
 
                   <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
@@ -746,7 +746,7 @@ export default function StrategyCallPage() {
               ) : (
                 <>
                   <div className="mt-1 flex items-center gap-2">
-                    <img src="/bmybrand-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                    <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
                   </div>
 
                   <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">

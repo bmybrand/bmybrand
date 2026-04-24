@@ -26,11 +26,11 @@ const herobarserv = () => {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[url('/herobarbg.svg')] bg-cover bg-center h-fit lg:h-150 overflow-hidden flex justify-center items-center "
+      className="relative bg-[url('/bmyb-home-herobarbg-01.svg')] bg-cover bg-center h-fit lg:h-150 overflow-hidden flex justify-center items-center "
       onMouseMove={handleMove}
     >
         <img
-  src="/spaceoverlay.svg"
+  src="/bmyb-global-spaceoverlay-01.svg"
   alt=""
   className="absolute scale-125 inset-0 h-full w-full object-cover opacity-20 transition-transform duration-700 ease-out"
   style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
@@ -55,7 +55,7 @@ const herobarserv = () => {
           }`}
           style={{ transform: `translate3d(${-offset.x}px, ${-offset.y}px, 0)` }}
         >
-            <img src="/technlogicalbear.svg" alt="About us" className="h-auto max-h-full w-full object-contain lg:pt-30 pt-10" />
+            <img src="/bmyb-global-technlogicalbear-01.svg" alt="About us" className="h-auto max-h-full w-full object-contain lg:pt-30 pt-10" />
         </div>
         </div>
     </div> 

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Stack, { type StackHandle } from '@/components/stack'
 
 export default function HealthcareSpotlight() {
-  const videoPool = ["/rickroll.mp4", "/strock animation_1.mp4"]
+  const videoPool = ["/bmyb-global-rickroll-01.mp4", "/bmyb-global-strock-animation-1-01.mp4"]
   const videos = useMemo(
     () => Array.from({ length: 10 }, (_, index) => videoPool[index % videoPool.length]),
     []
@@ -71,7 +71,7 @@ export default function HealthcareSpotlight() {
               className="absolute left-[-14px] top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-[#17183B] bg-white text-[#17183B] shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-[1.03]"
               aria-label="Previous card"
             >
-              <img src="/group119.svg" alt="" className="h-[15px] w-[15px] rotate-[-135deg]" />
+              <img src="/bmyb-logo-group119-01.svg" alt="" className="h-[15px] w-[15px] rotate-[-135deg]" />
             </button>
 
             <button
@@ -99,14 +99,14 @@ export default function HealthcareSpotlight() {
               className="absolute right-[-14px] top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-[#FF7A32] text-white shadow-[0_12px_30px_rgba(255,122,50,0.35)] transition-transform duration-200 hover:scale-[1.03]"
               aria-label="Next card"
             >
-              <img src="/group119.svg" alt="" className="h-[15px] w-[15px] rotate-[45deg] brightness-0 invert" />
+              <img src="/bmyb-logo-group119-01.svg" alt="" className="h-[15px] w-[15px] rotate-[45deg] brightness-0 invert" />
             </button>
           </div>
         </div>
 
         <div className="max-w-[560px]">
           <img
-            src="/FH-EmergencyRoom-Logo-ERClinic-1 2.svg"
+            src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg"
             alt="Fountain Hills Emergency Room and Medical Center"
             className="h-12 w-auto object-contain"
           />
@@ -119,7 +119,7 @@ export default function HealthcareSpotlight() {
 
           <div className="mt-10 flex items-center gap-3">
             <img
-              src="/FH-EmergencyRoom-Logo-ERClinic-1 2 (2).svg"
+              src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg"
               alt=""
               className="h-12 w-12 rounded-full object-contain"
             />

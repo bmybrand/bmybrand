@@ -64,7 +64,7 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
       {/* Badge / Tag */}
       <span className="relative z-0 inline-flex items-center justify-between gap-3
                        pl-12 pr-4 py-2 -mb-3 pb-5 text-right rounded-tr-sm
-                       bg-[url('/parallelogram.svg')] bg-cover bg-center bg-no-repeat text-white text-sm shadow-lg">
+                       bg-[url('/bmyb-global-parallelogram-01.svg')] bg-cover bg-center bg-no-repeat text-white text-sm shadow-lg">
         <span>Trusted by 300+ Businesses</span>
         
         {/* Close Button */}
@@ -84,7 +84,7 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
       <div
   className="
     relative z-10
-    bg-[url('/noice.svg'),linear-gradient(to_left,#202141,#BE673F)]
+    bg-[url('/bmyb-global-noice-01.svg'),linear-gradient(to_left,#202141,#BE673F)]
     bg-cover bg-center
     text-white rounded-2xl shadow-2xl
     px-2 py-2 lg:px-6 lg:py-6
@@ -95,7 +95,7 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
             <div className='md:ml-30 ml-0'>
           {/* image */}
 <img 
-  src="/popupbear.svg" 
+  src="/bmyb-global-popupbear-01.svg" 
   alt="" 
   className='absolute bottom-0 left-0 hidden md:block ' 
 />

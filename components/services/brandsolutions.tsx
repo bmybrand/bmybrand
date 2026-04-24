@@ -5,17 +5,17 @@ import React from 'react'
 export default function BrandSolutions() {
   const solutions = [
     {
-      icon: '/Background1.svg',
+      icon: '/bmyb-global-background1-01.svg',
       title: 'Brand Identity Design',
       description: 'Complete visual identity systems that reflect your brand\'s purpose and personality. From logo architecture and color palettes to typography and brand guidelines, we create cohesive identities that ensure clarity and consistency across every touchpoint.'
     },
     {
-      icon: '/Background2.svg',
+      icon: '/bmyb-global-background2-01.svg',
       title: 'Brand Strategy & Direction',
       description: 'Strategic brand foundations built on research, competitive insight, and market clarity. We define your positioning, value proposition, and messaging framework to clearly differentiate your brand, strengthen credibility, & establish long-term authority within your industry.'
     },
     {
-      icon: '/Background3.svg',
+      icon: '/bmyb-global-background3-01.svg',
       title: 'UI/UX & Visual Design',
       description: 'User-centered digital experiences designed to drive engagement and meaningful conversions. Through intuitive interfaces, mobile-first layouts, and scalable design systems, we transform brand strategy into seamless, high-performing digital interactions.'
     }

@@ -81,21 +81,21 @@ const FullyAnimatedGrid: React.FC = () => {
       title: "Brand Experience",
       text:
         "We create logos, visual styles, and brand guides that help your business stand out and communicate clearly.",
-      img: "/brand experience.svg",
+      img: "/bmyb-services-brand-brand-experience-01.svg",
       delay: 0.1,
     },
     {
       title: "Software Development",
       text:
         "Get responsive, user-friendly websites built to convert visitors into customers and represent your brand professionally.",
-      img: "/software development.svg",
+      img: "/bmyb-services-software-software-development-01.svg",
       delay: 0.3,
     },
     {
       title: "Commerce Solutions",
       text:
         "We build secure online stores with easy product management, smooth payments, and a seamless shopping experience.",
-      img: "/commerce solutions.svg",
+      img: "/bmyb-services-commerce-commerce-solutions-01.svg",
       delay: 0.5,
     },
   ];
@@ -105,21 +105,21 @@ const FullyAnimatedGrid: React.FC = () => {
       title: "Digital Marketing",
       text:
         "From SEO to social media, we boost visibility, attract the right audience, and drive business growth.",
-      img: "/digital marketing.svg",
+      img: "/bmyb-services-marketing-digital-marketing-01.svg",
       delay: 0.1,
     },
     {
       title: "Creative Production",
       text:
         "Engage your audience with custom graphics, illustrations, and animations that bring your ideas to life.",
-      img: "/creative production.svg",
+      img: "/bmyb-tech-creative-production-01.svg",
       delay: 0.3,
     },
     {
       title: "Business Operations",
       text:
         "We offer reliable bookkeeping and admin support so you stay organized, save time, and focus on running your business.",
-      img: "/Business Operations.svg",
+      img: "/bmyb-services-operations-business-operations-01.svg",
       delay: 0.5,
     },
   ];
@@ -197,13 +197,13 @@ const FullyAnimatedGrid: React.FC = () => {
         </div>
 
         <div
-          className={`bg-[url('/fullimage.svg')] bg-cover bg-center rounded-lg w-full h-145 sm:h-145 md:h-165 lg:h-auto transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
+          className={`bg-[url('/bmyb-global-fullimage-01.svg')] bg-cover bg-center rounded-lg w-full h-145 sm:h-145 md:h-165 lg:h-auto transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
             isHovered ? "lg:w-1/3" : "lg:w-full"
           }`}
         >
           <div className="flex w-full flex-col items-center lg:hidden">
             <img
-              src="/character-2 1.svg"
+              src="/bmyb-global-character-2-1-01.svg"
               alt=""
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2/3 transform lg:-top-10 lg:-translate-y-0"
             />
@@ -225,7 +225,7 @@ const FullyAnimatedGrid: React.FC = () => {
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
                 <motion.img
-                  src="/character-2 1.svg"
+                  src="/bmyb-global-character-2-1-01.svg"
                   alt=""
                   className="absolute -top-10 left-1/2 -translate-x-1/2"
                   initial={{

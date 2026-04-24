@@ -21,7 +21,7 @@ const reviews: Review[] = [
     review: 'The branding upgrade was exactly what we needed—clean, consistent, and professional. Our online presence improved immediately, and clients noticed fast. The whole process with BMYBrand was smooth and straightforward.',
     initials: 'MA',
     rating: 5,
-    logo: '/trustpilot-1.svg'
+    logo: '/bmyb-logo-trustpilot-1-01.svg'
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const reviews: Review[] = [
     review: 'Our brand now feels modern, consistent, and polished. The redesign clarified our message, and customers are responding better than ever.',
     initials: 'SM',
     rating: 5,
-    logo: '/google.svg'
+    logo: '/bmyb-logo-google-01.svg'
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const reviews: Review[] = [
     review: 'The branding upgrade was exactly what we needed—clean, consistent, and professional. Our online presence improved immediately, and clients noticed fast. The whole process with BMYBrand was smooth and straightforward.',
     initials: 'HM',
     rating: 5,
-    logo: '/upwork.svg'
+    logo: '/bmyb-logo-upwork-01.svg'
   },
   {
     id: 4,
@@ -48,7 +48,7 @@ const reviews: Review[] = [
     review: 'BMYBrand\'s redesign gave our brand the consistency and polish we needed. Customers notice the difference immediately.',
     initials: 'JC',
     rating: 5,
-    logo: '/clutchco.svg'
+    logo: '/bmyb-logo-clutchco-01.svg'
   },
   {
     id: 5,
@@ -57,7 +57,7 @@ const reviews: Review[] = [
     review: 'Our brand finally feels modern and polished. The redesign brought clarity to our message, and customers are engaging better than ever.',
     initials: 'AR',
     rating: 5,
-    logo: '/yelp.svg'
+    logo: '/bmyb-logo-yelp-01.svg'
   },
   {
     id: 6,
@@ -66,7 +66,7 @@ const reviews: Review[] = [
     review: 'Working with BMYBrand transformed our online presence. The attention to detail and creative approach exceeded all expectations.',
     initials: 'OB',
     rating: 5,
-    logo: '/bark.svg'
+    logo: '/bmyb-global-bark-01.svg'
   }
 ]
 

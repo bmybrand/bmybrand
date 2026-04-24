@@ -4,10 +4,10 @@ import React from 'react'
 
 export default function BrandExperienceHero() {
   const features = [
-    { image: '/background+shadow.svg', title: 'Strategic Positioning', description: 'Define your brand\'s unique value, voice, and market advantage.' },
-    { image: '/background+shadow-1.svg', title: 'Visual Identity', description: 'Craft a cohesive visual system that reflects authority and trust.' },
-    { image: '/background+shadow-2.svg', title: 'Brand Storytelling', description: 'Create narratives that connect with your audience on a deeper level.' },
-    { image: '/background+shadow-3.svg', title: 'Design Systems', description: 'Develop scalable brand guidelines for consistent growth.' }
+    { image: '/bmyb-services-brand-background-shadow-01.svg', title: 'Strategic Positioning', description: 'Define your brand\'s unique value, voice, and market advantage.' },
+    { image: '/bmyb-services-brand-background-shadow-1-01.svg', title: 'Visual Identity', description: 'Craft a cohesive visual system that reflects authority and trust.' },
+    { image: '/bmyb-services-brand-background-shadow-2-01.svg', title: 'Brand Storytelling', description: 'Create narratives that connect with your audience on a deeper level.' },
+    { image: '/bmyb-services-brand-background-shadow-3-01.svg', title: 'Design Systems', description: 'Develop scalable brand guidelines for consistent growth.' }
   ]
 
   const impactAreas = [
@@ -51,7 +51,7 @@ export default function BrandExperienceHero() {
         <div className="max-w-7xl mx-auto">
           <div className="rounded-3xl overflow-hidden h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-br from-[#1a1a2e] to-[#11122F] border border-white/10">
             <img 
-              src="/brand.gif" 
+              src="/bmyb-services-brand-brand-01.gif" 
               alt="Brand Experience" 
               className="w-full h-full object-cover"
               onError={(e) => {

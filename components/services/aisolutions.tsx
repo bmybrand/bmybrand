@@ -15,17 +15,17 @@ export default function AISolutions() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             {[
               {
-                icon: '/solutionsicon.svg',
+                icon: '/bmyb-global-solutionsicon-01.svg',
                 title: 'AI Strategy &\nPlanning',
                 items: ['Business Analysis', 'AI Roadmap Creation', 'Use-Case Validation']
               },
               {
-                icon: '/solutionsicon2.svg',
+                icon: '/bmyb-global-solutionsicon2-01.svg',
                 title: 'AI Development\n& Automation',
                 items: ['Custom AI Models', 'Workflow Automation', 'Intelligent Assistants']
               },
               {
-                icon: '/solutionsicon3.svg',
+                icon: '/bmyb-global-solutionsicon3-01.svg',
                 title: 'Deployment &\nScaling',
                 items: ['System Integration', 'Testing & Optimization', 'Ongoing Support']
               }

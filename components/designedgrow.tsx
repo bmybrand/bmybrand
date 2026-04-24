@@ -10,17 +10,17 @@ const items = [
   {
     title: "Create Faster. Anywhere.",
     desc: "Bring your ideas to life with clean branding, modern UI/UX, and fast-loading design. We create intuitive visuals that engage your audience instantly—on every device, anywhere.",
-    image: "/getskeebear.svg"
+    image: "/bmyb-global-getskeebear-01.svg"
   },
   {
     title: "Keep Your Brand Safe. Always.",
     desc: "We keep your brand secure, stable, and worry-free with clean builds and reliable support.",
-    image: "/technlogicalbear.svg"
+    image: "/bmyb-global-technlogicalbear-01.svg"
   },
   {
     title: "Launch Smarter. Everywhere.",
     desc: "From branding to ecommerce, we create scalable digital experiences built for real growth.",
-    image: "/technlogicalbear.svg"
+    image: "/bmyb-global-technlogicalbear-01.svg"
   }
 ]
 

@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react'
 
 export const trustLogos = [
-  '/abboott.svg.svg',
-  '/mask group (3).svg',
-  '/client_logo3.svg.svg',
-  '/aldi.svg fill.svg',
-  '/vector (27).svg',
-  '/vector (28).svg',
-  '/vector (11).svg',
-  '/vector (25).svg',
+  '/bmyb-logo-abboott-01.svg',
+  '/bmyb-logo-mask-group-03.svg',
+  '/bmyb-logo-client-logo3-01.svg',
+  '/bmyb-logo-aldi-svg-fill-02.svg',
+  '/bmyb-logo-vector-12.svg',
+  '/bmyb-logo-vector-13.svg',
+  '/bmyb-logo-vector-03.svg',
+  '/bmyb-logo-vector-10.svg',
 ]
 
 export const mockupSlides = [
@@ -79,7 +79,7 @@ export const growthCards = [
     title: 'Built-in Compliance',
     description:
       'Healthcare websites require strict compliance and secure data handling. We build HIPAA-aligned platforms that protect patient information across every touchpoint.',
-    image: '/heathcareservices.svg',
+    image: '/bmyb-global-heathcareservices-01.svg',
     imageClassName: 'absolute bottom-0 right-0 w-[42%] max-w-[220px] object-contain opacity-95',
   },
   {
@@ -99,7 +99,7 @@ export const growthCards = [
     title: 'Built to Scale',
     description:
       'As your organization grows, your digital systems should scale with you. We build flexible, low-maintenance platforms that support expansion without complexity.',
-    image: '/healthcareservies2.svg',
+    image: '/bmyb-industries-healthcare-healthcareservies2-01.svg',
     imageClassName: 'absolute bottom-0 right-0 w-[38%] max-w-[210px] object-contain opacity-95',
   },
 ]

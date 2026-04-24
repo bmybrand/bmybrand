@@ -16,7 +16,7 @@ export default function HerobarBrand() {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/strock animation_1.mp4" type="video/mp4" />
+          <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>

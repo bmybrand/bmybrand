@@ -17,42 +17,42 @@ const cards: Card[] = [
   {
     title: "Creative Consistency",
     desc: "Keep your brand looking clean, modern, and aligned everywhere.",
-    icon: "/creative consistency.svg",
+    icon: "/bmyb-global-creative-consistency-01.svg",
   },
   {
     title: "Detail-Driven Quality",
     desc: "Experience designs crafted with precision, clarity, and detail.",
-    icon: "/detail-driven quality.svg",
+    icon: "/bmyb-global-detail-driven-quality-01.svg",
   },
   {
     title: "Reliable Workflow",
     desc: "Enjoy a smooth, organized process from start to finish.",
-    icon: "/reliable workflow.svg",
+    icon: "/bmyb-global-reliable-workflow-01.svg",
   },
   {
     title: "Smart Optimization",
     desc: "We build for speed, performance, and better results.",
-    icon: "/smart optimization.svg",
+    icon: "/bmyb-global-smart-optimization-01.svg",
   },
   {
     title: "Clear Communication",
     desc: "Clear updates, real feedback, and open collaboration.",
-    icon: "/clear communication.svg",
+    icon: "/bmyb-global-clear-communication-01.svg",
   },
   {
     title: "Flexible Creativity",
     desc: "Bring any idea to life with adaptable, brand-focused creativity.",
-    icon: "/flexible creativity.svg",
+    icon: "/bmyb-global-flexible-creativity-01.svg",
   },
   {
     title: "Long-Term Stability",
     desc: "Build a digital presence that stays strong and future-ready.",
-    icon: "/long-term stability.svg",
+    icon: "/bmyb-global-long-term-stability-01.svg",
   },
   {
     title: "Built for Growth",
     desc: "Build on a structure designed to scale as your business grows.",
-    icon: "/built for growth.svg",
+    icon: "/bmyb-global-built-for-growth-01.svg",
   },
 ];
 
@@ -128,7 +128,7 @@ const OurBranding: React.FC = () => {
         {/* LG+ absolute layout */}
         <div className="hidden lg:block relative w-full h-150">
           <img
-            src="/group 1597883284.svg"
+            src="/bmyb-logo-group-1597883284-01.svg"
             alt=""
             className=" relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
           />

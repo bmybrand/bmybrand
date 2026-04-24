@@ -219,12 +219,12 @@ function ProjectCard({
         >
           <div className="bg-white p-4 rounded-lg">
             <img 
-              src="/group119.svg" 
+              src="/bmyb-logo-group119-01.svg" 
               alt="" 
               className="w-4 h-4 group-hover:hidden" 
             />
             <img 
-              src="/group1190.svg" 
+              src="/bmyb-logo-group1190-01.svg" 
               alt="" 
               className="w-4 h-4 hidden group-hover:block" 
             />

@@ -18,7 +18,7 @@ const projectCards: ProjectCard[] = [
     brandTitle: 'FOUNTAIN HILLS',
     brandSubtitle: 'EMERGENCY ROOM & MEDICAL CENTER',
     title: 'Patient-First Emergency Care Experience',
-    image: '/Container (2).svg',
+    image: '/bmyb-global-container-01.svg',
     tag: 'Healthcare',
     href: '/case-studies/fountain-hills',
     imageClassName: 'object-cover object-center',
@@ -27,7 +27,7 @@ const projectCards: ProjectCard[] = [
     brandTitle: 'INSTINCTIVE',
     brandSubtitle: 'HEALTHCARE SOLUTIONS',
     title: 'Scalable Digital Growth For Healthcare',
-    image: '/Container.svg',
+    image: '/bmyb-global-container-02.svg',
     tag: 'Healthcare',
     href: '/contact',
     imageClassName: 'object-cover object-center',
@@ -35,7 +35,7 @@ const projectCards: ProjectCard[] = [
   {
     brandTitle: 'HealTrust',
     title: 'Smarter Digital Systems For Modern Care',
-    image: '/healthcareservies2.svg',
+    image: '/bmyb-industries-healthcare-healthcareservies2-01.svg',
     tag: 'AI / Healthcare',
     href: '/contact',
     imageClassName: 'object-contain object-center bg-[#f1f5fb]',
@@ -67,7 +67,7 @@ export default function HealthcareProjects() {
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0E1026] via-[#0E1026]/82 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between px-5 pb-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <span className="text-white text-[2rem] leading-none BenzinSemibold">View Website</span>
-                <img src="/group119.svg" alt="" className="h-4 w-4 object-contain brightness-0 invert" />
+                <img src="/bmyb-logo-group119-01.svg" alt="" className="h-4 w-4 object-contain brightness-0 invert" />
               </div>
 
               <div className="flex items-start justify-between gap-4">
@@ -90,7 +90,7 @@ export default function HealthcareProjects() {
                 <div
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#6A3542] transition-all duration-300 group-hover:bg-[#FF843E]"
                 >
-                  <img src="/group119.svg" alt="" className="h-4 w-4 object-contain brightness-0 invert" />
+                  <img src="/bmyb-logo-group119-01.svg" alt="" className="h-4 w-4 object-contain brightness-0 invert" />
                 </div>
               </div>
 

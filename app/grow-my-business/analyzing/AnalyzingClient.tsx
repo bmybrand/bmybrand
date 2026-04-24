@@ -7,7 +7,7 @@ const progressStops = [14, 21, 32, 41, 53, 61, 68];
 
 function normalizeSiteLabel(site: string) {
   if (!site) return "https://www.mrclean.com/en-us";
-  if (/^https?:\/\//i.test(site)) return site;
+  if (/^https?:///i.test(site)) return site;
   return `https://${site}`;
 }
 
@@ -95,7 +95,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
       <div className="mx-auto w-[90%] 2xl:w-[85%] px-2 py-6">
         <header className="mx-auto flex max-w-7xl items-center justify-between gap-6 rounded-2xl border border-[#3A3B61] bg-[#1A1B3D] px-6 py-3 text-white/88">
           <Link href="/" className="shrink-0">
-            <img src="/bmylogo.svg" alt="BMYBrand" className="h-7 w-auto object-contain" />
+            <img src="/bmyb-logo-bmylogo-01.svg" alt="BMYBrand" className="h-7 w-auto object-contain" />
           </Link>
 
           <div className="flex flex-wrap items-center justify-end gap-3 text-sm text-white/64">
@@ -103,7 +103,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
               Results by <span className="text-white BenzinSemibold">Foresight</span>
             </div>
             <div className="inline-flex h-[36px] items-center gap-2 rounded-xl border border-[#3A3B61] bg-[#202143] px-3 text-[0.78rem] text-white/88">
-              <img src="/globe.svg" alt="" className="h-4 w-4 object-contain" />
+              <img src="/bmyb-global-globe-01.svg" alt="" className="h-4 w-4 object-contain" />
               <span className="max-w-[20rem] truncate">{siteLabel}</span>
             </div>
           </div>
@@ -177,7 +177,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
               {!logoHidden || runPreviewFlash ? (
                 <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
                   <img
-                    src="/bmylogo.svg"
+                    src="/bmyb-logo-bmylogo-01.svg"
                     alt="BMYBrand Logo"
                     className="w-32 h-32 opacity-60"
                     style={

@@ -58,7 +58,7 @@ export default function AIDrivenHero() {
       <section>
         <div>
           <img
-            src="/service-banner.svg"
+            src="/bmyb-services-service-banner-01.svg"
             alt="AI Solutions in Action"
             className="h-auto w-full object-cover"
             onError={(e) => {
@@ -134,7 +134,7 @@ export default function AIDrivenHero() {
 
             <div className="relative min-h-[320px] overflow-hidden rounded-2xl lg:h-full lg:min-h-0">
               <img
-                src="/aioverview.svg"
+                src="/bmyb-services-ai-aioverview-01.svg"
                 alt="AI Smart Assistant Interface"
                 className="absolute inset-0 h-full w-full object-cover"
               />

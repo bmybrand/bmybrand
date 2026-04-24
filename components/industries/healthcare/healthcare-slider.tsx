@@ -44,7 +44,7 @@ export default function HealthcareSlider() {
                 className={`relative h-[350px] md:h-[400px] lg:h-[450px] w-[550px] md:w-[650px] lg:w-[750px] flex-shrink-0 rounded-2xl overflow-hidden ${slide.className}`}
               >
                 <img
-                  src="/backgroundfh.svg"
+                  src="/bmyb-global-backgroundfh-01.svg"
                   alt={slide.alt}
                   className={`w-full h-full object-cover ${slide.imageClassName}`}
                 />

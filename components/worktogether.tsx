@@ -93,7 +93,7 @@ export default function WorkTogether() {
         }}
       >
         <img 
-          src="/cta1-hand-1.svg" 
+          src="/bmyb-global-cta1-hand-1-01.svg" 
           alt="Left hand"
           className="w-full h-full object-contain"
         />
@@ -110,7 +110,7 @@ export default function WorkTogether() {
         }}
       >
         <img 
-          src="/cta1-hand-2.svg" 
+          src="/bmyb-global-cta1-hand-2-01.svg" 
           alt="Right hand"
           className="w-full h-full object-contain"
         />
@@ -128,7 +128,7 @@ export default function WorkTogether() {
         }}
       >
         <Image 
-          src="/cta1-img-2.svg" 
+          src="/bmyb-global-cta1-img-2-01.svg" 
           alt="Work environment"
           fill
           className="object-cover"
@@ -146,7 +146,7 @@ export default function WorkTogether() {
         }}
       >
         <Image 
-          src="/cta1-img-1.svg" 
+          src="/bmyb-global-cta1-img-1-01.svg" 
           alt="Office space"
           fill
           className="object-cover"
@@ -186,7 +186,7 @@ export default function WorkTogether() {
             <div className="mt-6 flex flex-col sm:flex-row gap-4 BenzinSemibold mb-12">
   <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2">
     <div className="bg-white p-4 rounded-lg">
-    <img src="/group1190.svg" alt="" className="w-4 h-4" />
+    <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
     </div>
     <span className="px-2">Get Started Now</span>
   </button>
@@ -194,7 +194,7 @@ export default function WorkTogether() {
   <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2">
 
      <div className="bg-white p-4 rounded-lg">
-    <img src="/group119.svg" alt="" className="w-4 h-4" />
+    <img src="/bmyb-logo-group119-01.svg" alt="" className="w-4 h-4" />
     </div>
     <span className="px-2">Explore Our Work</span>
   </button>

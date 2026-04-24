@@ -24,7 +24,7 @@ export default function GrowMyBusinessPage() {
     if (!trimmedValue) return trimmedValue;
 
     try {
-      const normalizedValue = /^https?:\/\//i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
+      const normalizedValue = /^https?:///i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
       const parsedUrl = new URL(normalizedValue);
 
       if (parsedUrl.hostname === "localhost" || parsedUrl.hostname === "127.0.0.1") {
@@ -81,7 +81,7 @@ export default function GrowMyBusinessPage() {
               <div className="max-w-[44rem]">
                 <div className="inline-flex h-[39px] items-center gap-2 rounded-md border border-[#2A2B47] bg-[#1B1C3A] px-3 text-[0.72rem] text-white/88">
                   <span className="inline-flex h-5 items-center rounded bg-[#F45B25] px-1.5 py-0.5">
-                    <img src="/clutch.svg" alt="Clutch" className="h-3.5 w-auto object-contain brightness-0 invert" />
+                    <img src="/bmyb-logo-clutch-01.svg" alt="Clutch" className="h-3.5 w-auto object-contain brightness-0 invert" />
                   </span>
                   <span className="flex items-center gap-1 text-white" aria-hidden="true">
                     <span>★</span>

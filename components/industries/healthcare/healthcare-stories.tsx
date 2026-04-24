@@ -22,7 +22,7 @@ export default function HealthcareStories() {
         <div className="mt-4 grid gap-6 lg:grid-cols-[1.6fr_0.9fr]">
           <div className="overflow-hidden rounded-4xl bg-[#f3d0c6]">
             <img
-              src="/Container (2).svg"
+              src="/bmyb-global-container-01.svg"
               alt="Fountain Hills healthcare website showcase"
               className="h-auto w-full object-cover object-center"
             />
@@ -30,7 +30,7 @@ export default function HealthcareStories() {
 
           <div className="rounded-[14px] bg-white/[0.04] px-6 py-6 sm:px-7 sm:py-7 flex flex-col">
             <img
-              src="/FH-EmergencyRoom-Logo-ERClinic-1 2.svg"
+              src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg"
               alt="Fountain Hills Emergency Room"
               className="block h-12 w-auto object-contain object-left self-start"
             />
@@ -42,7 +42,7 @@ export default function HealthcareStories() {
 
             <div className="mt-auto pt-8 flex items-center gap-3">
                 <img
-                  src="/fh-emergencyroom-logo-erclinic-1 2 (2).svg"
+                  src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg"
                   alt=""
                   className="h-11 w-11  object-contain"
                 />
@@ -70,7 +70,7 @@ export default function HealthcareStories() {
           <div className="rounded-[14px] bg-white/[0.04] px-6 py-6 sm:px-7 sm:py-7 flex flex-col">
             <div className="flex items-center gap-3">
               <img
-                src="/cropped-Instinctive-Healthcare-Solutions 1.svg"
+                src="/bmyb-industries-healthcare-cropped-instinctive-healthcare-solutions-1-02.svg"
                 alt="Instinctive Healthcare Solutions"
                 className="h-12 w-auto object-contain"
               />
@@ -84,7 +84,7 @@ export default function HealthcareStories() {
 
             <div className="mt-auto pt-8 flex items-center gap-3">
               <img
-                src="/cropped-Instinctive-Healthcare-Solutions 1 (1).svg"
+                src="/bmyb-industries-healthcare-cropped-instinctive-healthcare-solutions-1-01.svg"
                 alt=""
                 className="h-11 w-auto object-contain"
               />
@@ -97,7 +97,7 @@ export default function HealthcareStories() {
 
           <div className="overflow-hidden rounded-4xl bg-[linear-gradient(135deg,#9fc2cb_0%,#d6ebf0_48%,#9db9c3_100%)]">
             <img
-              src="/Container.svg"
+              src="/bmyb-global-container-02.svg"
               alt="Instinctive healthcare website showcase"
               className="h-auto w-full object-cover object-center"
             />

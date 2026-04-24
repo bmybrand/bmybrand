@@ -52,12 +52,12 @@ export default function HealthcareFAQ() {
   const [isLogoBarHovered, setIsLogoBarHovered] = useState(false);
 
   const logos = [
-    { default: '/vector (23).svg', hover: '/vector (24)-orange.svg', alt: 'Abbott' },
-    { default: '/vector (24).svg', hover: '/vector (26)-orange.svg', alt: 'London Real' },
-    { default: '/vector (25).svg', hover: '/vector (25)-orange.svg', alt: 'Decathlon' },
-    { default: '/vector (26).svg', hover: '/vector (28)-orange.svg', alt: 'Targus' },
-    { default: '/vector (27).svg', hover: '/vector (23)-orange.svg', alt: 'Single Grain' },
-    { default: '/vector (28).svg', hover: '/vector (27)-orange.svg', alt: 'York University' }
+    { default: '/bmyb-logo-vector-08.svg', hover: '/bmyb-logo-vector-orange-02.svg', alt: 'Abbott' },
+    { default: '/bmyb-logo-vector-09.svg', hover: '/bmyb-logo-vector-orange-04.svg', alt: 'London Real' },
+    { default: '/bmyb-logo-vector-10.svg', hover: '/bmyb-logo-vector-orange-03.svg', alt: 'Decathlon' },
+    { default: '/bmyb-logo-vector-11.svg', hover: '/bmyb-logo-vector-orange-06.svg', alt: 'Targus' },
+    { default: '/bmyb-logo-vector-12.svg', hover: '/bmyb-logo-vector-orange-01.svg', alt: 'Single Grain' },
+    { default: '/bmyb-logo-vector-13.svg', hover: '/bmyb-logo-vector-orange-05.svg', alt: 'York University' }
   ];
 
   const toggleFaq = (index: number) => {

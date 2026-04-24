@@ -108,7 +108,7 @@ export default function Brandsspec() {
       header.appendChild(meta)
 
       const icon = document.createElement('img')
-      icon.src = '/quote.svg'
+      icon.src = '/bmyb-global-quote-01.svg'
       icon.alt = ''
       icon.className = 'ml-auto w-12'
       header.appendChild(icon)
