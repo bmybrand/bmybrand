@@ -1,9 +1,13 @@
 'use client'
 
 import React from 'react'
+import Gravity, { MatterBody } from '@/components/fancy/physics/gravity'
 
 export default function BrandExperienceHero() {
   const [activePrimaryCard, setActivePrimaryCard] = React.useState<'audit' | 'strategy'>('audit')
+  const [bentoInView, setBentoInView] = React.useState(false)
+  const [physicsReady, setPhysicsReady] = React.useState(false)
+  const bentoGridRef = React.useRef<HTMLDivElement | null>(null)
 
   const features = [
     { image: '/bmyb-services-brand-background-shadow-01.svg', title: 'Strategic Positioning', description: 'Define your brand\'s unique value, voice, and market advantage.' },
@@ -36,6 +40,42 @@ export default function BrandExperienceHero() {
           cta: 'Book Strategy Call'
         }
 
+  React.useEffect(() => {
+    const node = bentoGridRef.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setBentoInView(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.35 }
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
+  React.useEffect(() => {
+    if (!bentoInView) return
+
+    let frameOne: number | null = null
+    let frameTwo: number | null = null
+
+    frameOne = requestAnimationFrame(() => {
+      frameTwo = requestAnimationFrame(() => {
+        setPhysicsReady(true)
+      })
+    })
+
+    return () => {
+      if (frameOne !== null) cancelAnimationFrame(frameOne)
+      if (frameTwo !== null) cancelAnimationFrame(frameTwo)
+    }
+  }, [bentoInView])
+
   return (
     <>
       {/* Hero Section */}
@@ -61,8 +101,8 @@ export default function BrandExperienceHero() {
               ))}
             </div>
           </div>
-          <div className="grid auto-rows-[6.4rem] gap-4 md:grid-cols-12 md:auto-rows-[6.4rem]">
-            <div className="group relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-5 md:row-span-4">
+          <div ref={bentoGridRef} className="grid auto-rows-[6.4rem] gap-4 md:grid-cols-12 md:auto-rows-[6.4rem]">
+            <div className="group relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] px-7 py-5 md:col-span-5 md:row-span-4">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.18),transparent_48%)]" />
               <div className="absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(circle_at_bottom,rgba(244,91,37,0.28),transparent_68%)]" />
               <div className="relative z-10 flex h-full flex-col pb-32">
@@ -135,7 +175,7 @@ export default function BrandExperienceHero() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-4 md:row-span-5">
+            <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] px-7 py-5 md:col-span-4 md:row-span-5">
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(136,73,47,0.42),rgba(28,29,61,0.96)_42%,rgba(28,29,61,1)_100%)]" />
               <div className="relative z-10 flex h-full flex-col">
                 <div className="flex items-center gap-3">
@@ -154,18 +194,98 @@ export default function BrandExperienceHero() {
                   </h3>
                 </div>
 
-                <div className="relative mt-8 flex-1 overflow-hidden">
+                <div className="relative mt-8 min-h-[13rem] flex-1 overflow-hidden pb-5">
+                  {physicsReady ? (
+                    <Gravity gravity={{ x: 0, y: 1 }} draggable={false} className="h-[calc(100%_-_1.25rem)] w-full">
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="12%" y="6%" angle={-70}>
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Brand Strategy
+                          </div>
+                        </div>
+                      </MatterBody>
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="24%" y="18%" angle={-26}>
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Experience-Led Design
+                          </div>
+                        </div>
+                      </MatterBody>
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="54%" y="14%" angle={24}>
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Expertise Design
+                          </div>
+                        </div>
+                      </MatterBody>
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="88%" y="8%" angle={90}>
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Identity Design
+                          </div>
+                        </div>
+                      </MatterBody>
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="10%" y="34%" angle={-18}>
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Design Systems
+                          </div>
+                        </div>
+                      </MatterBody>
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="58%" y="36%" angle={30}>
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Creative Direction
+                          </div>
+                        </div>
+                      </MatterBody>
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="24%" y="54%" angle={-18}>
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Brand Guidelines
+                          </div>
+                        </div>
+                      </MatterBody>
+                      <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="58%" y="60%">
+                        <div>
+                          <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                            Creative Systems
+                          </div>
+                        </div>
+                      </MatterBody>
+                    </Gravity>
+                  ) : null}
                 </div>
 
-                <div className="mt-6 flex items-center gap-3">
-                  <button className="flex-1 rounded-full border border-white/55 px-4 py-3 text-left text-[11px] text-white/75">
-                    Send message
+                <div className="mt-auto flex items-center gap-3 pt-6">
+                  <input
+                    type="text"
+                    placeholder="Send message"
+                    className="flex-1 rounded-full border border-white/55 bg-transparent px-4 py-3 text-[11px] text-white placeholder:text-white/55 outline-none transition-colors focus:border-white/80"
+                  />
+                  <button
+                    type="button"
+                    aria-label="Like"
+                    className="flex h-10 w-10 items-center justify-center"
+                  >
+                    <img
+                      src="/bmyb-services-brand-bento-like-01.svg"
+                      alt=""
+                      className="h-5 w-5 object-contain"
+                      style={{ filter: 'brightness(0) saturate(100%) invert(86%) opacity(0.9)' }}
+                    />
                   </button>
-                  <button className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/85">
-                    <span className="text-lg leading-none">♡</span>
-                  </button>
-                  <button className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/85">
-                    <span className="text-lg leading-none">↗</span>
+                  <button
+                    type="button"
+                    aria-label="Share"
+                    className="flex h-10 w-10 items-center justify-center"
+                  >
+                    <img
+                      src="/bmyb-services-brand-bento-share-01.svg"
+                      alt=""
+                      className="h-5 w-5 object-contain"
+                      style={{ filter: 'brightness(0) saturate(100%) invert(86%) opacity(0.9)' }}
+                    />
                   </button>
                 </div>
               </div>
@@ -184,10 +304,55 @@ export default function BrandExperienceHero() {
 
             <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-8 md:row-span-1">
               <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(244,91,37,0.16),rgba(255,255,255,0.03),rgba(244,91,37,0.16))]" />
+              <div className="relative z-10 flex h-full items-center justify-between gap-6 px-2">
+                <div className="text-[24px] leading-none text-white BenzinSemibold">
+                  Benzin
+                </div>
+                <div className="text-[24px] leading-none text-white BenzinSemibold tracking-[0.02em]">
+                  1234567890
+                </div>
+                <div className="flex items-center">
+                  <span className="h-[3.3rem] w-[3.3rem] rounded-full bg-[#FF6123]" />
+                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[#FF8A3C]" />
+                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-white" />
+                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[#23245B]" />
+                </div>
+              </div>
             </div>
 
             <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-3 md:row-span-3">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,91,37,0.2),transparent_46%)]" />
+              <div className="relative z-10 flex h-full flex-col">
+                <div className="pt-3 text-center text-[16px] text-white/92 BenzinRegular">
+                  Notification Center
+                </div>
+
+                <div className="relative mt-8 flex flex-1 items-center justify-center">
+                  <div className="absolute left-1/2 top-1/2 h-[8.8rem] w-[11.8rem] -translate-x-[34%] -translate-y-[18%] rounded-[1.05rem] bg-white/40" />
+                  <div className="absolute left-1/2 top-1/2 h-[8.8rem] w-[11.8rem] -translate-x-[26%] -translate-y-[8%] rounded-[1.05rem] bg-white/28" />
+                  <div className="absolute left-1/2 top-1/2 h-[8.8rem] w-[11.8rem] -translate-x-[18%] translate-y-[2%] rounded-[1.05rem] bg-white/18" />
+
+                  <div className="relative flex w-[13.2rem] items-center gap-4 rounded-[1.05rem] bg-[#E9E6E8] px-4 py-5 shadow-[0_16px_34px_rgba(10,12,30,0.24)]">
+                    <div className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-[0.7rem] bg-[linear-gradient(180deg,#FF8A3C_0%,#FF6123_100%)]">
+                      <img
+                        src="/bmyb-services-brand-bento-mark-01.svg"
+                        alt="BMYBrand mark"
+                        className="h-10 w-10 object-contain brightness-0 invert"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[12px] leading-none text-[#1A1A2C] BenzinSemibold">
+                        Bmybrand
+                      </div>
+                      <p className="mt-2 text-[11px] leading-[1.3] text-[#2B2B41]">
+                        Boost Brands with
+                        <br />
+                        AI Power!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-5 md:row-span-3">
