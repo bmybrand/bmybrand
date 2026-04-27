@@ -1,0 +1,385 @@
+"use client";
+
+import Footer from "@/components/footer";
+import Link from "next/link";
+import { useMemo } from "react";
+
+function normalizeSiteLabel(site: string) {
+  if (!site) return "https://www.bakertilly.com/";
+  if (/^https?:\/\//i.test(site)) return site;
+  return `https://${site}`;
+}
+
+function getHostname(site: string) {
+  try {
+    return new URL(site).hostname.replace(/^www\./, "");
+  } catch {
+    return site.replace(/^https?:\/\//i, "").replace(/^www\./, "");
+  }
+}
+
+function LaunchIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M4 12 12 4M6 4h6v6" />
+    </svg>
+  );
+}
+
+export default function ReportClient({ site }: { site?: string }) {
+  const siteLabel = useMemo(() => normalizeSiteLabel(site ?? ""), [site]);
+  const hostname = useMemo(() => getHostname(siteLabel), [siteLabel]);
+  const previewSrc = useMemo(
+    () => `/api/screenshot?site=${encodeURIComponent(siteLabel)}`,
+    [siteLabel]
+  );
+
+  return (
+    <div className="min-h-screen bg-[#11122F] text-white">
+      <div className=" px-2 py-6">
+        <header className="mx-auto flex max-w-7xl items-center justify-between gap-6 rounded-2xl border border-[#3A3B61] bg-[#1A1B3D] px-6 py-3 text-white/88">
+          <Link href="/" className="shrink-0">
+            <img
+              src="/bmyb-logo-bmylogo-01.svg"
+              alt="BMYBrand"
+              className="h-7 w-auto object-contain"
+            />
+          </Link>
+
+          <div className="flex flex-wrap items-center justify-end gap-3 text-sm text-white/64">
+            <div>
+              Results by <span className="text-white BenzinSemibold">Bmybrand</span>
+            </div>
+            <div className="inline-flex h-[36px] items-center gap-2 rounded-xl border border-[#3A3B61] bg-[#202143] px-3 text-[0.78rem] text-white/88">
+              <img src="/bmyb-global-globe-01.svg" alt="" className="h-4 w-4 object-contain" />
+              <span className="max-w-[20rem] truncate">{siteLabel}</span>
+            </div>
+          </div>
+        </header>
+        <div className="relative bg-[#11122F] mx-auto w-[90%] lg:w-[75%]">
+
+          <main className="pt-12">
+            <section className="grid gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(290px,0.72fr)] lg:items-start">
+              <div className="max-w-[45rem] pt-1">
+                <h1 className="max-w-[13ch] text-[45px] leading-[1.08] text-white BenzinSemibold">
+                  Key Issues Identified May Impact User Experience &amp; Overall Performance
+                </h1>
+
+                <p className="mt-3 max-w-[31rem] text-[16px] leading-6 text-[#A6ABCC] sm:text-[16px]">
+                  Your website has a solid foundation, but clarity, structure, and user flow can be
+                  improved to unlock better results.
+                </p>
+
+                <div className="mt-5 space-y-3 text-[11px] text-white/86 sm:text-[11.5px]">
+                  <div className="flex items-start gap-2.5">
+                    <span className="mt-[0.12rem] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#F45B25]">
+                      <img
+                        src="/bmyb-logo-group119-01.svg"
+                        alt=""
+                        className="h-2.5 w-2.5 object-contain brightness-0 invert"
+                      />
+                    </span>
+                    <span>View A Detailed Breakdown With Category-Based Scoring</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <span className="mt-[0.12rem] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#F45B25]">
+                      <img
+                        src="/bmyb-logo-group119-01.svg"
+                        alt=""
+                        className="h-2.5 w-2.5 object-contain brightness-0 invert"
+                      />
+                    </span>
+                    <span>Get A Clear Action Plan To Improve Performance And Conversions</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 mb-8 flex flex-col gap-4 BenzinSemibold sm:flex-row">
+                  <Link
+                    href="/strategy-call"
+                    className="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)]"
+                  >
+                    <div className="rounded-lg bg-white p-4">
+                      <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-4 w-4" />
+                    </div>
+                    <span className="px-2">Free strategy call</span>
+                  </Link>
+                  <Link
+                    href="/case-studies"
+                    className="flex items-center justify-center gap-2 rounded-lg border border-white px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                  >
+                    <div className="rounded-lg bg-white p-4">
+                      <img src="/bmyb-logo-group119-01.svg" alt="" className="h-4 w-4" />
+                    </div>
+                    <span className="px-2">Explore Our Work</span>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="grid max-w-[380px] gap-5 sm:grid-cols-2 lg:max-w-none lg:grid-cols-2">
+                  <div className="rounded-[14px] bg-[#191A35] px-3 py-6">
+                  <div className="text-[16px] leading-none text-white BenzinSemibold text-center w-full">Your Site Score</div>
+                  <div className="mt-4 flex justify-center">
+                    <div className="relative h-[128px] w-[190px]">
+                      <svg
+                        viewBox="0 0 190 128"
+                        className="absolute inset-0 h-full w-full"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M 15 113 A 78 78 0 0 1 175 113"
+                          fill="none"
+                          stroke="#2E315F"
+                          strokeWidth="26"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M 15 113 A 78 78 0 0 1 175 113"
+                          fill="none"
+                          stroke="#FF7A37"
+                          strokeWidth="26"
+                          strokeLinecap="round"
+                          pathLength="100"
+                          strokeDasharray="64 36"
+                        />
+                      </svg>
+                      <div className="absolute inset-x-0 bottom-[18px] text-center text-[20px] leading-none text-[#FF7A37] BenzinSemibold">
+                        27/100
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-[14px] bg-[#191A35] px-6 py-5">
+                  <div className="text-[16px] leading-none text-white BenzinSemibold">Current Status</div>
+                  <div className="relative mt-4 h-[124px]">
+                    <div className="absolute bottom-0 left-1/2 h-[124px] w-[112px] -translate-x-1/2">
+                      <img
+                        src="/bmyb-grow-report-bottom-accent-01.svg"
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-contain"
+                      />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center pt-5">
+                        <div className="text-[26px] leading-none text-[#FF7A37] BenzinSemibold">9+</div>
+                        <div className="mt-2 text-center text-[11px] leading-none text-[#FF7A37]">
+                          issues found
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <div className="relative overflow-hidden rounded-[12px] border border-[#3D447B] bg-[#1B1D44]">
+                    <img
+                      src={previewSrc}
+                      alt={`${hostname} preview`}
+                      className="h-[180px] w-full object-cover sm:h-[200px]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,28,0.04),rgba(10,12,28,0.4))]" />
+                    <div className="absolute inset-x-0 top-1/2 h-[46px] -translate-y-1/2 bg-[rgba(11,13,33,0.62)] backdrop-blur-[1.5px]" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex items-center gap-2.5 text-[18px] text-white BenzinSemibold">
+                        <img src="/bmyb-tech-whitelogo-01.svg" alt="" className="h-6 w-6 object-contain brightness-0 invert" />
+                        <span>{hostname}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="mt-16 flex flex-col gap-8 lg:flex-row lg:items-start">
+              <div className="w-full lg:w-[65%]">
+                <h2 className="text-[38px] leading-none text-white BenzinSemibold sm:text-[45px]">
+                  Report Preview
+                </h2>
+
+                <div className="mt-6 mb-6 rounded-[16px] bg-[#191A35] p-6 text-sm leading-7 text-[#A6ABCC]">
+                  <p className="text-[16px]">
+                    Below is a preview of your website audit. To access the full report, click on{" "}
+                    <span className="text-[#F45B25]">&quot;Access full report&quot;</span> and complete a short form.
+                  </p>
+                  <p className="mt-5 text-[16px]">
+                    This audit provides insights into key areas such as structure, messaging, usability,
+                    and performance, along with actionable recommendations to improve your overall score.
+                  </p>
+                </div>
+                <h2 className="text-[22px] mt-15 leading-none text-white BenzinSemibold sm:text-[28px]">
+                  Positioning
+                </h2>
+                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                  {/* Pill badge in normal flow */}
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
+                      <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    </span>
+                    Effective Practices
+                  </div>
+                  <p className="flex items-start gap-2 text-[16px]">
+                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    The homepage communicates that the company provides advisory, tax, and assurance services focused on finance-related industries.
+                  </p>
+                </div>
+
+                {/* Improvement Opportunities Section */}
+                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
+                      <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    </span>
+                    Improvement Opportunities
+                  </div>
+                  <ul className="pl-0">
+                    <li className="flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]">
+                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      Introduce a clearer and more concise headline that highlights the company’s core value proposition.
+                    </li>
+                    <li className="flex items-start gap-2 border-b border-white/10 py-5 text-[16px]">
+                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      Ensure messaging quickly explains who the service is for and what makes it valuable.
+                    </li>
+                    <li className="flex items-start gap-2 pt-5 text-[16px]">
+                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      Strengthen above-the-fold content to improve clarity and engagement.
+                    </li>
+                  </ul>
+                </div>
+
+                
+                <h2 className="text-[22px] mt-15 leading-none text-white BenzinSemibold sm:text-[28px]">
+                  Differentiation
+                </h2>
+                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                  {/* Pill badge in normal flow */}
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
+                      <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    </span>
+                    Observations
+                  </div>
+                  <p className="flex items-start gap-2 text-[16px]">
+                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    The current messaging lacks strong differentiation and does not clearly communicate what sets the company apart from competitors.
+                  </p>
+                </div>
+
+                {/* Improvement Opportunities Section */}
+                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
+                      <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    </span>
+                    Improvement Opportunities
+                  </div>
+                  <ul className="pl-0">
+                    <li className="flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]">
+                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                        Clearly define unique strengths or specialized expertise within the target industry.
+                    </li>
+                    <li className="flex items-start gap-2 border-b border-white/10 py-5 text-[16px]">
+                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      Add specific value points that highlight why clients should choose this company over alternatives.
+                    </li>
+                    <li className="flex items-start gap-2 pt-5 text-[16px]">
+                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      Use proof elements such as results, experience, or niche focus to strengthen positioning.
+                    </li>
+                  </ul>
+                </div>
+
+<div className="mt-6 mb-6 overflow-hidden rounded-[16px] bg-[#191A35] ">
+                  <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between">
+                    <div className="w-full p-6 py-7 xl:w-[55%] xl:pl-6">
+                      <h3 className="text-[18px] leading-[1.15] text-white BenzinSemibold sm:text-[24px]">
+                        Unlock Your Full Website Audit
+                      </h3>
+                      <p className="mt-4 text-[16px] leading-8 text-[#A6ABCC]">
+                        Unlock a detailed audit report with category scores, performance insights, UX findings, and actionable next steps tailored to your website.
+                      </p>
+
+                      <Link
+                        href="/strategy-call"
+                        className="mt-8 inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold"
+                      >
+                        <div className="rounded-lg bg-white p-4">
+                          <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-4 w-4" />
+                        </div>
+                        <span className="px-3">Access Full Report</span>
+                      </Link>
+                    </div>
+
+                    <div className="relative hidden h-[220px] w-full shrink-0 self-end overflow-hidden xl:block xl:w-[45%]">
+                      <img
+                        src="/bmyb-grow-report-cta-visual-01.svg"
+                        alt="Website audit preview"
+                        className="h-full w-full object-contain object-right-bottom"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
+
+              <aside className="h-fit w-full lg:sticky lg:top-8 lg:w-[35%] lg:self-start">
+                <div className="rounded-[16px] bg-gradient-to-br from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
+                <div className="flex -space-x-2">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#1B1D44] text-xs">A</span>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#2D356B] text-xs">B</span>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#6A321E] text-xs">C</span>
+                </div>
+                <h3 className="mt-5 text-[28px] leading-[1.08] BenzinSemibold">
+                  Improve What&apos;s Holding Your Website Back
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-white/88">
+                  Book a free consultation to review your audit and get expert recommendations tailored to your website.
+                </p>
+                <Link
+                  href="/strategy-call"
+                  className="mt-6 inline-flex h-11 items-center rounded-lg bg-white px-5 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
+                >
+                  Talk To Our Team
+                </Link>
+                </div>
+              </aside>
+            </section>
+          </main>
+
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}

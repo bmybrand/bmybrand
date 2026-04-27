@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const progressStops = [14, 21, 32, 41, 53, 61, 68];
 
@@ -12,6 +13,7 @@ function normalizeSiteLabel(site: string) {
 }
 
 export default function AnalyzingClient({ site }: { site?: string }) {
+  const router = useRouter();
   const siteLabel = useMemo(() => normalizeSiteLabel(site ?? ""), [site]);
   const [progress, setProgress] = useState(progressStops[0]);
   const [previewLoaded, setPreviewLoaded] = useState(false);
@@ -89,6 +91,14 @@ export default function AnalyzingClient({ site }: { site?: string }) {
 
     return () => window.clearInterval(interval);
   }, [runPreviewFlash]);
+
+  useEffect(() => {
+    const redirectTimer = window.setTimeout(() => {
+      router.push(`/grow-my-business/report?site=${encodeURIComponent(siteLabel)}`);
+    }, 7600);
+
+    return () => window.clearTimeout(redirectTimer);
+  }, [router, siteLabel]);
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#11122F]">
