@@ -2,7 +2,8 @@
 
 import Footer from "@/components/footer";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
 function normalizeSiteLabel(site: string) {
   if (!site) return "https://www.bakertilly.com/";
@@ -26,7 +27,133 @@ function LaunchIcon() {
   );
 }
 
+function SectionScore({ score }: { score: number }) {
+  return (
+    <div className="inline-flex items-center rounded-[10px] bg-[#4A4B68] px-4 py-2 text-[16px] font-semibold leading-none text-white/90">
+      <span>Score: {score}</span>
+    </div>
+  );
+}
+
+function ReportUnlockModal({
+  open,
+  onClose,
+  onUnlock,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onUnlock: () => void;
+}) {
+  if (!open) return null;
+
+  const highlights = [
+    {
+      title: "Uncover Hidden Issues",
+      description: "Identify What's Limiting Your Website's Performance",
+    },
+    {
+      title: "Prioritized Fixes",
+      description: "Know Exactly What To Improve First For Maximum Impact",
+    },
+    {
+      title: "Benchmark Your Site",
+      description: "See How You Compare Against Industry Standards",
+    },
+    {
+      title: "Actionable Roadmap",
+      description: "Clear Next Steps To Improve UX, SEO, And Conversions",
+    },
+    {
+      title: "Outperform Competitors",
+      description: "Discover Gaps And Opportunities To Stay Ahead",
+    },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B0D21]/82 px-3 py-5 backdrop-blur-md">
+      <div className="relative w-full max-w-[1160px] overflow-hidden rounded-[14px] border border-[#24274A] bg-[#232448] shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close modal"
+          className="absolute right-9 top-6 flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#232448] transition-transform hover:scale-105"
+        >
+          <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M4 4l8 8M12 4 4 12" strokeLinecap="round" />
+          </svg>
+        </button>
+
+        <div className="grid gap-10 px-6 py-6 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.92fr)] md:px-7 md:py-6">
+          <div>
+            <h3 className="max-w-[20ch] text-[28px] leading-[1.2] text-white BenzinSemibold">
+              Your Full Audit Report Is Ready
+            </h3>
+            <p className="mt-2 max-w-[29rem] text-[18px] leading-8 text-[#A6ABCC]">
+              Complete one quick step to unlock your detailed website audit
+              and actionable growth insights.
+            </p>
+
+            <form className="mt-4 space-y-3.5">
+              <div>
+                <label className="mb-2 block text-[20px] text-white BenzinRegular">Full Name *</label>
+                <input
+                  type="text"
+                  placeholder="Alex Carter"
+                  className="h-10 w-full rounded-[6px] border border-[#34375E] bg-[#25274B] px-4 text-[12px] text-white outline-none transition-colors placeholder:text-white/42 focus:border-[#F45B25]"
+                />
+              </div>
+              <div>
+                <label className="mb-2 block text-[20px] text-white BenzinRegular">Email *</label>
+                <input
+                  type="email"
+                  placeholder="Alex Carter"
+                  className="h-10 w-full rounded-[6px] border border-[#34375E] bg-[#25274B] px-4 text-[12px] text-white outline-none transition-colors placeholder:text-white/42 focus:border-[#F45B25]"
+                />
+              </div>
+              <div>
+                <label className="mb-2 block text-[20px] text-white BenzinRegular">Company Name*</label>
+                <input
+                  type="text"
+                  placeholder="Alex Carter"
+                  className="h-10 w-full rounded-[6px] border border-[#34375E] bg-[#25274B] px-4 text-[12px] text-white outline-none transition-colors placeholder:text-white/42 focus:border-[#F45B25]"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={onUnlock}
+                className="mt-3 inline-flex h-[54px] w-full items-center justify-center rounded-[6px] bg-[#FF7A37] px-5 text-[20px] text-white BenzinSemibold transition-all duration-300 hover:brightness-105"
+              >
+                Unlock Full Report
+              </button>
+            </form>
+          </div>
+
+          <div className="flex flex-col justify-center pt-12 md:pt-[4.8rem]">
+            <div className="space-y-4">
+              {highlights.map((item, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-[2px] bg-[#FF7A37] text-[#171934]">
+                    <svg viewBox="0 0 16 16" className="h-[10px] w-[10px]" fill="none" stroke="currentColor" strokeWidth="2.4">
+                      <path d="M3.5 8.5 6.5 11.5 12.5 5.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <p className="text-[16px] leading-7 text-[#A6ABCC]">
+                    <span className="font-semibold text-white">{item.title}</span>
+                    <span className="text-[#8F93B3]"> - {item.description}</span>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ReportClient({ site }: { site?: string }) {
+  const router = useRouter();
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const siteLabel = useMemo(() => normalizeSiteLabel(site ?? ""), [site]);
   const hostname = useMemo(() => getHostname(siteLabel), [siteLabel]);
   const previewSrc = useMemo(
@@ -34,8 +161,32 @@ export default function ReportClient({ site }: { site?: string }) {
     [siteLabel]
   );
 
+  useEffect(() => {
+    if (!isReportModalOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsReportModalOpen(false);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isReportModalOpen]);
+
   return (
     <div className="min-h-screen bg-[#11122F] text-white">
+      <ReportUnlockModal
+        open={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        onUnlock={() => router.push(`/grow-my-business/report/complete?site=${encodeURIComponent(siteLabel)}`)}
+      />
       <div className=" px-2 py-6">
         <header className="mx-auto flex max-w-7xl items-center justify-between gap-6 rounded-2xl border border-[#3A3B61] bg-[#1A1B3D] px-6 py-3 text-white/88">
           <Link href="/" className="shrink-0">
@@ -94,23 +245,24 @@ export default function ReportClient({ site }: { site?: string }) {
                 </div>
 
                 <div className="mt-6 mb-8 flex flex-col gap-4 BenzinSemibold sm:flex-row">
-                  <Link
-                    href="/strategy-call"
+                  <button
+                    type="button"
+                    onClick={() => setIsReportModalOpen(true)}
                     className="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)]"
                   >
                     <div className="rounded-lg bg-white p-4">
                       <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-4 w-4" />
                     </div>
-                    <span className="px-2">Free strategy call</span>
-                  </Link>
+                    <span className="px-2">Access full report</span>
+                  </button>
                   <Link
-                    href="/case-studies"
+                    href="/strategy-call"
                     className="flex items-center justify-center gap-2 rounded-lg border border-white px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
                   >
                     <div className="rounded-lg bg-white p-4">
                       <img src="/bmyb-logo-group119-01.svg" alt="" className="h-4 w-4" />
                     </div>
-                    <span className="px-2">Explore Our Work</span>
+                    <span className="px-2">Free Consultation</span>
                   </Link>
                 </div>
               </div>
@@ -204,9 +356,12 @@ export default function ReportClient({ site }: { site?: string }) {
                     and performance, along with actionable recommendations to improve your overall score.
                   </p>
                 </div>
-                <h2 className="text-[22px] mt-15 leading-none text-white BenzinSemibold sm:text-[28px]">
-                  Positioning
-                </h2>
+                <div className="mt-15 flex items-center justify-between gap-4">
+                  <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
+                    Positioning
+                  </h2>
+                  <SectionScore score={9} />
+                </div>
                 <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
                   {/* Pill badge in normal flow */}
                   <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
@@ -262,9 +417,12 @@ export default function ReportClient({ site }: { site?: string }) {
                 </div>
 
                 
-                <h2 className="text-[22px] mt-15 leading-none text-white BenzinSemibold sm:text-[28px]">
-                  Differentiation
-                </h2>
+                <div className="mt-15 flex items-center justify-between gap-4">
+                  <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
+                    Differentiation
+                  </h2>
+                  <SectionScore score={0} />
+                </div>
                 <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
                   {/* Pill badge in normal flow */}
                   <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
@@ -329,15 +487,16 @@ export default function ReportClient({ site }: { site?: string }) {
                         Unlock a detailed audit report with category scores, performance insights, UX findings, and actionable next steps tailored to your website.
                       </p>
 
-                      <Link
-                        href="/strategy-call"
+                      <button
+                        type="button"
+                        onClick={() => setIsReportModalOpen(true)}
                         className="mt-8 inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold"
                       >
                         <div className="rounded-lg bg-white p-4">
                           <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-4 w-4" />
                         </div>
                         <span className="px-3">Access Full Report</span>
-                      </Link>
+                      </button>
                     </div>
 
                     <div className="relative hidden h-[220px] w-full shrink-0 self-end overflow-hidden xl:block xl:w-[45%]">
