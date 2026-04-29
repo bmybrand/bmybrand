@@ -2,7 +2,8 @@
 
 import Footer from "@/components/footer";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from "react-icons/fa6";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 function normalizeSiteLabel(site: string) {
   if (!site) return "https://www.bakertilly.com/";
@@ -39,15 +40,141 @@ function SectionScore({ score }: { score: number }) {
   );
 }
 
+function ExpandablePractices({
+  items,
+  expanded,
+  onToggle,
+  checkColor,
+  collapsedCount = 2,
+}: {
+  items: string[];
+  expanded: boolean;
+  onToggle: () => void;
+  checkColor: string;
+  collapsedCount?: number;
+}) {
+  const listRef = useRef<HTMLUListElement | null>(null);
+  const [heights, setHeights] = useState({ collapsed: 0, expanded: 0 });
+
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+
+    const entries = Array.from(list.children) as HTMLElement[];
+    const collapsed = entries
+      .slice(0, Math.min(collapsedCount, entries.length))
+      .reduce((total, item) => total + item.offsetHeight, 0);
+
+    setHeights({
+      collapsed,
+      expanded: list.scrollHeight,
+    });
+  }, [items, collapsedCount, expanded]);
+
+  const lastVisibleIndex = expanded
+    ? items.length - 1
+    : Math.min(collapsedCount, items.length) - 1;
+
+  return (
+    <>
+      <div
+        className="relative overflow-hidden transition-[max-height] duration-500 ease-in-out"
+        style={{
+          maxHeight: expanded ? `${heights.expanded}px` : `${heights.collapsed}px`,
+        }}
+      >
+        <ul ref={listRef} className="pl-0">
+          {items.map((item, index) => {
+            const itemClass =
+              index === 0
+                ? index === lastVisibleIndex
+                  ? "flex items-start gap-2 text-[16px]"
+                  : "flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]"
+                : index === lastVisibleIndex
+                  ? "flex items-start gap-2 pt-5 text-[16px]"
+                  : "flex items-start gap-2 border-b border-white/10 py-5 text-[16px]";
+
+            return (
+              <li key={item} className={itemClass}>
+                <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
+                  <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+                    <path d="M2.5 8.5L6.5 12L13.5 5" stroke={checkColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                {item}
+              </li>
+            );
+          })}
+        </ul>
+        {!expanded && (
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-[linear-gradient(180deg,rgba(17,18,47,0)_0%,rgba(17,18,47,0.82)_58%,rgba(17,18,47,1)_100%)]" />
+        )}
+      </div>
+      <button
+        type="button"
+        onClick={onToggle}
+        className="mt-7 inline-flex items-center gap-2 text-[16px] text-[#F45B25]"
+      >
+        <span>{expanded ? "View Less" : "View More"}</span>
+        <img
+          src="/bmyb-logo-group1190-01.svg"
+          alt=""
+          className={`h-2.5 w-2.5 object-contain transition-transform duration-500 ease-in-out ${
+            expanded ? "-rotate-45" : "rotate-45"
+          }`}
+        />
+      </button>
+    </>
+  );
+}
+
 export default function CompleteReportClient({ site }: { site?: string }) {
+  const [activeJumpHref, setActiveJumpHref] = useState(jumpLinks[0]?.href ?? "");
   const [showAllEffectivePractices, setShowAllEffectivePractices] = useState(false);
   const [showAllStructurePractices, setShowAllStructurePractices] = useState(false);
+  const [showAllBrandConsistency, setShowAllBrandConsistency] = useState(false);
+  const [showAllSeoPractices, setShowAllSeoPractices] = useState(false);
   const siteLabel = useMemo(() => normalizeSiteLabel(site ?? ""), [site]);
   const hostname = useMemo(() => getHostname(siteLabel), [siteLabel]);
   const previewSrc = useMemo(
     () => `/api/screenshot?site=${encodeURIComponent(siteLabel)}`,
     [siteLabel]
   );
+
+  useEffect(() => {
+    const sections = jumpLinks
+      .map((item) => {
+        const id = item.href.replace("#", "");
+        return document.getElementById(id);
+      })
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (!visibleEntries.length) return;
+
+        const activeId = visibleEntries[0]?.target.id;
+        if (!activeId) return;
+
+        setActiveJumpHref(`#${activeId}`);
+      },
+      {
+        root: null,
+        rootMargin: "-15% 0px -55% 0px",
+        threshold: [0.1, 0.25, 0.4, 0.6],
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   const effectivePractices = [
     "The homepage clearly presents advisory, tax, and assurance services, particularly for the finance and fintech audience.",
@@ -58,6 +185,24 @@ export default function CompleteReportClient({ site }: { site?: string }) {
   const visibleEffectivePractices = showAllEffectivePractices
     ? effectivePractices
     : effectivePractices.slice(0, 2);
+
+  const brandConsistencyPractices = [
+    "Logo usage remains consistent across key areas such as the header and footer, reinforcing brand recognition.",
+    "Brand colors are applied consistently throughout the website, creating a cohesive and unified visual identity.",
+    "Typography is used consistently across pages, maintaining readability and a clear brand voice."
+  ];
+  const visibleBrandConsistencyPractices = showAllBrandConsistency
+    ? brandConsistencyPractices
+    : brandConsistencyPractices.slice(0, 2);
+
+  const seoPractices = [
+    "The About Us page is clearly linked and provides a structured overview of the company's mission, purpose, and overall positioning.",
+    "Alt LM.txt file is present on the website, helping improve AI readability and ensuring better structured data accessibility.",
+    "The content tone is consistent, professional, and insight-driven, focusing on real industry value rather than generic marketing language."
+  ];
+  const visibleSeoPractices = showAllSeoPractices
+    ? seoPractices
+    : seoPractices.slice(0, 2);
 
   const structurePractices = [
     "Industry-specific pages are well-structured and clearly represent key sectors, including Financial Services and related industries.",
@@ -93,7 +238,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
         </header>
 
         <main className="mx-auto w-[90%] lg:w-[75%]">
-          <section className="grid items-center gap-12 pb-16 pt-20 lg:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.9fr)]">
+          <section className="grid items-center gap-12 pb-16 pt-20 lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.72fr)]">
             <div>
               <h1 className="text-[45px] leading-[1.05] text-white BenzinSemibold">
                 Complete Audit Report
@@ -104,8 +249,8 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 performance for better results.
               </p>
 
-              <div className="mt-8 grid max-w-[440px] gap-5 sm:grid-cols-2">
-                <div className="min-h-[210px] rounded-[14px] bg-[#191A35] px-4 py-6">
+              <div className="mt-8 grid gap-5 sm:grid-cols-2">
+                <div className="min-h-[230px] rounded-[14px] bg-[#191A35] px-5 py-6">
                   <div className="text-[16px] leading-none text-white BenzinSemibold text-center w-full">
                     Your Site Score
                   </div>
@@ -140,7 +285,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                   </div>
                 </div>
 
-                <div className="min-h-[210px] rounded-[14px] bg-[#191A35] px-6 py-6">
+                <div className="min-h-[230px] rounded-[14px] bg-[#191A35] px-6 py-6">
                   <div className="text-[16px] leading-none text-white BenzinSemibold">
                     Current Status
                   </div>
@@ -188,19 +333,26 @@ export default function CompleteReportClient({ site }: { site?: string }) {
 
           <section className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_35%] lg:items-start">
             <div className="min-h-[520px] rounded-[18px] bg-[#151733]/35" />
-            <aside className="w-full">
+            <aside className="w-full lg:row-span-2 lg:sticky lg:top-8 lg:self-start">
               <div className="w-full rounded-[14px] bg-[#191A35] p-5">
                 <h2 className="text-[28px] leading-none text-white BenzinSemibold">Jump To:</h2>
                 <div className="mt-6 space-y-6">
-                  {jumpLinks.map((item, index) => (
+                  {jumpLinks.map((item) => (
                     <a
                       key={item.href}
                       href={item.href}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setActiveJumpHref(item.href);
+
+                        const section = document.getElementById(item.href.replace("#", ""));
+                        section?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }}
                       className={`flex items-center text-[16px] leading-none transition-colors hover:text-[#F45B25] ${
-                        index === 0 ? "text-[#F45B25]" : "text-[#A6ABCC]"
+                        activeJumpHref === item.href ? "text-[#F45B25]" : "text-[#A6ABCC]"
                       }`}
                     >
-                      {index === 0 ? (
+                      {activeJumpHref === item.href ? (
                         <>
                           <img
                             src="/bmyb-logo-group1190-01.svg"
@@ -223,11 +375,34 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                   Bookmark this tab
                 </button>
               </div>
-            </aside>
-          </section>
 
-          <section className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start">
-            <div className="w-full lg:w-[65%]">
+              <div className="mt-5 rounded-[16px] bg-gradient-to-br from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
+                <div className="flex -space-x-2">
+                  <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#F45B25] bg-[#1B1D44]">
+                    <img src="/bmyb-global-ai-01.png" alt="" className="h-full w-full object-cover" />
+                  </span>
+                  <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#F45B25] bg-[#2D356B]">
+                    <img src="/bmyb-tech-figma-01.png" alt="" className="h-full w-full object-cover" />
+                  </span>
+                  <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#F45B25] bg-[#6A321E]">
+                    <img src="/bmyb-tech-react-01.png" alt="" className="h-full w-full object-cover" />
+                  </span>
+                </div>
+                <h3 className="mt-5 text-[28px] leading-[1.08] BenzinSemibold">
+                  Improve What&apos;s Holding Your Website Back
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-white/88">
+                  Book a free consultation to review your audit and get expert recommendations tailored to your website.
+                </p>
+                <Link
+                  href="/strategy-call"
+                  className="mt-6 inline-flex h-11 items-center rounded-lg bg-white px-5 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
+                >
+                  Talk to our team
+                </Link>
+              </div>
+            </aside>
+            <div className="w-full">
               <h2 className="text-[38px] leading-none text-white BenzinSemibold sm:text-[45px]">
                 Key Improvement Points
               </h2>
@@ -255,112 +430,12 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                   </span>
                   Effective Practices
                 </div>
-                <div
-                  className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
-                  style={{
-                    maxHeight: showAllEffectivePractices ? "320px" : "170px",
-                    opacity: 1,
-                  }}
-                >
-                <ul className="pl-0">
-                  {visibleEffectivePractices.map((item, index) => {
-                    const isLastVisible = index === visibleEffectivePractices.length - 1;
-                    const itemClass = showAllEffectivePractices
-                      ? isLastVisible
-                        ? "flex items-start gap-2 pt-5 text-[16px]"
-                        : index === 0
-                          ? "flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]"
-                          : "flex items-start gap-2 border-b border-white/10 py-5 text-[16px]"
-                      : index === 0
-                        ? "flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]"
-                        : "flex items-start gap-2 pt-5 text-[16px]";
-
-                    return (
-                      <li key={item} className={itemClass}>
-                        <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                            <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </span>
-                        {item}
-                      </li>
-                    );
-                  })}
-                </ul>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowAllEffectivePractices((value) => !value)}
-                  className="mt-7 inline-flex items-center gap-2 text-[16px] text-[#F45B25]"
-                >
-                  <span>{showAllEffectivePractices ? "View Less" : "View More"}</span>
-                  <img
-                    src="/bmyb-logo-group1190-01.svg"
-                    alt=""
-                    className={`h-2.5 w-2.5 object-contain transition-transform ${
-                      showAllEffectivePractices ? "-rotate-45" : "rotate-45"
-                    }`}
-                  />
-                </button>
-              </div>
-
-              <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
-                  <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
-                  </span>
-                  Improvement Opportunities
-                </div>
-                <ul className="pl-0">
-                  <li className="flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Add a clear and concise homepage headline that communicates Baker Tilly&apos;s core value proposition for the finance/fintech audience.
-                  </li>
-                  <li className="flex items-start gap-2 border-b border-white/10 py-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Include a strong problem statement on the homepage that highlights key finance industry pain points to improve user connection and brand positioning.
-                  </li>
-                  <li className="flex items-start gap-2 pt-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Expand service feature details on the homepage to better differentiate solutions for finance and fintech visitors.
-                  </li>
-                  <li className="flex items-start gap-2 border-t border-white/10 pt-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Create dedicated use case sections or pages showcasing real finance/fintech scenarios to demonstrate practical value.
-                  </li>
-                  <li className="flex items-start gap-2 border-t border-white/10 pt-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Improve CTA visibility and consistency across key pages, using finance-focused messaging such as “Request a Proposal.”
-                  </li>
-                  <li className="flex items-start gap-2 border-t border-white/10 pt-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Introduce a clear positioning summary section on the homepage that highlights Baker Tilly&apos;s unique value and addresses industry challenges.
-                  </li>
-                </ul>
+                <ExpandablePractices
+                  items={effectivePractices}
+                  expanded={showAllEffectivePractices}
+                  onToggle={() => setShowAllEffectivePractices((value) => !value)}
+                  checkColor="#22C55E"
+                />
               </div>
 
               <div className="mt-4 rounded-[16px] border border-[#A84C2A] bg-[rgba(244,91,37,0.05)] p-6 text-[#F3D5C8]">
@@ -585,53 +660,12 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                   </span>
                   Effective Practices
                 </div>
-                <div
-                  className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
-                  style={{
-                    maxHeight: showAllStructurePractices ? "320px" : "170px",
-                    opacity: 1,
-                  }}
-                >
-                  <ul className="pl-0">
-                    {visibleStructurePractices.map((item, index) => {
-                      const isLastVisible = index === visibleStructurePractices.length - 1;
-                      const itemClass = showAllStructurePractices
-                        ? isLastVisible
-                          ? "flex items-start gap-2 pt-5 text-[16px]"
-                          : index === 0
-                            ? "flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]"
-                            : "flex items-start gap-2 border-b border-white/10 py-5 text-[16px]"
-                        : index === 0
-                          ? "flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]"
-                          : "flex items-start gap-2 pt-5 text-[16px]";
-
-                      return (
-                        <li key={item} className={itemClass}>
-                          <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                              <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </span>
-                          {item}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowAllStructurePractices((value) => !value)}
-                  className="mt-7 inline-flex items-center gap-2 text-[16px] text-[#F45B25]"
-                >
-                  <span>{showAllStructurePractices ? "View Less" : "View More"}</span>
-                  <img
-                    src="/bmyb-logo-group1190-01.svg"
-                    alt=""
-                    className={`h-2.5 w-2.5 object-contain transition-transform ${
-                      showAllStructurePractices ? "-rotate-45" : "rotate-45"
-                    }`}
-                  />
-                </button>
+                <ExpandablePractices
+                  items={structurePractices}
+                  expanded={showAllStructurePractices}
+                  onToggle={() => setShowAllStructurePractices((value) => !value)}
+                  checkColor="#22C55E"
+                />
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
@@ -834,36 +868,12 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                   </span>
                   Effective Practices
                 </div>
-                <ul className="pl-0">
-                  <li className="flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Logo usage remains consistent across key areas such as the header and footer, reinforcing brand recognition.
-                  </li>
-                  <li className="flex items-start gap-2 border-b border-white/10 py-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Brand colors are applied consistently throughout the website, creating a cohesive and unified visual identity.
-                  </li>
-                  <li className="flex items-start gap-2 pt-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Typography is used consistently across pages, maintaining readability and a clear brand voice.
-                  </li>
-                </ul>
-                <button type="button" className="mt-7 inline-flex items-center gap-2 text-[16px] text-[#F45B25]">
-                  <span>View More</span>
-                  <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-2.5 w-2.5 rotate-45 object-contain" />
-                </button>
+                <ExpandablePractices
+                  items={brandConsistencyPractices}
+                  expanded={showAllBrandConsistency}
+                  onToggle={() => setShowAllBrandConsistency((value) => !value)}
+                  checkColor="#22C55E"
+                />
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
@@ -1000,36 +1010,12 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                   </span>
                   Effective Practices
                 </div>
-                <ul className="pl-0">
-                  <li className="flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    The About Us page is clearly linked and provides a structured overview of the company&apos;s mission, purpose, and overall positioning.
-                  </li>
-                  <li className="flex items-start gap-2 border-b border-white/10 py-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    Alt LM.txt file is present on the website, helping improve AI readability and ensuring better structured data accessibility.
-                  </li>
-                  <li className="flex items-start gap-2 pt-5 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    The content tone is consistent, professional, and insight-driven, focusing on real industry value rather than generic marketing language.
-                  </li>
-                </ul>
-                <button type="button" className="mt-7 inline-flex items-center gap-2 text-[16px] text-[#F45B25]">
-                  <span>View More</span>
-                  <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-2.5 w-2.5 rotate-45 object-contain" />
-                </button>
+                <ExpandablePractices
+                  items={seoPractices}
+                  expanded={showAllSeoPractices}
+                  onToggle={() => setShowAllSeoPractices((value) => !value)}
+                  checkColor="#22C55E"
+                />
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
@@ -1219,51 +1205,23 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </h2>
                 <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-6">
                   <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#F45B25] text-white" aria-label="Share on Facebook">
-                    f
+                    <FaFacebookF className="h-4 w-4" />
                   </a>
                   <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on Instagram">
-                    <span className="text-sm">ig</span>
+                    <FaInstagram className="h-4 w-4" />
                   </a>
                   <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on LinkedIn">
-                    <span className="text-sm">in</span>
+                    <FaLinkedinIn className="h-4 w-4" />
                   </a>
                   <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on X">
-                    <span className="text-sm">X</span>
+                    <FaXTwitter className="h-4 w-4" />
                   </a>
                   <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on YouTube">
-                    <span className="text-sm">▶</span>
+                    <FaYoutube className="h-4 w-4" />
                   </a>
                 </div>
               </div>
             </div>
-
-            <aside className="w-full lg:sticky lg:top-8 lg:w-[35%] lg:self-start">
-              <div className="rounded-[16px] bg-gradient-to-br from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
-                <div className="flex -space-x-2">
-                  <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#F45B25] bg-[#1B1D44]">
-                    <img src="/bmyb-global-ai-01.png" alt="" className="h-full w-full object-cover" />
-                  </span>
-                  <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#F45B25] bg-[#2D356B]">
-                    <img src="/bmyb-tech-figma-01.png" alt="" className="h-full w-full object-cover" />
-                  </span>
-                  <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#F45B25] bg-[#6A321E]">
-                    <img src="/bmyb-tech-react-01.png" alt="" className="h-full w-full object-cover" />
-                  </span>
-                </div>
-                <h3 className="mt-5 text-[28px] leading-[1.08] BenzinSemibold">
-                  Improve What&apos;s Holding Your Website Back
-                </h3>
-                <p className="mt-4 text-sm leading-6 text-white/88">
-                  Book a free consultation to review your audit and get expert recommendations tailored to your website.
-                </p>
-                <Link
-                  href="/strategy-call"
-                  className="mt-6 inline-flex h-11 items-center rounded-lg bg-white px-5 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
-                >
-                  Talk to our team
-                </Link>
-              </div>
-            </aside>
           </section>
         </main>
       </div>
