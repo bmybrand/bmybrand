@@ -16,14 +16,14 @@ export default function HealthcareStories({
         <div className="mt-6 h-px w-full bg-white/8" />
       </div>
 
-      <div className="mt-10 text-left">
+      <div className="mt-16 text-left">
         <h3 className="BenzinSemibold text-white text-xl sm:text-2xl leading-tight">
           Fountain Hills Emergency Room
           <br />
           Patient-First ER Care
         </h3>
 
-        <div className="mt-4 grid gap-6 lg:grid-cols-[1.6fr_0.9fr]">
+        <div className="mt-4 grid gap-6 lg:grid-cols-[0.7fr_0.3fr]">
           <div className="overflow-hidden rounded-4xl bg-[#f3d0c6]">
             <img
               src="/bmyb-global-container-01.svg"
@@ -63,14 +63,14 @@ export default function HealthcareStories({
         <div className="h-px w-full bg-white/8" />
       </div>
 
-      <div className="mt-10 text-left">
+      <div className="mt-16 text-left">
         <h3 className="BenzinSemibold text-white text-xl sm:text-2xl leading-tight">
           Instinctive Healthcare Solutions
           <br />
           Scalable Healthcare Growth
         </h3>
 
-        <div className="mt-4 grid gap-6 lg:grid-cols-[0.8fr_1.35fr]">
+        <div className="mt-4 grid gap-6 lg:grid-cols-[0.3fr_0.7fr]">
           <div className="rounded-[14px] bg-white/[0.04] px-6 py-6 sm:px-7 sm:py-7 flex flex-col">
             <div className="flex items-center gap-3">
               <img

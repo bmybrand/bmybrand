@@ -52,7 +52,7 @@ export default function HealthcareSpotlight() {
     <section className="bg-[#11122F]">
       <div className="mx-auto grid w-[90%] 2xl:w-[85%] gap-12 py-14 sm:py-18 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-22">
         <div className="group relative mx-auto flex w-full max-w-[430px] items-center justify-center py-8 lg:mx-0 lg:max-w-[470px]">
-          <div className="relative" style={{ width: 280, height: 380 }}>
+          <div className="relative" style={{ width: 380, height: 500 }}>
             <Stack
               ref={stackRef}
               randomRotation={false}
@@ -68,38 +68,38 @@ export default function HealthcareSpotlight() {
             <button
               type="button"
               onClick={() => stackRef.current?.prev()}
-              className="absolute left-[-14px] top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-[#17183B] bg-white text-[#17183B] shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-transform duration-200 hover:scale-[1.03]"
+              className="group/btn absolute left-[-22px] top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-[#FF7A32] text-white shadow-[0_12px_30px_rgba(255,122,50,0.35)] transition-all duration-200 hover:scale-[1.03] hover:bg-white"
               aria-label="Previous card"
             >
-              <img src="/bmyb-logo-group119-01.svg" alt="" className="h-[15px] w-[15px] rotate-[-135deg]" />
+              <img src="/bmyb-logo-group119-01.svg" alt="" className="h-[15px] w-[15px] rotate-[-135deg] brightness-0 invert transition-all duration-200 group-hover/btn:brightness-0 group-hover/btn:invert-0" />
             </button>
 
             <button
               type="button"
               onClick={() => setIsPaused((prev) => !prev)}
-              className="absolute left-1/2 top-1/2 z-20 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-[#17183B] bg-white text-[#17183B] opacity-0 shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-all duration-200 group-hover:opacity-100 hover:scale-[1.03]"
+              className={`absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white opacity-0 shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-all duration-200 group-hover:opacity-100 hover:scale-[1.03] ${
+                isPaused ? "h-16 w-16" : "h-14 w-14 border-[3px] border-[#17183B]"
+              }`}
               aria-label={isPaused ? "Play video" : "Pause video"}
             >
-              <div className="flex h-7 w-7 items-center justify-center rounded-[4px] bg-[#2589D0]">
-                {isPaused ? (
-                  <svg className="ml-0.5 h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M8 6.5v11l8-5.5-8-5.5z" />
-                  </svg>
-                ) : (
-                  <svg className="h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M8 6h3v12H8zM13 6h3v12h-3z" />
-                  </svg>
-                )}
-              </div>
+              {isPaused ? (
+                <svg className="h-8 w-8 translate-x-[2px] text-[#17183B]" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M6 4l14 8-14 8z" />
+                </svg>
+              ) : (
+                <svg className="h-7 w-7 text-[#17183B]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7 6h3v12H7zM14 6h3v12h-3z" />
+                </svg>
+              )}
             </button>
 
             <button
               type="button"
               onClick={() => stackRef.current?.next()}
-              className="absolute right-[-14px] top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-[#FF7A32] text-white shadow-[0_12px_30px_rgba(255,122,50,0.35)] transition-transform duration-200 hover:scale-[1.03]"
+              className="group/btn absolute right-[-22px] top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-[#FF7A32] text-white shadow-[0_12px_30px_rgba(255,122,50,0.35)] transition-all duration-200 hover:scale-[1.03] hover:bg-white"
               aria-label="Next card"
             >
-              <img src="/bmyb-logo-group119-01.svg" alt="" className="h-[15px] w-[15px] rotate-[45deg] brightness-0 invert" />
+              <img src="/bmyb-logo-group119-01.svg" alt="" className="h-[15px] w-[15px] rotate-[45deg] brightness-0 invert transition-all duration-200 group-hover/btn:brightness-0 group-hover/btn:invert-0" />
             </button>
           </div>
         </div>

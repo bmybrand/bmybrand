@@ -75,7 +75,7 @@ export default function GrowMyBusinessPage() {
           <Navbar />
         </header>
 
-        <main className="mx-auto w-full pt-20 lg:pt-24">
+        <main className="mx-auto w-full pt-32 lg:pt-40">
           <section className="flex min-h-[calc(100vh-8rem)] items-center py-0 lg:min-h-[calc(100vh-8rem)]">
             <div className="mx-auto flex w-full max-w-[88rem] flex-col gap-20 lg:flex-row lg:items-center">
               <div className="min-w-0 w-full lg:flex-[0.58_1_0%]">
@@ -131,7 +131,7 @@ export default function GrowMyBusinessPage() {
                 <form onSubmit={handleSubmit} className="mt-7">
                   <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
                     <input
-                      type="url"
+                      type="text"
                       value={website}
                       onChange={(e) => setWebsite(e.target.value)}
                       placeholder="Type your website address"

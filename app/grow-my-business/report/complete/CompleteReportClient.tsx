@@ -237,8 +237,8 @@ export default function CompleteReportClient({ site }: { site?: string }) {
           </div>
         </header>
 
-        <main className="mx-auto w-[90%] lg:w-[75%]">
-          <section className="grid items-center gap-12 pb-16 pt-20 lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.72fr)]">
+        <main className="mx-auto w-[90%] lg:w-[75%] pt-24 lg:pt-32">
+          <section className="grid items-center gap-12 pb-16  lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.72fr)]">
             <div>
               <h1 className="text-[45px] leading-[1.05] text-white BenzinSemibold">
                 Complete Audit Report
@@ -255,21 +255,21 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                     Your Site Score
                   </div>
                   <div className="mt-6 flex justify-center">
-                    <div className="relative h-[128px] w-[190px]">
+                    <div className="relative w-full" style={{height: '128px'}}>
                       <svg
                         viewBox="0 0 190 128"
                         className="absolute inset-0 h-full w-full"
                         aria-hidden="true"
                       >
                         <path
-                          d="M 15 113 A 78 78 0 0 1 175 113"
+                          d="M 5 118 A 90 90 0 0 1 185 118"
                           fill="none"
                           stroke="#2E315F"
                           strokeWidth="26"
                           strokeLinecap="round"
                         />
                         <path
-                          d="M 15 113 A 78 78 0 0 1 175 113"
+                          d="M 5 118 A 90 90 0 0 1 185 118"
                           fill="none"
                           stroke="#FF7A37"
                           strokeWidth="26"
@@ -285,23 +285,18 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                   </div>
                 </div>
 
-                <div className="min-h-[230px] rounded-[14px] bg-[#191A35] px-6 py-6">
-                  <div className="text-[16px] leading-none text-white BenzinSemibold">
-                    Current Status
-                  </div>
-                  <div className="relative mt-6 h-[124px]">
-                    <div className="absolute bottom-0 left-1/2 h-[124px] w-[112px] -translate-x-1/2">
-                      <img
-                        src="/bmyb-grow-report-bottom-accent-01.svg"
-                        alt=""
-                        className="absolute inset-0 h-full w-full object-contain"
-                      />
-                      <div className="absolute inset-0 flex flex-col items-center justify-center pt-5">
-                        <div className="text-[26px] leading-none text-[#FF7A37] BenzinSemibold">9+</div>
-                        <div className="mt-2 text-center text-[11px] leading-none text-[#FF7A37]">
-                          issues found
-                        </div>
-                      </div>
+                <div className="rounded-[14px] bg-[#191A35] px-0 py-0 flex flex-col items-center overflow-hidden min-h-[230px]">
+                  <div className="text-[16px] leading-none text-white BenzinSemibold text-center w-full mt-5">Current Status</div>
+                  <div className="relative mt-3 w-full h-full flex flex-col items-center justify-center overflow-hidden" >
+                    <img
+                      src="/bmyb-grow-report-bottom-accent-01.svg"
+                      alt="Caution triangle"
+                      className="absolute left-1/2 top-0 min-w-[120%] min-h-[120%] -translate-x-1/2 object-cover"
+                      style={{zIndex: 1, objectPosition: 'top'}}
+                    />
+                    <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+                      <div className="text-[32px] leading-none text-[#FF7A37] BenzinSemibold">9+</div>
+                      <div className="mt-2 text-center text-[13px] leading-none text-[#FF7A37] font-normal">issues found</div>
                     </div>
                   </div>
                 </div>

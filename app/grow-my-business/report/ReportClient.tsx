@@ -209,7 +209,7 @@ export default function ReportClient({ site }: { site?: string }) {
         </header>
         <div className="relative bg-[#11122F] mx-auto w-[90%] lg:w-[75%]">
 
-          <main className="pt-12">
+          <main className="pt-24 lg:pt-32">
             <section className="grid gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(290px,0.72fr)] lg:items-start">
               <div className="max-w-[45rem] pt-1">
                 <h1 className="max-w-[13ch] text-[45px] leading-[1.08] text-white BenzinSemibold">
@@ -301,21 +301,19 @@ export default function ReportClient({ site }: { site?: string }) {
                   </div>
                 </div>
 
-                <div className="rounded-[14px] bg-[#191A35] px-6 py-5">
-                  <div className="text-[16px] leading-none text-white BenzinSemibold">Current Status</div>
-                  <div className="relative mt-4 h-[124px]">
-                    <div className="absolute bottom-0 left-1/2 h-[124px] w-[112px] -translate-x-1/2">
-                      <img
-                        src="/bmyb-grow-report-bottom-accent-01.svg"
-                        alt=""
-                        className="absolute inset-0 h-full w-full object-contain"
-                      />
-                      <div className="absolute inset-0 flex flex-col items-center justify-center pt-5">
-                        <div className="text-[26px] leading-none text-[#FF7A37] BenzinSemibold">9+</div>
-                        <div className="mt-2 text-center text-[11px] leading-none text-[#FF7A37]">
-                          issues found
-                        </div>
-                      </div>
+
+                <div className="rounded-[14px] bg-[#191A35] px-0 py-0 flex flex-col items-center overflow-hidden">
+                  <div className="text-[16px] leading-none text-white BenzinSemibold text-center w-full mt-5">Current Status</div>
+                  <div className="relative mt-3 w-full h-full  flex flex-col items-center justify-center overflow-hidden" >
+                    <img
+                      src="/bmyb-grow-report-bottom-accent-01.svg"
+                      alt="Caution triangle"
+                      className="absolute left-1/2 top-0 min-w-[120%] min-h-[120%] -translate-x-1/2 object-cover"
+                      style={{zIndex: 1, objectPosition: 'top'}}
+                    />
+                    <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+                      <div className="text-[32px] leading-none text-[#FF7A37] BenzinSemibold">9+</div>
+                      <div className="mt-2 text-center text-[13px] leading-none text-[#FF7A37] font-normal">issues found</div>
                     </div>
                   </div>
                 </div>

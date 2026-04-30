@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import Navbar from "@/components/navbar";
 
@@ -91,6 +92,137 @@ function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
   );
 }
 
+function CustomCountrySelect({
+  value,
+  onChange,
+  countries,
+}: {
+  value: string;
+  onChange: (val: string) => void;
+  countries: { name: string; dialCode: string; code: string; flag: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (open && containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const dropdownHeight = 240;
+
+      if (spaceBelow >= dropdownHeight || spaceBelow > spaceAbove) {
+        setDropdownStyle({
+          position: "absolute",
+          top: rect.bottom + window.scrollY + 8,
+          left: rect.left + window.scrollX,
+          width: Math.max(rect.width, 140),
+          maxHeight: `${dropdownHeight}px`,
+        });
+      } else {
+        setDropdownStyle({
+          position: "absolute",
+          bottom: window.innerHeight - rect.top - window.scrollY + 8,
+          left: rect.left + window.scrollX,
+          width: Math.max(rect.width, 140),
+          maxHeight: `${dropdownHeight}px`,
+        });
+      }
+    }
+  }, [open]);
+
+  const selectedCountry = countries.find((c) => c.dialCode === value);
+  const displayLabel = selectedCountry ? (
+    <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
+      {selectedCountry.code && (
+        <img
+          src={`https://flagcdn.com/${selectedCountry.code.toLowerCase()}.svg`}
+          alt={selectedCountry.code}
+          className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
+        />
+      )}
+      <span className="whitespace-nowrap overflow-hidden text-ellipsis">{selectedCountry.dialCode}</span>
+    </span>
+  ) : (
+    <span className="flex w-full justify-center whitespace-nowrap overflow-hidden text-ellipsis">{value}</span>
+  );
+
+  return (
+    <div className="relative w-[115px] shrink-0 border-r border-[#343556] bg-transparent" ref={containerRef}>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="flex h-full w-full items-center gap-1.5 px-3 text-sm text-white/70 outline-none"
+        aria-label="Country calling code"
+      >
+        {displayLabel}
+        <svg
+          className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {open &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            style={dropdownStyle}
+            className="z-[9999] overflow-y-auto rounded-xl border border-[#343556] bg-[#191A35] shadow-xl [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]"
+          >
+            {countries.length > 0 ? (
+              countries.map((c, i) => (
+                <button
+                  key={`${c.code}-${c.dialCode}-${i}`}
+                  type="button"
+                  onClick={() => {
+                    onChange(c.dialCode);
+                    setOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${value === c.dialCode ? "bg-[#2A2B47] text-white" : "text-white/70"
+                    }`}
+                >
+                  {c.code && (
+                    <img
+                      src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
+                      alt={c.code}
+                      className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
+                    />
+                  )}
+                  <span className="whitespace-nowrap">{c.code} {c.dialCode}</span>
+                </button>
+              ))
+            ) : (
+              <div className="px-4 py-2 text-sm text-white/70">PK +92</div>
+            )}
+          </div>,
+          document.body
+        )}
+    </div>
+  );
+}
+
 export default function StrategyCallPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -101,7 +233,31 @@ export default function StrategyCallPage() {
   const [budget, setBudget] = useState("");
   const [callNotes, setCallNotes] = useState("");
   const [source, setSource] = useState("");
+  const [countries, setCountries] = useState<{ name: string, dialCode: string, code: string, flag: string }[]>([]);
   const [step, setStep] = useState<"form" | "time" | "complete">("form");
+
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all?fields=name,idd,cca2,flags")
+      .then((res) => res.json())
+      .then((data) => {
+        const formatted = data
+          .map((country: any) => {
+            const root = country.idd?.root || "";
+            const suffixes = country.idd?.suffixes || [];
+            const dialCode = suffixes.length === 1 ? root + suffixes[0] : root;
+            return {
+              name: country.name.common,
+              dialCode: dialCode,
+              code: country.cca2,
+              flag: country.flags?.svg || "",
+            };
+          })
+          .filter((c: any) => c.dialCode)
+          .sort((a: any, b: any) => a.name.localeCompare(b.name));
+        setCountries(formatted);
+      })
+      .catch((err) => console.error("Error fetching countries:", err));
+  }, []);
   const [calendarDate, setCalendarDate] = useState(new Date(2026, 3, 1));
   const [selectedDate, setSelectedDate] = useState(6);
   const [selectedTime, setSelectedTime] = useState("");
@@ -284,7 +440,7 @@ export default function StrategyCallPage() {
     if (!video) return;
 
     if (completionVideoPaused) {
-      void video.play().catch(() => {});
+      void video.play().catch(() => { });
       setCompletionVideoPaused(false);
     } else {
       video.pause();
@@ -303,18 +459,18 @@ export default function StrategyCallPage() {
 
   return (
     <div className="min-h-screen bg-[#11122F]">
-      <div className="mx-auto w-[90%] 2xl:w-[85%] px-2 py-8">
+      <div className="mx-auto w-[90%] 2xl:w-[85%] px-2 py-8 pt-24 lg:pt-32">
         <header className="mx-auto max-w-7xl">
           <Navbar />
         </header>
 
-        <main className="mx-auto mt-24 max-w-7xl lg:mt-32">
+        <main className="mx-auto max-w-7xl pt-24 lg:pt-32">
           {step === "complete" ? (
             <section className="px-2 py-2 lg:px-0 lg:py-0">
               <div className="grid gap-10 lg:grid-cols-[minmax(0,0.88fr)_minmax(540px,1.02fr)] lg:items-start">
                 <div>
-                  <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#1B1C3A] px-4 text-[0.8rem] text-white/90">
-                    <span className="text-white/85">✦</span>
+                  <div className="inline-flex h-[39px] items-center gap-2.5 rounded-xl border border-[#2A2B47] bg-[#1B1C3A] px-4 text-[0.8rem] text-white/90">
+                    <img src="/bmyb-logo-logowhite-01.svg" alt="" className="w-2.5 opacity-85" />
                     <span>Thank you for booking</span>
                   </div>
 
@@ -339,23 +495,18 @@ export default function StrategyCallPage() {
                         >
                           <div className="flex items-center justify-between gap-4">
                             <div className="text-[1.05rem] text-white BenzinRegular sm:text-[1.1rem]">{item.title}</div>
-                            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#232544] text-white/80">
-                              <svg
-                                className={`h-4 w-4 transition-transform duration-300 ease-out ${open ? "rotate-180" : "rotate-0"}`}
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
+                            <span className="flex h-[26px] w-[26px] items-center justify-center rounded-md bg-[#232544]">
+                              <img
+                                src="/bmyb-logo-group119-01.svg"
+                                alt=""
                                 aria-hidden="true"
-                              >
-                                <path d="m6 9 6 6 6-6" />
-                              </svg>
+                                className={`w-[11px] opacity-80 transition-transform duration-300 ease-out ${open ? "-rotate-[45deg]" : "rotate-[135deg]"}`}
+                              />
                             </span>
                           </div>
                           <div
-                            className={`grid transition-all duration-300 ease-out ${
-                              open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                            }`}
+                            className={`grid transition-all duration-300 ease-out ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                              }`}
                           >
                             <div className="overflow-hidden">
                               <p className="mt-3 max-w-[39rem] text-base leading-8 text-white/55">
@@ -403,20 +554,18 @@ export default function StrategyCallPage() {
                     <button
                       type="button"
                       onClick={toggleCompletionVideo}
-                      className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-[#17183B] bg-white text-[#17183B] opacity-0 shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-all duration-200 group-hover:opacity-100 hover:scale-[1.03]"
+                      className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white opacity-0 shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-all duration-200 group-hover:opacity-100 hover:scale-[1.03]"
                       aria-label={completionVideoPaused ? "Play video" : "Pause video"}
                     >
-                      <div className="flex h-7 w-7 items-center justify-center rounded-[4px] bg-[#2589D0]">
-                        {completionVideoPaused ? (
-                          <svg className="ml-0.5 h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M8 6.5v11l8-5.5-8-5.5z" />
-                          </svg>
-                        ) : (
-                          <svg className="h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M8 6h3v12H8zM13 6h3v12h-3z" />
-                          </svg>
-                        )}
-                      </div>
+                      {completionVideoPaused ? (
+                        <svg className="h-8 w-8 translate-x-[2px] text-[#17183B]" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M6 4l14 8-14 8z" />
+                        </svg>
+                      ) : (
+                        <svg className="h-7 w-7 text-[#17183B]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M7 6h3v12H7zM14 6h3v12h-3z" />
+                        </svg>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -424,531 +573,527 @@ export default function StrategyCallPage() {
             </section>
           ) : (
             <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-14">
-          <section className="w-full lg:w-[62%]">
-            <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#191A35] px-4 text-[0.8rem] text-white/90">
-              <span className="text-white/85">*</span>
-              <span>Book a strategy call</span>
-            </div>
+              <section className="w-full lg:w-[62%]">
+                <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#191A35] px-4 text-[0.8rem] text-white/90">
+                  <img src="/bmyb-logo-logowhite-01.svg" alt="BMYBrand logo" className="h-4 w-auto" />
+                  <span>Book a strategy call</span>
+                </div>
 
-            <h1 className="mt-5 text-[2.45rem] leading-[0.98] text-white sm:text-[3rem] lg:text-5xl BenzinSemibold">
-              Schedule a strategy call that fits your schedule
-            </h1>
+                <h1 className="mt-5 text-[2.45rem] leading-[0.98] text-white sm:text-[3rem] lg:text-5xl BenzinSemibold">
+                  Schedule a strategy call that fits your schedule
+                </h1>
 
-            <p className="mt-6 max-w-[43rem] text-sm leading-7 text-[#9EA2C5] sm:text-base lg:text-lg">
-              Pick a date and time that suits you, and our team will connect with you to discuss your
-              goals, challenges, and the best path forward for your brand.
-            </p>
+                <p className="mt-6 max-w-[43rem] text-sm leading-7 text-[#9EA2C5] sm:text-base lg:text-lg">
+                  Pick a date and time that suits you, and our team will connect with you to discuss your
+                  goals, challenges, and the best path forward for your brand.
+                </p>
 
-            <div
-              className="mt-7 w-full overflow-hidden"
-              ref={beltViewportRef}
-              style={reviewCardHeight ? { height: `${reviewCardHeight}px` } : undefined}
-            >
-              <div ref={beltTrackRef} className="flex w-max gap-5 pr-5">
-                {reviews.map((review, index) => (
-                  <div
-                    key={`${review.name}-${index}`}
-                    style={
-                      reviewCardWidth
-                        ? {
-                            width: `${reviewCardWidth}px`,
-                            height: reviewCardHeight ? `${reviewCardHeight}px` : undefined,
-                          }
-                        : undefined
-                    }
-                  >
-                    <ReviewCard review={review} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6 flex w-full items-center justify-between gap-6">
-              <div className="flex items-center rounded-xl border border-[#2A2B47] bg-[#191A35] px-3 py-2">
-                {reviews.map((_, idx) => (
-                  <span
-                    key={idx}
-                    className={`mx-[2px] rounded-full transition-all duration-200 ${
-                      idx === currentReview ? "h-[5px] w-5 bg-white" : "h-[5px] w-[5px] bg-white/18"
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => moveBelt("prev")}
-                  className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2A2B47] bg-[#191A35] text-white/70 transition-colors duration-200 hover:text-white"
-                  aria-label="Move reviews left"
+                <div
+                  className="mt-7 w-full overflow-hidden"
+                  ref={beltViewportRef}
+                  style={reviewCardHeight ? { height: `${reviewCardHeight}px` } : undefined}
                 >
-                  <span className="text-lg">←</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => moveBelt("next")}
-                  className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2A2B47] bg-[#191A35] text-white/70 transition-colors duration-200 hover:text-white"
-                  aria-label="Move reviews right"
-                >
-                  <span className="text-lg">→</span>
-                </button>
-              </div>
-            </div>
-          </section>
+                  <div ref={beltTrackRef} className="flex w-max gap-5 pr-5">
+                    {reviews.map((review, index) => (
+                      <div
+                        key={`${review.name}-${index}`}
+                        style={
+                          reviewCardWidth
+                            ? {
+                              width: `${reviewCardWidth}px`,
+                              height: reviewCardHeight ? `${reviewCardHeight}px` : undefined,
+                            }
+                            : undefined
+                        }
+                      >
+                        <ReviewCard review={review} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-          <aside className="w-full rounded-[24px] border border-[#2A2B47] bg-[#1B1C3A] lg:sticky lg:top-28 lg:w-[38%] lg:self-stretch">
-            <div className="border-b border-[#2A2B47] px-6 py-5">
-              <div className="flex items-center justify-center gap-3 text-sm">
-                <button
-                  type="button"
-                  onClick={goToFormStep}
-                  className={`flex items-center gap-2 transition-colors ${step === "form" ? "text-white" : "text-white/38 hover:text-white/70"}`}
-                >
-                  <span className={`h-2 w-2 rounded-full ${step === "form" ? "bg-[#F45B25]" : "bg-white/28"}`} />
-                  <span>Fill out the form</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={goToTimeStep}
-                  disabled={!canContinue}
-                  className={`flex items-center gap-2 transition-colors ${
-                    step === "time"
-                      ? "text-white"
-                      : canContinue
-                        ? "text-white/38 hover:text-white/70"
-                        : "cursor-not-allowed text-white/20"
-                  }`}
-                >
-                  <span className={`h-2 w-2 rounded-full ${step === "time" ? "bg-[#F45B25]" : "bg-white/28"}`} />
-                  <span>Choose your time</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="px-6 py-6 pb-8">
-              {step === "form" ? (
-                <>
-                  <div className="mt-1 flex items-center gap-2">
-                    <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                <div className="mt-6 flex w-full items-center justify-between gap-6">
+                  <div className="flex items-center rounded-md bg-[#191A35] px-8 py-3 h-[48px]">
+                    {reviews.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`mx-[2px] rounded-full transition-all duration-200 ${idx === currentReview ? "h-2 w-3 bg-white" : "h-2 w-2 bg-white/18"
+                          }`}
+                      />
+                    ))}
                   </div>
 
-                  <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
-                    Book A Strategy Call With BMYBrand
-                  </h2>
-
-                  <div className="mt-4 space-y-3 text-[0.96rem] leading-8 text-[#A4A8C9]">
-                    <p>
-                      Book a 30-minute strategy call with our team to discuss your goals, challenges, and
-                      the best next steps for your brand.
-                    </p>
-                    <p>
-                      Please make sure your timezone is correct before selecting your preferred date and
-                      time.
-                    </p>
-                  </div>
-
-                  <form className="mt-6 space-y-4" onSubmit={handleContinue}>
-                    <input
-                      type="email"
-                      placeholder="Email *"
-                      className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none transition-colors focus:border-[#F45B25]"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                    <input
-                      type="text"
-                      placeholder="Name *"
-                      className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none transition-colors focus:border-[#F45B25]"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                    />
-
-                    <div
-                      className={`grid transition-all duration-500 ease-out ${
-                        formUnlocked ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                      }`}
-                    >
-                      <div className="overflow-hidden">
-                        <div className="pt-1">
-                          <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Phone Number</div>
-                          <div className="flex rounded-xl border border-[#343556] bg-transparent text-white transition-colors focus-within:border-[#F45B25]">
-                            <select
-                              value={countryCode}
-                              onChange={(e) => setCountryCode(e.target.value)}
-                              className="border-r border-[#343556] bg-transparent px-4 text-sm text-white/70 outline-none"
-                              aria-label="Country calling code"
-                            >
-                              <option value="+1" className="bg-[#1B1C3A] text-white">US +1</option>
-                              <option value="+44" className="bg-[#1B1C3A] text-white">UK +44</option>
-                              <option value="+61" className="bg-[#1B1C3A] text-white">AU +61</option>
-                              <option value="+91" className="bg-[#1B1C3A] text-white">IN +91</option>
-                              <option value="+92" className="bg-[#1B1C3A] text-white">PK +92</option>
-                              <option value="+971" className="bg-[#1B1C3A] text-white">AE +971</option>
-                            </select>
-                            <input
-                              type="tel"
-                              placeholder={countryCode}
-                              value={phone}
-                              onChange={(e) => setPhone(e.target.value)}
-                              className="w-full bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="pt-1">
-                          <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Company Name *</div>
-                          <input
-                            type="text"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                            className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
-                          />
-                        </div>
-
-                        <div className="pt-1">
-                          <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Website URL *</div>
-                          <input
-                            type="url"
-                            value={websiteUrl}
-                            onChange={(e) => setWebsiteUrl(e.target.value)}
-                            className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
-                          />
-                        </div>
-
-                        <div className="pt-1">
-                          <div className="mb-2 text-[0.95rem] text-white/90">Budget *</div>
-                          <div className="space-y-2.5">
-                            {["$5k-$10k", "$10k-$20k", "$20k-$35k", "$35k-$50k", "$50k+"].map((option, i) => (
-                              <label key={option} htmlFor={`budget${i}`} className="flex items-center gap-2.5 text-sm text-white/70">
-                                <input
-                                  type="radio"
-                                  name="budget"
-                                  id={`budget${i}`}
-                                  checked={budget === option}
-                                  onChange={() => setBudget(option)}
-                                  className="h-4 w-4 accent-[#F45B25]"
-                                />
-                                <span>{option}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="pt-1">
-                          <div className="mb-2 text-sm leading-6 text-white/70">
-                            Please share anything that would help us prepare for your call. *
-                          </div>
-                          <textarea
-                            rows={4}
-                            value={callNotes}
-                            onChange={(e) => setCallNotes(e.target.value)}
-                            className="w-full resize-none rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
-                          />
-                        </div>
-
-                        <div className="pt-1">
-                          <div className="mb-2 text-sm leading-6 text-white/70">
-                            Please share anything that would help us prepare for your call. *
-                          </div>
-                          <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">How did you find BMYBrand? *</div>
-                          <div className="space-y-2.5">
-                            {["Google Search", "AI Search", "Social Media", "Case Study", "Other"].map((sourceOption, i) => (
-                              <label key={sourceOption} htmlFor={`source${i}`} className="flex items-center gap-2.5 text-sm text-white/70">
-                                <input
-                                  type="radio"
-                                  name="source"
-                                  id={`source${i}`}
-                                  checked={source === sourceOption}
-                                  onChange={() => setSource(sourceOption)}
-                                  className="h-4 w-4 accent-[#F45B25]"
-                                />
-                                <span>{sourceOption}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="pt-2 text-xs leading-6 text-white/44">
-                      By submitting your information, you agree to our{" "}
-                      <a href="#" className="text-white/78 underline underline-offset-2">Terms of Use</a> and{" "}
-                      <a href="#" className="text-white/78 underline underline-offset-2">Privacy Policy</a>.
-                    </p>
-
-                    <button
-                      type="submit"
-                      disabled={!canContinue}
-                      className={`mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-[1.15rem] text-white transition-all duration-200 BenzinSemibold ${
-                        canContinue
-                          ? "bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] hover:brightness-110"
-                          : "cursor-not-allowed bg-[#343556] text-white/45"
-                      }`}
-                    >
-                      Continue
-                      <span className="text-lg">→</span>
-                    </button>
-                  </form>
-
-                  <div
-                    className={`grid overflow-hidden transition-all duration-500 ease-out ${
-                      formUnlocked ? "grid-rows-[0fr] opacity-0" : "mt-8 grid-rows-[1fr] opacity-100"
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="flex items-center justify-between">
-                        <div className="text-[1.05rem] text-white BenzinSemibold">{monthLabel}</div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => changeCalendarMonth(-1)}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28"
-                            aria-label="Previous month"
-                          >
-                            ←
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => changeCalendarMonth(1)}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28"
-                            aria-label="Next month"
-                          >
-                            →
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="mt-5 grid grid-cols-7 gap-y-4 text-[0.68rem] tracking-[0.08em] text-white/22">
-                        {calendarDays.map((day) => (
-                          <div key={day} className="text-center">{day}</div>
-                        ))}
-                      </div>
-
-                      <div className="relative mt-4 grid grid-cols-7 gap-y-4 text-base text-white/28">
-                        {calendarCells.map((cell, index) => {
-                          const faded = !cell.inMonth;
-                          return (
-                            <div key={`${cell.day}-${index}`} className={`text-center ${faded ? "opacity-22" : ""}`}>
-                              {cell.day}
-                            </div>
-                          );
-                        })}
-
-                        <div className="absolute left-1/2 top-[4.7rem] w-[15.2rem] -translate-x-1/2 rounded-xl border border-[#4A4D74] bg-[#2A2B47] px-5 py-3 text-center text-sm leading-6 text-white/88 shadow-[0_12px_30px_rgba(0,0,0,0.2)]">
-                          Please complete the form before selecting a time slot.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="mt-1 flex items-center gap-2">
-                    <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
-                  </div>
-
-                  <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
-                    Schedule Your Strategy Call
-                  </h2>
-
-                  <div className="mt-4 space-y-3 text-[0.95rem] text-[#A4A8C9]">
-                    <div className="flex items-center gap-2">
-                      <span className="text-white/55">◷</span>
-                      <span>30-minute strategy call</span>
-                    </div>
+                  <div className="flex items-center gap-2 h-12">
                     <button
                       type="button"
-                      onClick={() => setTimezoneOpen((prev) => !prev)}
-                      className="flex items-center gap-2 text-left"
+                      onClick={() => moveBelt("prev")}
+                      className="flex h-full w-12 items-center justify-center rounded-lg bg-[#191A35] text-white/70 transition-colors duration-200 border border-[#191A35] hover:bg-transparent hover:border hover:border-[#2A2B47]"
+                      aria-label="Move reviews left "
                     >
-                      <span className="text-white/55">◌</span>
-                      <span>{selectedTimezone}</span>
-                      <span className={`text-white/45 transition-transform ${timezoneOpen ? "rotate-180" : ""}`}>⌄</span>
+                      <span className="text-lg"><img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135" /> </span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveBelt("next")}
+                      className="flex h-full w-12 items-center justify-center rounded-lg bg-[#191A35] text-white/70 transition-colors duration-200 border border-[#191A35] hover:bg-transparent hover:border hover:border-[#2A2B47]"
+                      aria-label="Move reviews right"
+                    >
+                      <span className="text-lg"><img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45" /></span>
                     </button>
                   </div>
+                </div>
+              </section>
 
-                  <div
-                    className={`grid transition-all duration-300 ease-out ${
-                      timezoneOpen ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="rounded-[18px] border border-[#343556] bg-[#1F2140] p-3">
-                        <div className="flex items-center gap-2 rounded-xl border border-[#343556] bg-transparent px-3 py-2.5 text-sm text-white/44">
-                          <span>⌕</span>
-                          <input
-                            type="text"
-                            value={timezoneQuery}
-                            onChange={(e) => setTimezoneQuery(e.target.value)}
-                            placeholder="Search by continent, country or city"
-                            className="w-full bg-transparent text-white placeholder:text-white/34 outline-none"
-                          />
+              <aside className="w-full rounded-[24px] border border-[#2A2B47] bg-[#1B1C3A] lg:sticky lg:top-28 lg:w-[38%] lg:self-stretch">
+                <div className="border-b border-[#2A2B47] px-6 py-5">
+                  <div className="flex items-center justify-center gap-3 text-sm">
+                    <button
+                      type="button"
+                      onClick={goToFormStep}
+                      className={`flex items-center gap-2 transition-colors ${step === "form" ? "text-white" : "text-white/38 hover:text-white/70"}`}
+                    >
+                      <span className={`h-2 w-2 rounded-full ${step === "form" ? "bg-[#F45B25]" : "bg-white/28"}`} />
+                      <span>Fill out the form</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={goToTimeStep}
+                      disabled={!canContinue}
+                      className={`flex items-center gap-2 transition-colors ${step === "time"
+                        ? "text-white"
+                        : canContinue
+                          ? "text-white/38 hover:text-white/70"
+                          : "cursor-not-allowed text-white/20"
+                        }`}
+                    >
+                      <span className={`h-2 w-2 rounded-full ${step === "time" ? "bg-[#F45B25]" : "bg-white/28"}`} />
+                      <span>Choose your time</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="px-6 py-6 pb-8">
+                  {step === "form" ? (
+                    <>
+                      <div className="mt-1 flex items-center gap-2">
+                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                      </div>
+
+                      <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
+                        Book A Strategy Call With BMYBrand
+                      </h2>
+
+                      <div className="mt-4 space-y-3 text-[0.96rem] leading-8 text-[#A4A8C9]">
+                        <p>
+                          Book a 30-minute strategy call with our team to discuss your goals, challenges, and
+                          the best next steps for your brand.
+                        </p>
+                        <p>
+                          Please make sure your timezone is correct before selecting your preferred date and
+                          time.
+                        </p>
+                      </div>
+
+                      <form className="mt-6 space-y-4" onSubmit={handleContinue}>
+                        <input
+                          type="email"
+                          placeholder="Email *"
+                          className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none transition-colors focus:border-[#F45B25]"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                        <input
+                          type="text"
+                          placeholder="Name *"
+                          className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none transition-colors focus:border-[#F45B25]"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          required
+                        />
+
+                        <div
+                          className={`grid transition-all duration-500 ease-out ${formUnlocked ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                            }`}
+                        >
+                          <div className="overflow-hidden">
+                            <div className="space-y-4 pt-4 pb-1">
+                              <div>
+                                <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Phone Number</div>
+                                <div className="flex rounded-xl border border-[#343556] bg-transparent text-white transition-colors focus-within:border-[#F45B25]">
+                                  <CustomCountrySelect
+                                    value={countryCode}
+                                    onChange={setCountryCode}
+                                    countries={countries}
+                                  />
+                                  <input
+                                    type="tel"
+                                    placeholder={countryCode}
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    className="w-full bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none"
+                                  />
+                                </div>
+                              </div>
+
+                              <div>
+                                <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Company Name *</div>
+                                <input
+                                  type="text"
+                                  value={companyName}
+                                  onChange={(e) => setCompanyName(e.target.value)}
+                                  className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
+                                />
+                              </div>
+
+                              <div>
+                                <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Website URL *</div>
+                                <input
+                                  type="url"
+                                  value={websiteUrl}
+                                  onChange={(e) => setWebsiteUrl(e.target.value)}
+                                  className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
+                                />
+                              </div>
+
+                              <div>
+                                <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">Budget *</div>
+                                <div className="space-y-2.5">
+                                  {["$5k-$10k", "$10k-$20k", "$20k-$35k", "$35k-$50k", "$50k+"].map((option, i) => (
+                                    <label key={option} htmlFor={`budget${i}`} className="flex cursor-pointer items-center gap-2.5 text-sm text-[#ADAECC]">
+                                      <input
+                                        type="radio"
+                                        name="budget"
+                                        id={`budget${i}`}
+                                        checked={budget === option}
+                                        onChange={() => setBudget(option)}
+                                        className="peer sr-only"
+                                      />
+                                      <div className="h-[18px] w-[18px] shrink-0 rounded-full border border-[#343556] bg-transparent transition-all duration-200 peer-checked:border-[5px] peer-checked:border-[#F45B25]"></div>
+                                      <span>{option}</span>
+                                    </label>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div>
+                                <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">
+                                  Please share anything that would help us prepare for your call. *
+                                </div>
+                                <textarea
+                                  rows={4}
+                                  value={callNotes}
+                                  onChange={(e) => setCallNotes(e.target.value)}
+                                  className="w-full resize-none rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
+                                />
+                              </div>
+
+                              <div>
+                                <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">How did you find BMYBrand? *</div>
+                                <div className="space-y-2.5">
+                                  {["Google Search", "AI Search", "Social Media", "Case Study", "Other"].map((sourceOption, i) => (
+                                    <label key={sourceOption} htmlFor={`source${i}`} className="flex cursor-pointer items-center gap-2.5 text-sm text-[#ADAECC]">
+                                      <input
+                                        type="radio"
+                                        name="source"
+                                        id={`source${i}`}
+                                        checked={source === sourceOption}
+                                        onChange={() => setSource(sourceOption)}
+                                        className="peer sr-only"
+                                      />
+                                      <div className="h-[18px] w-[18px] shrink-0 rounded-full border border-[#343556] bg-transparent transition-all duration-200 peer-checked:border-[5px] peer-checked:border-[#F45B25]"></div>
+                                      <span>{sourceOption}</span>
+                                    </label>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="mt-3 max-h-[13.5rem] space-y-1 overflow-y-auto pr-1 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
-                          {filteredTimezones.map((option) => {
-                            const active = option.label === selectedTimezone;
+                        <p className="pt-2 text-xs leading-6 text-white/44">
+                          By submitting your information, you agree to our{" "}
+                          <a href="#" className="text-white/78 underline underline-offset-2">Terms of Use</a> and{" "}
+                          <a href="#" className="text-white/78 underline underline-offset-2">Privacy Policy</a>.
+                        </p>
+
+                        <button
+                          type="submit"
+                          disabled={!canContinue}
+                          className={`mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-[1.15rem] text-white transition-all duration-200 BenzinSemibold ${canContinue
+                            ? "bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] hover:brightness-110"
+                            : "cursor-not-allowed bg-[#343556] text-white/45"
+                            }`}
+                        >
+                          Continue
+                          <span className="text-lg">→</span>
+                        </button>
+                      </form>
+
+                      <div
+                        className={`grid overflow-hidden transition-all duration-500 ease-out ${formUnlocked ? "grid-rows-[0fr] opacity-0" : "mt-8 grid-rows-[1fr] opacity-100"
+                          }`}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="flex items-center justify-between">
+                            <div className="text-[1.05rem] text-white BenzinSemibold">{monthLabel}</div>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => changeCalendarMonth(-1)}
+                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                                aria-label="Previous month"
+                              >
+                                <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => changeCalendarMonth(1)}
+                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                                aria-label="Next month"
+                              >
+                                <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45" />
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="mt-5 grid grid-cols-7 gap-y-4 text-[0.68rem] tracking-[0.08em] text-white/22">
+                            {calendarDays.map((day) => (
+                              <div key={day} className="text-center">{day}</div>
+                            ))}
+                          </div>
+
+                          <div className="relative mt-4 grid grid-cols-7 gap-y-4 text-base text-white/28">
+                            {calendarCells.map((cell, index) => {
+                              const faded = !cell.inMonth;
+                              return (
+                                <div key={`${cell.day}-${index}`} className={`text-center ${faded ? "opacity-22" : ""}`}>
+                                  {cell.day}
+                                </div>
+                              );
+                            })}
+
+                            <div className="absolute left-1/2 top-[4.7rem] w-[15.2rem] -translate-x-1/2 rounded-xl border border-[#4A4D74] bg-[#2A2B47] px-5 py-3 text-center text-sm leading-6 text-white/88 shadow-[0_12px_30px_rgba(0,0,0,0.2)]">
+                              Please complete the form before selecting a time slot.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="mt-1 flex items-center gap-2">
+                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                      </div>
+
+                      <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
+                        Schedule Your Strategy Call
+                      </h2>
+
+                      <div className="mt-4 space-y-3 text-[0.95rem] text-[#A4A8C9]">
+                        <div className="flex items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px] opacity-80">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                          </svg>
+                          <span>30-minute strategy call</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setTimezoneOpen((prev) => !prev)}
+                          className="flex items-center gap-2 text-left"
+                        >
+                          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className="h-[18px] w-[18px] text-current opacity-80">
+                            <g clipPath="url(#a)">
+                              <path fillRule="evenodd" clipRule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="currentColor"/>
+                            </g>
+                            <defs>
+                              <clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath>
+                            </defs>
+                          </svg>
+                          <span>{selectedTimezone}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`h-4 w-4 text-white/45 transition-transform ${timezoneOpen ? "rotate-180" : ""}`}>
+                            <polyline points="6 9 12 15 18 9"/>
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div
+                        className={`grid transition-all duration-300 ease-out ${timezoneOpen ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                          }`}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="rounded-[18px] border border-[#343556] bg-[#1F2140] p-3">
+                            <div className="flex items-center gap-2 rounded-xl border border-[#343556] bg-transparent px-3 py-2.5 text-sm text-white/44">
+                              <span>⌕</span>
+                              <input
+                                type="text"
+                                value={timezoneQuery}
+                                onChange={(e) => setTimezoneQuery(e.target.value)}
+                                placeholder="Search by continent, country or city"
+                                className="w-full bg-transparent text-white placeholder:text-white/34 outline-none"
+                              />
+                            </div>
+
+                            <div className="mt-3 max-h-[13.5rem] space-y-1 overflow-y-auto pr-1 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                              {filteredTimezones.map((option) => {
+                                const active = option.label === selectedTimezone;
+                                return (
+                                  <button
+                                    key={option.label}
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedTimezone(option.label);
+                                      setTimezoneOpen(false);
+                                      setTimezoneQuery("");
+                                    }}
+                                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${active ? "bg-[#303258] text-white" : "text-[#B5B9D8] hover:bg-[#262847] hover:text-white"
+                                      }`}
+                                  >
+                                    <span>{option.label}</span>
+                                    <span>{option.time}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-7">
+                        <div className="flex items-center justify-between">
+                          <div className="text-[1.05rem] text-white BenzinSemibold">{monthLabel}</div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => changeCalendarMonth(-1)}
+                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                              aria-label="Previous month"
+                            >
+                              <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => changeCalendarMonth(1)}
+                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                              aria-label="Next month"
+                            >
+                              <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="mt-5 grid grid-cols-7 gap-y-4 text-[0.68rem] tracking-[0.08em] text-white/22">
+                          {calendarDays.map((day) => (
+                            <div key={day} className="text-center">{day}</div>
+                          ))}
+                        </div>
+
+                        <div className="mt-4 grid grid-cols-7 gap-2 text-center text-base text-white/28">
+                          {calendarCells.map((cell, index) => {
+                            const dayNumber = cell.day;
+                            const faded = !cell.inMonth;
+                            const active = cell.inMonth && dayNumber === selectedDate;
+                            const selectable = cell.inMonth && availableDays.includes(dayNumber);
+
                             return (
                               <button
-                                key={option.label}
+                                key={`${dayNumber}-${index}`}
                                 type="button"
+                                disabled={!selectable}
                                 onClick={() => {
-                                  setSelectedTimezone(option.label);
-                                  setTimezoneOpen(false);
-                                  setTimezoneQuery("");
+                                  if (!selectable) return;
+                                  setSelectedDate(dayNumber);
+                                  setSelectedTime("");
                                 }}
-                                className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${
-                                  active ? "bg-[#303258] text-white" : "text-[#B5B9D8] hover:bg-[#262847] hover:text-white"
-                                }`}
+                                className={`h-8 rounded-lg text-center transition-colors ${active
+                                  ? "bg-[#FF7A36] text-white"
+                                  : selectable
+                                    ? "bg-[#252744] text-white hover:bg-[#2e3052]"
+                                    : "bg-transparent text-white/28"
+                                  }`}
                               >
-                                <span>{option.label}</span>
-                                <span>{option.time}</span>
+                                {dayNumber}
                               </button>
                             );
                           })}
                         </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="mt-7">
-                    <div className="flex items-center justify-between">
-                      <div className="text-[1.05rem] text-white BenzinSemibold">{monthLabel}</div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => changeCalendarMonth(-1)}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28"
-                          aria-label="Previous month"
-                        >
-                          ←
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => changeCalendarMonth(1)}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28"
-                          aria-label="Next month"
-                        >
-                          →
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="mt-5 grid grid-cols-7 gap-y-4 text-[0.68rem] tracking-[0.08em] text-white/22">
-                      {calendarDays.map((day) => (
-                        <div key={day} className="text-center">{day}</div>
-                      ))}
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-7 gap-2 text-center text-base text-white/28">
-                      {calendarCells.map((cell, index) => {
-                        const dayNumber = cell.day;
-                        const faded = !cell.inMonth;
-                        const active = cell.inMonth && dayNumber === selectedDate;
-                        const selectable = cell.inMonth && availableDays.includes(dayNumber);
-
-                        return (
-                          <button
-                            key={`${dayNumber}-${index}`}
-                            type="button"
-                            disabled={!selectable}
-                            onClick={() => {
-                              if (!selectable) return;
-                              setSelectedDate(dayNumber);
-                              setSelectedTime("");
-                            }}
-                            className={`h-8 rounded-lg text-center transition-colors ${
-                              active
-                                ? "bg-[#FF7A36] text-white"
-                                : selectable
-                                  ? "bg-[#252744] text-white hover:bg-[#2e3052]"
-                                  : "bg-transparent text-white/28"
-                            }`}
-                          >
-                            {dayNumber}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div className="mt-8 flex items-center justify-between">
-                      <div className="text-[1.05rem] text-white BenzinSemibold">{selectedWeekdayLabel} {selectedDate}</div>
-                      <div className="flex items-center overflow-hidden rounded-lg border border-[#343556]">
-                        <button
-                          type="button"
-                          onClick={() => setTimeFormat("12h")}
-                          className={`px-3 py-1.5 text-xs ${timeFormat === "12h" ? "bg-[#252744] text-white" : "text-white/32"}`}
-                        >
-                          12h
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setTimeFormat("24h")}
-                          className={`px-3 py-1.5 text-xs ${timeFormat === "24h" ? "bg-[#252744] text-white" : "text-white/32"}`}
-                        >
-                          24h
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 max-h-[15rem] space-y-3 overflow-x-hidden overflow-y-auto pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
-                      {baseTimeSlots.map((slot) => {
-                        const slotLabel = formatTimeSlot(slot);
-                        return (
-                        <div
-                          key={slot}
-                          onMouseEnter={() => setHoveredSlot(slot)}
-                          onMouseLeave={() => setHoveredSlot((current) => (current === slot ? null : current))}
-                          className="flex w-full max-w-full items-center gap-3 overflow-hidden"
-                        >
-                          <button
-                            type="button"
-                            className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-all duration-200 ${
-                              hoveredSlot === slot
-                                ? "w-[52%] border-[#343556] bg-transparent text-[#C7CAE2]"
-                                : selectedTime === slot
-                                  ? "w-full border-[#FF7A36] bg-[#252744] text-white"
-                                  : "w-full border-[#343556] bg-transparent text-[#C7CAE2] hover:border-[#4A4D74] hover:text-white"
-                            }`}
-                            onClick={() => setSelectedTime(slot)}
-                          >
-                            {slotLabel}
-                          </button>
-                          {hoveredSlot === slot ? (
+                        <div className="mt-8 flex items-center justify-between">
+                          <div className="text-[1.05rem] text-white BenzinSemibold">{selectedWeekdayLabel} {selectedDate}</div>
+                          <div className="flex items-center overflow-hidden rounded-lg border border-[#343556]">
                             <button
                               type="button"
-                              onClick={() => setSelectedTime(slot)}
-                              className="h-12 w-[48%] rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] text-base text-white transition-all duration-200 BenzinSemibold"
+                              onClick={() => setTimeFormat("12h")}
+                              className={`px-3 py-1.5 text-xs ${timeFormat === "12h" ? "bg-[#252744] text-white" : "text-white/32"}`}
                             >
-                              Confirm
+                              12h
                             </button>
-                          ) : null}
+                            <button
+                              type="button"
+                              onClick={() => setTimeFormat("24h")}
+                              className={`px-3 py-1.5 text-xs ${timeFormat === "24h" ? "bg-[#252744] text-white" : "text-white/32"}`}
+                            >
+                              24h
+                            </button>
+                          </div>
                         </div>
-                      )})}
-                    </div>
 
-                    <div
-                      className={`grid transition-all duration-300 ease-out ${
-                        selectedTime ? "mt-5 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                      }`}
-                    >
-                      <div className="overflow-hidden">
-                        <button
-                          type="button"
-                          onClick={() => setStep("complete")}
-                          className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] py-3.5 text-[1.05rem] text-white transition-all duration-200 hover:brightness-110 BenzinSemibold"
+                        <div className="mt-4 max-h-[15rem] space-y-3 overflow-x-hidden overflow-y-auto pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                          {baseTimeSlots.map((slot) => {
+                            const slotLabel = formatTimeSlot(slot);
+                            return (
+                              <div
+                                key={slot}
+                                onMouseEnter={() => setHoveredSlot(slot)}
+                                onMouseLeave={() => setHoveredSlot((current) => (current === slot ? null : current))}
+                                className="flex w-full max-w-full items-center gap-3 overflow-hidden"
+                              >
+                                <button
+                                  type="button"
+                                  className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-all duration-200 ${hoveredSlot === slot
+                                    ? "w-[52%] border-[#343556] bg-transparent text-[#C7CAE2]"
+                                    : selectedTime === slot
+                                      ? "w-full border-[#FF7A36] bg-[#252744] text-white"
+                                      : "w-full border-[#343556] bg-transparent text-[#C7CAE2] hover:border-[#4A4D74] hover:text-white"
+                                    }`}
+                                  onClick={() => setSelectedTime(slot)}
+                                >
+                                  {slotLabel}
+                                </button>
+                                {hoveredSlot === slot ? (
+                                  <button
+                                    type="button"
+                                    onClick={() => setSelectedTime(slot)}
+                                    className="h-12 w-[48%] rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] text-base text-white transition-all duration-200 BenzinSemibold"
+                                  >
+                                    Confirm
+                                  </button>
+                                ) : null}
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        <div
+                          className={`grid transition-all duration-300 ease-out ${selectedTime ? "mt-5 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                            }`}
                         >
-                          Finish
-                        </button>
+                          <div className="overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => setStep("complete")}
+                              className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] py-3.5 text-[1.05rem] text-white transition-all duration-200 hover:brightness-110 BenzinSemibold"
+                            >
+                              Finish
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </aside>
+                    </>
+                  )}
+                </div>
+              </aside>
             </div>
           )}
         </main>

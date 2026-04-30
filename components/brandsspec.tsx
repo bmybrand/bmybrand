@@ -59,7 +59,7 @@ const reviewsRow2: Review[] = [
 ]
 
 const ITEM_CLASS =
-  'w-[380px] h-[220px] bg-white/10 backdrop-blur-md text-white px-6 py-5 rounded-xl shadow-md flex flex-col gap-3 overflow-hidden'
+  'w-[480px] h-[220px] bg-white/10 backdrop-blur-md text-white px-6 py-5 rounded-xl shadow-md flex flex-col gap-3 overflow-hidden'
 
 export default function Brandsspec() {
   const row1Ref = useRef<HTMLDivElement | null>(null)
@@ -88,18 +88,18 @@ export default function Brandsspec() {
 
       const avatar = document.createElement('div')
       avatar.className =
-        'h-10 w-10 rounded-full bg-[#F45B25]/20 text-[#F45B25] flex items-center justify-center text-sm font-semibold'
+        'h-14 w-14 rounded-full bg-[#F45B25]/20 text-[#F45B25] flex items-center justify-center text-lg font-semibold flex-none'
       avatar.textContent = initials || 'U'
 
       const meta = document.createElement('div')
       meta.className = 'flex flex-col gap-1'
 
       const name = document.createElement('div')
-      name.className = 'text-base font-semibold BenzinSemibold'
+      name.className = 'text-[20px] font-semibold BenzinSemibold'
       name.textContent = review.name
 
       const role = document.createElement('div')
-      role.className = 'text-xs text-white/70'
+      role.className = 'text-[15px] text-white/70'
       role.textContent = `${review.title} - ${review.company}`
 
       meta.appendChild(name)
@@ -114,7 +114,7 @@ export default function Brandsspec() {
       header.appendChild(icon)
 
       const quote = document.createElement('p')
-      quote.className = 'mt-auto text-sm leading-6 text-white/80'
+      quote.className = 'mt-2 text-[16px] leading-6 text-white/80'
       quote.textContent = review.testimonial
 
       it.appendChild(header)

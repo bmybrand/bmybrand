@@ -160,7 +160,7 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        {/* Bottom: Subscribe + Social on one level; Copyright + Policies on one level */}
+        {/* Bottom: Subscribe + Social + Copyright + Policies */}
         <div className="py-10 space-y-6">
           <div>
             <h3 className="text-white font-semibold text-lg lg:text-xl mb-2 BenzinSemibold">Subscribe</h3>
@@ -208,11 +208,11 @@ const Footer: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4  text-sm text-white/70">
             <p className="order-2 sm:order-1">Copyright © {new Date().getFullYear()} BMYBrand | All Rights Reserved.</p>
             <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2">
-              <a href="#" className="text-[#F45B25] hover:underline">Terms Of Use</a>
+              <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Terms Of Use</a>
               <span className="text-white/40">|</span>
-              <a href="#" className="text-[#F45B25] hover:underline">Privacy Policy</a>
+              <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Privacy Policy</a>
               <span className="text-white/40">|</span>
-              <a href="#" className="text-[#F45B25] hover:underline">Cookie Policy</a>
+              <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Cookie Policy</a>
             </div>
           </div>
         </div>
