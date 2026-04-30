@@ -23,12 +23,12 @@ const SERVICE_LINKS = [
 ]
 
 const REVIEW_PLATFORMS = [
-  { name: 'Clutch', logo: '/bmyb-logo-clutchco-01.svg' },
-  { name: 'Yelp', logo: '/bmyb-logo-yelp-01.svg' },
-  { name: 'Bark', logo: '/bmyb-global-bark-01.svg' },
-  { name: 'Upwork', logo: '/bmyb-logo-upwork-01.svg' },
-  { name: 'Trustpilot', logo: '/bmyb-logo-trustpilot-1-01.svg' },
-  { name: 'Google', logo: '/bmyb-logo-google-01.svg' },
+  { name: 'Clutch', logo: '/bmyb-logo-clutchco-color-01.svg' },
+  { name: 'Yelp', logo: '/bmyb-logo-yelp-color-01.svg' },
+  { name: 'Bark', logo: '/bmyb-global-bark-color-01.svg' },
+  { name: 'Upwork', logo: '/bmyb-logo-upwork-color-01.svg' },
+  { name: 'Trustpilot', logo: '/bmyb-logo-trustpilot-color-01.svg' },
+  { name: 'Google', logo: '/bmyb-logo-google-color-01.svg' },
 ]
 
 const SOCIAL_LINKS = [
@@ -147,7 +147,6 @@ const Footer: React.FC = () => {
                 src={platform.logo}
                 alt={platform.name}
                 className="h-6 w-auto object-contain"
-                style={{ filter: 'brightness(0) invert(1)' }}
               />
               <div className="flex items-center gap-2">
                 <span className="text-sm text-white/60  tracking-wider">Reviewed On</span>

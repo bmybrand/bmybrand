@@ -79,9 +79,9 @@ export default function GrowMyBusinessPage() {
           <section className="flex min-h-[calc(100vh-8rem)] items-center py-0 lg:min-h-[calc(100vh-8rem)]">
             <div className="mx-auto flex w-full max-w-[88rem] flex-col gap-20 lg:flex-row lg:items-center">
               <div className="min-w-0 w-full lg:flex-[0.58_1_0%]">
-                <div className="inline-flex h-[44px] items-center gap-3 rounded-xl bg-[#1B1C3A] px-3.5 text-[0.82rem] text-white/88">
+                <div className="inline-flex h-[44px] items-center gap-3 rounded-xl bg-[#191A35] px-3.5 text-[0.82rem] text-white/88">
                   <span className="inline-flex h-7 items-center rounded-md bg-[#F45B25] px-2 py-0.5">
-                    <img src="/bmyb-logo-clutch-01.svg" alt="Clutch" className="h-3.5 w-auto object-contain brightness-0 invert" />
+                    <img src="/bmyb-logo-clutch-01.svg" alt="Clutch" className="h-4.5 w-auto object-contain brightness-0 invert" />
                   </span>
                   <span className="flex items-center gap-1 text-white" aria-hidden="true">
                     <span>★</span>
@@ -110,11 +110,13 @@ export default function GrowMyBusinessPage() {
                   aria-hidden="true"
                   className="pointer-events-none absolute bottom-0 left-[-2rem] top-0 -z-10 hidden w-px bg-gradient-to-b from-transparent via-white/12 to-transparent lg:block"
                 />
-                <div className="inline-flex h-[39px] items-center gap-2.5 rounded-md border-2 border-[#4A4C79] bg-[#2A2C58] px-4 text-[0.78rem] text-white">
+                <div className="inline-flex h-[39px] items-center gap-2.5 rounded-md border-2 border-[#343562] bg-[#27294C] px-4 text-[0.78rem] text-white">
                   <svg className="h-4 w-4 text-[#FF7A32]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M12.7 2.1c.3 2-1 3.6-2.2 5-1.1 1.3-2.1 2.5-2.1 4 0 1.8 1.5 3.2 3.4 3.2 2.3 0 4.1-1.8 4.1-4.2 0-1.6-.7-2.9-1.5-4.3-.7-1.1-1.3-2.2-1.7-3.7ZM7.8 12.7c-1.7 1.2-2.8 3.1-2.8 5.2 0 3.4 2.9 6.1 6.6 6.1s6.4-2.6 6.4-6c0-2.8-1.7-4.8-3.8-6.3.1.3.1.6.1 1 0 3.6-2.8 6.2-6.4 6.2-2.2 0-4.2-1.1-5.3-2.9 0-.1 0-.2-.1-.3.3-1 .8-2 1.6-3Z" />
                   </svg>
-                  <span className="font-semibold text-white">Free Audit</span>
+                  <span className="text-[14px]  text-white" style={{ fontFamily: "Inter, sans-serif" }}>
+                    Free Audit
+                  </span>
                 </div>
 
                 <h2 className="mt-6 w-full text-[38px] leading-[1.05] text-white BenzinSemibold">
