@@ -1,9 +1,13 @@
 'use client'
 
-export default function HealthcareStories() {
+export default function HealthcareStories({
+  transparentBackground = false,
+}: {
+  transparentBackground?: boolean;
+}) {
   return (
     
-    <section className="bg-[#191A35]">
+    <section className={transparentBackground ? "" : "bg-[#191A35]"}>
       <div className="mx-auto w-[90%] 2xl:w-[85%] py-10 sm:py-14 lg:py-18 ">
       <div className=" max-w-6xl">
         <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.05rem]">
