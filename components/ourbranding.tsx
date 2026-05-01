@@ -110,7 +110,7 @@ const OurBranding: React.FC = () => {
   }, []);
 
   return (
-    <section className="w-full min-h-screen flex flex-col justify-center items-center">
+    <section className="w-full pt-30 pb-30 flex flex-col items-center">
       {/* HEADING */}
       <div ref={headingRef} className="w-full flex flex-col items-center">
         <h2 className="mb-6 w-[90%] 2xl:w-[60%]  text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">

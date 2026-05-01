@@ -182,7 +182,7 @@ export const Card: React.FC<CardProps> = ({
             )}
 
             {/* TITLE */}
-            <h2 className=" lg:leading-10 BenzinSemibold text-base sm:text-xl md:text-2xl lg:text-4xl font-bold mb-3 ">
+            <h2 className="BenzinSemibold text-base sm:text-xl md:text-2xl lg:text-4xl font-bold mb-3 leading-snug lg:leading-[1.3]">
               {title}
             </h2>
 

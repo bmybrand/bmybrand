@@ -136,7 +136,7 @@ const FullyAnimatedGrid: React.FC = () => {
           </h2>
           <p className="text-center text-base text-[#ADAECC]">
             Your all-in-one creative & digital partner helping your business grow with
-            premium branding, websites, and marketing solutions.
+            premium branding,<br /> websites, and marketing solutions.
           </p>
         </div>
       </div>
@@ -197,7 +197,7 @@ const FullyAnimatedGrid: React.FC = () => {
         </div>
 
         <div
-          className={`bg-[url('/bmyb-global-fullimage-01.svg')] bg-cover bg-center rounded-lg w-full h-145 sm:h-145 md:h-165 lg:h-auto transition-all duration-700 p-4 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
+          className={`bg-[url('/bmyb-global-fullimage-01.svg')] bg-cover bg-center rounded-lg w-full h-145 sm:h-145 md:h-165 lg:h-auto transition-all duration-700 p-2 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
             isHovered ? "lg:w-1/3" : "lg:w-full"
           }`}
         >
@@ -207,8 +207,8 @@ const FullyAnimatedGrid: React.FC = () => {
               alt=""
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2/3 transform lg:-top-10 lg:-translate-y-0"
             />
-            <h2 className="mb-4 text-center text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold">
-              One Agency For All Your Branding, Design & Digital Needs
+            <h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
+              Smarter AI Workflows That Reduce Manual Work and Drive Impact
             </h2>
             <button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
               Get Started Now
@@ -251,8 +251,8 @@ const FullyAnimatedGrid: React.FC = () => {
                     ease: "easeOut",
                   }}
                 />
-                <motion.h2 className="mb-4 text-center text-base md:text-xl lg:text-2xl 2xl:text-3xl BenzinSemibold">
-                  One Agency For All Your Branding, Design & Digital Needs
+                <motion.h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
+                  Smarter AI Workflows That Reduce Manual Work and Drive Impact
                 </motion.h2>
 
                 <motion.button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
