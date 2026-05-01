@@ -170,9 +170,9 @@ export default function GrowMyBusinessPage() {
       <Footer />
 
       {auditModalOpen ? (
-        <div className="fixed inset-0 z-[10020] flex items-center justify-center bg-[#0E1026]/78 px-4 py-8 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[10020] flex items-center justify-center bg-[#0E1026]/80 px-4 py-8 backdrop-blur-sm">
           <div
-            className="relative mx-auto w-full max-w-[42rem] max-h-[calc(100vh-4rem)] overflow-y-auto rounded-[24px] border border-[#2A2B47] bg-[#25264B] px-6 py-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] [::-webkit-scrollbar]:hidden sm:max-h-[calc(100vh-5rem)] sm:px-8 sm:py-8"
+            className="relative mx-auto w-full max-w-[52rem] max-h-[calc(100vh-4rem)] overflow-y-auto rounded-[24px] border border-[#2A2B47] bg-[#202141] px-6 py-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] [::-webkit-scrollbar]:hidden sm:max-h-[calc(100vh-5rem)] sm:px-8 sm:py-8"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             <button
@@ -186,11 +186,12 @@ export default function GrowMyBusinessPage() {
               </svg>
             </button>
 
-            <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#3A3B61] bg-[#2B2C54] px-4 text-[0.8rem] text-white/90">
+            <div className="inline-flex h-[39px] items-center gap-1 rounded-lg border border-[#3A3B61] px-4 text-[0.8rem] text-white/90">
+              <img src="/bmyb-tech-whitelogo-01.svg" alt="" className="w-4 h-4" />
               <span className="text-white/85">Foresight™</span>
             </div>
 
-            <h2 className="mt-6 max-w-[15ch] text-[35px] leading-[1.03] text-white BenzinSemibold">
+            <h2 className="mt-6 max-w-[25ch] text-[35px] leading-[1.03] text-white BenzinSemibold">
               Help Us Personalize Your Report With Some Quick Questions
             </h2>
 
