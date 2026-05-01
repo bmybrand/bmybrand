@@ -3,10 +3,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 
-const H1_WORDS: { word: string; orange: boolean }[] = [
+const H1_WORDS: { word: string; orange: boolean; noSpace?: boolean }[] = [
   { word: "Build", orange: false },
   { word: "a", orange: false },
-  { word: "High-Performing", orange: false },
+  { word: "High-", orange: false, noSpace: true },
+  { word: "Performing", orange: false },
   { word: "Brand", orange: true },
   { word: "With", orange: true },
   { word: "Creative", orange: true },
@@ -92,7 +93,7 @@ const Heropage: React.FC = () => {
         <div className="w-full xl:w-1/2 lg:min-h-[calc(100vh-160px)] flex flex-col justify-center gap-4 px-4 lg:px-0 z-10">
           <h1
             ref={headlineRef}
-            className="text-white text-[22px] sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[63px] BenzinBold leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[72px] 2xl:leading-[80px]"
+            className="text-white text-[20px] sm:text-[22px] md:text-[28px] lg:text-[34px] xl:text-[45px] 2xl:text-[55px] BenzinBold leading-[28px] sm:leading-10 md:leading-tight lg:leading-tight xl:leading-[55px] 2xl:leading-[66px]"
           >
             {H1_WORDS.map((item, i) => (
               <span
@@ -104,13 +105,13 @@ const Heropage: React.FC = () => {
                     {char}
                   </span>
                 ))}
-                {"\u00A0"}
+                {!item.noSpace && "\u00A0"}
               </span>
             ))}
           </h1>
           <p
             ref={paragraphRef}
-            className="text-white text-sm sm:text-base md:text-base lg:text-lg xl:text-lg 2xl:text-xl leading-relaxed lg:leading-snug xl:leading-7 2xl:leading-8 opacity-0"
+            className="text-white text-[16px] leading-[1.85] tracking-wide max-w-[540px] opacity-0"
             style={{ transform: "translateY(18px)" }}
           >
             Make unlimited design, website, or marketing requests — and get unlimited revisions. 
@@ -176,7 +177,7 @@ const Heropage: React.FC = () => {
         </div>
       </div>
       {/* Bottom promo bar inside hero right div */}
-          <div className=" relative  w-full bg-[#F45B25] text-white py-3 px-6 flex flex-col sm:flex-row items-center justify-center gap-2 z-[1000] shadow-xl">
+          <div className=" relative  w-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white py-3 px-6 flex flex-col sm:flex-row items-center justify-center gap-2 z-[1000] shadow-xl">
     <span className="text-center sm:text-left text-sm sm:text-base md:text-lg">
     Get your site reviewed in minutes — request a FREE AI Website Audit from BMYBrand.  
     </span>

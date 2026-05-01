@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
+import AuditNavbar from "@/components/AuditNavbar";
+
 function normalizeSiteLabel(site: string) {
   if (!site) return "https://www.bakertilly.com/";
   if (/^https?:\/\//i.test(site)) return site;
@@ -187,29 +189,11 @@ export default function ReportClient({ site }: { site?: string }) {
         onClose={() => setIsReportModalOpen(false)}
         onUnlock={() => router.push(`/grow-my-business/report/complete?site=${encodeURIComponent(siteLabel)}`)}
       />
-      <div className=" px-2 py-6">
-        <header className="mx-auto flex max-w-7xl items-center justify-between gap-6 rounded-2xl border border-[#3A3B61] bg-[#1A1B3D] px-6 py-3 text-white/88">
-          <Link href="/" className="shrink-0">
-            <img
-              src="/bmyb-logo-bmylogo-01.svg"
-              alt="BMYBrand"
-              className="h-7 w-auto object-contain"
-            />
-          </Link>
+      <div className="px-2">
+        <AuditNavbar siteLabel={siteLabel} resultsBy="Bmybrand" />
+        <div className="relative bg-[#11122F] mx-auto w-[90%] xl:w-[75%]">
 
-          <div className="flex flex-wrap items-center justify-end gap-3 text-sm text-white/64">
-            <div>
-              Results by <span className="text-white BenzinSemibold">Bmybrand</span>
-            </div>
-            <div className="inline-flex h-[36px] items-center gap-2 rounded-xl border border-[#3A3B61] bg-[#202143] px-3 text-[0.78rem] text-white/88">
-              <img src="/bmyb-global-globe-01.svg" alt="" className="h-4 w-4 object-contain" />
-              <span className="max-w-[20rem] truncate">{siteLabel}</span>
-            </div>
-          </div>
-        </header>
-        <div className="relative bg-[#11122F] mx-auto w-[90%] lg:w-[75%]">
-
-          <main className="pt-24 lg:pt-32">
+          <main className="pt-44 lg:pt-52">
             <section className="grid gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(290px,0.72fr)] lg:items-start">
               <div className="max-w-[45rem] pt-1">
                 <h1 className="max-w-[13ch] text-[45px] leading-[1.08] text-white BenzinSemibold">
@@ -269,7 +253,7 @@ export default function ReportClient({ site }: { site?: string }) {
                 </div>
               </div>
 
-              <div className="grid max-w-[380px] gap-5 sm:grid-cols-2 lg:max-w-none lg:grid-cols-2">
+              <div className="grid max-w-[380px] gap-5 sm:grid-cols-2 lg:max-w-[420px]">
                   <div className="rounded-[14px] bg-[#191A35] px-3 py-6">
                   <div className="text-[16px] leading-none text-white BenzinSemibold text-center w-full">Your Site Score</div>
                   <div className="mt-4 flex justify-center">
@@ -340,7 +324,7 @@ export default function ReportClient({ site }: { site?: string }) {
               </div>
             </section>
 
-            <section className="mt-16 flex flex-col gap-8 lg:flex-row lg:items-start">
+            <section className="mt-16 flex flex-col gap-[50px] lg:flex-row lg:items-start">
               <div className="w-full lg:w-[65%]">
                 <h2 className="text-[38px] leading-none text-white BenzinSemibold sm:text-[45px]">
                   Report Preview
@@ -349,7 +333,13 @@ export default function ReportClient({ site }: { site?: string }) {
                 <div className="mt-6 mb-6 rounded-[16px] bg-[#191A35] p-6 text-sm leading-7 text-[#A6ABCC]">
                   <p className="text-[16px]">
                     Below is a preview of your website audit. To access the full report, click on{" "}
-                    <span className="text-[#F45B25]">&quot;Access full report&quot;</span> and complete a short form.
+                    <button
+                      onClick={() => setIsReportModalOpen(true)}
+                      className="text-[#F45B25] hover:underline"
+                    >
+                      &quot;Access full report&quot;
+                    </button>{" "}
+                    and complete a short form.
                   </p>
                   <p className="mt-5 text-[16px]">
                     This audit provides insights into key areas such as structure, messaging, usability,
@@ -364,9 +354,9 @@ export default function ReportClient({ site }: { site?: string }) {
                 </div>
                 <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
                   {/* Pill badge in normal flow */}
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
-                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                      <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
+                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                      <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                     </span>
                     Effective Practices
                   </div>
@@ -382,9 +372,9 @@ export default function ReportClient({ site }: { site?: string }) {
 
                 {/* Improvement Opportunities Section */}
                 <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
-                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                      <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
+                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                      <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                     </span>
                     Improvement Opportunities
                   </div>
@@ -425,9 +415,9 @@ export default function ReportClient({ site }: { site?: string }) {
                 </div>
                 <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
                   {/* Pill badge in normal flow */}
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
-                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                      <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
+                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                      <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                     </span>
                     Observations
                   </div>
@@ -443,9 +433,9 @@ export default function ReportClient({ site }: { site?: string }) {
 
                 {/* Improvement Opportunities Section */}
                 <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
-                    <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                      <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
+                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                      <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                     </span>
                     Improvement Opportunities
                   </div>
@@ -512,22 +502,22 @@ export default function ReportClient({ site }: { site?: string }) {
 
               
 
-              <aside className="h-fit w-full lg:sticky lg:top-8 lg:w-[35%] lg:self-start">
-                <div className="rounded-[16px] bg-gradient-to-br from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
+              <aside className="h-fit w-full lg:sticky lg:top-32 lg:w-[35%] lg:self-start">
+                <div className="rounded-[16px] bg-gradient-to-r from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
                 <div className="flex -space-x-2">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#1B1D44] text-xs">A</span>
                   <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#2D356B] text-xs">B</span>
                   <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#6A321E] text-xs">C</span>
                 </div>
-                <h3 className="mt-5 text-[28px] leading-[1.08] BenzinSemibold">
+                <h3 className="mt-5 text-[24px] leading-[1.08] BenzinSemibold">
                   Improve What&apos;s Holding Your Website Back
                 </h3>
-                <p className="mt-4 text-sm leading-6 text-white/88">
+                <p className="mt-4 text-[14px] leading-6 text-white/88">
                   Book a free consultation to review your audit and get expert recommendations tailored to your website.
                 </p>
                 <Link
                   href="/strategy-call"
-                  className="mt-6 inline-flex h-11 items-center rounded-lg bg-white px-5 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
+                  className="mt-6 inline-flex h-[54px] items-center rounded-lg bg-white px-6 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
                 >
                   Talk To Our Team
                 </Link>

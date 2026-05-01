@@ -70,12 +70,12 @@ export default function GrowMyBusinessPage() {
 
   return (
     <div className="min-h-screen bg-[#11122F]">
-      <div className="mx-auto w-[85%] px-2 py-8 lg:w-[75%]">
+      <div className="mx-auto w-[90%] px-2 pt-4 pb-8 xl:w-[75%]">
         <header className="mx-auto w-full">
           <Navbar />
         </header>
 
-        <main className="mx-auto w-full pt-32 lg:pt-40">
+        <main className="mx-auto w-full pt-16 lg:pt-24">
           <section className="flex min-h-[calc(100vh-8rem)] items-center py-0 lg:min-h-[calc(100vh-8rem)]">
             <div className="mx-auto flex w-full max-w-[88rem] flex-col gap-20 lg:flex-row lg:items-center">
               <div className="min-w-0 w-full lg:flex-[0.58_1_0%]">

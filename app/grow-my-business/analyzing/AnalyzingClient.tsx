@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import AuditNavbar from "@/components/AuditNavbar";
+
 const progressStops = [14, 21, 32, 41, 53, 61, 68];
 
 function normalizeSiteLabel(site: string) {
@@ -102,34 +104,19 @@ export default function AnalyzingClient({ site }: { site?: string }) {
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#11122F]">
-      <div className="mx-auto w-[90%] 2xl:w-[85%] px-2 py-6">
-        <header className="mx-auto flex max-w-7xl items-center justify-between gap-6 rounded-2xl border border-[#3A3B61] bg-[#1A1B3D] px-6 py-3 text-white/88">
-          <Link href="/" className="shrink-0">
-            <img src="/bmyb-logo-bmylogo-01.svg" alt="BMYBrand" className="h-7 w-auto object-contain" />
-          </Link>
+      <AuditNavbar siteLabel={siteLabel} resultsBy="Foresight" />
 
-          <div className="flex flex-wrap items-center justify-end gap-3 text-sm text-white/64">
-            <div>
-              Results by <span className="text-white BenzinSemibold">Foresight</span>
-            </div>
-            <div className="inline-flex h-[36px] items-center gap-2 rounded-xl border border-[#3A3B61] bg-[#202143] px-3 text-[0.78rem] text-white/88">
-              <img src="/bmyb-global-globe-01.svg" alt="" className="h-4 w-4 object-contain" />
-              <span className="max-w-[20rem] truncate">{siteLabel}</span>
-            </div>
-          </div>
-        </header>
-
-        <main className="mx-auto flex min-h-[calc(100vh-7rem)] max-w-7xl flex-col items-center justify-center py-10 text-center">
+      <main className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center pt-28 lg:pt-36 pb-10 text-center">
           <h1 className="text-[35px] leading-none text-white BenzinSemibold">
             Analyzing Your Website
           </h1>
 
-          <p className="mt-5 text-[1.02rem] text-[#9EA2C5]">
+          <p className="mt-5 text-[24px] text-[#9EA2C5]">
             Checking clarity, structure, and conversion opportunities...
           </p>
 
-          <div className="mt-6 w-full max-w-[17rem]">
-            <div className="h-[7px] overflow-hidden rounded-full bg-[#2A2B47]">
+          <div className="mt-8 w-full max-w-[32rem]">
+            <div className="h-[8px] overflow-hidden rounded-full bg-[#2A2B47]">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] transition-all duration-500 ease-out"
                 style={{ width: `${progress}%` }}
@@ -254,7 +241,6 @@ export default function AnalyzingClient({ site }: { site?: string }) {
             </div>
           </div>
         </main>
-      </div>
     </div>
   );
 }

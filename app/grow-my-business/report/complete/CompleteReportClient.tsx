@@ -5,6 +5,8 @@ import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import AuditNavbar from "@/components/AuditNavbar";
+
 function normalizeSiteLabel(site: string) {
   if (!site) return "https://www.bakertilly.com/";
   if (/^https?:\/\//i.test(site)) return site;
@@ -216,28 +218,10 @@ export default function CompleteReportClient({ site }: { site?: string }) {
 
   return (
     <div className="min-h-screen bg-[#11122F] text-white">
-      <div className="px-2 py-6">
-        <header className="mx-auto flex max-w-7xl items-center justify-between gap-6 rounded-2xl border border-[#3A3B61] bg-[#1A1B3D] px-6 py-3 text-white/88">
-          <Link href="/" className="shrink-0">
-            <img
-              src="/bmyb-logo-bmylogo-01.svg"
-              alt="BMYBrand"
-              className="h-7 w-auto object-contain"
-            />
-          </Link>
+      <div className="px-2">
+        <AuditNavbar siteLabel={siteLabel} resultsBy="Foresight" />
 
-          <div className="flex flex-wrap items-center justify-end gap-3 text-sm text-white/64">
-            <div>
-              Results by <span className="text-white BenzinSemibold">Foresight</span>
-            </div>
-            <div className="inline-flex h-[36px] items-center gap-2 rounded-xl border border-[#3A3B61] bg-[#202143] px-3 text-[0.78rem] text-white/88">
-              <img src="/bmyb-global-globe-01.svg" alt="" className="h-4 w-4 object-contain" />
-              <span className="max-w-[20rem] truncate">{siteLabel}</span>
-            </div>
-          </div>
-        </header>
-
-        <main className="mx-auto w-[90%] lg:w-[75%] pt-24 lg:pt-32">
+        <main className="mx-auto w-[90%] xl:w-[75%] pt-44 lg:pt-52">
           <section className="grid items-center gap-12 pb-16  lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.72fr)]">
             <div>
               <h1 className="text-[45px] leading-[1.05] text-white BenzinSemibold">
@@ -326,9 +310,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
             </div>
           </section>
 
-          <section className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_35%] lg:items-start">
+          <section className="mt-6 grid gap-[50px] lg:grid-cols-[minmax(0,1fr)_35%] lg:items-start">
             <div className="min-h-[520px] rounded-[18px] bg-[#151733]/35" />
-            <aside className="w-full lg:row-span-2 lg:sticky lg:top-8 lg:self-start">
+            <aside className="w-full lg:row-span-2 lg:sticky lg:top-32 lg:self-start">
               <div className="w-full rounded-[14px] bg-[#191A35] p-5">
                 <h2 className="text-[28px] leading-none text-white BenzinSemibold">Jump To:</h2>
                 <div className="mt-6 space-y-6">
@@ -341,7 +325,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                         setActiveJumpHref(item.href);
 
                         const section = document.getElementById(item.href.replace("#", ""));
-                        section?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        section?.scrollIntoView({ behavior: "smooth" });
                       }}
                       className={`flex items-center text-[16px] leading-none transition-colors hover:text-[#F45B25] ${
                         activeJumpHref === item.href ? "text-[#F45B25]" : "text-[#A6ABCC]"
@@ -371,7 +355,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </button>
               </div>
 
-              <div className="mt-5 rounded-[16px] bg-gradient-to-br from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
+              <div className="mt-5 rounded-[16px] bg-gradient-to-r from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
                 <div className="flex -space-x-2">
                   <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#F45B25] bg-[#1B1D44]">
                     <img src="/bmyb-global-ai-01.png" alt="" className="h-full w-full object-cover" />
@@ -383,15 +367,15 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                     <img src="/bmyb-tech-react-01.png" alt="" className="h-full w-full object-cover" />
                   </span>
                 </div>
-                <h3 className="mt-5 text-[28px] leading-[1.08] BenzinSemibold">
+                <h3 className="mt-5 text-[24px] leading-[1.08] BenzinSemibold">
                   Improve What&apos;s Holding Your Website Back
                 </h3>
-                <p className="mt-4 text-sm leading-6 text-white/88">
+                <p className="mt-4 text-[14px] leading-6 text-white/88">
                   Book a free consultation to review your audit and get expert recommendations tailored to your website.
                 </p>
                 <Link
                   href="/strategy-call"
-                  className="mt-6 inline-flex h-11 items-center rounded-lg bg-white px-5 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
+                  className="mt-6 inline-flex h-[54px] items-center rounded-lg bg-white px-6 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
                 >
                   Talk to our team
                 </Link>
@@ -411,7 +395,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </p>
               </div>
 
-              <div id="brand-positioning" className="mt-12 flex items-center justify-between gap-4">
+              <div id="brand-positioning" className="scroll-mt-44 lg:scroll-mt-52 mt-12 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Brand Positioning
                 </h2>
@@ -419,9 +403,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -435,7 +419,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
 
               <div className="mt-4 rounded-[16px] border border-[#A84C2A] bg-[rgba(244,91,37,0.05)] p-6 text-[#F3D5C8]">
                 <div className="inline-flex items-center rounded-full border border-[#A84C2A] px-3 py-0.5 text-[14px] text-[#F45B25] BenzinSemibold">
-                  <span className="mr-2 flex h-2 w-2 items-center justify-center rounded-full bg-[#F45B25]" />
+                  <span className="mr-2 flex h-1.5 w-1.5 items-center justify-center rounded-full bg-[#F45B25]" />
                   How AI interprets your positioning?
                 </div>
                 <p className="mt-5 text-[16px] leading-8 text-[#F4E3D8]">
@@ -443,7 +427,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </p>
               </div>
 
-              <div id="competitive-differentiation" className="mt-16 flex items-center justify-between gap-4">
+              <div id="competitive-differentiation" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Competitive Differentiation
                 </h2>
@@ -451,9 +435,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -470,9 +454,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -530,7 +514,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
 
               <div className="mt-4 rounded-[16px] border border-[#A84C2A] bg-[rgba(244,91,37,0.05)] p-6 text-[#F3D5C8]">
                 <div className="inline-flex items-center rounded-full border border-[#A84C2A] px-3 py-0.5 text-[14px] text-[#F45B25] BenzinSemibold">
-                  <span className="mr-2 flex h-2 w-2 items-center justify-center rounded-full bg-[#F45B25]" />
+                  <span className="mr-2 flex h-1.5 w-1.5 items-center justify-center rounded-full bg-[#F45B25]" />
                   How AI interprets your differentiation?
                 </div>
                 <p className="mt-5 text-[16px] leading-8 text-[#F4E3D8]">
@@ -538,7 +522,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </p>
               </div>
 
-              <div id="target-audience-alignment" className="mt-16 flex items-center justify-between gap-4">
+              <div id="target-audience-alignment" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Target Audience Alignment
                 </h2>
@@ -546,9 +530,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -573,9 +557,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -633,7 +617,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
 
               <div className="mt-4 rounded-[16px] border border-[#A84C2A] bg-[rgba(244,91,37,0.05)] p-6 text-[#F3D5C8]">
                 <div className="inline-flex items-center rounded-full border border-[#A84C2A] px-3 py-0.5 text-[14px] text-[#F45B25] BenzinSemibold">
-                  <span className="mr-2 flex h-2 w-2 items-center justify-center rounded-full bg-[#F45B25]" />
+                  <span className="mr-2 flex h-1.5 w-1.5 items-center justify-center rounded-full bg-[#F45B25]" />
                   How AI interprets your target audience?
                 </div>
                 <p className="mt-5 text-[16px] leading-8 text-[#F4E3D8]">
@@ -641,7 +625,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </p>
               </div>
 
-              <div id="website-structure-navigation" className="mt-16 flex items-center justify-between gap-4">
+              <div id="website-structure-navigation" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Website Structure &amp; Navigation
                 </h2>
@@ -649,9 +633,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -664,9 +648,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -732,7 +716,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
 
               <div className="mt-4 rounded-[16px] border border-[#A84C2A] bg-[rgba(244,91,37,0.05)] p-6 text-[#F3D5C8]">
                 <div className="inline-flex items-center rounded-full border border-[#A84C2A] px-3 py-0.5 text-[14px] text-[#F45B25] BenzinSemibold">
-                  <span className="mr-2 flex h-2 w-2 items-center justify-center rounded-full bg-[#F45B25]" />
+                  <span className="mr-2 flex h-1.5 w-1.5 items-center justify-center rounded-full bg-[#F45B25]" />
                   How AI interprets your positioning?
                 </div>
                 <p className="mt-5 text-[16px] leading-8 text-[#F4E3D8]">
@@ -740,7 +724,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </p>
               </div>
 
-              <div id="trust-credibility-signals" className="mt-16 flex items-center justify-between gap-4">
+              <div id="trust-credibility-signals" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Trust &amp; Credibility Signals
                 </h2>
@@ -748,9 +732,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -767,9 +751,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -849,7 +833,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </ul>
               </div>
 
-              <div id="brand-consistency" className="mt-16 flex items-center justify-between gap-4">
+              <div id="brand-consistency" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Brand Consistency
                 </h2>
@@ -857,9 +841,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -872,9 +856,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -890,7 +874,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </ul>
               </div>
 
-              <div id="conversion-growth-strategy" className="mt-16 flex items-center justify-between gap-4">
+              <div id="conversion-growth-strategy" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Conversion &amp; Growth Strategy
                 </h2>
@@ -898,9 +882,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -925,9 +909,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -991,7 +975,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </ul>
               </div>
 
-              <div id="seo-aeo-optimization" className="mt-16 flex items-center justify-between gap-4">
+              <div id="seo-aeo-optimization" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   SEO &amp; AEO Optimization
                 </h2>
@@ -999,9 +983,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -1014,9 +998,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -1096,7 +1080,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </ul>
               </div>
 
-              <div id="technical-metadata-health" className="mt-16 flex items-center justify-between gap-4">
+              <div id="technical-metadata-health" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Technical &amp; Metadata Health
                 </h2>
@@ -1104,9 +1088,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -1123,9 +1107,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -1141,7 +1125,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 </ul>
               </div>
 
-              <div id="analytics-tracking-setup" className="mt-16 flex items-center justify-between gap-4">
+              <div id="analytics-tracking-setup" className="scroll-mt-44 lg:scroll-mt-52 mt-16 flex items-center justify-between gap-4">
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Analytics &amp; Tracking Setup
                 </h2>
@@ -1149,9 +1133,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                   </span>
                   Effective Practices
                 </div>
@@ -1168,9 +1152,9 @@ export default function CompleteReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] BenzinSemibold w-max">
+                <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
                   <span className="mr-2 flex h-2.5 w-2.5 items-center justify-center">
-                    <span className="block h-2.5 w-2.5 rounded-full bg-[#F45B25]" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
                   </span>
                   Improvement Opportunities
                 </div>
@@ -1198,7 +1182,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
                 <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                   Share Audit Results:
                 </h2>
-                <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-6">
+                <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-6 pb-6">
                   <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#F45B25] text-white" aria-label="Share on Facebook">
                     <FaFacebookF className="h-4 w-4" />
                   </a>
