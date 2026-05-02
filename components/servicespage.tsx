@@ -20,8 +20,6 @@ const Servicespage = () => {
       <Navbar />
       <Herobarserv />
       <ServicesDetail />
-      <WorkTogether />
-      <RequestForm />
       <Evaluate />
       <Brandsspec />
       <Footer />

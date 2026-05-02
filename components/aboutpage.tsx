@@ -25,13 +25,8 @@ const Aboutpage = () => {
       <Aboutbmy />
       <BrandStats />
       <StaticProcess />
-      {/* DesignedGrow section with ref */}
-      <div ref={designedGrowRef}>
         <DesignedGrow />
-      </div>
 
-      {/* Bottom CTA appears after DesignedGrow */}
-      <BottomCTA targetRef={designedGrowRef} footerRef={footerRef} />
       <WorkTogether />
       <Brandsspec />
       <RequestForm />

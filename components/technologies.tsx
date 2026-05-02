@@ -25,7 +25,9 @@ const ToolItem = ({
   return (
     <div
       data-side={side}
-      className="tool-item absolute flex items-center gap-3 cursor-pointer z-20"
+      className={`tool-item absolute flex items-center gap-3 cursor-pointer z-20 ${
+        side === 'right' ? 'flex-row-reverse' : ''
+      }`}
       style={position}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

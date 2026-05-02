@@ -155,7 +155,7 @@ export default function WorkTogether() {
 
       {/* Social Media Links */}
       <div className="relative z-10 w-[90%] 2xl:w-[75%] mx-auto pt-8">
-        <div className="flex flex-row flex-wrap gap-0 md:gap-4 lg:gap-6 justify-center items-center BenzinSemibold">
+        <div className="flex w-full items-center justify-between gap-3 overflow-x-auto BenzinSemibold">
           {socialLinks.map((link) => {
             const Icon = link.icon
             return (
@@ -164,7 +164,7 @@ export default function WorkTogether() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-r from-[#F45B25] to-[#FF843E] hover:text-white text-white/80 justify-center"
+                className="flex min-w-[140px] items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-white/85 transition-all duration-300 hover:border-white/40 hover:bg-[#F45B25] hover:text-white"
               >
                 <Icon className="w-5 h-5" />
                 <span className="text-sm hidden md:inline">{link.name}</span>

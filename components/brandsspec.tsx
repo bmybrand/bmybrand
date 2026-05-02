@@ -250,11 +250,11 @@ export default function Brandsspec() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#11122F]">
-      <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6">
+      <div className="text-center w-[90%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
           Built With Care. <span className="text-[#F45B25]">Trusted By </span>Brands.
         </h1>
-        <p className="text-[#ADAECC] text-sm sm:text-base">
+        <p className="text-[#ADAECC] text-sm sm:text-base max-w-2xl mx-auto">
           At BMYBrand, businesses trust us for clean design, smooth functionality, and results that help
           their brand grow. Here's what our clients are saying.
         </p>

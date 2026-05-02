@@ -15,7 +15,7 @@ export default function AIDrivenHero() {
             <span className="text-sm tracking-wider text-[#F45B25] uppercase BenzinSemibold">
               AI-SOLUTIONS
             </span>
-            <div className="h-[2px] w-16 bg-[#F45B25]/30" />
+            <div className="h-0.5 w-16 bg-[#F45B25]/30" />
           </div>
 
           <h1 className="mb-8 text-3xl leading-tight text-white md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl BenzinSemibold">
@@ -118,11 +118,9 @@ export default function AIDrivenHero() {
                   },
                 ].map((item, index) => (
                   <div key={item.number} className="flex gap-4">
-                    <img
-                      src={`https://i.pravatar.cc/96?img=${index + 11}`}
-                      alt=""
-                      className="h-12 w-12 shrink-0 rounded-full object-cover"
-                    />
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#21223F] text-[16px] leading-none font-semibold text-white BenzinSemibold">
+                        {item.number}
+                      </div>
                     <div className="flex-1">
                       <h4 className="mb-2 text-base text-white md:text-lg BenzinSemibold">{item.title}</h4>
                       <p className="text-sm leading-relaxed text-white/50">{item.desc}</p>
@@ -132,7 +130,7 @@ export default function AIDrivenHero() {
               </div>
             </div>
 
-            <div className="relative min-h-[320px] overflow-hidden rounded-2xl lg:h-full lg:min-h-0">
+            <div className="relative min-h-80 overflow-hidden rounded-2xl lg:h-full lg:min-h-0">
               <img
                 src="/bmyb-services-ai-aioverview-01.svg"
                 alt="AI Smart Assistant Interface"

@@ -126,8 +126,8 @@ const AboutBmy = () => {
       {/* TOP SECTION */}
       <div className="mx-auto flex w-[90%] flex-col gap-6 lg:flex-row lg:gap-6 2xl:w-[85%]">
         {/* LEFT CONTENT */}
-        <div className="w-full lg:w-[30%]">
-          <h2 className="BenzinSemibold text-2xl sm:text-3xl lg:text-4xl">
+        <div className="w-full lg:w-[34%]">
+          <h2 className="BenzinSemibold text-xl sm:text-2xl lg:text-3xl">
             <span className="text-[#F45B25]">About BMYBrand</span> – Built
             <br />
             to Help Brands Grow
@@ -138,90 +138,111 @@ const AboutBmy = () => {
           </p>
           <div className="mt-8 border-t border-white/10 pt-6">
             <div className="flex items-center gap-4">
-              <div className="flex -space-x-2">
-                <div className="h-9 w-9 rounded-full border-2 border-[#0e1033] bg-[#F45B25]" />
-                <div className="h-9 w-9 rounded-full border-2 border-[#0e1033] bg-[#ff8e3c]" />
-                <div className="h-9 w-9 rounded-full border-2 border-[#0e1033] bg-[#ffd07a]" />
-                <div className="h-9 w-9 rounded-full border-2 border-[#0e1033] bg-white" />
+              <div className="flex -space-x-3">
+                {[0, 1, 2, 3].map((i) => (
+                  <img
+                    key={i}
+                    src={`https://picsum.photos/seed/avatar${i}/44/44`}
+                    alt={`avatar ${i + 1}`}
+                    loading="lazy"
+                    className="h-11 w-11 rounded-full border-2 border-white object-cover"
+                  />
+                ))}
               </div>
-              <div className="flex items-center gap-3">
-                <div className="text-[#F45B25] text-lg">★★★★★</div>
-                <div className="text-xl font-semibold">4.9 Rating</div>
+
+              <div className="flex flex-col">
+                <div className="flex items-center gap-3">
+                  <div className="text-[#F45B25] text-lg">★★★★★</div>
+                  <div className="BenzinSemibold text-xl font-semibold">4.9 Rating</div>
+                </div>
+
+                <div className="mt-2 text-sm sm:text-base text-white/60">
+                  Based on feedback from clients worldwide
+                </div>
               </div>
-            </div>
-            <div className="mt-2 text-sm sm:text-base text-white/60">
-              Based on feedback from clients worldwide
             </div>
           </div>
         </div>
 
         {/* CENTER FEATURES */}
-        <div className="w-full lg:w-[30%] p-5 h-[460px] flex flex-col gap-5 bg-white/5 rounded-xl">
+        <div className="w-full lg:w-[34%] h-fit flex flex-col gap-2 p-2 bg-[#191A35] rounded-xl">
           {[
-            'Client-First Mindset',
-            'Results-Driven Approach',
-            'Collaboration & Transparency',
-          ].map((title) => (
+            {
+              title: 'Client-First Mindset',
+              desc: 'We put clients at the center of everything we do. By understanding your goals, challenges, and vision, we create tailored solutions that deliver real value.',
+            },
+            {
+              title: 'Results-Driven Approach',
+              desc: 'We work as an extension of your team with clear communication and shared ownership.',
+            },
+            {
+              title: 'Collaboration & Transparency',
+              desc: 'We work as an extension of your team with clear communication and shared ownership.',
+            },
+          ].map((item) => (
             <div
-              key={title}
-              className="rounded-xl bg-[#21223F] p-5 flex flex-col justify-center shadow-[0_10px_30px_rgba(0,0,0,0.25)] flex-1"
+              key={item.title}
+              className="p-4 flex flex-col justify-center bg-[#21223F] rounded-xl"
             >
-              <h3 className="BenzinSemibold text-lg">{title}</h3>
-              <p className="mt-2 text-sm text-white/70">
-                We focus on long-term value and meaningful results.
+              <h3 className="BenzinSemibold text-lg text-white">{item.title}</h3>
+              <p className="mt-3 text-base text-white/60 leading-relaxed">
+                {item.desc}
               </p>
             </div>
           ))}
         </div>
 
         {/* OVERLAPPING CARDS */}
-<div className="hidden w-full lg:flex lg:w-[30%] items-center justify-center">
-  {/* Increased container height to fit full cards stack */}
-  <div className="relative h-[460px] w-full sm:h-115">
-    <div className="relative mx-auto h-full w-[80%] overflow-visible">
-      {cards.map((index) => (
-        <div
-          key={index}
-          ref={(el) => {
-            if (el) topCardsRef.current[index] = el
-          }}
-          className="absolute left-0 top-0 h-full w-full overflow-hidden rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
-          style={{ zIndex: cards.length - index }}
-        >
-          <img
-            src={`https://picsum.photos/300/550?random=${index + 1}`}
-            alt={`About BMYBrand ${index + 1}`}
-            className="h-full w-full object-cover"
-          />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          <div
-            ref={(el) => {
-              if (el) labelRefs.current[index] = el
-            }}
-             className="absolute inset-x-4 bottom-4 rounded-2xl  bg-white/10 bg-gradient-to-r from-white/15 via-white/5 to-white/10 p-4 shadow-[0_12px_28px_rgba(0,0,0,0.45)] backdrop-blur-sm backdrop-saturate-150"
-          >
-            <h4 className="text-base BenzinSemibold">{services[index]?.title}</h4>
-            <p className="mt-1 text-sm text-white/70">
-              {services[index]?.desc}
-            </p>
+        <div className="hidden w-full lg:flex lg:w-[30%] items-center justify-end">
+          <div className="relative h-[460px] w-full sm:h-115">
+            <div className="relative h-full w-[80%] overflow-visible mr-6">
+              {cards.map((index) => (
+                <div
+                  key={index}
+                  ref={(el) => {
+                    if (el) topCardsRef.current[index] = el
+                  }}
+                  className="absolute left-0 top-0 h-full w-full overflow-hidden rounded-2xl"
+                  style={{ zIndex: cards.length - index }}
+                >
+                  <img
+                    src={`https://picsum.photos/300/550?random=${index + 1}`}
+                    alt={`About BMYBrand ${index + 1}`}
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div
+                    ref={(el) => {
+                      if (el) labelRefs.current[index] = el
+                    }}
+                    className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/10 bg-gradient-to-r from-white/15 via-white/5 to-white/10 p-4 shadow-[0_12px_28px_rgba(0,0,0,0.45)] backdrop-blur-sm backdrop-saturate-150"
+                  >
+                    <h4 className="text-base BenzinSemibold">{services[index]?.title}</h4>
+                    <p className="mt-1 text-sm text-white/70">
+                      {services[index]?.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
 
       </div>
 
       {/* CORE SERVICES */}
-      <div ref={servicesRef} className="relative mx-auto mt-24 w-[90%] 2xl:w-[85%]">
-        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+      <div ref={servicesRef} className="relative mx-auto mt-32 w-[90%] 2xl:w-[85%]">
+        <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <div className="relative z-10 max-w-[720px]">
-            <h3 className="BenzinSemibold text-2xl sm:text-3xl lg:text-4x">
+            <h3 className="BenzinSemibold text-2xl sm:text-3xl lg:text-4xl">
               Discover BMYBrand's
               <br />
               <span className="text-[#F45B25]">Core Services</span>
             </h3>
+            <p className="mt-4 max-w-[560px] text-sm sm:text-base text-white/60 leading-relaxed">
+              Your creative &amp; digital partner for premium branding, websites, <br />
+              and marketing.
+            </p>
           </div>
           <div className="relative z-10 lg:shrink-0">
             <Link
@@ -231,7 +252,7 @@ const AboutBmy = () => {
               <div className="rounded-lg bg-white p-4">
                 <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-4 w-4" />
               </div>
-              <span className="px-2">Free strategy call</span>
+              <span className="BenzinSemibold px-2">Free strategy call</span>
             </Link>
           </div>
         </div>
@@ -243,7 +264,7 @@ const AboutBmy = () => {
               ref={(el) => {
                 if (el) serviceCardsRef.current[index] = el
               }}
-              className="group relative  overflow-hidden rounded-2xl bg-[#1A1B3C] shadow-[0_18px_35px_rgba(0,0,0,0.35)]"
+              className="group relative overflow-hidden rounded-2xl bg-[#1A1B3C] shadow-[0_18px_35px_rgba(0,0,0,0.35)]"
             >
               <img
                 src={`https://picsum.photos/520/550?random=${index + 11}`}

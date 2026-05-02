@@ -110,11 +110,11 @@ const DesignedGrow = () => {
     <div ref={sectionRef} className="flex flex-col items-center mb-30 overflow-hidden w-full">
       {/* Heading */}
       <div ref={headingRef} className="w-full flex flex-col justify-center items-center mt-30 ">
-        <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
+        <h1 className="mb-4 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
           Built to Create. <span className="text-[#F45B25]">Designed to Grow</span>
         </h1>
         <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
-          At BMYBrand, we help businesses grow with powerful design, high-performing websites, and strategic digital experiences.
+          At BMYBrand, we help businesses grow with powerful design, high-performing websites,<br />and strategic digital experiences.
         </p>
       </div>
 

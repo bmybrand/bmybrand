@@ -128,7 +128,7 @@ export default function RequestForm() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-[#11122F] text-white py-20 overflow-x-hidden">
+    <section id="contact" ref={sectionRef} className="bg-[#11122F] text-white py-20 overflow-x-hidden">
       <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-full">
         
 
@@ -240,14 +240,14 @@ export default function RequestForm() {
                   <button
                     type="button"
                     onClick={() => toggleFaq(item.number)}
-                    className="flex w-full items-center gap-4 text-left hover:bg-white/5 transition-all duration-300"
+                    className={`flex w-full items-stretch text-left hover:bg-white/5 border-b border-white/10 transition-all duration-300 ${openFaq === item.number ? 'border-b border-white/10' : 'border-b-0 border-white/10'}`}
                   >
-                    <div className='flex gap-3 p-5 flex-1 min-w-0'>
-                      <span className="text-white text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular shrink-0">{item.number}</span>
-                      <h3 className="text-xs xl:text-sm 2xl:text-md font-semibold BenzinRegular">{item.question}</h3>
+                    <div className='flex gap-3 p-5 flex-1 min-w-0 items-center'>
+                      <span className="text-white text-[16px] font-semibold BenzinRegular shrink-0">{item.number}</span>
+                      <h3 className="text-white text-[16px] font-semibold BenzinRegular">{item.question}</h3>
                     </div>
                     <span
-                      className={`flex shrink-0 h-12 w-12 md:h-14 md:w-14 items-center justify-center text-2xl ${
+                      className={`flex shrink-0 w-12 md:w-16 items-center justify-center text-2xl transition-colors duration-300 ${
                         openFaq === item.number
                           ? 'bg-[#F45B25] text-white'
                           : 'bg-white/10 text-white/80'
@@ -268,7 +268,7 @@ export default function RequestForm() {
                           opacity: { duration: 0.2, ease: 'easeOut' },
                         }}
                       >
-                        <p className="mt-3 text-sm sm:text-base text-white/70 leading-6 px-5 pb-5">
+                        <p className="mt-3 text-sm sm:text-base text-white/70 leading-6 pl-10 pr-5 pb-5">
                           {item.answer}
                         </p>
                       </motion.div>
