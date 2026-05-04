@@ -20,7 +20,7 @@ const evaluate = () => {
         <div className='flex flex-col sm:flex-row gap-4 mt-2 BenzinSemibold'>
           <button 
             onClick={() => router.push('/contact')}
-            className='bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2'
+            className='bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 BenzinSemibold'
           >
             <div className="bg-white p-4 rounded-lg">
               <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
@@ -29,7 +29,7 @@ const evaluate = () => {
           </button>
           <button 
             onClick={() => router.push('/case-studies')}
-            className='border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2'
+            className='border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2 BenzinSemibold'
           >
             <div className="bg-white p-4 rounded-lg">
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">

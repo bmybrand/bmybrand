@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 type Service = {
   id: string
   title: string
-  icon: string
+  iconSrc: string
   description: string
   items: string[]
 }
@@ -16,7 +16,7 @@ const services: Service[] = [
   {
     id: 'ai-driven',
     title: 'AI-Driven Solutions',
-    icon: '🤖',
+    iconSrc: '/bmyb-services-ai-driven-01.svg',
     description:
       'Take your brand to the next level with AI-powered AI Drive web and applications. From predictive analytics to intelligent automation, we build tools that optimize your business operations, enhance customer experiences, and drive data-driven decision-making at scale.',
     items: ['Chatbot AI', 'AI Apps', 'AI Insight', 'Chatgpt API', 'Prompt Engineering', 'AI Automation'],
@@ -24,7 +24,7 @@ const services: Service[] = [
   {
     id: 'brand-experience',
     title: 'Brand Experience',
-    icon: '🎨',
+    iconSrc: '/bmyb-services-brand-experience-01.svg',
     description:
       'We help companies stand out online by forging strong brand identities. From understanding your audience to designing memorable visuals, we create experiences that resonate emotionally, position you as an industry leader, and cultivate lasting loyalty through cohesive brand storytelling.',
     items: ['Brand Identity', 'Brand Strategy', 'UI/UX Design', 'Logo Design', 'Visual Design', 'Typography', 'Marketing Kit', 'User Research'],
@@ -32,7 +32,7 @@ const services: Service[] = [
   {
     id: 'software-development',
     title: 'Software Development',
-    icon: '💻',
+    iconSrc: '/bmyb-services-software-development-01.svg',
     description:
       'We build custom software that fits your business like a glove and scales as you grow. From idea to launch, we carefully plan every step, design intuitive interfaces, and rigorously test all functionality so that your product not only meets expectations but exceeds them.',
     items: ['Website Build', 'Mobile App', 'Web App', 'Custom CMS', 'Admin Dashboards', 'SaaS Platform', 'Blockchain', 'Progressive'],
@@ -40,7 +40,7 @@ const services: Service[] = [
   {
     id: 'commerce-solutions',
     title: 'Commerce Solutions',
-    icon: '🛒',
+    iconSrc: '/bmyb-services-commerce-solutions-01.svg',
     description:
       'Build a thriving online store with E-commerce Solutions that are fast, intuitive, and scalable. From plug-and-play platforms to fully customized storefronts, we provide secure payments, personalized shopping experiences, and tools to help you grow your sales and keep customers coming back.',
     items: ['eShop Setup', 'Custom Storefront', 'Subscription Box', 'Gateway Unified', 'Product Catalogs', 'CMS', 'Order Management', 'B2B Portals'],
@@ -48,7 +48,7 @@ const services: Service[] = [
   {
     id: 'digital-marketing',
     title: 'Digital Marketing',
-    icon: '📱',
+    iconSrc: '/bmyb-services-digital-marketing-01.svg',
     description:
       'We power data-driven digital marketing campaigns that raise brand awareness, inspire, and convert. Whether you want to enhance your social presence, appear at the top of search results, or engage audiences with high-quality content, we tailor every strategy to deliver measurable outcomes aligned with your business goals.',
     items: ['Social Media', 'Content Creation', 'Email Marketing', 'Media List', 'Campaigns', 'SEO'],
@@ -56,7 +56,7 @@ const services: Service[] = [
   {
     id: 'business-operations',
     title: 'Business Operations',
-    icon: '⚙️',
+    iconSrc: '/bmyb-services-business-operations-01.svg',
     description:
       'Streamline day-to-day tasks and unlock efficiency with Business Operations services. We provide solutions that automate repetitive workflows, enhance team collaboration, and improve overall productivity. From centralized data systems to real-time reporting and seamless internal tools, we help you run a leaner, smarter operation.',
     items: ['Process Automation', 'Workflow Design', 'Team Portals', 'CRM Integrations', 'Resource Scheduling', 'BI/Analytics', 'Help Desk', 'Project Management'],
@@ -143,8 +143,8 @@ export default function HealthcareServices() {
                 id={service.id}
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-[#5B6CFF]/20 rounded-xl flex items-center justify-center text-xl text-white font-bold shrink-0">
-                    {service.icon}
+                  <div className="w-20 h-20 bg-[#21223F] rounded-full flex items-center justify-center shrink-0 overflow-hidden p-5">
+                    <img src={service.iconSrc} alt={service.title} className="w-full h-full object-contain" />
                   </div>
                   <h3 className="text-2xl md:text-3xl lg:text-4xl text-white BenzinSemibold">
                     {service.title}
