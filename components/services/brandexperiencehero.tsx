@@ -166,7 +166,7 @@ export default function BrandExperienceHero() {
                     <img src={feature.image} alt="" className="h-10 w-10 object-contain" />
                   </div>
                   <h3 className="text-white text-lg BenzinSemibold mb-2">{feature.title}</h3>
-                  <p className="text-white/60 text-sm BenzinRegular">{feature.description}</p>
+                  <p className="text-white/60 text-sm">{feature.description}</p>
                 </div>
               ))}
             </div>
