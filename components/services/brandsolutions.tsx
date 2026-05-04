@@ -64,7 +64,7 @@ export default function BrandSolutions() {
                 key={index}
                 className=" bg-[#191A35] p-8 rounded-2xl border border-white/10 hover:border-[#F45B25]/50 transition-all duration-300"
               >
-                <div className="w-16 h-16 mb-6 flex items-center justify-center">
+                <div className="w-16 h-16 mb-6 flex items-center justify-center rounded-full bg-[#202141] overflow-hidden p-3">
                   <img src={solution.icon} alt="" className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-white text-lg BenzinBold  border-b border-white/10 pb-8">{solution.title}</h3>
@@ -95,13 +95,22 @@ export default function BrandSolutions() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
               {process.map((step, index) => (
                 <div key={index} className="text-center relative group">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#202141] group-hover:bg-[#F45B25] flex items-center justify-center relative z-10 border-4 border-[#15173A] transition-colors duration-300">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#202141] group-hover:bg-[#F45B25] flex items-center justify-center relative z-10 transition-colors duration-300">
                     <span className="text-white text-xl BenzinBold">{step.number}</span>
                   </div>
                   <h3 className="text-white text-xl BenzinBold mb-3">{step.title}</h3>
                   <p className="text-white/70  leading-relaxed">{step.description}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="text-center w-full flex justify-center">
+              <p className="text-white/70 text-sm md:text-base lg:text-lg bg-[#202141] border-2 border-[#2A2B47] rounded-full py-3 px-5 w-fit text-center flex items-center gap-2">
+                Ready to build a brand that stands out?{' '}
+                <button className="text-[#F45B25] hover:text-[#FF843E] hover:-translate-y-0.5 transition-all duration-300 BenzinSemibold inline-flex items-center gap-2">
+                  → LET'S TALK
+                </button>
+              </p>
             </div>
           </div>
         </div>

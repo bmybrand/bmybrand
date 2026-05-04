@@ -194,7 +194,7 @@ export default function WorkTogether() {
   <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2">
 
      <div className="bg-white p-4 rounded-lg">
-    <img src="/bmyb-logo-group119-01.svg" alt="" className="w-4 h-4" />
+    <img src="/bmyb-logo-group119-01.svg" alt="" className="w-4 h-4 brightness-0 saturate-100 invert-[11%] sepia-[18%] saturate-[1049%] hue-rotate-[196deg] brightness-[18%] contrast-[92%]" />
     </div>
     <span className="px-2">Explore Our Work</span>
   </button>

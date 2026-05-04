@@ -77,65 +77,68 @@ export default function BrandFaq() {
         </div>
 
         {/* FAQ Section */}
-        <div className="grid lg:grid-cols-3 gap-12">
+        <div className="flex flex-col lg:flex-row items-start">
           {/* Left - Heading */}
-          <div className="lg:col-span-1">
-            <h2 className="text-white text-3xl md:text-4xl lg:text-5xl BenzinBold leading-tight">
-              Frequently Asked Questions
+          <div className="w-full lg:flex-none lg:max-w-140">
+            <h2 className="BenzinBold leading-tight text-[70px] text-white">
+              Frequently <br />
+              Asked <br />
+              Questions
             </h2>
           </div>
 
           {/* Right - FAQ Accordion */}
-          <div className="lg:col-span-2 space-y-4">
-            {FAQS.map((faq, index) => (
-              <div 
-                key={index}
-                className="border border-white/10 rounded-xl overflow-hidden bg-[#11122F]/50"
-              >
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-all duration-300"
-                >
-                  <span className="text-white text-base md:text-lg lg:text-xl BenzinSemibold pr-8">
-                    {faq.question}
-                  </span>
-                  <motion.div
-                    animate={{ rotate: openIndex === index ? 45 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="shrink-0"
-                  >
-                    <svg 
-                      className="w-6 h-6 text-[#F45B25]" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M12 4v16m8-8H4" 
-                      />
-                    </svg>
-                  </motion.div>
-                </button>
+          <div className="w-full lg:flex-1 space-y-4">
+            {FAQS.map((faq, index) => {
+              const number = String(index + 1).padStart(2, '0')
 
-                <AnimatePresence>
-                  {openIndex === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+              return (
+                <div key={index} className="border border-white/10 rounded-md overflow-hidden w-full bg-[#11122F]/50">
+                  <button
+                    type="button"
+                    onClick={() => toggleFaq(index)}
+                    className={`flex w-full items-stretch text-left hover:bg-white/5 border-b border-white/10 transition-all duration-300 ${
+                      openIndex === index ? 'border-b border-white/10' : 'border-b-0 border-white/10'
+                    }`}
+                  >
+                    <div className="flex gap-3 p-5 flex-1 min-w-0 items-center">
+                      <span className="text-white text-[18px] font-semibold BenzinRegular shrink-0">
+                        {number}
+                      </span>
+                      <h3 className="text-white text-[18px] font-semibold BenzinRegular">
+                        {faq.question}
+                      </h3>
+                    </div>
+                    <span
+                      className={`flex shrink-0 w-12 md:w-16 items-center justify-center text-2xl transition-colors duration-300 ${
+                        openIndex === index ? 'bg-[#F45B25] text-white' : 'bg-white/10 text-white/80'
+                      }`}
                     >
-                      <div className="px-6 pb-5 text-white/70  text-sm md:text-base lg:text-lg leading-relaxed">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
+                      {openIndex === index ? '-' : '+'}
+                    </span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {openIndex === index && faq.answer && (
+                      <motion.div
+                        className="overflow-hidden"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{
+                          height: { duration: 0.35, ease: 'easeOut', delay: 0.2 },
+                          opacity: { duration: 0.2, ease: 'easeOut' },
+                        }}
+                      >
+                        <p className="mt-3 text-sm sm:text-base text-white/70 leading-6 pl-10 pr-5 pb-5">
+                          {faq.answer}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
           </div>
         </div>
 
@@ -145,7 +148,7 @@ export default function BrandFaq() {
           onMouseEnter={() => setIsLogoBarHovered(true)}
           onMouseLeave={() => setIsLogoBarHovered(false)}
         >
-          <div className="flex justify-center mb-[-20px] relative z-10">
+          <div className="flex justify-center -mb-5 relative z-10">
             <h3 className={`text-base md:text-lg lg:text-xl BenzinSemibold px-6 py-3 rounded-lg border border-white/20 bg-[#11122F] inline-block transition-colors duration-300 ${isLogoBarHovered ? 'text-[#F45B25]' : 'text-white'}`}>
               Our Globally 20K+ Clients.
             </h3>

@@ -186,7 +186,7 @@ export default function BrandExperienceHero() {
                     <button
                       type="button"
                       onClick={() => setActivePrimaryCard('audit')}
-                      className={`inline-flex h-8 items-center rounded-full px-4 transition-colors ${
+                      className={`inline-flex h-8 items-center rounded-full px-4 transition-colors BenzinRegular ${
                         activePrimaryCard === 'audit' ? 'bg-[#FF6A2B] text-white' : 'text-white/78'
                       }`}
                     >
@@ -195,7 +195,7 @@ export default function BrandExperienceHero() {
                     <button
                       type="button"
                       onClick={() => setActivePrimaryCard('strategy')}
-                      className={`inline-flex h-8 items-center rounded-full px-4 transition-colors ${
+                      className={`inline-flex h-8 items-center rounded-full px-4 transition-colors BenzinRegular ${
                         activePrimaryCard === 'strategy' ? 'bg-[#FF6A2B] text-white' : 'text-white/78'
                       }`}
                     >
