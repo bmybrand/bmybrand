@@ -22,7 +22,7 @@ export default function HerobarBrand() {
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto text-center pt-32 pb-20">
-        <h1 className="text-white text-4xl sm:text-7xl md:text-8xl lg:text-9xl BenzinBold mb-8 leading-tight">
+        <h1 className="text-white text-4xl sm:text-7xl md:text-8xl lg:text-9xl BenzinSemibold mb-8 leading-tight">
           Brand Experience
         </h1>
         

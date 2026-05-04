@@ -18,7 +18,6 @@ export default function AIDrivenPage() {
       <AIDrivenHero />
       <AISolutions />
       <AIFaq />
-      <WorkTogether />
       <RequestForm />
       <EvaluatCTA />
       <Brandsspec />

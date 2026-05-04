@@ -92,8 +92,8 @@ export default function AISolutions() {
                 }
               ].map((step, index) => (
                 <div key={index} className="text-center relative group">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#202141] group-hover:bg-[#F45B25] flex items-center justify-center relative z-10 border-4 border-[#15173A] transition-colors duration-300">
-                    <span className="text-white text-xl BenzinBold">{step.number}</span>
+                  <div className="w-14 h-14 mx-auto mb-6 rounded-full bg-[#202141] group-hover:bg-[#F45B25] flex items-center justify-center relative z-10 transition-colors duration-300">
+                    <span className="text-white text-lg font-semibold">{step.number}</span>
                   </div>
                   <h3 className="text-xl text-white BenzinSemibold mb-4 whitespace-pre-line">
                     {step.title}
