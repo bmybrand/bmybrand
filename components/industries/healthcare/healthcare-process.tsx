@@ -55,7 +55,7 @@ const avatarImages = [14, 27, 33, 45, 52]
 
 export default function HealthcareProcess() {
   return (
-    <section className="mx-auto w-[90%] 2xl:w-[85%] py-14 sm:py-18 lg:py-22">
+    <section className="mx-auto w-[90%] 2xl:w-[75%] py-14 sm:py-18 lg:py-22">
       <div className="mx-auto max-w-[760px] text-center">
         <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.05rem]">
           A Proven Process Built for Healthcare Growth

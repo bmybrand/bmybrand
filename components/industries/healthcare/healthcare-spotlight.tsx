@@ -50,8 +50,8 @@ export default function HealthcareSpotlight() {
 
   return (
     <section className="bg-[#11122F]">
-      <div className="mx-auto grid w-[90%] 2xl:w-[85%] gap-12 py-14 sm:py-18 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-22">
-        <div className="group relative mx-auto flex w-full max-w-[430px] items-center justify-center py-8 lg:mx-0 lg:max-w-[470px]">
+      <div className="mx-auto grid w-[90%] lg:w-[75%] gap-12 py-14 sm:py-18 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-22">
+        <div className="group relative mx-auto flex w-full max-w-[430px] items-center justify-center py-8 lg:mx-0 lg:translate-x-14 lg:max-w-[470px]">
           <div className="relative" style={{ width: 380, height: 500 }}>
             <Stack
               ref={stackRef}
@@ -108,10 +108,10 @@ export default function HealthcareSpotlight() {
           <img
             src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg"
             alt="Fountain Hills Emergency Room and Medical Center"
-            className="h-12 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
 
-          <blockquote className="mt-6 max-w-[34rem] text-lg leading-8 text-white/88 sm:text-[1.45rem] sm:leading-[1.7]">
+          <blockquote className="mt-6 max-w-[34rem] text-[24px] leading-[1.85] text-white/88">
             From the beginning, it was clear that BMYBrand understood the urgency and trust required in
             healthcare. They delivered a fast, patient-focused website that makes it easier for people to
             find care, access services, and take action when it matters most.
@@ -121,11 +121,11 @@ export default function HealthcareSpotlight() {
             <img
               src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg"
               alt=""
-              className="h-12 w-12 rounded-full object-contain"
+              className="h-14 w-14 rounded-full object-contain"
             />
             <div>
-              <div className="text-white BenzinSemibold">Fountain Hills</div>
-              <div className="text-sm text-white/48">Operations Team</div>
+              <div className="text-[20px] text-white BenzinSemibold">Fountain Hills</div>
+              <div className="text-base text-white/48">Operations Team</div>
             </div>
           </div>
         </div>

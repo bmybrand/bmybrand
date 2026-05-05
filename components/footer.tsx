@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
   }, [])
 
   return (
-    <footer className="relative bg-[#202141] text-white overflow-hidden">
+    <footer className="relative bg-[linear-gradient(to_bottom,#1C1D3F,#1A1B38)] text-white overflow-hidden">
       <div
         className="relative z-10 max-w-none mx-auto w-[90%] lg:w-[85%] 2xl:w-[80%] py-12 lg:py-16"
         style={{
@@ -165,7 +165,9 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-white font-semibold text-lg lg:text-xl mb-2 BenzinSemibold">Subscribe</h3>
             <p className="text-white/70 text-sm lg:text-base mb-4">
-              Get Design, AI, And Growth Insights—Plus Updates From BMYBrand.
+              Get Design, AI, And Growth Insights - Plus Updates
+              <br />
+              From BMYBrand.
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
               <form
@@ -177,7 +179,7 @@ const Footer: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter Your Email Address"
-                  className="flex-1 max-w-120 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#F45B25] transition-colors"
+                  className="flex-1 max-w-96 px-4 py-3 rounded-lg border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#F45B25] transition-colors"
                 />
                 <button
                   type="submit"
@@ -206,7 +208,7 @@ const Footer: React.FC = () => {
 
           {/* Copyright and policy links on same row */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4  text-sm text-white/70">
-            <p className="order-2 sm:order-1">Copyright © {new Date().getFullYear()} BMYBrand | All Rights Reserved.</p>
+            <p className="order-2 sm:order-1 text-[16px]">Copyright © {new Date().getFullYear()} BMYBrand | All Rights Reserved.</p>
             <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2">
               <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Terms Of Use</a>
               <span className="text-white/40">|</span>
@@ -223,8 +225,8 @@ const Footer: React.FC = () => {
         ref={brandContainerRef}
         className="absolute bottom-0 left-0 right-0 z-20 flex justify-center items-end pt-4 min-h-[100px]"
       >
-        <h2
-          className="group BenzinSemibold text-center leading-none text-[#202141] "
+          <h2
+            className="group BenzinSemibold text-center leading-none text-[#1A1B38] "
           style={{
             fontSize: `${brandFontSize}px`,
             textShadow:
@@ -255,3 +257,5 @@ const Footer: React.FC = () => {
 }
 
 export default Footer
+
+

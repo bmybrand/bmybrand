@@ -4,7 +4,7 @@ import { capabilityItems, growthCards } from './healthcare-data'
 
 export default function HealthcareGrowth() {
   return (
-    <section className="mx-auto w-[90%] 2xl:w-[85%] py-18 sm:py-22 lg:py-26">
+    <section className="mx-auto w-[90%] 2xl:w-[75%] py-18 sm:py-22 lg:py-26">
       <div className="mx-auto text-center  max-w-5xl">
         <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.1rem]">
           Turning Digital Complexity into Seamless Patient Experiences
@@ -16,7 +16,7 @@ export default function HealthcareGrowth() {
         </p>
       </div>
 
-      <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-0">
+      <div className="mt-12 py-8 sm:py-10 md:py-12 grid gap-8 md:grid-cols-3 md:gap-0">
         {capabilityItems.map((item, index) => (
           <div
             key={item.title}
@@ -55,7 +55,7 @@ export default function HealthcareGrowth() {
                 <div className="grid h-full gap-0 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-stretch">
                   <div className="flex min-w-0 flex-col px-6 py-6 sm:px-8 sm:py-7">
                     <div className="text-xl tracking-[0.18em] text-white/20 BenzinSemibold">{card.number}</div>
-                    <h3 className="mt-6 text-white text-[40px] leading-[1.15] BenzinSemibold">
+                    <h3 className="mt-6 text-white text-[34px] leading-[1.15] BenzinSemibold">
                       {card.title}
                     </h3>
                     <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
@@ -73,7 +73,7 @@ export default function HealthcareGrowth() {
               ) : (
                 <div className="flex h-full flex-col">
                   <div className="text-xl tracking-[0.18em] text-white/20 BenzinSemibold">{card.number}</div>
-                  <h3 className="mt-6 text-white text-[40px] leading-[1.15] BenzinSemibold">
+                  <h3 className="mt-6 text-white text-[34px] leading-[1.15] BenzinSemibold">
                     {card.title}
                   </h3>
                   <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">

@@ -73,35 +73,33 @@ export default function HealthcareFAQ() {
         </h2>
 
         {/* FAQ Accordion */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {faqData.map((faq, index) => (
             <div 
               key={index}
-              className="border border-white/10 rounded-xl overflow-hidden bg-[#191A35]"
+              className="w-full overflow-hidden rounded-md border border-white/10 bg-[#11122F]/50"
             >
               <button
+                type="button"
                 onClick={() => toggleFaq(index)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-all duration-300"
+                className={`flex w-full items-stretch text-left transition-all duration-300 hover:bg-white/5 ${
+                  openIndex === index ? 'border-b border-white/10' : 'border-b-0 border-white/10'
+                }`}
               >
-                <span className="flex items-center gap-4">
-                  <span className="text-[#F45B25] BenzinSemibold text-lg sm:text-xl">
+                <span className="flex min-w-0 flex-1 items-center gap-3 p-5">
+                  <span className="BenzinRegular shrink-0 text-[18px] font-semibold text-white">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-white text-base md:text-lg lg:text-xl BenzinSemibold pr-8">
+                  <span className="BenzinRegular pr-8 text-[18px] font-semibold text-white">
                     {faq.question}
                   </span>
                 </span>
-                <motion.div
-                  animate={{ rotate: openIndex === index ? 45 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="shrink-0"
+                <motion.span
+                  className={`flex w-12 shrink-0 items-center justify-center text-2xl transition-colors duration-300 md:w-16 ${
+                    openIndex === index ? 'bg-[#F45B25] text-white' : 'bg-white/10 text-white/80'
+                  }`}
                 >
-                  <svg 
-                    className="w-6 h-6 text-[#F45B25]" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                  >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path 
                       strokeLinecap="round" 
                       strokeLinejoin="round" 
@@ -109,7 +107,7 @@ export default function HealthcareFAQ() {
                       d="M12 4v16m8-8H4" 
                     />
                   </svg>
-                </motion.div>
+                </motion.span>
               </button>
               <AnimatePresence>
                 {openIndex === index && (
@@ -119,7 +117,7 @@ export default function HealthcareFAQ() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="px-6 pb-5 text-white/70  text-sm md:text-base lg:text-lg leading-relaxed">
+                    <div className="mt-3 pb-5 pl-10 pr-5 text-sm leading-6 text-white/70 sm:text-base">
                       {faq.answer}
                     </div>
                   </motion.div>

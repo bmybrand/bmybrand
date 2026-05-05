@@ -44,7 +44,7 @@ const projectCards: ProjectCard[] = [
 
 export default function HealthcareProjects() {
   return (
-    <section className="mx-auto w-[90%] 2xl:w-[85%] py-12 sm:py-16 lg:py-20">
+    <section className="mx-auto w-[90%] 2xl:w-[75%] py-12 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-[900px] text-center">
         <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.16] sm:text-[2.7rem] lg:text-[3.2rem]">
           Healthcare Projects That Drive Real Impact
@@ -74,7 +74,7 @@ export default function HealthcareProjects() {
                 <div>
                   {card.brandSubtitle ? (
                     <div className="leading-none">
-                      <div className="text-white text-[1.4rem] tracking-[0.04em] BenzinSemibold">
+                      <div className="text-white text-[18px] leading-[1.25] tracking-[0.04em] BenzinSemibold">
                         {card.brandTitle}
                       </div>
                       <div className="mt-1 text-[0.5rem] tracking-[0.16em] text-white/70 BenzinSemibold">
@@ -82,7 +82,7 @@ export default function HealthcareProjects() {
                       </div>
                     </div>
                   ) : (
-                    <div className="text-white text-[1.6rem] sm:text-[1.85rem] lg:text-[2.2rem] leading-none BenzinSemibold">
+                    <div className="text-white text-[18px] leading-[1.25] BenzinSemibold">
                       {card.brandTitle}
                     </div>
                   )}
@@ -94,7 +94,7 @@ export default function HealthcareProjects() {
                 </div>
               </div>
 
-              <h3 className="mt-10 text-white text-[2rem] leading-[1.14] BenzinSemibold">
+              <h3 className="mt-10 text-white text-[20px] leading-[1.3] BenzinSemibold">
                 {card.title}
               </h3>
 

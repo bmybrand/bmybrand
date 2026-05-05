@@ -14,18 +14,21 @@ export const trustLogos = [
 export const mockupSlides = [
   {
     alt: 'Mobile View',
+    image: '/bmyb-global-backgroundfh-02.svg',
     className: 'bg-gradient-to-br from-pink-100 to-pink-50',
-    imageClassName: 'object-left',
+    imageClassName: 'object-center object-contain',
   },
   {
     alt: 'Desktop View',
+    image: '/bmyb-global-backgroundfh-02.svg',
     className: 'bg-[#1A1B2E]',
-    imageClassName: 'object-center',
+    imageClassName: 'object-center object-contain',
   },
   {
     alt: 'Tablet View',
+    image: '/bmyb-global-backgroundfh-02.svg',
     className: 'bg-gradient-to-br from-pink-100 to-pink-50',
-    imageClassName: 'object-right',
+    imageClassName: 'object-center object-contain',
   },
 ]
 

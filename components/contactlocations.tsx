@@ -27,7 +27,7 @@ const locations = [
 export default function ContactLocations() {
   return (
     <section className="bg-[#11122F] text-white py-20 overflow-x-hidden">
-      <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-full">
+      <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-[1440px]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
           {locations.map((location, index) => (
             <motion.div

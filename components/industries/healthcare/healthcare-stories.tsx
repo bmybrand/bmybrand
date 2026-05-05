@@ -8,7 +8,7 @@ export default function HealthcareStories({
   return (
     
     <section className={transparentBackground ? "" : "bg-[#191A35]"}>
-      <div className="mx-auto w-[90%] 2xl:w-[85%] py-10 sm:py-14 lg:py-18 ">
+      <div className="mx-auto w-[90%] 2xl:w-[75%] py-10 sm:py-14 lg:py-18 ">
       <div className=" max-w-6xl">
         <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.05rem]">
           Real Healthcare Growth Stories Powered by Strategy &amp; Technology
