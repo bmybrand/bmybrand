@@ -11,8 +11,23 @@ type Review = {
   testimonial: string
 }
 
+const reviewCardVariants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? 50 : -50,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? -50 : 50,
+  }),
+}
+
 const ReviewTeam = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [[page, direction], setPageState] = useState<[number, number]>([0, 0])
   const [isExpanded, setIsExpanded] = useState(false)
 
   const reviews: Review[] = [
@@ -39,13 +54,15 @@ const ReviewTeam = () => {
     }
   ]
 
+  const currentIndex = ((page % reviews.length) + reviews.length) % reviews.length
+
   const nextReview = () => {
-    setCurrentIndex((prev) => (prev + 1) % reviews.length)
+    setPageState(([prevPage]) => [prevPage + 1, 1])
     setIsExpanded(false)
   }
 
   const prevReview = () => {
-    setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length)
+    setPageState(([prevPage]) => [prevPage - 1, -1])
     setIsExpanded(false)
   }
 
@@ -73,7 +90,7 @@ const ReviewTeam = () => {
               <div className="flex gap-3">
                 <button
                   onClick={prevReview}
-                  className="w-12 h-12 rounded-full border-2 border-white/20 hover:border-[#BF212F] hover:bg-[#BF212F]/10 flex items-center justify-center text-white transition-all duration-300"
+                  className="w-12 h-12 rounded-full border-2 border-white/20 hover:border-[#BF212F] hover:bg-[#BF212F] hover:shadow-[0_0_20px_rgba(191,33,47,0.5)] flex items-center justify-center text-white transition-all duration-300"
                   aria-label="Previous review"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,7 +99,7 @@ const ReviewTeam = () => {
                 </button>
                 <button
                   onClick={nextReview}
-                  className="w-12 h-12 rounded-full bg-[#BF212F] hover:shadow-[0_0_20px_rgba(191,33,47,0.5)] flex items-center justify-center text-white transition-all duration-300"
+                  className="w-12 h-12 rounded-full border-2 border-white/20 hover:border-[#BF212F] hover:bg-[#BF212F] hover:shadow-[0_0_20px_rgba(191,33,47,0.5)] flex items-center justify-center text-white transition-all duration-300"
                   aria-label="Next review"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,12 +112,14 @@ const ReviewTeam = () => {
 
           {/* Right Side - Review Card */}
           <div className="lg:col-span-7">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
+                key={page}
+                custom={direction}
+                variants={reviewCardVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
                 transition={{ duration: 0.8 }}
                 className="bg-[#1B1B1B] rounded-2xl p-8 md:p-10 relative min-h-[400px] md:min-h-[380px] lg:min-h-[350px] flex flex-col justify-between"
               >
@@ -146,7 +165,14 @@ const ReviewTeam = () => {
                   {reviews.map((_, index) => (
                     <button
                       key={index}
-                      onClick={() => setCurrentIndex(index)}
+                      onClick={() => {
+                        if (index === currentIndex) return
+                        setPageState(([prevPage]) => [
+                          prevPage + (index > currentIndex ? 1 : -1),
+                          index > currentIndex ? 1 : -1,
+                        ])
+                        setIsExpanded(false)
+                      }}
                       className={`h-2 rounded-full transition-all duration-300 ${
                         index === currentIndex
                           ? 'w-8 bg-[#BF212F]'

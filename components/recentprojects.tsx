@@ -215,7 +215,7 @@ function ProjectCard({
         {/* CTA Button */}
         <button 
           onClick={onViewMore}
-          className="group bg-transparent border-2 border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-gradient-to-r hover:from-[#F45B25] hover:to-[#FF843E] hover:border-transparent hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] transition-all duration-300 flex justify-center items-center gap-2"
+          className="group bg-transparent border-2 border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-gradient-to-r hover:from-[#F45B25] hover:to-[#FF843E] hover:border-transparent hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] transition-all duration-300 flex justify-center items-center gap-2 BenzinSemibold"
         >
           <div className="bg-white p-4 rounded-lg">
             <img
