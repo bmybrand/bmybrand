@@ -99,7 +99,7 @@ const Solution = () => {
           {/* Monitor/Desktop Display */}
           <div className="bg-[#BF212F] border border-[#d42f3d]  p-4">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
-              <img src="/bmyb-global-backgroundfh-01.svg" alt="Website Pages" className="w-full h-full object-cover" />
+              <img src="/bmyb-global-backgroundfh-01.webp" alt="Website Pages" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>

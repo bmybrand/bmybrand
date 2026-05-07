@@ -6,7 +6,7 @@ const AddBlock = () => {
   return (
     <section className='bg-[#11122F] pt-30'>
       <div className='mx-auto w-[90%] 2xl:w-[75%] h-fit rounded-xl relative '>
-        <img src="/bmyb-services-ai-chatgpt-01.svg" alt="Rocket" className='absolute bottom-0 right-0 w-40 md:w-48 lg:w-[40%] lg:block hidden h-full z-20 object-contain lg:scale-110 xl:scale-120 2xl:scale-140 animate-bounceRocket -rotate-5' />
+        <img src="/bmyb-services-ai-chatgpt-01.webp" alt="Rocket" className='absolute bottom-0 right-0 w-40 md:w-48 lg:w-[40%] lg:block hidden h-full z-20 object-contain lg:scale-110 xl:scale-120 2xl:scale-140 animate-bounceRocket -rotate-5' />
         <div className='w-full lg:w-[90%] h-full bg-[#191A35] rounded-xl px-6 md:px-8 py-8 lg:py-20 flex flex-col justify-center gap-4'>
           <h2 className=' text-white text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold w-full lg:w-[62%] leading-tight text-center lg:text-left'>
             Boost Your Brand Beyond the Competition

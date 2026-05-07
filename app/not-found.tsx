@@ -28,7 +28,7 @@ export default function NotFound() {
       <div
         className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none will-change-transform transition-transform duration-700 ease-out"
         style={{
-          backgroundImage: "url('/404.svg')",
+          backgroundImage: "url('/404.webp')",
           transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`,
         }}
       >

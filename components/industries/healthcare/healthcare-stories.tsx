@@ -26,7 +26,7 @@ export default function HealthcareStories({
         <div className="mt-4 grid gap-6 lg:grid-cols-[0.7fr_0.3fr]">
           <div className="overflow-hidden rounded-4xl bg-[#f3d0c6]">
             <img
-              src="/bmyb-global-container-01.svg"
+              src="/bmyb-global-container-01.webp"
               alt="Fountain Hills healthcare website showcase"
               className="h-auto w-full object-cover object-center"
             />
@@ -101,7 +101,7 @@ export default function HealthcareStories({
 
           <div className="overflow-hidden rounded-4xl bg-[linear-gradient(135deg,#9fc2cb_0%,#d6ebf0_48%,#9db9c3_100%)]">
             <img
-              src="/bmyb-global-container-02.svg"
+              src="/bmyb-global-container-02.webp"
               alt="Instinctive healthcare website showcase"
               className="h-auto w-full object-cover object-center"
             />

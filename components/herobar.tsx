@@ -56,7 +56,7 @@ const herobar = () => {
           }`}
           style={{ transform: `translate3d(${-offset.x}px, ${-offset.y}px, 0)` }}
         >
-            <img src="/bmyb-global-about-hero-01.svg" alt="About us" className="h-auto max-h-full w-full object-contain lg:pt-30 pt-10" />
+            <img src="/bmyb-global-about-hero-01.webp" alt="About us" className="h-auto max-h-full w-full object-contain lg:pt-30 pt-10" />
         </div>
         </div>
     </div> 

@@ -44,8 +44,8 @@ export default function BrandExperienceHero() {
     { number: '05', title: 'Marketing Kits & Assets', description: 'Complete brand assets for campaigns, social, and digital channels.' }
   ]
   const edgeStoryImageByIndex: Record<number, string> = {
-    1: '/bmyb-services-brand-story-card-2-01.svg',
-    2: '/bmyb-services-brand-story-card-3-01.svg',
+    1: '/bmyb-services-brand-story-card-2-01.webp',
+    2: '/bmyb-services-brand-story-card-3-01.webp',
   }
   const activeEdgeStoryImage = edgeStoryImageByIndex[activeEdgeStory]
   const isImageEdgeStory = Boolean(activeEdgeStoryImage)
@@ -559,7 +559,7 @@ export default function BrandExperienceHero() {
         <div className="max-w-7xl mx-auto">
           <div className="h-[400px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1a2e] to-[#11122F] md:h-[500px] lg:h-[600px]">
             <img
-              src="/bmyb-services-brand-brand-01.gif"
+              src="/bmyb-services-brand-brand-01.webp"
               alt="Brand Experience"
               className="h-full w-full object-cover"
               onError={(e) => {

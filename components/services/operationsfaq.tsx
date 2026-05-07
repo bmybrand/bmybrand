@@ -55,7 +55,7 @@ export default function OperationsFaq() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div className="rounded-2xl overflow-hidden h-64 md:h-80">
             <img 
-              src="/bmyb-services-servicefaq-01.svg" 
+              src="/bmyb-services-servicefaq-01.webp" 
               alt="Business Operations" 
               className="w-full h-full object-cover"
               onError={(e) => {
@@ -66,7 +66,7 @@ export default function OperationsFaq() {
           </div>
           <div className="rounded-2xl overflow-hidden h-64 md:h-80">
             <img 
-              src="/bmyb-services-servicefaq-01.svg" 
+              src="/bmyb-services-servicefaq-01.webp" 
               alt="Process Automation" 
               className="w-full h-full object-cover"
               onError={(e) => {

@@ -197,13 +197,13 @@ const FullyAnimatedGrid: React.FC = () => {
         </div>
 
         <div
-          className={`bg-[url('/bmyb-global-fullimage-01.svg')] bg-cover bg-center rounded-lg w-full h-145 sm:h-145 md:h-165 lg:h-auto transition-all duration-700 p-2 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
+          className={`bg-[url('/bmyb-global-fullimage-01.webp')] bg-cover bg-center rounded-lg w-full h-145 sm:h-145 md:h-165 lg:h-auto transition-all duration-700 p-2 lg:p-8 flex flex-col justify-end items-center text-white gap-6 ${
             isHovered ? "lg:w-1/3" : "lg:w-full"
           }`}
         >
           <div className="flex w-full flex-col items-center lg:hidden">
             <img
-              src="/bmyb-global-character-2-1-01.svg"
+              src="/bmyb-global-character-2-1-01.webp"
               alt=""
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2/3 transform lg:-top-10 lg:-translate-y-0"
             />

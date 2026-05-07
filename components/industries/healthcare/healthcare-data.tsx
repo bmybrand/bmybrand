@@ -14,19 +14,19 @@ export const trustLogos = [
 export const mockupSlides = [
   {
     alt: 'Mobile View',
-    image: '/bmyb-global-backgroundfh-02.svg',
+    image: '/bmyb-global-backgroundfh-02.webp',
     className: 'bg-gradient-to-br from-pink-100 to-pink-50',
     imageClassName: 'object-center object-contain',
   },
   {
     alt: 'Desktop View',
-    image: '/bmyb-global-backgroundfh-02.svg',
+    image: '/bmyb-global-backgroundfh-02.webp',
     className: 'bg-[#1A1B2E]',
     imageClassName: 'object-center object-contain',
   },
   {
     alt: 'Tablet View',
-    image: '/bmyb-global-backgroundfh-02.svg',
+    image: '/bmyb-global-backgroundfh-02.webp',
     className: 'bg-gradient-to-br from-pink-100 to-pink-50',
     imageClassName: 'object-center object-contain',
   },
@@ -82,7 +82,7 @@ export const growthCards = [
     title: 'Built-in Compliance',
     description:
       'Healthcare websites require strict compliance and secure data handling. We build HIPAA-aligned platforms that protect patient information across every touchpoint.',
-    image: '/bmyb-global-heathcareservices-01.svg',
+    image: '/bmyb-global-heathcareservices-01.webp',
     imageClassName: 'absolute bottom-0 right-0 w-[42%] max-w-[220px] object-contain opacity-95',
   },
   {
@@ -102,7 +102,7 @@ export const growthCards = [
     title: 'Built to Scale',
     description:
       'As your organization grows, your digital systems should scale with you. We build flexible, low-maintenance platforms that support expansion without complexity.',
-    image: '/bmyb-industries-healthcare-healthcareservies2-01.svg',
+    image: '/bmyb-industries-healthcare-healthcareservies2-01.webp',
     imageClassName: 'absolute bottom-0 right-0 w-[38%] max-w-[210px] object-contain opacity-95',
   },
 ]

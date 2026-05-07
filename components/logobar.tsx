@@ -21,27 +21,27 @@ const Logos = [
   },
   {
     normal: "/bmyb-logo-vector-14.svg",
-    hover: "/bmyb-logo-vector-06.svg",
+    hover: "/bmyb-logo-vector-06.webp",
   },
   {
     normal: "/bmyb-logo-client-logo5-01.svg",
-    hover: "/bmyb-logo-client-logo5-svg-01.svg",
+    hover: "/bmyb-logo-client-logo5-svg-01.webp",
   },
   {
     normal: "/bmyb-logo-client-logo6-01.svg",
-    hover: "/bmyb-logo-client-logo6-svg-01.svg",
+    hover: "/bmyb-logo-client-logo6-svg-01.webp",
   },
   {
     normal: "/bmyb-logo-vector-03.svg",
-    hover: "/bmyb-logo-vector-07.svg",
+    hover: "/bmyb-logo-vector-07.webp",
   },
   {
     normal: "/bmyb-logo-universal-02.svg",
-    hover: "/bmyb-logo-universal-01.svg",
+    hover: "/bmyb-logo-universal-01.webp",
   },
   {
     normal: "/bmyb-logo-client-logo9-svg-fill-02.svg",
-    hover: "/bmyb-logo-client-logo9-svg-fill-01.svg",
+    hover: "/bmyb-logo-client-logo9-svg-fill-01.webp",
   },
   {
     normal: "/bmyb-logo-mask-group-01.svg",

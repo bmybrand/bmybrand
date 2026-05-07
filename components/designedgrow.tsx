@@ -15,12 +15,12 @@ const items = [
   {
     title: "Keep Your Brand Safe. Always.",
     desc: "We keep your brand secure, stable, and worry-free with clean builds and reliable support.",
-    image: "/bmyb-global-technlogicalbear-01.svg"
+    image: "/bmyb-global-technlogicalbear-01.webp"
   },
   {
     title: "Launch Smarter. Everywhere.",
     desc: "From branding to ecommerce, we create scalable digital experiences built for real growth.",
-    image: "/bmyb-global-technlogicalbear-01.svg"
+    image: "/bmyb-global-technlogicalbear-01.webp"
   }
 ]
 

@@ -95,7 +95,7 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
             <div className='md:ml-30 ml-0'>
           {/* image */}
 <img 
-  src="/bmyb-global-popupbear-01.svg" 
+  src="/bmyb-global-popupbear-01.webp" 
   alt="" 
   className='absolute bottom-0 left-0 hidden md:block ' 
 />

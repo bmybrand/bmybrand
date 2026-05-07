@@ -61,25 +61,25 @@ export default function AIFaq() {
         <div className="flex flex-col md:flex-row gap-6 mb-16">
           <div className="rounded-2xl overflow-hidden h-64 md:h-80 flex-1">
             <img
-              src="/bmyb-services-servicefaq-01.svg"
+              src="/bmyb-services-servicefaq-01.webp"
               alt="AI VR Experience"
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
                 e.currentTarget.parentElement!.innerHTML =
-                  '<div class="flex items-center justify-center h-full text-white/40 text-6xl"><img src="/bmyb-services-servicefaq-01.svg" alt="" /></div>'
+                  '<div class="flex items-center justify-center h-full text-white/40 text-6xl"><img src="/bmyb-services-servicefaq-01.webp" alt="" /></div>'
               }}
             />
           </div>
           <div className="rounded-2xl overflow-hidden h-64 md:h-80 flex-1">
             <img
-              src="/bmyb-services-servicefaq2-01.svg"
+              src="/bmyb-services-servicefaq2-01.webp"
               alt="AI Business Meeting"
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
                 e.currentTarget.parentElement!.innerHTML =
-                  '<div class="flex items-center justify-center h-full text-white/40 text-6xl"><img src="/bmyb-services-servicefaq2-01.svg" alt="" /></div>'
+                  '<div class="flex items-center justify-center h-full text-white/40 text-6xl"><img src="/bmyb-services-servicefaq2-01.webp" alt="" /></div>'
               }}
             />
           </div>
