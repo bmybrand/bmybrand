@@ -218,15 +218,15 @@ function ProjectCard({
           className="group bg-transparent border-2 border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-gradient-to-r hover:from-[#F45B25] hover:to-[#FF843E] hover:border-transparent hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] transition-all duration-300 flex justify-center items-center gap-2"
         >
           <div className="bg-white p-4 rounded-lg">
-            <img 
-              src="/bmyb-logo-group119-01.svg" 
-              alt="" 
-              className="w-4 h-4 group-hover:hidden" 
+            <img
+              src="/bmyb-logo-group119-01.svg"
+              alt=""
+              className="w-4 h-4 group-hover:hidden"
             />
-            <img 
-              src="/bmyb-logo-group1190-01.svg" 
-              alt="" 
-              className="w-4 h-4 hidden group-hover:block" 
+            <img
+              src="/bmyb-logo-group1190-01.svg"
+              alt=""
+              className="hidden w-4 h-4 group-hover:block"
             />
           </div>
           <span className="px-2">View Full Case Study</span>

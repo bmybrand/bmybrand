@@ -38,7 +38,7 @@ export default function NotFound() {
       </div>
 
       {/* Center 404 Content */}
-      <div className="absolute inset-0 z-10 pointer-events-none text-center px-4 sm:px-6">
+      <div className="absolute inset-0 z-10 text-center px-4 sm:px-6">
         <div
           className="absolute left-1/2 top-[68%] min-[1440px]:top-[60%]"
           style={{
@@ -46,7 +46,7 @@ export default function NotFound() {
           }}
         >
           {/* Top Text */}
-          <h2 className="absolute bottom-full left-1/2 mb-2 min-[1440px]:mb-4 w-max -translate-x-1/2 text-white text-xs min-[1440px]:text-base sm:text-lg md:text-xl lg:text-2xl font-semibold opacity-90">
+          <h2 className="pointer-events-none absolute bottom-full left-1/2 mb-2 min-[1440px]:mb-4 w-max -translate-x-1/2 text-white text-xs min-[1440px]:text-base sm:text-lg md:text-xl lg:text-2xl font-semibold opacity-90">
             oops! this page went off-orbit
           </h2>
 
@@ -55,16 +55,16 @@ export default function NotFound() {
             <img
               src="/404text.svg"
               alt="404"
-              className="block h-auto w-full max-w-full"
+              className="pointer-events-none block h-auto w-full max-w-full"
             />
-            <p className="hidden min-[1440px]:block absolute left-1/2 bottom-20 w-max -translate-x-1/2 text-center text-white/80 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed">
+            <p className="pointer-events-none hidden min-[1440px]:block absolute left-1/2 bottom-20 w-max -translate-x-1/2 text-center text-white/80 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed">
               Something interrupted your journey. The page may have moved, become
               <br />
               unavailable, or the route may no longer be active.
             </p>
             <Link
               href="/"
-              className="pointer-events-auto hidden min-[1440px]:inline-flex absolute left-1/2 bottom-2 -translate-x-1/2 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)]"
+              className="pointer-events-auto hidden min-[1440px]:inline-flex absolute left-1/2 bottom-2 -translate-x-1/2 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinRegular"
             >
               <div className="rounded-lg bg-white p-4">
                 <img
@@ -78,12 +78,12 @@ export default function NotFound() {
           </div>
 
           <div className="mt-3 flex flex-col items-center gap-3 min-[1440px]:hidden">
-            <p className="max-w-[calc(100vw-2rem)] px-2 text-center text-white/80 text-[10px] leading-relaxed">
+            <p className="pointer-events-none max-w-[calc(100vw-2rem)] px-2 text-center text-white/80 text-[10px] leading-relaxed">
               Something interrupted your journey. The page may have moved, become <br /> unavailable, or the route may no longer be active.
             </p>
             <Link
               href="/"
-              className="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)]"
+              className="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinRegular"
             >
               <div className="rounded-lg bg-white p-4">
                 <img
@@ -100,8 +100,8 @@ export default function NotFound() {
       </div>
 
       {/* Header */}
-      <div className="relative z-20">
-        <header className="fixed top-7 left-1/2 -translate-x-1/2 w-[92%] sm:w-[90%] xl:w-[85%] z-50 bg-[#FFFFFF]/5 backdrop-blur border-2 border-white/20 rounded-2xl">
+      <div className="relative z-20 pointer-events-none">
+        <header className="pointer-events-auto fixed top-7 left-1/2 -translate-x-1/2 w-[92%] sm:w-[90%] xl:w-[85%] z-50 bg-[#FFFFFF]/5 backdrop-blur border-2 border-white/20 rounded-2xl">
           <nav className="mx-auto flex items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-10 py-3 sm:py-4">
             <Link href="/" className="text-white font-bold text-xl">
               <img
@@ -120,7 +120,6 @@ export default function NotFound() {
           </nav>
         </header>
 
-        <main className="min-h-screen" />
       </div>
     </div>
   )
