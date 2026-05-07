@@ -26,32 +26,35 @@ const reviewCardVariants = {
   }),
 }
 
-const ReviewTeam = () => {
+const PinkReviewTeam = () => {
   const [[page, direction], setPageState] = useState<[number, number]>([0, 0])
   const [isExpanded, setIsExpanded] = useState(false)
 
   const reviews: Review[] = [
     {
       id: 1,
-      name: 'Jonathan Reed',
-      position: 'CEO & Founder',
+      name: 'Pink.Me Founder',
+      position: 'Brand Lead',
       image: 'https://i.pravatar.cc/150?img=12',
-      testimonial: 'Working with BMYBrand was a smooth and collaborative experience. The new website clearly communicates our 24/7 emergency services, patient resources, and key information in a way that feels calm, trustworthy, and easy to navigate. The team understood the urgency around patient confidence, and delivered a site that truly supports our community.'
+      testimonial:
+        'BMYBrand helped us turn our brand style into a digital experience that feels vibrant, polished, and easy to shop. The site feels much more aligned with who we are.',
     },
     {
       id: 2,
-      name: 'Sarah Mitchell',
-      position: 'Medical Director',
+      name: 'Operations Team',
+      position: 'E-commerce Management',
       image: 'https://i.pravatar.cc/150?img=5',
-      testimonial: 'BMYBrand exceeded our expectations in every way. They took the time to understand our unique needs as an emergency care facility and delivered a website that not only looks professional but functions flawlessly. Our patients can now find critical information quickly and easily.'
+      testimonial:
+        'The new storefront made the shopping journey much clearer for customers. It is easier to navigate and feels a lot more premium than before.',
     },
     {
       id: 3,
-      name: 'Michael Chen',
-      position: 'Operations Manager',
+      name: 'Customer Feedback',
+      position: 'Online Shoppers',
       image: 'https://i.pravatar.cc/150?img=8',
-      testimonial: 'The transformation of our digital presence has been remarkable. BMYBrand created a patient-first experience that aligns perfectly with our mission. The feedback from our community has been overwhelmingly positive, and we\'ve seen a significant increase in online engagement.'
-    }
+      testimonial:
+        'The website now feels fun, stylish, and easy to use. It is much more enjoyable to browse and buy from the brand online.',
+    },
   ]
 
   const currentIndex = ((page % reviews.length) + reviews.length) % reviews.length
@@ -70,23 +73,21 @@ const ReviewTeam = () => {
     <section className="bg-[#0D0D0D] py-16 md:py-20">
       <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Side - Title and Navigation */}
           <div className="lg:col-span-5">
             <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.0 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0 }}
             >
               <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white BenzinSemibold mb-6 leading-tight">
                 REVIEWS FROM<br />
-                FHMCAZ TEAM
+                PINK.ME TEAM
               </h2>
               <p className="text-white/60 text-sm md:text-base mb-8 max-w-md">
-                We partnered closely with the FHMC team to deliver a modern, high-trust website experience. Here's their feedback on the final outcome.
+                We partnered closely with the Pink.Me team to deliver a bold, modern e-commerce experience. Here is their feedback on the final outcome.
               </p>
 
-              {/* Navigation Arrows */}
               <div className="flex gap-3">
                 <button
                   onClick={prevReview}
@@ -110,7 +111,6 @@ const ReviewTeam = () => {
             </motion.div>
           </div>
 
-          {/* Right Side - Review Card */}
           <div className="lg:col-span-7">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -123,11 +123,9 @@ const ReviewTeam = () => {
                 transition={{ duration: 0.8 }}
                 className="bg-[#1B1B1B] rounded-2xl p-8 md:p-10 relative min-h-100 md:min-h-95 lg:min-h-87.5 flex flex-col justify-between"
               >
-                {/* Decorative gradient */}
                 <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl" style={{ backgroundColor: 'rgb(var(--case-accent-rgb) / 0.1)' }}></div>
 
                 <div className="relative z-10 flex flex-col md:flex-row gap-4">
-                  {/* Profile Image and Name */}
                   <div className="flex flex-col items-center md:items-start w-full md:w-[30%]">
                     <div className="lg:w-full w-48 h-32 md:h-40 rounded-2xl overflow-hidden border-4 mb-4" style={{ borderColor: 'var(--case-accent)' }}>
                       <img
@@ -144,7 +142,6 @@ const ReviewTeam = () => {
                     </p>
                   </div>
 
-                  {/* Content */}
                   <div className="flex flex-col px-4 border-l-2 w-full md:w-[70%]" style={{ borderColor: 'rgb(var(--case-accent-rgb) / 0.25)' }}>
                     <div className={`${isExpanded ? 'max-h-none overflow-auto' : 'max-h-24 overflow-hidden'} md:max-h-none transition-all duration-300`}>
                       <p className="text-white/80 text-sm md:text-base lg:text-lg leading-relaxed">
@@ -160,7 +157,6 @@ const ReviewTeam = () => {
                   </div>
                 </div>
 
-                {/* Dots Indicator */}
                 <div className="flex gap-2 mt-6 justify-center md:justify-start">
                   {reviews.map((_, index) => (
                     <button
@@ -174,9 +170,7 @@ const ReviewTeam = () => {
                         setIsExpanded(false)
                       }}
                       className={`h-2 rounded-full transition-all duration-300 ${
-                        index === currentIndex
-                          ? 'w-8 bg-(--case-accent)'
-                          : 'w-2 bg-white/20 hover:bg-white/40'
+                        index === currentIndex ? 'w-8 bg-(--case-accent)' : 'w-2 bg-white/20 hover:bg-white/40'
                       }`}
                       aria-label={`Go to review ${index + 1}`}
                     />
@@ -191,4 +185,4 @@ const ReviewTeam = () => {
   )
 }
 
-export default ReviewTeam
+export default PinkReviewTeam

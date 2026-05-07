@@ -1,17 +1,27 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import EpciEmergencyCare from './epci-emergencycare'
+import EpciBackground from './epci-background'
+import EpciSolution from './epci-solution'
+import EpciReviewTeam from './epci-reviewteam'
+import FHFooter from './fhfooter'
+import Navbar from './navbar'
 
 export default function EpciDetail() {
-  const router = useRouter()
-
   return (
-    <div className="min-h-screen bg-[#0D0E1F] pt-32 pb-20">
-      <div className="w-[90%] lg:w-[90%] 2xl:w-[85%] mx-auto">
-        {/* Add your content here */}
-        <h1 className="text-white text-5xl BenzinSemibold">EPCI - Coming Soon</h1>
-      </div>
+    <div
+      className="min-h-screen bg-[#0D0D0D] "
+      style={{
+        ['--case-accent' as string]: '#00ACC8',
+        ['--case-accent-rgb' as string]: '0 172 200',
+      }}
+    >
+      <Navbar />
+      <EpciEmergencyCare />
+      <EpciBackground />
+      <EpciSolution />
+      <EpciReviewTeam />
+      <FHFooter />
     </div>
   )
 }

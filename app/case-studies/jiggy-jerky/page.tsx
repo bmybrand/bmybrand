@@ -1,21 +1,9 @@
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
+import JiggyJerkyDetail from '@/components/jiggyjerkydetail'
 
 export default function JiggyJerkyPage() {
   return (
-    <div className="min-h-screen bg-[#0D0E1F]">
-      <Navbar />
-      <div className="py-32 px-4">
-        <div className="w-[90%] lg:w-[85%] 2xl:w-[80%] mx-auto">
-          <h1 className="text-4xl md:text-6xl text-white BenzinSemibold mb-8">
-            Jiggy Jerky Case Study
-          </h1>
-          <p className="text-white/70 text-lg">
-            Coming soon...
-          </p>
-        </div>
-      </div>
-      <Footer />
+    <div className="bg-[#100203]">
+      <JiggyJerkyDetail />
     </div>
   )
 }

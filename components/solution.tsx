@@ -97,7 +97,7 @@ const Solution = () => {
       </div>
       <div>
           {/* Monitor/Desktop Display */}
-          <div className="bg-[#BF212F] border border-[#d42f3d]">
+          <div style={{ backgroundColor: 'var(--case-accent)' }}>
             <div className="relative w-full h-full overflow-hidden">
               <img src="/bmyb-global-backgroundfh-01.webp" alt="Website Pages" className="w-full h-full object-cover" />
             </div>

@@ -1,17 +1,27 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import PinkEmergencyCare from './pink-emergencycare'
+import PinkBackground from './pink-background'
+import PinkSolution from './pink-solution'
+import PinkReviewTeam from './pink-reviewteam'
+import FHFooter from './fhfooter'
+import Navbar from './navbar'
 
 export default function PinkMeDetail() {
-  const router = useRouter()
-
   return (
-    <div className="min-h-screen bg-[#0D0E1F] pt-32 pb-20">
-      <div className="w-[90%] lg:w-[90%] 2xl:w-[85%] mx-auto">
-        {/* Add your content here */}
-        <h1 className="text-white text-5xl BenzinSemibold">PINK.ME - Coming Soon</h1>
-      </div>
+    <div
+      className="min-h-screen bg-[#0D0D0D]"
+      style={{
+        ['--case-accent' as string]: '#E667A2',
+        ['--case-accent-rgb' as string]: '230 103 162',
+      }}
+    >
+      <Navbar />
+      <PinkEmergencyCare />
+      <PinkBackground />
+      <PinkSolution />
+      <PinkReviewTeam />
+      <FHFooter />
     </div>
   )
 }

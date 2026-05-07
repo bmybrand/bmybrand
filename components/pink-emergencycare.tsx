@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 
-const EmergencyCare = () => {
+const PinkEmergencyCare = () => {
   const sliderRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -16,11 +16,9 @@ const EmergencyCare = () => {
     let rafId: number | null = null
 
     const restartAnimation = () => {
-      if (tween) {
-        tween.kill()
-      }
+      if (tween) tween.kill()
 
-      const slideWidth = slider.scrollWidth / 2 // Half because content is duplicated
+      const slideWidth = slider.scrollWidth / 2
       if (!slideWidth) return
 
       const wrapX = gsap.utils.wrap(-slideWidth, 0)
@@ -46,19 +44,15 @@ const EmergencyCare = () => {
     resizeObserver.observe(slider)
 
     return () => {
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
+      if (rafId !== null) cancelAnimationFrame(rafId)
       resizeObserver.disconnect()
-      if (tween) {
-        tween.kill()
-      }
+      if (tween) tween.kill()
     }
   }, [])
+
   return (
-    <section className="py-16 md:py-20 " style={{ backgroundColor: 'var(--case-accent)' }}>
-      <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto mt-40 ">
-        {/* Header with Logo and Tags */}
+    <section className="py-16 md:py-20" style={{ backgroundColor: 'var(--case-accent)' }}>
+      <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto mt-40">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -66,53 +60,49 @@ const EmergencyCare = () => {
           className="mb-12"
         >
           <div className="flex flex-wrap items-center gap-4 mb-8">
-            {/* Logo */}
             <div className="flex items-center gap-3">
-              <img 
-                src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg" 
-                alt="Fountain Hills Logo" 
+              <img
+                src="/bmyb-case-pink-me-pm-logo-01.svg"
+                alt="Pink.Me Logo"
                 className="h-12 w-auto"
               />
             </div>
-            
-            {/* Tags */}
+
             <div className="flex gap-2 ml-auto">
               <span className="px-4 py-2 border border-white/30 text-white text-sm rounded-full">
-                Healthcare
+                Fashion
               </span>
               <span className="px-4 py-2 border border-white/30 text-white text-sm rounded-full">
-                UI/UX + Development
+                E-commerce + Development
               </span>
             </div>
           </div>
 
-          {/* Main Title */}
           <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold leading-tight mb-12">
-            Building a Patient-First Digital<br />
-            Experience for 24/7 Emergency Care
+            Building a Vibrant Digital Storefront<br />
+            for a Fashion-Forward Brand
           </h1>
 
-          {/* Metrics Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             <div>
-              <p className="text-white/60 text-sm mb-2">Care Availability</p>
-              <p className="text-white text-2xl md:text-3xl BenzinSemibold">24/7 ER</p>
+              <p className="text-white/60 text-sm mb-2">Store Focus</p>
+              <p className="text-white text-2xl md:text-3xl BenzinSemibold">Direct-to-Consumer</p>
             </div>
-            
+
             <div>
               <p className="text-white/60 text-sm mb-2">Key Pages Delivered</p>
-              <p className="text-white text-2xl md:text-2xl BenzinSemibold">15+ Pages</p>
+              <p className="text-white text-2xl md:text-2xl BenzinSemibold">10+ Pages</p>
             </div>
-            
+
             <div>
               <p className="text-white/60 text-sm mb-2">Industry</p>
-              <p className="text-white text-2xl md:text-2xl BenzinSemibold">Healthcare / ER</p>
+              <p className="text-white text-2xl md:text-2xl BenzinSemibold">Fashion &amp; Retail</p>
             </div>
-            
+
             <div>
               <p className="text-white/60 text-sm mb-2">Check it out</p>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="text-white text-xl md:text-2xl BenzinSemibold transition-colors inline-flex items-center gap-2 hover:text-(--case-accent)"
               >
                 Visit Website
@@ -123,62 +113,32 @@ const EmergencyCare = () => {
             </div>
           </div>
         </motion.div>
-
-        {/* Device Mockups Infinite Slider */}
-        
       </div>
-      
-      {/* Overflow container with infinite scroll */}
+
       <div className="relative overflow-hidden">
-        <div
-          ref={sliderRef}
-          className="flex gap-6 will-change-transform"
-          style={{ width: 'max-content' }}
-        >
-          {/* Duplicate the set twice for seamless loop */}
+        <div ref={sliderRef} className="flex gap-6 will-change-transform" style={{ width: 'max-content' }}>
           {[...Array(2)].map((_, setIndex) => (
             <React.Fragment key={setIndex}>
-              {/* Left - Mobile View */}
               <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
                 <img
-                  src="/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp"
-                  alt="Fountain Hills medical center about screen"
+                  src="/bmyb-case-pink-me-card-01.webp"
+                  alt="Pink.Me product card"
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              {/* Center - Desktop View */}
               <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
                 <img
-                  src="/bmyb-case-fountain-hills-emergency-room-01.webp"
-                  alt="Fountain Hills emergency room screen"
+                  src="/bmyb-case-pink-me-pinkme-01.webp"
+                  alt="Pink.Me homepage"
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              {/* Right - Tablet/Multiple Views */}
               <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
                 <img
-                  src="/bmyb-case-fountain-hills-home-01.webp"
-                  alt="Fountain Hills homepage screen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Primary Care Clinic */}
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-fountain-hills-primary-care-clinic-01.svg"
-                  alt="Fountain Hills primary care clinic screen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Meet Our Physicians */}
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-fountain-hills-meet-our-physicians-01.svg"
-                  alt="Fountain Hills meet our physicians screen"
+                  src="/bmyb-case-pink-me-card-01.webp"
+                  alt="Pink.Me product detail"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -190,4 +150,4 @@ const EmergencyCare = () => {
   )
 }
 
-export default EmergencyCare
+export default PinkEmergencyCare

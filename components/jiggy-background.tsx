@@ -3,35 +3,31 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const Background = () => {
+const JiggyBackground = () => {
   const whatWeDidItems = [
     'UI/UX Design',
     'Website Development',
     'Responsive Design',
-    'Website Deployment'
+    'Website Deployment',
   ]
 
   return (
     <section className="bg-[#0D0D0D] py-16 md:py-20">
       <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto">
-        {/* Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-          {/* Left Content - Background & Challenge */}
           <div className="lg:col-span-8">
-            {/* What We Did - Small intro text */}
             <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.0 }}
               className="mb-12"
             >
               <p className="text-white/60 text-sm mb-8">
-                BMYBrand partnered with Fountain Hills Emergency Room and Medical Center to design and develop a modern healthcare website that improves patient trust, simplifies access to care, and clearly communicates 24/7 emergency services across all devices.
+                BMYBrand partnered with Jiggy Jerky to design and develop a bold e-commerce experience that highlights its playful personality, sharp packaging, and crave-worthy flavors while keeping shopping friction low.
               </p>
             </motion.div>
 
-            {/* The Background Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -43,14 +39,13 @@ const Background = () => {
                 The Background
               </h2>
               <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed mb-6">
-                Fountain Hills Emergency Room and Medical Center serves the local community with 24/7 emergency care, in-house diagnostics, and patient-focused medical services. As a healthcare provider operating in urgent, high-stress situations, their website needed to deliver information clearly, quickly, and with immediate credibility.
+                Jiggy Jerky is an artisan food brand built around bold flavor, memorable packaging, and a playful personality that stands out in a crowded market. The brand needed a digital presence that could translate that energy online and support direct-to-consumer sales.
               </p>
               <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed">
-                The team required a modern, responsive platform that could communicate emergency availability, explain services without confusion, and guide patients to critical actions—such as calling, getting directions, or accessing billing and patient resources—without delay.
+                The experience had to feel premium, energetic, and easy to shop, with clear product storytelling and a structure that encourages customers to browse, trust the product, and buy quickly on any device.
               </p>
             </motion.div>
 
-            {/* The Challenge Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -62,23 +57,22 @@ const Background = () => {
                 The Challenge
               </h2>
               <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed mb-6">
-                Fountain Hills Emergency Room and Medical Center operates in a high-stakes healthcare environment where patients need clear information quickly and without confusion. Their digital presence needed to communicate 24/7 emergency availability, medical credibility, and service coverage—all while remaining calm, trustworthy, and easy to navigate.
+                Jiggy Jerky needed a website that could capture its fun, bold personality while making it easy for customers to browse and purchase artisan jerky products online. The challenge was to balance strong visual branding with a shopping experience that stayed clear and conversion-focused.
               </p>
               <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed mb-6">
-                Explaining advanced capabilities such as on-site imaging, laboratory services, and emergency care in a simple, non-overwhelming way was critical. At the same time, the website had to guide users toward immediate actions like calling the ER, getting directions, booking appointments, or accessing patient resources—especially during urgent moments.
+                The site also needed to showcase product quality, flavor variety, and brand credibility without feeling cluttered or generic. Packaging, photography, and messaging all had to work together to drive appetite and action.
               </p>
               <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed">
-                In short, the challenge was to transform complex healthcare information into a clear, patient-first digital experience that builds trust instantly, reduces stress, and supports fast, confident decision-making across all devices.
+                In short, the challenge was to turn a distinctive physical product into a polished digital storefront that feels just as bold, memorable, and craveable as the jerky itself.
               </p>
             </motion.div>
           </div>
 
-          {/* Right Sidebar - What We Did */}
           <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.0, delay: 0.3 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.0, delay: 0.3 }}
             className="lg:col-span-4"
           >
             <div className="lg:sticky lg:top-32 border rounded-2xl p-6 md:p-8" style={{ backgroundColor: 'var(--case-accent)', borderColor: 'var(--case-accent)' }}>
@@ -101,7 +95,6 @@ const Background = () => {
           </motion.div>
         </div>
 
-        {/* Bottom Images - 3 Device Mockups */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -109,34 +102,31 @@ const Background = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
         >
-          {/* Left Image */}
-              <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
+          <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <img
-                src="/bmyb-case-fountain-hills-gallery-01.svg"
-                alt="Fountain Hills screen 1"
+                src="/bmyb-case-jiggy-jerky-card-01.webp"
+                alt="Jiggy Jerky screen 1"
                 className="w-full h-full object-cover"
               />
             </div>
           </div>
 
-          {/* Center Image */}
-              <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
+          <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <img
-                src="/bmyb-case-fountain-hills-gallery-02.svg"
-                alt="Fountain Hills screen 2"
+                src="/bmyb-case-jiggy-jerky-jiggy-01.webp"
+                alt="Jiggy Jerky screen 2"
                 className="w-full h-full object-cover"
               />
             </div>
           </div>
 
-          {/* Right Image */}
-              <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
+          <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <img
-                src="/bmyb-case-fountain-hills-gallery-03.svg"
-                alt="Fountain Hills screen 3"
+                src="/bmyb-case-jiggy-jerky-card-01.webp"
+                alt="Jiggy Jerky screen 3"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -147,4 +137,4 @@ const Background = () => {
   )
 }
 
-export default Background
+export default JiggyBackground
