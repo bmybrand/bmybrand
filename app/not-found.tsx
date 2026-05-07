@@ -46,7 +46,7 @@ export default function NotFound() {
           }}
         >
           {/* Top Text */}
-          <h2 className="pointer-events-none absolute bottom-full left-1/2 mb-2 min-[1440px]:mb-4 w-max -translate-x-1/2 text-white text-xs min-[1440px]:text-base sm:text-lg md:text-xl lg:text-2xl font-semibold opacity-90">
+          <h2 className="pointer-events-none absolute bottom-full left-1/2 mb-2 min-[1440px]:mb-4 w-max -translate-x-1/2 text-white text-xs sm:text-lg md:text-xl lg:text-3xl xl:text-4xl min-[1440px]:text-5xl font-semibold opacity-90 BenzinSemibold">
             oops! this page went off-orbit
           </h2>
 
