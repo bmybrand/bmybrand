@@ -58,6 +58,38 @@ const projects: Project[] = [
     image: '/bmyb-case-jiggy-jerky-card-01.webp',
     link: '/case-studies/jiggy-jerky',
   },
+  {
+    id: '05',
+    number: '05',
+    title: 'INSTINCTIVE HEALTHCARE SOLUTIONS',
+    description: 'Placeholder description for Instinctive Healthcare Solutions.',
+    image: '/bmyb-global-fullimage-01.webp',
+    link: '/case-studies/instinctive-healthcare-solutions',
+  },
+  {
+    id: '06',
+    number: '06',
+    title: 'INSTINCTIVE HEALTH',
+    description: 'Placeholder description for Instinctive Health.',
+    image: '/bmyb-global-fullimage-01.webp',
+    link: '/case-studies/instinctive-health',
+  },
+  {
+    id: '07',
+    number: '07',
+    title: 'LEARN AND LABEL',
+    description: 'Placeholder description for learnandlabel.',
+    image: '/bmyb-global-fullimage-01.webp',
+    link: '/case-studies/learnandlabel',
+  },
+  {
+    id: '08',
+    number: '08',
+    title: 'VYTIS TOUR',
+    description: 'Placeholder description for Vytis Tour.',
+    image: '/bmyb-global-fullimage-01.webp',
+    link: '/case-studies/vytis-tour',
+  },
 ]
 
 const caseStudies: CaseStudy[] = [
@@ -133,6 +165,82 @@ const caseStudies: CaseStudy[] = [
       { label: 'Engagement', value: '150%' }
     ],
     slug: 'jiggy-jerky'
+  },
+  {
+    id: 'instinctive-healthcare-solutions',
+    number: '05',
+    title: 'INSTINCTIVE HEALTHCARE SOLUTIONS',
+    subtitle: 'Placeholder Subtitle',
+    client: 'Instinctive Healthcare Solutions',
+    industry: 'Healthcare',
+    services: ['Placeholder Service'],
+    challenge: 'Placeholder challenge.',
+    solution: 'Placeholder solution.',
+    results: [
+      'Placeholder result'
+    ],
+    image: '/bmyb-global-fullimage-01.webp',
+    stats: [
+      { label: 'Placeholder Label', value: 'Value' }
+    ],
+    slug: 'instinctive-healthcare-solutions'
+  },
+  {
+    id: 'instinctive-health',
+    number: '06',
+    title: 'INSTINCTIVE HEALTH',
+    subtitle: 'Placeholder Subtitle',
+    client: 'Instinctive Health',
+    industry: 'Healthcare',
+    services: ['Placeholder Service'],
+    challenge: 'Placeholder challenge.',
+    solution: 'Placeholder solution.',
+    results: [
+      'Placeholder result'
+    ],
+    image: '/bmyb-global-fullimage-01.webp',
+    stats: [
+      { label: 'Placeholder Label', value: 'Value' }
+    ],
+    slug: 'instinctive-health'
+  },
+  {
+    id: 'learnandlabel',
+    number: '07',
+    title: 'LEARN AND LABEL',
+    subtitle: 'Placeholder Subtitle',
+    client: 'learnandlabel',
+    industry: 'Education',
+    services: ['Placeholder Service'],
+    challenge: 'Placeholder challenge.',
+    solution: 'Placeholder solution.',
+    results: [
+      'Placeholder result'
+    ],
+    image: '/bmyb-global-fullimage-01.webp',
+    stats: [
+      { label: 'Placeholder Label', value: 'Value' }
+    ],
+    slug: 'learnandlabel'
+  },
+  {
+    id: 'vytis-tour',
+    number: '08',
+    title: 'VYTIS TOUR',
+    subtitle: 'Placeholder Subtitle',
+    client: 'Vytis Tour',
+    industry: 'Travel',
+    services: ['Placeholder Service'],
+    challenge: 'Placeholder challenge.',
+    solution: 'Placeholder solution.',
+    results: [
+      'Placeholder result'
+    ],
+    image: '/bmyb-global-fullimage-01.webp',
+    stats: [
+      { label: 'Placeholder Label', value: 'Value' }
+    ],
+    slug: 'vytis-tour'
   },
 ]
 

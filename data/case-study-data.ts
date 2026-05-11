@@ -275,5 +275,305 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { id: 3, name: 'Customer Feedback', position: 'Online Shoppers', image: 'https://i.pravatar.cc/150?img=8', testimonial: 'The website now feels fun, stylish, and easy to use. It is much more enjoyable to browse and buy from the brand online.' }
       ]
     }
+  },
+  'instinctive-healthcare-solutions': {
+    slug: 'instinctive-healthcare-solutions',
+    accentColor: '#00ACC8',
+    accentColorRgb: '0 172 200',
+    hero: {
+      logo: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg',
+      logoAlt: 'Instinctive Healthcare Solutions Logo',
+      tags: ['Healthcare', 'UI/UX + Development'],
+      title: 'Building a Patient-First Digital\nExperience for 24/7 Emergency Care',
+      metrics: [
+        { label: 'Care Availability', value: '24/7 ER' },
+        { label: 'Key Pages Delivered', value: '15+ Pages' },
+        { label: 'Industry', value: 'Healthcare / ER' },
+      ],
+      websiteUrl: '#',
+      sliderImages: [
+        '/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp',
+        '/bmyb-case-fountain-hills-emergency-room-01.webp',
+        '/bmyb-case-fountain-hills-home-01.webp',
+        '/bmyb-case-fountain-hills-primary-care-clinic-01.svg',
+        '/bmyb-case-fountain-hills-meet-our-physicians-01.svg',
+      ]
+    },
+    background: {
+      introText: 'BMYBrand partnered with Fountain Hills Emergency Room and Medical Center to design and develop a modern healthcare website that improves patient trust, simplifies access to care, and clearly communicates 24/7 emergency services across all devices.',
+      backgroundParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center serves the local community with 24/7 emergency care, in-house diagnostics, and patient-focused medical services. As a healthcare provider operating in urgent, high-stress situations, their website needed to deliver information clearly, quickly, and with immediate credibility.',
+        'The team required a modern, responsive platform that could communicate emergency availability, explain services without confusion, and guide patients to critical actions—such as calling, getting directions, or accessing billing and patient resources—without delay.'
+      ],
+      challengeParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center operates in a high-stakes healthcare environment where patients need clear information quickly and without confusion. Their digital presence needed to communicate 24/7 emergency availability, medical credibility, and service coverage—all while remaining calm, trustworthy, and easy to navigate.',
+        'Explaining advanced capabilities such as on-site imaging, laboratory services, and emergency care in a simple, non-overwhelming way was critical. At the same time, the website had to guide users toward immediate actions like calling the ER, getting directions, booking appointments, or accessing patient resources—especially during urgent moments.',
+        'In short, the challenge was to transform complex healthcare information into a clear, patient-first digital experience that builds trust instantly, reduces stress, and supports fast, confident decision-making across all devices.'
+      ],
+      whatWeDidItems: [
+        'UI/UX Design',
+        'Website Development',
+        'Responsive Design',
+        'Website Deployment'
+      ],
+      galleryImages: [
+        '/bmyb-case-fountain-hills-gallery-01.webp',
+        '/bmyb-case-fountain-hills-gallery-02.webp',
+        '/bmyb-case-fountain-hills-gallery-03.webp',
+      ],
+      galleryImageFit: 'contain',
+      galleryBgColor: '#00ACC8'
+    },
+    solution: {
+      introParagraphs: [
+        'Understanding the urgent nature of emergency healthcare and the need for clear, patient-focused communication, we delivered a comprehensive digital solution tailored to Fountain Hills Emergency Room and Medical Center.',
+        'BMYBrand led the full website design and development process, creating a clean, responsive experience built around trust, fast access, and clarity. Through a structured content approach, clear visual hierarchy, and conversion-focused CTAs, the website now communicates 24/7 emergency care, medical services, diagnostics, and patient resources in a way that is easy to understand and navigate—even in high-stress moments.'
+      ],
+      resultsParagraphs: [
+        'The redesigned website successfully met its primary goal: providing patients and families with a clear, trustworthy digital experience that supports quick decision-making. Critical information is now easier to find, services are clearly explained, and users are guided smoothly toward essential actions like calling the ER, getting directions, booking appointments, or accessing billing and patient portals.',
+        'As a result, the site improved accessibility, user confidence, and patient-first care delivery—all achieved on-site—strengthening confidence before patients even arrive at the facility.'
+      ],
+      accomplishments: [
+        { title: 'Clear emergency positioning', desc: 'The website clearly communicates 24/7 emergency availability and service coverage without confusion.' },
+        { title: 'Stronger trust and credibility', desc: 'Board-certified care, diagnostics, and patient resources are presented clearly to build confidence immediately.' },
+        { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
+        { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
+      ],
+      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+    },
+    reviews: {
+      title: 'REVIEWS FROM\nFHMCAZ TEAM',
+      subtitle: 'We partnered closely with the FHMC team to deliver a modern, high-trust website experience. Here\'s their feedback on the final outcome.',
+      reviewsList: [
+        { id: 1, name: 'Jonathan Reed', position: 'CEO & Founder', image: 'https://i.pravatar.cc/150?img=12', testimonial: 'Working with BMYBrand was a smooth and collaborative experience. The new website clearly communicates our 24/7 emergency services, patient resources, and key information in a way that feels calm, trustworthy, and easy to navigate. The team understood the urgency around patient confidence, and delivered a site that truly supports our community.' },
+        { id: 2, name: 'Sarah Mitchell', position: 'Medical Director', image: 'https://i.pravatar.cc/150?img=5', testimonial: 'BMYBrand exceeded our expectations in every way. They took the time to understand our unique needs as an emergency care facility and delivered a website that not only looks professional but functions flawlessly. Our patients can now find critical information quickly and easily.' },
+        { id: 3, name: 'Michael Chen', position: 'Operations Manager', image: 'https://i.pravatar.cc/150?img=8', testimonial: 'The transformation of our digital presence has been remarkable. BMYBrand created a patient-first experience that aligns perfectly with our mission. The feedback from our community has been overwhelmingly positive, and we\'ve seen a significant increase in online engagement.' }
+      ]
+    }
+  },
+  'instinctive-health': {
+    slug: 'instinctive-health',
+    accentColor: '#ED3041',
+    accentColorRgb: '237 48 65',
+    hero: {
+      logo: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg',
+      logoAlt: 'Instinctive Health Logo',
+      tags: ['Healthcare', 'UI/UX + Development'],
+      title: 'Building a Patient-First Digital\nExperience for 24/7 Emergency Care',
+      metrics: [
+        { label: 'Care Availability', value: '24/7 ER' },
+        { label: 'Key Pages Delivered', value: '15+ Pages' },
+        { label: 'Industry', value: 'Healthcare / ER' },
+      ],
+      websiteUrl: '#',
+      sliderImages: [
+        '/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp',
+        '/bmyb-case-fountain-hills-emergency-room-01.webp',
+        '/bmyb-case-fountain-hills-home-01.webp',
+        '/bmyb-case-fountain-hills-primary-care-clinic-01.svg',
+        '/bmyb-case-fountain-hills-meet-our-physicians-01.svg',
+      ]
+    },
+    background: {
+      introText: 'BMYBrand partnered with Fountain Hills Emergency Room and Medical Center to design and develop a modern healthcare website that improves patient trust, simplifies access to care, and clearly communicates 24/7 emergency services across all devices.',
+      backgroundParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center serves the local community with 24/7 emergency care, in-house diagnostics, and patient-focused medical services. As a healthcare provider operating in urgent, high-stress situations, their website needed to deliver information clearly, quickly, and with immediate credibility.',
+        'The team required a modern, responsive platform that could communicate emergency availability, explain services without confusion, and guide patients to critical actions—such as calling, getting directions, or accessing billing and patient resources—without delay.'
+      ],
+      challengeParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center operates in a high-stakes healthcare environment where patients need clear information quickly and without confusion. Their digital presence needed to communicate 24/7 emergency availability, medical credibility, and service coverage—all while remaining calm, trustworthy, and easy to navigate.',
+        'Explaining advanced capabilities such as on-site imaging, laboratory services, and emergency care in a simple, non-overwhelming way was critical. At the same time, the website had to guide users toward immediate actions like calling the ER, getting directions, booking appointments, or accessing patient resources—especially during urgent moments.',
+        'In short, the challenge was to transform complex healthcare information into a clear, patient-first digital experience that builds trust instantly, reduces stress, and supports fast, confident decision-making across all devices.'
+      ],
+      whatWeDidItems: [
+        'UI/UX Design',
+        'Website Development',
+        'Responsive Design',
+        'Website Deployment'
+      ],
+      galleryImages: [
+        '/bmyb-case-fountain-hills-gallery-01.webp',
+        '/bmyb-case-fountain-hills-gallery-02.webp',
+        '/bmyb-case-fountain-hills-gallery-03.webp',
+      ],
+      galleryImageFit: 'contain',
+      galleryBgColor: '#ED3041'
+    },
+    solution: {
+      introParagraphs: [
+        'Understanding the urgent nature of emergency healthcare and the need for clear, patient-focused communication, we delivered a comprehensive digital solution tailored to Fountain Hills Emergency Room and Medical Center.',
+        'BMYBrand led the full website design and development process, creating a clean, responsive experience built around trust, fast access, and clarity. Through a structured content approach, clear visual hierarchy, and conversion-focused CTAs, the website now communicates 24/7 emergency care, medical services, diagnostics, and patient resources in a way that is easy to understand and navigate—even in high-stress moments.'
+      ],
+      resultsParagraphs: [
+        'The redesigned website successfully met its primary goal: providing patients and families with a clear, trustworthy digital experience that supports quick decision-making. Critical information is now easier to find, services are clearly explained, and users are guided smoothly toward essential actions like calling the ER, getting directions, booking appointments, or accessing billing and patient portals.',
+        'As a result, the site improved accessibility, user confidence, and patient-first care delivery—all achieved on-site—strengthening confidence before patients even arrive at the facility.'
+      ],
+      accomplishments: [
+        { title: 'Clear emergency positioning', desc: 'The website clearly communicates 24/7 emergency availability and service coverage without confusion.' },
+        { title: 'Stronger trust and credibility', desc: 'Board-certified care, diagnostics, and patient resources are presented clearly to build confidence immediately.' },
+        { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
+        { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
+      ],
+      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+    },
+    reviews: {
+      title: 'REVIEWS FROM\nFHMCAZ TEAM',
+      subtitle: 'We partnered closely with the FHMC team to deliver a modern, high-trust website experience. Here\'s their feedback on the final outcome.',
+      reviewsList: [
+        { id: 1, name: 'Jonathan Reed', position: 'CEO & Founder', image: 'https://i.pravatar.cc/150?img=12', testimonial: 'Working with BMYBrand was a smooth and collaborative experience. The new website clearly communicates our 24/7 emergency services, patient resources, and key information in a way that feels calm, trustworthy, and easy to navigate. The team understood the urgency around patient confidence, and delivered a site that truly supports our community.' },
+        { id: 2, name: 'Sarah Mitchell', position: 'Medical Director', image: 'https://i.pravatar.cc/150?img=5', testimonial: 'BMYBrand exceeded our expectations in every way. They took the time to understand our unique needs as an emergency care facility and delivered a website that not only looks professional but functions flawlessly. Our patients can now find critical information quickly and easily.' },
+        { id: 3, name: 'Michael Chen', position: 'Operations Manager', image: 'https://i.pravatar.cc/150?img=8', testimonial: 'The transformation of our digital presence has been remarkable. BMYBrand created a patient-first experience that aligns perfectly with our mission. The feedback from our community has been overwhelmingly positive, and we\'ve seen a significant increase in online engagement.' }
+      ]
+    }
+  },
+  'learnandlabel': {
+    slug: 'learnandlabel',
+    accentColor: '#F45334',
+    accentColorRgb: '244 83 52',
+    hero: {
+      logo: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg',
+      logoAlt: 'learnandlabel Logo',
+      tags: ['Healthcare', 'UI/UX + Development'],
+      title: 'Building a Patient-First Digital\nExperience for 24/7 Emergency Care',
+      metrics: [
+        { label: 'Care Availability', value: '24/7 ER' },
+        { label: 'Key Pages Delivered', value: '15+ Pages' },
+        { label: 'Industry', value: 'Healthcare / ER' },
+      ],
+      websiteUrl: '#',
+      sliderImages: [
+        '/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp',
+        '/bmyb-case-fountain-hills-emergency-room-01.webp',
+        '/bmyb-case-fountain-hills-home-01.webp',
+        '/bmyb-case-fountain-hills-primary-care-clinic-01.svg',
+        '/bmyb-case-fountain-hills-meet-our-physicians-01.svg',
+      ]
+    },
+    background: {
+      introText: 'BMYBrand partnered with Fountain Hills Emergency Room and Medical Center to design and develop a modern healthcare website that improves patient trust, simplifies access to care, and clearly communicates 24/7 emergency services across all devices.',
+      backgroundParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center serves the local community with 24/7 emergency care, in-house diagnostics, and patient-focused medical services. As a healthcare provider operating in urgent, high-stress situations, their website needed to deliver information clearly, quickly, and with immediate credibility.',
+        'The team required a modern, responsive platform that could communicate emergency availability, explain services without confusion, and guide patients to critical actions—such as calling, getting directions, or accessing billing and patient resources—without delay.'
+      ],
+      challengeParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center operates in a high-stakes healthcare environment where patients need clear information quickly and without confusion. Their digital presence needed to communicate 24/7 emergency availability, medical credibility, and service coverage—all while remaining calm, trustworthy, and easy to navigate.',
+        'Explaining advanced capabilities such as on-site imaging, laboratory services, and emergency care in a simple, non-overwhelming way was critical. At the same time, the website had to guide users toward immediate actions like calling the ER, getting directions, booking appointments, or accessing patient resources—especially during urgent moments.',
+        'In short, the challenge was to transform complex healthcare information into a clear, patient-first digital experience that builds trust instantly, reduces stress, and supports fast, confident decision-making across all devices.'
+      ],
+      whatWeDidItems: [
+        'UI/UX Design',
+        'Website Development',
+        'Responsive Design',
+        'Website Deployment'
+      ],
+      galleryImages: [
+        '/bmyb-case-fountain-hills-gallery-01.webp',
+        '/bmyb-case-fountain-hills-gallery-02.webp',
+        '/bmyb-case-fountain-hills-gallery-03.webp',
+      ],
+      galleryImageFit: 'contain',
+      galleryBgColor: '#F45334'
+    },
+    solution: {
+      introParagraphs: [
+        'Understanding the urgent nature of emergency healthcare and the need for clear, patient-focused communication, we delivered a comprehensive digital solution tailored to Fountain Hills Emergency Room and Medical Center.',
+        'BMYBrand led the full website design and development process, creating a clean, responsive experience built around trust, fast access, and clarity. Through a structured content approach, clear visual hierarchy, and conversion-focused CTAs, the website now communicates 24/7 emergency care, medical services, diagnostics, and patient resources in a way that is easy to understand and navigate—even in high-stress moments.'
+      ],
+      resultsParagraphs: [
+        'The redesigned website successfully met its primary goal: providing patients and families with a clear, trustworthy digital experience that supports quick decision-making. Critical information is now easier to find, services are clearly explained, and users are guided smoothly toward essential actions like calling the ER, getting directions, booking appointments, or accessing billing and patient portals.',
+        'As a result, the site improved accessibility, user confidence, and patient-first care delivery—all achieved on-site—strengthening confidence before patients even arrive at the facility.'
+      ],
+      accomplishments: [
+        { title: 'Clear emergency positioning', desc: 'The website clearly communicates 24/7 emergency availability and service coverage without confusion.' },
+        { title: 'Stronger trust and credibility', desc: 'Board-certified care, diagnostics, and patient resources are presented clearly to build confidence immediately.' },
+        { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
+        { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
+      ],
+      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+    },
+    reviews: {
+      title: 'REVIEWS FROM\nFHMCAZ TEAM',
+      subtitle: 'We partnered closely with the FHMC team to deliver a modern, high-trust website experience. Here\'s their feedback on the final outcome.',
+      reviewsList: [
+        { id: 1, name: 'Jonathan Reed', position: 'CEO & Founder', image: 'https://i.pravatar.cc/150?img=12', testimonial: 'Working with BMYBrand was a smooth and collaborative experience. The new website clearly communicates our 24/7 emergency services, patient resources, and key information in a way that feels calm, trustworthy, and easy to navigate. The team understood the urgency around patient confidence, and delivered a site that truly supports our community.' },
+        { id: 2, name: 'Sarah Mitchell', position: 'Medical Director', image: 'https://i.pravatar.cc/150?img=5', testimonial: 'BMYBrand exceeded our expectations in every way. They took the time to understand our unique needs as an emergency care facility and delivered a website that not only looks professional but functions flawlessly. Our patients can now find critical information quickly and easily.' },
+        { id: 3, name: 'Michael Chen', position: 'Operations Manager', image: 'https://i.pravatar.cc/150?img=8', testimonial: 'The transformation of our digital presence has been remarkable. BMYBrand created a patient-first experience that aligns perfectly with our mission. The feedback from our community has been overwhelmingly positive, and we\'ve seen a significant increase in online engagement.' }
+      ]
+    }
+  },
+  'vytis-tour': {
+    slug: 'vytis-tour',
+    accentColor: '#EBA421',
+    accentColorRgb: '235 164 33',
+    hero: {
+      logo: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg',
+      logoAlt: 'Vytis Tour Logo',
+      tags: ['Healthcare', 'UI/UX + Development'],
+      title: 'Building a Patient-First Digital\nExperience for 24/7 Emergency Care',
+      metrics: [
+        { label: 'Care Availability', value: '24/7 ER' },
+        { label: 'Key Pages Delivered', value: '15+ Pages' },
+        { label: 'Industry', value: 'Healthcare / ER' },
+      ],
+      websiteUrl: '#',
+      sliderImages: [
+        '/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp',
+        '/bmyb-case-fountain-hills-emergency-room-01.webp',
+        '/bmyb-case-fountain-hills-home-01.webp',
+        '/bmyb-case-fountain-hills-primary-care-clinic-01.svg',
+        '/bmyb-case-fountain-hills-meet-our-physicians-01.svg',
+      ]
+    },
+    background: {
+      introText: 'BMYBrand partnered with Fountain Hills Emergency Room and Medical Center to design and develop a modern healthcare website that improves patient trust, simplifies access to care, and clearly communicates 24/7 emergency services across all devices.',
+      backgroundParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center serves the local community with 24/7 emergency care, in-house diagnostics, and patient-focused medical services. As a healthcare provider operating in urgent, high-stress situations, their website needed to deliver information clearly, quickly, and with immediate credibility.',
+        'The team required a modern, responsive platform that could communicate emergency availability, explain services without confusion, and guide patients to critical actions—such as calling, getting directions, or accessing billing and patient resources—without delay.'
+      ],
+      challengeParagraphs: [
+        'Fountain Hills Emergency Room and Medical Center operates in a high-stakes healthcare environment where patients need clear information quickly and without confusion. Their digital presence needed to communicate 24/7 emergency availability, medical credibility, and service coverage—all while remaining calm, trustworthy, and easy to navigate.',
+        'Explaining advanced capabilities such as on-site imaging, laboratory services, and emergency care in a simple, non-overwhelming way was critical. At the same time, the website had to guide users toward immediate actions like calling the ER, getting directions, booking appointments, or accessing patient resources—especially during urgent moments.',
+        'In short, the challenge was to transform complex healthcare information into a clear, patient-first digital experience that builds trust instantly, reduces stress, and supports fast, confident decision-making across all devices.'
+      ],
+      whatWeDidItems: [
+        'UI/UX Design',
+        'Website Development',
+        'Responsive Design',
+        'Website Deployment'
+      ],
+      galleryImages: [
+        '/bmyb-case-fountain-hills-gallery-01.webp',
+        '/bmyb-case-fountain-hills-gallery-02.webp',
+        '/bmyb-case-fountain-hills-gallery-03.webp',
+      ],
+      galleryImageFit: 'contain',
+      galleryBgColor: '#EBA421'
+    },
+    solution: {
+      introParagraphs: [
+        'Understanding the urgent nature of emergency healthcare and the need for clear, patient-focused communication, we delivered a comprehensive digital solution tailored to Fountain Hills Emergency Room and Medical Center.',
+        'BMYBrand led the full website design and development process, creating a clean, responsive experience built around trust, fast access, and clarity. Through a structured content approach, clear visual hierarchy, and conversion-focused CTAs, the website now communicates 24/7 emergency care, medical services, diagnostics, and patient resources in a way that is easy to understand and navigate—even in high-stress moments.'
+      ],
+      resultsParagraphs: [
+        'The redesigned website successfully met its primary goal: providing patients and families with a clear, trustworthy digital experience that supports quick decision-making. Critical information is now easier to find, services are clearly explained, and users are guided smoothly toward essential actions like calling the ER, getting directions, booking appointments, or accessing billing and patient portals.',
+        'As a result, the site improved accessibility, user confidence, and patient-first care delivery—all achieved on-site—strengthening confidence before patients even arrive at the facility.'
+      ],
+      accomplishments: [
+        { title: 'Clear emergency positioning', desc: 'The website clearly communicates 24/7 emergency availability and service coverage without confusion.' },
+        { title: 'Stronger trust and credibility', desc: 'Board-certified care, diagnostics, and patient resources are presented clearly to build confidence immediately.' },
+        { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
+        { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
+      ],
+      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+    },
+    reviews: {
+      title: 'REVIEWS FROM\nFHMCAZ TEAM',
+      subtitle: 'We partnered closely with the FHMC team to deliver a modern, high-trust website experience. Here\'s their feedback on the final outcome.',
+      reviewsList: [
+        { id: 1, name: 'Jonathan Reed', position: 'CEO & Founder', image: 'https://i.pravatar.cc/150?img=12', testimonial: 'Working with BMYBrand was a smooth and collaborative experience. The new website clearly communicates our 24/7 emergency services, patient resources, and key information in a way that feels calm, trustworthy, and easy to navigate. The team understood the urgency around patient confidence, and delivered a site that truly supports our community.' },
+        { id: 2, name: 'Sarah Mitchell', position: 'Medical Director', image: 'https://i.pravatar.cc/150?img=5', testimonial: 'BMYBrand exceeded our expectations in every way. They took the time to understand our unique needs as an emergency care facility and delivered a website that not only looks professional but functions flawlessly. Our patients can now find critical information quickly and easily.' },
+        { id: 3, name: 'Michael Chen', position: 'Operations Manager', image: 'https://i.pravatar.cc/150?img=8', testimonial: 'The transformation of our digital presence has been remarkable. BMYBrand created a patient-first experience that aligns perfectly with our mission. The feedback from our community has been overwhelmingly positive, and we\'ve seen a significant increase in online engagement.' }
+      ]
+    }
   }
 }
