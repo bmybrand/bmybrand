@@ -274,7 +274,7 @@ const Navbar = () => {
     company: null,
     resources: null,
   });
-  const isFountainHills = pathname === "/case-studies/fountain-hills";
+  const isCaseStudyDetail = pathname.startsWith("/case-studies/") && pathname !== "/case-studies";
   const isIndustriesPage = pathname.startsWith("/industries");
 
   const updateDropdownPosition = (type: "services" | "industries" | "company" | "resources") => {
@@ -330,7 +330,7 @@ const Navbar = () => {
           <img
             src="/bmyb-services-brand-bmybrand-01-01.svg"
             alt="Logo"
-            className={`h-9 sm:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto cursor-pointer ${isFountainHills ? "brightness-0 invert" : ""}`}
+            className={`h-9 sm:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto cursor-pointer ${isCaseStudyDetail ? "brightness-0 invert" : ""}`}
           />
         </Link>
 
@@ -389,7 +389,7 @@ const Navbar = () => {
         <Link
           href="/grow-my-business"
           className={`hidden xl:inline-flex items-center px-6 py-4 rounded-lg text-lg font-medium hover:opacity-90 transition BenzinSemibold ${
-            isFountainHills ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
+            isCaseStudyDetail ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
           }`}
         >
           Grow My Business
@@ -536,7 +536,7 @@ const Navbar = () => {
             href="/grow-my-business"
             onClick={() => setOpen(false)}
             className={`mt-3 inline-flex justify-center items-center px-4 py-2.5 rounded-lg text-sm font-medium BenzinSemibold ${
-              isFountainHills ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
+              isCaseStudyDetail ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
             }`}
           >
             Grow My Business

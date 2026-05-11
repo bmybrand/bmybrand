@@ -39,23 +39,7 @@ const projects = [
     buttonIcon: "/bmyb-global-arrowpink-01.svg",
     backgroundImage: "/bmyb-case-pink-me-pinkmebg-01.svg",
   },
-  {
-    title: (
-      <>
-        Delivering <span className="text-[#0EA5E9]">Performance-Driven Clarity</span> And Strategy
-      </>
-    ),
-    description:
-      "EPCI is A Full-Service Training And Leadership Institute For Showcase Expertise, Improve Client Engagement, And Drive User Action Across All Platforms.",
-    buttonText: "View Full Case Study",
-    src: "/bmyb-case-epci-epci-01.webp",
-    link: "/bmyb-case-epci-epci-01.webp",
-    logo: "/bmyb-case-epci-ecpi-01.svg",
-    gradient: "linear-gradient(180deg, #0C2F47 0%, #051419 100%)",
-    buttonColor: "#0EA5E9",
-    buttonIcon: "/bmyb-global-arrowblue-01.svg",
-    backgroundImage: "/bmyb-case-epci-epcibg-01.svg",
-  },
+
   {
     title: (
       <>

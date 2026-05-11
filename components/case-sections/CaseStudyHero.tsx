@@ -3,8 +3,13 @@
 import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
+import { CaseStudyData } from '../../data/case-study-data'
 
-const JiggyEmergencyCare = () => {
+type Props = {
+  data: CaseStudyData['hero']
+}
+
+const CaseStudyHero = ({ data }: Props) => {
   const sliderRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -20,7 +25,7 @@ const JiggyEmergencyCare = () => {
         tween.kill()
       }
 
-      const slideWidth = slider.scrollWidth / 2
+      const slideWidth = slider.scrollWidth / 2 // Half because content is duplicated
       if (!slideWidth) return
 
       const wrapX = gsap.utils.wrap(-slideWidth, 0)
@@ -55,10 +60,11 @@ const JiggyEmergencyCare = () => {
       }
     }
   }, [])
-
+  
   return (
     <section className="py-16 md:py-20" style={{ backgroundColor: 'var(--case-accent)' }}>
       <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto mt-40">
+        {/* Header with Logo and Tags */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -66,49 +72,43 @@ const JiggyEmergencyCare = () => {
           className="mb-12"
         >
           <div className="flex flex-wrap items-center gap-4 mb-8">
+            {/* Logo */}
             <div className="flex items-center gap-3">
-              <img
-                src="/bmyb-case-jiggy-jerky-jiggylogo-01.svg"
-                alt="Jiggy Jerky Logo"
+              <img 
+                src={data.logo} 
+                alt={data.logoAlt} 
                 className="h-12 w-auto"
               />
             </div>
-
+            
+            {/* Tags */}
             <div className="flex gap-2 ml-auto">
-              <span className="px-4 py-2 border border-white/30 text-white text-sm rounded-full">
-                Food
-              </span>
-              <span className="px-4 py-2 border border-white/30 text-white text-sm rounded-full">
-                UI/UX + Development
-              </span>
+              {data.tags.map((tag, index) => (
+                <span key={index} className="px-4 py-2 border border-white/30 text-white text-sm rounded-full">
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
 
-          <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold leading-tight mb-12">
-            Building a Bold Digital Experience<br />
-            for Artisan Jerky Lovers
+          {/* Main Title */}
+          <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold leading-tight mb-12 whitespace-pre-line">
+            {data.title}
           </h1>
 
+          {/* Metrics Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            <div>
-              <p className="text-white/60 text-sm mb-2">Product Focus</p>
-              <p className="text-white text-2xl md:text-3xl BenzinSemibold">Direct-to-Consumer</p>
-            </div>
-
-            <div>
-              <p className="text-white/60 text-sm mb-2">Key Pages Delivered</p>
-              <p className="text-white text-2xl md:text-2xl BenzinSemibold">10+ Pages</p>
-            </div>
-
-            <div>
-              <p className="text-white/60 text-sm mb-2">Industry</p>
-              <p className="text-white text-2xl md:text-2xl BenzinSemibold">Food &amp; Beverage</p>
-            </div>
-
+            {data.metrics.map((metric, index) => (
+              <div key={index}>
+                <p className="text-white/60 text-sm mb-2">{metric.label}</p>
+                <p className="text-white text-2xl md:text-3xl BenzinSemibold">{metric.value}</p>
+              </div>
+            ))}
+            
             <div>
               <p className="text-white/60 text-sm mb-2">Check it out</p>
-              <a
-                href="#"
+              <a 
+                href={data.websiteUrl} 
                 className="text-white text-xl md:text-2xl BenzinSemibold transition-colors inline-flex items-center gap-2 hover:text-(--case-accent)"
               >
                 Visit Website
@@ -120,38 +120,26 @@ const JiggyEmergencyCare = () => {
           </div>
         </motion.div>
       </div>
-
+      
+      {/* Overflow container with infinite scroll */}
       <div className="relative overflow-hidden">
         <div
           ref={sliderRef}
           className="flex gap-6 will-change-transform"
           style={{ width: 'max-content' }}
         >
+          {/* Duplicate the set twice for seamless loop */}
           {[...Array(2)].map((_, setIndex) => (
             <React.Fragment key={setIndex}>
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-jiggy-jerky-card-01.webp"
-                  alt="Jiggy Jerky card view"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-jiggy-jerky-jiggy-01.webp"
-                  alt="Jiggy Jerky homepage view"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-jiggy-jerky-card-01.webp"
-                  alt="Jiggy Jerky product view"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              {data.sliderImages.map((src, index) => (
+                <div key={index} className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
+                  <img
+                    src={src}
+                    alt={`Slider Image ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
             </React.Fragment>
           ))}
         </div>
@@ -160,4 +148,4 @@ const JiggyEmergencyCare = () => {
   )
 }
 
-export default JiggyEmergencyCare
+export default CaseStudyHero

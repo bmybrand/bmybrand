@@ -1,9 +1,9 @@
-import JiggyJerkyDetail from '@/components/jiggyjerkydetail'
+import CaseStudyDetail from '@/components/case-sections/CaseStudyDetail'
 
 export default function JiggyJerkyPage() {
   return (
     <div className="bg-[#100203]">
-      <JiggyJerkyDetail />
+      <CaseStudyDetail slug="jiggy-jerky" />
     </div>
   )
 }

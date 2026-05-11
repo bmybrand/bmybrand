@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 const reviews = [
   {
@@ -630,7 +631,7 @@ export default function StrategyCallPage() {
                       className="flex h-full w-12 items-center justify-center rounded-lg bg-[#191A35] text-white/70 transition-colors duration-200 border border-[#191A35] hover:bg-transparent hover:border hover:border-[#2A2B47]"
                       aria-label="Move reviews left "
                     >
-                      <span className="text-lg"><img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135" /> </span>
+                      <span className="text-lg"><img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135 brightness-0 invert" /> </span>
                     </button>
                     <button
                       type="button"
@@ -638,7 +639,7 @@ export default function StrategyCallPage() {
                       className="flex h-full w-12 items-center justify-center rounded-lg bg-[#191A35] text-white/70 transition-colors duration-200 border border-[#191A35] hover:bg-transparent hover:border hover:border-[#2A2B47]"
                       aria-label="Move reviews right"
                     >
-                      <span className="text-lg"><img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45" /></span>
+                      <span className="text-lg"><img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45 brightness-0 invert" /></span>
                     </button>
                   </div>
                 </div>
@@ -1098,7 +1099,7 @@ export default function StrategyCallPage() {
           )}
         </main>
       </div>
-
+      <Footer />
     </div>
   );
 }

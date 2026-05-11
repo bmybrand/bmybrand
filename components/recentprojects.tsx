@@ -49,14 +49,7 @@ const projects: Project[] = [
     image: '/bmyb-case-pink-me-card-01.webp',
     link: '/case-studies/pink-me',
   },
-  {
-    id: '03',
-    number: '03',
-    title: 'EPCI',
-    description: 'EPCI is a UK-affiliated engineering firm providing turnkey business solutions that span strategy development, architecture, and comprehensive project delivery.',
-    image: '/bmyb-case-epci-card-01.webp',
-    link: '/case-studies/epci',
-  },
+
   {
     id: '04',
     number: '04',
@@ -116,30 +109,7 @@ const caseStudies: CaseStudy[] = [
     ],
     slug: 'pink-me'
   },
-  {
-    id: 'epci',
-    number: '03',
-    title: 'EPCI',
-    subtitle: 'Enterprise Platform for Engineering Solutions',
-    client: 'EPCI Engineering',
-    industry: 'Engineering & Construction',
-    services: ['Web Application', 'System Integration', 'Project Management Tools'],
-    challenge: 'EPCI required a comprehensive digital platform to manage complex engineering projects while providing transparent communication with clients across multiple time zones.',
-    solution: 'We built a robust web application with project tracking, document management, and real-time collaboration tools. The system integrated with existing enterprise software and provided detailed analytics.',
-    results: [
-      'Project delivery time reduced by 30%',
-      'Client satisfaction score: 4.8/5',
-      'Operational costs reduced by 25%',
-      'Team productivity increased by 40%'
-    ],
-    image: '/bmyb-case-epci-card-01.webp',
-    stats: [
-      { label: 'Time Saved', value: '30%' },
-      { label: 'Client Score', value: '4.8/5' },
-      { label: 'Cost Reduction', value: '25%' }
-    ],
-    slug: 'epci'
-  },
+
   {
     id: 'jiggy-jerky',
     number: '04',
