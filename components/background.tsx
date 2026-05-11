@@ -111,33 +111,33 @@ const Background = () => {
         >
           {/* Left Image */}
               <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
-            <div className="relative w-full h-full rounded-xl overflow-hidden">
+            <div className="relative w-full h-full rounded-xl overflow-hidden p-6" style={{ backgroundColor: '#BF212F' }}>
               <img
-                src="/bmyb-case-fountain-hills-gallery-01.svg"
+                src="/bmyb-case-fountain-hills-gallery-01.webp"
                 alt="Fountain Hills screen 1"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
 
           {/* Center Image */}
               <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
-            <div className="relative w-full h-full rounded-xl overflow-hidden">
+            <div className="relative w-full h-full rounded-xl overflow-hidden p-6" style={{ backgroundColor: '#BF212F' }}>
               <img
-                src="/bmyb-case-fountain-hills-gallery-02.svg"
+                src="/bmyb-case-fountain-hills-gallery-02.webp"
                 alt="Fountain Hills screen 2"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
 
           {/* Right Image */}
               <div className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
-            <div className="relative w-full h-full rounded-xl overflow-hidden">
+            <div className="relative w-full h-full rounded-xl overflow-hidden p-6" style={{ backgroundColor: '#BF212F' }}>
               <img
-                src="/bmyb-case-fountain-hills-gallery-03.svg"
+                src="/bmyb-case-fountain-hills-gallery-03.webp"
                 alt="Fountain Hills screen 3"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>

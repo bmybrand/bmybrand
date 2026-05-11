@@ -127,49 +127,25 @@ const EpciEmergencyCare = () => {
           className="flex gap-6 will-change-transform"
           style={{ width: 'max-content' }}
         >
-          {[...Array(2)].map((_, setIndex) => (
-            <React.Fragment key={setIndex}>
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-epci-epci-01.webp"
-                  alt="EPCI platform screen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          {(() => {
+            const slides = [
+              '/bmyb-case-epci-epci-01.webp',
+              '/bmyb-case-epci-card-01.webp',
+              '/bmyb-case-epci-epci-01.webp',
+              '/bmyb-case-epci-card-01.webp',
+              '/bmyb-case-epci-epci-01.webp',
+            ];
 
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-epci-card-01.webp"
-                  alt="EPCI dashboard screen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-epci-epci-01.webp"
-                  alt="EPCI workflow screen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-epci-card-01.webp"
-                  alt="EPCI project screen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
-                <img
-                  src="/bmyb-case-epci-epci-01.webp"
-                  alt="EPCI collaboration screen"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </React.Fragment>
-          ))}
+            return [0, 1].map((rep) => (
+              <React.Fragment key={rep}>
+                {slides.map((src, i) => (
+                  <div key={i} className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
+                    <img src={src} alt={`EPCI slide ${i}`} className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </React.Fragment>
+            ));
+          })()}
         </div>
       </div>
     </section>
