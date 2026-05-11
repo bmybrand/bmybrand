@@ -81,7 +81,18 @@ const CaseStudySolution = ({ data }: Props) => {
       <div>
         <div style={{ backgroundColor: 'var(--case-accent)' }}>
           <div className="relative w-full h-full overflow-hidden">
-            <img src={data.bannerImage} alt="Website Pages" className="w-full h-full object-cover" />
+            {data.bannerVideo ? (
+              <video 
+                src={data.bannerVideo} 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img src={data.bannerImage} alt="Website Pages" className="w-full h-full object-cover" />
+            )}
           </div>
         </div>
       </div>

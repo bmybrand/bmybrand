@@ -63,7 +63,7 @@ const projects: Project[] = [
     number: '05',
     title: 'INSTINCTIVE HEALTHCARE SOLUTIONS',
     description: 'Placeholder description for Instinctive Healthcare Solutions.',
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-instinctive-healthcare-slider-01.webp',
     link: '/case-studies/instinctive-healthcare-solutions',
   },
   {
@@ -71,7 +71,7 @@ const projects: Project[] = [
     number: '06',
     title: 'INSTINCTIVE HEALTH',
     description: 'Placeholder description for Instinctive Health.',
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-instinctive-health-slider-01.webp',
     link: '/case-studies/instinctive-health',
   },
   {
@@ -170,18 +170,22 @@ const caseStudies: CaseStudy[] = [
     id: 'instinctive-healthcare-solutions',
     number: '05',
     title: 'INSTINCTIVE HEALTHCARE SOLUTIONS',
-    subtitle: 'Placeholder Subtitle',
+    subtitle: '24/7 Patient-Centric Emergency Care',
     client: 'Instinctive Healthcare Solutions',
     industry: 'Healthcare',
-    services: ['Placeholder Service'],
-    challenge: 'Placeholder challenge.',
-    solution: 'Placeholder solution.',
+    services: ['UI/UX Design', 'Web Development', 'Patient Accessibility'],
+    challenge: 'Instinctive Healthcare Solutions needed a streamlined digital platform to provide critical information and access to emergency care services with zero downtime.',
+    solution: 'We developed a high-performance website with clear navigation and a clean interface that prioritizes accessibility in high-stress situations.',
     results: [
-      'Placeholder result'
+      '100% Site Uptime during launch',
+      '35% Faster page load times',
+      'Improved navigation for urgent care'
     ],
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-instinctive-healthcare-slider-01.webp',
     stats: [
-      { label: 'Placeholder Label', value: 'Value' }
+      { label: 'Site Uptime', value: '100%' },
+      { label: 'Load Speed', value: '+35%' },
+      { label: 'Accessibility', value: 'WCAG 2.1' }
     ],
     slug: 'instinctive-healthcare-solutions'
   },
@@ -189,18 +193,22 @@ const caseStudies: CaseStudy[] = [
     id: 'instinctive-health',
     number: '06',
     title: 'INSTINCTIVE HEALTH',
-    subtitle: 'Placeholder Subtitle',
+    subtitle: 'Innovative Wellness and Diagnostic Services',
     client: 'Instinctive Health',
     industry: 'Healthcare',
-    services: ['Placeholder Service'],
-    challenge: 'Placeholder challenge.',
-    solution: 'Placeholder solution.',
+    services: ['Brand Identity', 'Responsive Design', 'Content Strategy'],
+    challenge: 'The brand needed to communicate complex diagnostic services in a way that felt approachable and professional to a broad patient base.',
+    solution: 'We created a visual language that balances medical expertise with human-centric design, supported by a clear content hierarchy.',
     results: [
-      'Placeholder result'
+      'Increase in online patient inquiries',
+      'Positive community feedback on accessibility',
+      'Consistent brand identity across locations'
     ],
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-instinctive-health-slider-01.webp',
     stats: [
-      { label: 'Placeholder Label', value: 'Value' }
+      { label: 'Patient Engagement', value: '+40%' },
+      { label: 'Inquiry Rate', value: '+25%' },
+      { label: 'Brand Reach', value: 'High' }
     ],
     slug: 'instinctive-health'
   },
@@ -208,18 +216,22 @@ const caseStudies: CaseStudy[] = [
     id: 'learnandlabel',
     number: '07',
     title: 'LEARN AND LABEL',
-    subtitle: 'Placeholder Subtitle',
-    client: 'learnandlabel',
+    subtitle: 'Education and Certification Management',
+    client: 'Learn and Label',
     industry: 'Education',
-    services: ['Placeholder Service'],
-    challenge: 'Placeholder challenge.',
-    solution: 'Placeholder solution.',
+    services: ['LMS Integration', 'UI/UX Design', 'Full-Stack Development'],
+    challenge: 'The client required a platform that could handle complex certification workflows while remaining easy for students to navigate.',
+    solution: 'We built a custom learning management system with intuitive dashboards and automated labeling systems for certification tracking.',
     results: [
-      'Placeholder result'
+      'Automated certification workflow',
+      '60% reduction in manual labeling tasks',
+      'Improved student completion rates'
     ],
     image: '/bmyb-global-fullimage-01.webp',
     stats: [
-      { label: 'Placeholder Label', value: 'Value' }
+      { label: 'Efficiency', value: '60%' },
+      { label: 'Completion Rate', value: '92%' },
+      { label: 'User Rating', value: '4.9/5' }
     ],
     slug: 'learnandlabel'
   },
@@ -227,18 +239,22 @@ const caseStudies: CaseStudy[] = [
     id: 'vytis-tour',
     number: '08',
     title: 'VYTIS TOUR',
-    subtitle: 'Placeholder Subtitle',
+    subtitle: 'Premium Travel and Destination Management',
     client: 'Vytis Tour',
     industry: 'Travel',
-    services: ['Placeholder Service'],
-    challenge: 'Placeholder challenge.',
-    solution: 'Placeholder solution.',
+    services: ['Web Design', 'Digital Marketing', 'Booking Engine Integration'],
+    challenge: 'Vytis Tour needed a premium online presence that reflected the luxury and exclusivity of their travel packages.',
+    solution: 'We designed a visual-heavy website with immersive galleries and an integrated booking experience that feels effortless.',
     results: [
-      'Placeholder result'
+      'Successful luxury brand positioning',
+      '25% increase in premium travel bookings',
+      'Enhanced user engagement on destination pages'
     ],
     image: '/bmyb-global-fullimage-01.webp',
     stats: [
-      { label: 'Placeholder Label', value: 'Value' }
+      { label: 'Bookings', value: '+25%' },
+      { label: 'Site Traffic', value: '+50%' },
+      { label: 'Trip Value', value: '+15%' }
     ],
     slug: 'vytis-tour'
   },

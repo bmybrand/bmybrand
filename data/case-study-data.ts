@@ -46,6 +46,7 @@ export type CaseStudyData = {
     resultsParagraphs: string[]
     accomplishments: Accomplishment[]
     bannerImage: string
+    bannerVideo?: string
   }
   
   reviews: {
@@ -97,9 +98,9 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-fountain-hills-gallery-01.webp',
-        '/bmyb-case-fountain-hills-gallery-02.webp',
-        '/bmyb-case-fountain-hills-gallery-03.webp',
+        '/bmyb-case-fountain-hills-gallery-new-01.svg',
+        '/bmyb-case-fountain-hills-gallery-new-02.svg',
+        '/bmyb-case-fountain-hills-gallery-new-03.svg',
       ],
       galleryImageFit: 'contain',
       galleryBgColor: '#BF212F'
@@ -119,7 +120,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
         { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
       ],
-      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+      bannerImage: '/bmyb-global-backgroundfh-01.webp',
+      bannerVideo: '/FHMC_2.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
@@ -281,7 +283,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
     accentColor: '#00ACC8',
     accentColorRgb: '0 172 200',
     hero: {
-      logo: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg',
+      logo: '/bmyb-case-instinctive-healthcare-logo-01.svg',
       logoAlt: 'Instinctive Healthcare Solutions Logo',
       tags: ['Healthcare', 'UI/UX + Development'],
       title: 'Building a Patient-First Digital\nExperience for 24/7 Emergency Care',
@@ -292,11 +294,11 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       ],
       websiteUrl: '#',
       sliderImages: [
-        '/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp',
-        '/bmyb-case-fountain-hills-emergency-room-01.webp',
-        '/bmyb-case-fountain-hills-home-01.webp',
-        '/bmyb-case-fountain-hills-primary-care-clinic-01.svg',
-        '/bmyb-case-fountain-hills-meet-our-physicians-01.svg',
+        '/bmyb-case-instinctive-healthcare-slider-01.webp',
+        '/bmyb-case-instinctive-healthcare-slider-02.webp',
+        '/bmyb-case-instinctive-healthcare-slider-03.webp',
+        '/bmyb-case-instinctive-healthcare-slider-04.webp',
+        '/bmyb-case-instinctive-healthcare-slider-05.webp',
       ]
     },
     background: {
@@ -317,9 +319,9 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-fountain-hills-gallery-01.webp',
-        '/bmyb-case-fountain-hills-gallery-02.webp',
-        '/bmyb-case-fountain-hills-gallery-03.webp',
+        '/bmyb-case-instinctive-healthcare-gallery-01.svg',
+        '/bmyb-case-instinctive-healthcare-gallery-02.svg',
+        '/bmyb-case-instinctive-healthcare-gallery-03.svg',
       ],
       galleryImageFit: 'contain',
       galleryBgColor: '#00ACC8'
@@ -367,11 +369,10 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       ],
       websiteUrl: '#',
       sliderImages: [
-        '/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp',
-        '/bmyb-case-fountain-hills-emergency-room-01.webp',
-        '/bmyb-case-fountain-hills-home-01.webp',
-        '/bmyb-case-fountain-hills-primary-care-clinic-01.svg',
-        '/bmyb-case-fountain-hills-meet-our-physicians-01.svg',
+        '/bmyb-case-instinctive-health-slider-01.webp',
+        '/bmyb-case-instinctive-health-slider-02.webp',
+        '/bmyb-case-instinctive-health-slider-03.webp',
+        '/bmyb-case-instinctive-health-slider-04.webp',
       ]
     },
     background: {

@@ -105,7 +105,7 @@ const CaseStudyBackground = ({ data }: Props) => {
           {data.galleryImages.map((src, index) => (
             <div key={index} className="relative h-125 md:h-137.5 lg:h-150 rounded-2xl overflow-hidden">
               {data.galleryBgColor ? (
-                <div className="relative w-full h-full rounded-xl overflow-hidden p-6" style={{ backgroundColor: data.galleryBgColor }}>
+                <div className="relative w-full h-full rounded-xl overflow-hidden" style={{ backgroundColor: data.galleryBgColor }}>
                   <img
                     src={src}
                     alt={`Gallery screen ${index + 1}`}
