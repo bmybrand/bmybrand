@@ -553,19 +553,18 @@ export default function BrandExperienceHero() {
           </div>
         </div>
       </section>
-
-      {/* Hero Image */}
+      
+      {/* Hero Image Section */}
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <div className="h-[400px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1a2e] to-[#11122F] md:h-[500px] lg:h-[600px]">
-            <img
-              src="/bmyb-services-brand-brand-01.webp"
-              alt="Brand Experience"
+            <video
+              src="/bmyb-services-brand-hero-video-01.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
               className="h-full w-full object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-                e.currentTarget.parentElement!.innerHTML = '<div class="flex h-full items-center justify-center text-6xl text-white/40">Brand</div>'
-              }}
             />
           </div>
         </div>
