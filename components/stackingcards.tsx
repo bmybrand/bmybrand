@@ -57,6 +57,24 @@ const projects = [
     buttonIcon: "/bmyb-global-arrowyellow-01.svg",
     backgroundImage: "/bmyb-case-jiggy-jerky-jiggybg-01.svg",
   },
+
+  {
+    title: (
+      <>
+        Creating <span className="text-[#B0BD31]">AI-Powered Labels & Newsletters</span> For Smarter Communication
+      </>
+    ),
+    description:
+      "Famous About Town, A Classic MTV-Style, Legal Jerky Is Made For Jerky Lovers Who Want Bold Flavors Without The Fuss— Smoky, Savory, And Bold. That's Just Like It.",
+    buttonText: "View Full Case Study",
+    src: "/bmyb-case-learnandlabel-learnandlabel-01.png",
+    link: "/bmyb-case-jiggy-jerky-jiggy-01.webp",
+    logo: "/bmyb-case-learnandlabel-learnandlabellogo-01.svg",
+    gradient: "linear-gradient(180deg, #4A3A1A 0%, #1F1808 100%)",
+    buttonColor: "#B0BD31",
+    buttonIcon: "/bmyb-global-arrowgreen-01.svg",
+    backgroundImage: "/bmyb-case-learnandlabel-learnandlabelbg-01.svg",
+  }, 
 ];
 
 export default function Index(): JSX.Element {
