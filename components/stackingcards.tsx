@@ -65,7 +65,7 @@ const projects = [
       </>
     ),
     description:
-      "Famous About Town, A Classic MTV-Style, Legal Jerky Is Made For Jerky Lovers Who Want Bold Flavors Without The Fuss— Smoky, Savory, And Bold. That's Just Like It.",
+      "Built to simplify content creation, enhance productivity, and deliver personalized results, the app empowers businesses and individuals to communicate smarter and faster.",
     buttonText: "View Full Case Study",
     src: "/bmyb-case-learnandlabel-learnandlabel-01.png",
     link: "/bmyb-case-jiggy-jerky-jiggy-01.webp",
