@@ -79,7 +79,7 @@ const projects: Project[] = [
     number: '07',
     title: 'LEARN AND LABEL',
     description: 'Placeholder description for learnandlabel.',
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-learnandlabel-slider-01.webp',
     link: '/case-studies/learnandlabel',
   },
   {
@@ -87,8 +87,24 @@ const projects: Project[] = [
     number: '08',
     title: 'VYTIS TOUR',
     description: 'Placeholder description for Vytis Tour.',
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-vytis-tour-slider-01.webp',
     link: '/case-studies/vytis-tour',
+  },
+  {
+    id: '09',
+    number: '09',
+    title: 'JERSEY',
+    description: 'Placeholder description for Jersey.',
+    image: '/bmyb-case-jersey-slider-01.webp',
+    link: '/case-studies/jersey',
+  },
+  {
+    id: '10',
+    number: '10',
+    title: 'BHS',
+    description: 'Placeholder description for BHS.',
+    image: '/bmyb-global-fullimage-01.webp',
+    link: '/case-studies/bhs',
   },
 ]
 
@@ -123,7 +139,7 @@ const caseStudies: CaseStudy[] = [
     title: 'PINK.ME',
     subtitle: 'E-commerce Platform for Fashion Brand',
     client: 'Pink.Me Fashion',
-    industry: 'Fashion & Retail',
+    industry: 'Non-profit',
     services: ['E-commerce Development', 'Brand Identity', 'Digital Marketing'],
     challenge: 'Pink.Me needed a vibrant online presence that would capture their unique brand personality and convert visitors into customers through an engaging shopping experience.',
     solution: 'We created a bold, visually stunning e-commerce platform with advanced filtering, personalized recommendations, and seamless checkout. The design showcased products beautifully while maintaining fast load times.',
@@ -148,7 +164,7 @@ const caseStudies: CaseStudy[] = [
     title: 'JIGGY JERKY',
     subtitle: 'Bold Brand Experience for Artisan Jerky',
     client: 'Jeremiahs Cigars, Inc',
-    industry: 'Food & Beverage',
+    industry: 'Food',
     services: ['Brand Identity', 'E-commerce', 'Content Strategy'],
     challenge: 'Jiggy Jerky needed a website that captured their fun, bold personality while making it easy for customers to browse and purchase their artisan jerky products online.',
     solution: 'We designed a vibrant, personality-driven e-commerce site with playful animations, mouthwatering product photography, and a subscription service for regular customers. The site reflected the brand\'s unique character while driving sales.',
@@ -227,7 +243,7 @@ const caseStudies: CaseStudy[] = [
       '60% reduction in manual labeling tasks',
       'Improved student completion rates'
     ],
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-learnandlabel-slider-01.webp',
     stats: [
       { label: 'Efficiency', value: '60%' },
       { label: 'Completion Rate', value: '92%' },
@@ -241,7 +257,7 @@ const caseStudies: CaseStudy[] = [
     title: 'VYTIS TOUR',
     subtitle: 'Premium Travel and Destination Management',
     client: 'Vytis Tour',
-    industry: 'Travel',
+    industry: 'Travel and Tourism',
     services: ['Web Design', 'Digital Marketing', 'Booking Engine Integration'],
     challenge: 'Vytis Tour needed a premium online presence that reflected the luxury and exclusivity of their travel packages.',
     solution: 'We designed a visual-heavy website with immersive galleries and an integrated booking experience that feels effortless.',
@@ -250,13 +266,59 @@ const caseStudies: CaseStudy[] = [
       '25% increase in premium travel bookings',
       'Enhanced user engagement on destination pages'
     ],
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-vytis-tour-slider-01.webp',
     stats: [
       { label: 'Bookings', value: '+25%' },
       { label: 'Site Traffic', value: '+50%' },
       { label: 'Trip Value', value: '+15%' }
     ],
     slug: 'vytis-tour'
+  },
+  {
+    id: 'jersey',
+    number: '09',
+    title: 'JERSEY',
+    subtitle: 'Brand and Digital Experience',
+    client: 'Jersey',
+    industry: 'Brand / Business',
+    services: ['Branding', 'UI/UX Design', 'Development'],
+    challenge: 'Jersey needed a clearer digital presence that could present the brand more confidently while remaining easy to navigate across devices.',
+    solution: 'We created a cleaner, more structured digital experience with stronger visual hierarchy and a scalable foundation for future growth.',
+    results: [
+      'Stronger brand presentation',
+      'Improved content clarity',
+      'Better cross-device experience'
+    ],
+    image: '/bmyb-case-jersey-slider-01.webp',
+    stats: [
+      { label: 'Brand Clarity', value: 'Improved' },
+      { label: 'UX Structure', value: 'Refined' },
+      { label: 'Scalability', value: 'Ready' }
+    ],
+    slug: 'jersey'
+  },
+  {
+    id: 'bhs',
+    number: '10',
+    title: 'BHS',
+    subtitle: 'Brand and Digital Experience',
+    client: 'BHS',
+    industry: 'Business',
+    services: ['Branding', 'UI/UX Design', 'Development'],
+    challenge: 'BHS needed a clearer digital presence with a stronger visual identity and a more structured user experience.',
+    solution: 'We created a cleaner digital direction with improved layout hierarchy, stronger brand presentation, and a scalable foundation for future growth.',
+    results: [
+      'Stronger brand presentation',
+      'Improved content clarity',
+      'Better cross-device experience'
+    ],
+    image: '/bmyb-global-fullimage-01.webp',
+    stats: [
+      { label: 'Brand Clarity', value: 'Improved' },
+      { label: 'UX Structure', value: 'Refined' },
+      { label: 'Scalability', value: 'Ready' }
+    ],
+    slug: 'bhs'
   },
 ]
 

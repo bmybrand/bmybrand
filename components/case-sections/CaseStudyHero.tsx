@@ -62,7 +62,7 @@ const CaseStudyHero = ({ data }: Props) => {
   }, [])
   
   return (
-    <section className="py-16 md:py-20" style={{ backgroundColor: 'var(--case-accent)' }}>
+    <section className="py-16 md:py-20" style={{ background: 'var(--case-accent-gradient)' }}>
       <div className="w-[90%] lg:w-[90%] 2xl:w-[75%] mx-auto mt-40">
         {/* Header with Logo and Tags */}
         <motion.div
@@ -71,18 +71,18 @@ const CaseStudyHero = ({ data }: Props) => {
           transition={{ duration: 1.0 }}
           className="mb-12"
         >
-          <div className="flex flex-wrap items-center gap-4 mb-8">
+          <div className="flex flex-wrap items-center gap-y-4 mb-8">
             {/* Logo */}
             <div className="flex items-center gap-3">
               <img 
                 src={data.logo} 
                 alt={data.logoAlt} 
-                className="h-12 w-auto"
+                className="h-16 md:h-20 w-auto max-w-[220px] md:max-w-[280px]"
               />
             </div>
             
             {/* Tags */}
-            <div className="flex gap-2 ml-auto">
+            <div className="ml-4 md:ml-6 flex flex-wrap gap-2">
               {data.tags.map((tag, index) => (
                 <span key={index} className="px-4 py-2 border border-white/30 text-white text-sm rounded-full">
                   {tag}
@@ -109,7 +109,7 @@ const CaseStudyHero = ({ data }: Props) => {
               <p className="text-white/60 text-sm mb-2">Check it out</p>
               <a 
                 href={data.websiteUrl} 
-                className="text-white text-xl md:text-2xl BenzinSemibold transition-colors inline-flex items-center gap-2 hover:text-(--case-accent)"
+                className="text-white text-xl md:text-2xl BenzinSemibold transition-opacity inline-flex items-center gap-2 hover:opacity-75"
               >
                 Visit Website
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +132,7 @@ const CaseStudyHero = ({ data }: Props) => {
           {[...Array(2)].map((_, setIndex) => (
             <React.Fragment key={setIndex}>
               {data.sliderImages.map((src, index) => (
-                <div key={index} className="relative h-87.5 md:h-100 lg:h-112.5 w-137.5 md:w-162.5 lg:w-187.5 shrink-0 overflow-hidden border-4 border-white rounded-xl">
+                <div key={index} className="relative h-87.5 md:h-100 lg:h-112.5 w-150 md:w-180 lg:w-210 shrink-0 overflow-hidden border-4 border-white rounded-xl">
                   <img
                     src={src}
                     alt={`Slider Image ${index + 1}`}

@@ -32,7 +32,7 @@ const projects = [
       "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
     buttonText: "View Full Case Study",
     src: "/bmyb-case-pink-me-pinkme-01.webp",
-    link: "/bmyb-case-pink-me-pinkme-01.webp",
+    link: "/case-studies/pink-me",
     logo: "/bmyb-case-pink-me-pm-logo-01.svg",
     gradient: "linear-gradient(180deg, #661041 0%, #250617 100%)",
     buttonColor: "#ED349D",
@@ -50,7 +50,7 @@ const projects = [
       "Famous About Town, A Classic MTV-Style, Legal Jerky Is Made For Jerky Lovers Who Want Bold Flavors Without The Fuss— Smoky, Savory, And Bold. That's Just Like It.",
     buttonText: "View Full Case Study",
     src: "/bmyb-case-jiggy-jerky-jiggy-01.webp",
-    link: "/bmyb-case-jiggy-jerky-jiggy-01.webp",
+    link: "/case-studies/jiggy-jerky",
     logo: "/bmyb-case-jiggy-jerky-jiggylogo-01.svg",
     gradient: "linear-gradient(180deg, #4A3A1A 0%, #1F1808 100%)",
     buttonColor: "#F59E0B",
@@ -67,8 +67,8 @@ const projects = [
     description:
       "Built to simplify content creation, enhance productivity, and deliver personalized results, the app empowers businesses and individuals to communicate smarter and faster.",
     buttonText: "View Full Case Study",
-    src: "/bmyb-case-learnandlabel-learnandlabel-01.png",
-    link: "/bmyb-case-jiggy-jerky-jiggy-01.webp",
+    src: "/bmyb-case-learnandlabel-learnandlabel-02.webp",
+    link: "/case-studies/learnandlabel",
     logo: "/bmyb-case-learnandlabel-learnandlabellogo-01.svg",
     gradient: "linear-gradient(180deg, #4A3A1A 0%, #1F1808 100%)",
     buttonColor: "#B0BD31",
@@ -166,7 +166,10 @@ export const Card: React.FC<CardProps> = ({
         }}
         className="overflow-hidden flex flex-col relative top-[25%] h-fit lg:h-[70vh] w-[94vw] lg:w-[80%] max-w-none rounded-3xl origin-top overflow-hidden"
       >
-        <div className="relative bg-cover bg-left w-full h-full" style={{ backgroundImage: `url('${backgroundImage}')` }}>
+        <div
+          className="relative bg-cover bg-left w-full h-full"
+          style={backgroundImage ? { backgroundImage: `url('${backgroundImage}')` } : undefined}
+        >
           <div className="flex flex-col-reverse lg:flex-row h-full w-full">
 
             {/* LEFT CONTENT */}
@@ -197,7 +200,15 @@ export const Card: React.FC<CardProps> = ({
             <a
               href={url}
               style={{ backgroundColor: buttonColor }}
-              className="mt-4 text-white px-2 py-2 BenzinSemibold rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 w-fit"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = `0 0 25px ${buttonColor}80`;
+                e.currentTarget.style.transform = 'translateY(-4px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              className="mt-4 text-white px-2 py-2 BenzinSemibold rounded-lg hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 w-fit"
             >
               <div className="bg-white p-4 rounded-lg">
                 <img src={buttonIcon} alt="button icon" className="w-4 h-4" />

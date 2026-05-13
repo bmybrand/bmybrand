@@ -79,7 +79,7 @@ const CaseStudySolution = ({ data }: Props) => {
 
       {/* Website Pages Display Mockup */}
       <div>
-        <div style={{ backgroundColor: 'var(--case-accent)' }}>
+        <div style={{ background: 'var(--case-accent-gradient)' }}>
           <div className="relative w-full h-full overflow-hidden">
             {data.bannerVideo ? (
               <video 

@@ -30,6 +30,7 @@ const CaseStudyDetail = ({ slug }: Props) => {
       style={{
         ['--case-accent' as string]: data.accentColor,
         ['--case-accent-rgb' as string]: data.accentColorRgb,
+        ['--case-accent-gradient' as string]: data.accentGradient ?? data.accentColor,
       }}
     >
       <Navbar />
