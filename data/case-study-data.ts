@@ -39,6 +39,7 @@ export type CaseStudyData = {
     whatWeDidItems: string[]
     galleryImages: string[]
     galleryImageFit?: 'cover' | 'contain'
+    galleryImagePosition?: 'left' | 'center' | 'right'
     galleryBgColor?: string // If present, wraps the image in a colored padded div
   }
   
@@ -99,11 +100,12 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-fountain-hills-gallery-new-01.svg',
-        '/bmyb-case-fountain-hills-gallery-new-02.svg',
-        '/bmyb-case-fountain-hills-gallery-new-03.svg',
+        '/bmyb-case-fountain-hills-gallery-new-01.webp',
+        '/bmyb-case-fountain-hills-gallery-new-02.webp',
+        '/bmyb-case-fountain-hills-gallery-new-03.webp',
       ],
       galleryImageFit: 'contain',
+      galleryImagePosition: 'center',
       galleryBgColor: '#BF212F'
     },
     solution: {
@@ -176,11 +178,12 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-jiggy-jerky-gallery-01.svg',
-        '/bmyb-case-jiggy-jerky-gallery-02.svg',
-        '/bmyb-case-jiggy-jerky-gallery-03.svg',
+        '/bmyb-case-jiggy-jerky-gallery-01.webp',
+        '/bmyb-case-jiggy-jerky-gallery-02.webp',
+        '/bmyb-case-jiggy-jerky-gallery-03.webp',
       ],
       galleryImageFit: 'contain',
+      galleryImagePosition: 'center',
       galleryBgColor: '#EB9B0E'
     },
     solution: {
@@ -329,11 +332,12 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-instinctive-healthcare-gallery-01.svg',
-        '/bmyb-case-instinctive-healthcare-gallery-02.svg',
-        '/bmyb-case-instinctive-healthcare-gallery-03.svg',
+        '/bmyb-case-instinctive-healthcare-gallery-01.webp',
+        '/bmyb-case-instinctive-healthcare-gallery-02.webp',
+        '/bmyb-case-instinctive-healthcare-gallery-03.webp',
       ],
       galleryImageFit: 'contain',
+      galleryImagePosition: 'center',
       galleryBgColor: '#00ACC8'
     },
     solution: {
@@ -403,11 +407,12 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-instinctive-health-gallery-01.svg',
-        '/bmyb-case-instinctive-health-gallery-02.svg',
-        '/bmyb-case-instinctive-health-gallery-03.svg',
+        '/bmyb-case-instinctive-health-gallery-01.webp',
+        '/bmyb-case-instinctive-health-gallery-02.webp',
+        '/bmyb-case-instinctive-health-gallery-03.webp',
       ],
       galleryImageFit: 'contain',
+      galleryImagePosition: 'center',
       galleryBgColor: '#ED3041'
     },
     solution: {
@@ -705,9 +710,9 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-fountain-hills-gallery-01.webp',
-        '/bmyb-case-fountain-hills-gallery-02.webp',
-        '/bmyb-case-fountain-hills-gallery-03.webp',
+        '/bmyb-case-bhs-gallery-01.webp',
+        '/bmyb-case-bhs-gallery-02.webp',
+        '/bmyb-case-bhs-gallery-03.webp',
       ],
       galleryImageFit: 'contain',
       galleryBgColor: '#0160A0'

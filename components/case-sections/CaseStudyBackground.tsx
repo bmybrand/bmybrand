@@ -118,7 +118,7 @@ const CaseStudyBackground = ({ data }: Props) => {
                   <img
                     src={src}
                     alt={`Gallery screen ${index + 1}`}
-                    className={`w-full h-full object-${data.galleryImageFit || 'cover'}`}
+                    className={`w-full h-full object-${data.galleryImageFit || 'cover'} object-${data.galleryImagePosition || 'right'}`}
                   />
                 </div>
               ) : (
@@ -126,7 +126,7 @@ const CaseStudyBackground = ({ data }: Props) => {
                   <img
                     src={src}
                     alt={`Gallery screen ${index + 1}`}
-                    className={`w-full h-full object-${data.galleryImageFit || 'cover'}`}
+                    className={`w-full h-full object-${data.galleryImageFit || 'cover'} object-${data.galleryImagePosition || 'right'}`}
                   />
                 </div>
               )}
