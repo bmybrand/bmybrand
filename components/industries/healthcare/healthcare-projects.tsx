@@ -5,6 +5,8 @@ import Link from 'next/link'
 type ProjectCard = {
   brandTitle: string
   brandSubtitle?: string
+  brandLogo?: string
+  logoClassName?: string
   title: string
   image: string
   tag: string
@@ -15,29 +17,34 @@ type ProjectCard = {
 
 const projectCards: ProjectCard[] = [
   {
+    brandTitle: 'INSTINCTIVE',
+    brandSubtitle: 'HEALTHCARE SOLUTIONS',
+    brandLogo: '/bmyb-industries-healthcare-client-logo-02.svg',
+    title: 'Scalable Digital Growth For Healthcare',
+    image: '/bmyb-industries-healthcare-project-01.webp',
+    tag: 'Healthcare',
+    href: 'https://instinctivehealthpass.com/',
+    imageClassName: 'object-cover object-center',
+  },
+  {
     brandTitle: 'FOUNTAIN HILLS',
     brandSubtitle: 'EMERGENCY ROOM & MEDICAL CENTER',
+    brandLogo: '/bmyb-industries-healthcare-client-logo-01.svg',
     title: 'Patient-First Emergency Care Experience',
-    image: '/bmyb-global-container-01.webp',
+    image: '/bmyb-industries-healthcare-project-02.webp',
     tag: 'Healthcare',
-    href: '/case-studies/fountain-hills',
+    href: 'https://fhmcaz.com/',
     imageClassName: 'object-cover object-center',
   },
   {
     brandTitle: 'INSTINCTIVE',
-    brandSubtitle: 'HEALTHCARE SOLUTIONS',
-    title: 'Scalable Digital Growth For Healthcare',
-    image: '/bmyb-global-container-02.webp',
-    tag: 'Healthcare',
-    href: '/contact',
-    imageClassName: 'object-cover object-center',
-  },
-  {
-    brandTitle: 'HealTrust',
+    brandSubtitle: 'HEALTH',
+    brandLogo: '/bmyb-industries-healthcare-client-logo-03.svg',
+    logoClassName: 'scale-125 origin-left',
     title: 'Smarter Digital Systems For Modern Care',
-    image: '/bmyb-industries-healthcare-healthcareservies2-01.webp',
+    image: '/bmyb-industries-healthcare-project-03.svg',
     tag: 'AI / Healthcare',
-    href: '/contact',
+    href: '#',
     imageClassName: 'object-contain object-center bg-[#f1f5fb]',
   },
 ]
@@ -60,19 +67,27 @@ export default function HealthcareProjects() {
           <div key={card.title}>
             <Link
               href={card.href}
+              target={card.href.startsWith('http') ? '_blank' : undefined}
+              rel={card.href.startsWith('http') ? 'noopener noreferrer' : undefined}
               className={`group relative block overflow-hidden rounded-[18px] border border-white/8 bg-transparent px-5 pt-5 pb-0 transition-all duration-300 hover:-translate-y-1 hover:border-white/15 hover:bg-[#202141] ${
                 card.featured ? 'shadow-[0_0_0_1px_rgba(255,132,62,0.1)]' : ''
               }`}
             >
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0E1026] via-[#0E1026]/82 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between px-5 pb-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <span className="text-white text-[2rem] leading-none BenzinSemibold">View Website</span>
+                <span className="text-white text-[1.3rem] leading-none BenzinRegular">View Website</span>
                 <img src="/bmyb-logo-group119-01.svg" alt="" className="h-4 w-4 object-contain brightness-0 invert" />
               </div>
 
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  {card.brandSubtitle ? (
+                  {card.brandLogo ? (
+                    <img 
+                      src={card.brandLogo} 
+                      alt={card.brandTitle} 
+                      className={`h-12 w-auto object-contain brightness-0 invert ${card.logoClassName || ''}`} 
+                    />
+                  ) : card.brandSubtitle ? (
                     <div className="leading-none">
                       <div className="text-white text-[18px] leading-[1.25] tracking-[0.04em] BenzinSemibold">
                         {card.brandTitle}

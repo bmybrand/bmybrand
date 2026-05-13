@@ -8,10 +8,7 @@ const processSteps = [
     description:
       'We analyze your services, audience, and compliance needs to define a clear strategy and positioning.',
     icon: (
-      <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="3" strokeWidth="1.8" />
-        <path d="M19.4 15a1 1 0 00.2 1.1l.1.1a1.8 1.8 0 01-2.5 2.5l-.1-.1a1 1 0 00-1.1-.2 1 1 0 00-.6.9V20a1.8 1.8 0 01-3.6 0v-.2a1 1 0 00-.6-.9 1 1 0 00-1.1.2l-.1.1a1.8 1.8 0 01-2.5-2.5l.1-.1a1 1 0 00.2-1.1 1 1 0 00-.9-.6H4a1.8 1.8 0 010-3.6h.2a1 1 0 00.9-.6 1 1 0 00-.2-1.1l-.1-.1a1.8 1.8 0 012.5-2.5l.1.1a1 1 0 001.1.2 1 1 0 00.6-.9V4a1.8 1.8 0 013.6 0v.2a1 1 0 00.6.9 1 1 0 001.1-.2l.1-.1a1.8 1.8 0 012.5 2.5l-.1.1a1 1 0 00-.2 1.1 1 1 0 00.9.6h.2a1.8 1.8 0 010 3.6h-.2a1 1 0 00-.9.6z" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      <img src="/bmyb-industries-healthcare-growth-01.svg" className="h-7 w-7 object-contain" alt="" />
     ),
   },
   {
@@ -19,10 +16,7 @@ const processSteps = [
     description:
       'We craft compliant messaging and SEO to improve visibility and attract the right patients.',
     icon: (
-      <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M21 11.5a8.5 8.5 0 01-8.5 8.5c-1.4 0-2.73-.34-3.9-.95L3 21l1.95-5.6A8.47 8.47 0 013.5 11.5 8.5 8.5 0 1112 20" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M8 10h6M8 13h4M18 6v4M16 8h4" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
+      <img src="/bmyb-industries-healthcare-growth-02.svg" className="h-7 w-7 object-contain" alt="" />
     ),
   },
   {
@@ -30,10 +24,7 @@ const processSteps = [
     description:
       'We design patient-focused experiences and build secure, scalable platforms with essential integrations.',
     icon: (
-      <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <rect x="4" y="5" width="16" height="11" rx="2" strokeWidth="1.7" />
-        <path d="M10 20h4M8 16h8M8 9h4M8 12h3M15 9h1M17 9h.01" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
+      <img src="/bmyb-industries-healthcare-growth-03.svg" className="h-7 w-7 object-contain" alt="" />
     ),
   },
   {
@@ -41,12 +32,7 @@ const processSteps = [
     description:
       'We optimize performance through data and SEO to drive engagement and patient growth.',
     icon: (
-      <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M4 16l4-4 3 3 5-6 4 3" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M14 7h6v6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="6" cy="7" r="2" strokeWidth="1.6" />
-        <path d="M3.5 15.5a3.5 3.5 0 015 0" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
+      <img src="/bmyb-industries-healthcare-growth-04.svg" className="h-7 w-7 object-contain" alt="" />
     ),
   },
 ]

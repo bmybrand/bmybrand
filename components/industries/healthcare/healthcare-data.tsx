@@ -1,20 +1,20 @@
 import type { ReactNode } from 'react'
 
 export const trustLogos = [
-  '/bmyb-logo-abboott-01.svg',
-  '/bmyb-logo-mask-group-03.svg',
-  '/bmyb-logo-client-logo3-01.svg',
-  '/bmyb-logo-aldi-svg-fill-02.svg',
-  '/bmyb-logo-vector-12.svg',
-  '/bmyb-logo-vector-13.svg',
-  '/bmyb-logo-vector-03.svg',
-  '/bmyb-logo-vector-10.svg',
+  '/bmyb-logo-client-10.png',
+  '/bmyb-logo-client-11.png',
+  '/bmyb-logo-client-12.png',
+  '/bmyb-logo-client-13.png',
+  '/bmyb-logo-client-09.png',
+  '/bmyb-logo-client-14.png',
+  '/bmyb-logo-client-15.png',
+  '/bmyb-logo-client-08.png',
 ]
 
 export const mockupSlides = [
   {
     alt: 'Mobile View',
-    image: '/bmyb-global-backgroundfh-02.webp',
+    image: '/bmyb-global-mockup-01.webp',
     className: 'bg-gradient-to-br from-pink-100 to-pink-50',
     imageClassName: 'object-center object-contain',
   },
@@ -26,7 +26,7 @@ export const mockupSlides = [
   },
   {
     alt: 'Tablet View',
-    image: '/bmyb-global-backgroundfh-02.webp',
+    image: '/bmyb-global-mockup-02.webp',
     className: 'bg-gradient-to-br from-pink-100 to-pink-50',
     imageClassName: 'object-center object-contain',
   },
@@ -42,11 +42,7 @@ export const capabilityItems: Array<{
     description:
       'HIPAA-aware, conversion-focused websites designed to build trust, improve usability, and guide patients smoothly from first visit to appointment booking.',
     icon: (
-      <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <rect x="3" y="4" width="18" height="14" rx="2" strokeWidth="1.7" />
-        <path d="M7 8h10M7 12h4M14 12h3M7 15h6" strokeWidth="1.7" strokeLinecap="round" />
-        <path d="M10 20h4" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
+      <img src="/bmyb-industries-healthcare-icon-01.svg" className="h-12 w-12 object-contain" alt="" />
     ),
   },
   {
@@ -54,10 +50,7 @@ export const capabilityItems: Array<{
     description:
       'Professional brand systems that build credibility, reflect compassion, and maintain consistent authority across every patient touchpoint.',
     icon: (
-      <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M12 3l2.1 4.26L19 9.02l-3.5 3.4.83 4.81L12 15l-4.33 2.23.83-4.81L5 9.02l4.9-1.76L12 3z" strokeWidth="1.7" strokeLinejoin="round" />
-        <path d="M9.5 11.5c.8.67 1.63 1 2.5 1s1.7-.33 2.5-1" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
+      <img src="/bmyb-industries-healthcare-icon-02.svg" className="h-12 w-12 object-contain" alt="" />
     ),
   },
   {
@@ -65,13 +58,7 @@ export const capabilityItems: Array<{
     description:
       'AI-powered tools, automation, and targeted marketing strategies designed to increase visibility, improve response times, and drive steady patient acquisition.',
     icon: (
-      <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M16 19a4 4 0 00-8 0" strokeWidth="1.7" strokeLinecap="round" />
-        <circle cx="12" cy="9" r="3" strokeWidth="1.7" />
-        <path d="M5 19a3 3 0 013-3M19 19a3 3 0 00-3-3" strokeWidth="1.7" strokeLinecap="round" />
-        <circle cx="5" cy="10" r="2" strokeWidth="1.7" />
-        <circle cx="19" cy="10" r="2" strokeWidth="1.7" />
-      </svg>
+      <img src="/bmyb-industries-healthcare-icon-03.svg" className="h-12 w-12 object-contain" alt="" />
     ),
   },
 ]

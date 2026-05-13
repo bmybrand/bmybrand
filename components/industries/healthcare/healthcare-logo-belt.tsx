@@ -9,12 +9,12 @@ export default function HealthcareLogoBelt() {
         {[...trustLogos, ...trustLogos].map((logo, index) => (
           <div
             key={`${logo}-${index}`}
-            className="flex h-12 min-w-[108px] shrink-0 items-center justify-center sm:min-w-[132px] lg:min-w-[148px]"
+            className="flex h-18 min-w-[150px] shrink-0 items-center justify-center sm:min-w-[170px] lg:min-w-[200px]"
           >
             <img
               src={logo}
               alt="trusted brand"
-              className="h-6 w-auto max-w-[140px] object-contain brightness-0 invert sm:h-7 sm:max-w-[156px] lg:h-8 lg:max-w-[172px]"
+              className="h-11 w-auto max-w-[170px] object-contain brightness-0 invert sm:h-13 sm:max-w-[190px] lg:h-16 lg:max-w-[220px]"
             />
           </div>
         ))}

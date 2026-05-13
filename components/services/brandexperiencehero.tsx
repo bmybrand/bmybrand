@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { motion } from 'framer-motion'
 import Gravity, { MatterBody } from '@/components/fancy/physics/gravity'
 
 export default function BrandExperienceHero() {
@@ -235,13 +236,46 @@ export default function BrandExperienceHero() {
             </div>
 
             <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-3 md:row-span-2">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_50%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,132,62,0.2),transparent_60%)]" />
               <div className="relative z-10 flex h-full items-center justify-center">
-                <img
-                  src="/bmyb-services-brand-bento-icons-01.svg"
-                  alt="Brand workflow icons"
-                  className="h-auto w-[12rem] object-contain"
-                />
+
+                <div className="grid grid-cols-4 gap-6">
+                  {[
+                    { src: "/bmyb-services-brand-icon-01.svg", alt: "Mail" },
+                    { src: "/bmyb-services-brand-icon-02.svg", alt: "Stars" },
+                    { src: "/bmyb-services-brand-icon-03.svg", alt: "Exchange" },
+                    { src: "/bmyb-services-brand-icon-04.svg", alt: "Archive" },
+                    { src: "/bmyb-services-brand-icon-05.svg", alt: "Trash" },
+                    { src: "/bmyb-services-brand-icon-06.svg", alt: "Search" },
+                    { src: "/bmyb-services-brand-icon-07.svg", alt: "Terminal" },
+                    { src: "/bmyb-services-brand-icon-08.svg", alt: "Undo" }
+                  ].map((icon, index) => (
+                    <motion.img
+                      key={index}
+                      src={icon.src}
+                      alt={icon.alt}
+                      className="h-9 w-9 object-contain cursor-pointer"
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ 
+                        scale: 1, 
+                        opacity: 1,
+                        transition: { 
+                          delay: 0.1 + index * 0.05,
+                          type: "spring",
+                          stiffness: 260,
+                          damping: 20
+                        }
+                      }}
+                      whileHover={{ 
+                        scale: 1.2, 
+                        rotate: 8,
+                        transition: { duration: 0.2 } 
+                      }}
+                      viewport={{ once: true }}
+                    />
+                  ))}
+                </div>
+
               </div>
             </div>
 
@@ -273,8 +307,8 @@ export default function BrandExperienceHero() {
                 </>
               ) : (
                 <>
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,132,62,0.5),transparent_52%)]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(244,91,37,0.28),transparent_36%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,132,62,0.45),transparent_60%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(244,91,37,0.3),transparent_40%)]" />
                 </>
               )}
               <div className="relative z-20 flex h-full flex-col">
@@ -299,7 +333,6 @@ export default function BrandExperienceHero() {
                   ))}
                 </div>
                 <div className="flex items-center gap-3">
-                  {isImageEdgeStory ? (
                     <>
                       <img
                         src="/bmyb-logo-group-1597884236-01.svg"
@@ -308,16 +341,6 @@ export default function BrandExperienceHero() {
                       />
                       <div className="text-sm text-white/78">5h ago</div>
                     </>
-                  ) : (
-                    <>
-                      <img
-                        src="/bmyb-logo-group-1597884236-01.svg"
-                        alt="BMYBrand"
-                        className="h-11 w-auto object-contain"
-                      />
-                      <div className="text-sm text-white/78">5h ago</div>
-                    </>
-                  )}
                 </div>
 
                 {isImageEdgeStory ? (
@@ -334,59 +357,59 @@ export default function BrandExperienceHero() {
 
                     <div className="relative mt-8 min-h-[13rem] flex-1 overflow-hidden pb-2">
                       {physicsReady ? (
-                        <Gravity gravity={{ x: 0, y: 1 }} draggable={false} className="h-[calc(100%_-_0.35rem)] w-full px-4 py-2">
+                        <Gravity gravity={{ x: 0, y: 1 }} draggable={true} className="h-[calc(100%_-_0.35rem)] w-full px-4 py-2">
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="12%" y="2%" angle={-70}>
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Brand Strategy
                               </div>
                             </div>
                           </MatterBody>
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="24%" y="8%" angle={-26}>
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Experience-Led Design
                               </div>
                             </div>
                           </MatterBody>
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="54%" y="6%" angle={24}>
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Expertise Design
                               </div>
                             </div>
                           </MatterBody>
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="88%" y="2%" angle={90}>
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Identity Design
                               </div>
                             </div>
                           </MatterBody>
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="10%" y="18%" angle={-18}>
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Design Systems
                               </div>
                             </div>
                           </MatterBody>
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="57%" y="20%" angle={30}>
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Creative Direction
                               </div>
                             </div>
                           </MatterBody>
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="23%" y="30%" angle={-18}>
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Brand Guidelines
                               </div>
                             </div>
                           </MatterBody>
                           <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="57%" y="34%">
                             <div>
-                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent">
+                              <div className="inline-flex items-center justify-center rounded-full border border-[#FF5A2F] px-[22px] py-[10px] text-[14px] leading-none text-white whitespace-nowrap bg-transparent select-none">
                                 Creative Systems
                               </div>
                             </div>
@@ -443,16 +466,18 @@ export default function BrandExperienceHero() {
             </div>
 
             <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-8 md:row-span-1">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,rgba(244,91,37,0.38),transparent_55%)] mix-blend-plus-lighter" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_50%,rgba(244,91,37,0.22),transparent_45%)] mix-blend-plus-lighter" />
               <div className="relative z-10 flex h-full items-center justify-between gap-6 px-2">
                 <div className="text-[24px] leading-none text-white BenzinSemibold">
                   Benzin
                 </div>
                 <div className="text-[24px] leading-none text-white BenzinSemibold tracking-[0.02em]">
-                  1234567890
+                  #F45B25
                 </div>
                 <div className="flex items-center">
-                  <span className="h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#FF843E_0%,#F45B25_100%)] shadow-[0_0_24px_rgba(244,91,37,0.28)]" />
-                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#F45B25_0%,#FF843E_100%)] shadow-[0_0_24px_rgba(255,132,62,0.24)]" />
+                  <span className="h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#FF843E_0%,#F45B25_100%)] shadow-[0_0_30px_rgba(244,91,37,0.4)]" />
+                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#F45B25_0%,#FF843E_100%)] shadow-[0_0_30px_rgba(255,132,62,0.35)]" />
                   <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#FFF8F0_0%,#FFFFFF_58%,#F1E8DE_100%)]" />
                   <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#353777_0%,#27295E_58%,#1E204B_100%)]" />
                 </div>
@@ -460,21 +485,36 @@ export default function BrandExperienceHero() {
             </div>
 
             <div className="relative overflow-hidden rounded-[1rem] border border-white/10 bg-[#1C1D3D] p-6 md:col-span-3 md:row-span-3">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,132,62,0.34),transparent_44%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.25),transparent_70%)]" />
               <div className="relative z-10 flex h-full flex-col">
                 <div className="text-center text-[1.15rem] text-white/92 BenzinSemibold mb-0 pb-0">
                   Notification Center
                 </div>
                 <div className="relative flex flex-1 items-center justify-center mt-0 pt-0 pb-0">
-                  <div className="absolute left-1/2 top-[38%] h-[8.2rem] w-[18rem] -translate-x-[34%] -translate-y-[18%] rounded-l-[1.1rem] bg-white/70" />
-                  <div className="absolute left-1/2 top-[41%] h-[8.2rem] w-[18rem] -translate-x-[26%] -translate-y-[8%] rounded-l-[1.1rem] bg-white/70" />
-                  <div className="absolute left-1/2 top-[44%] h-[8.2rem] w-[18rem] -translate-x-[18%] translate-y-[2%] rounded-l-[1.1rem] bg-white/70" />
+                  <motion.div
+                    className="absolute left-1/2 top-[36%] h-[8.2rem] w-[18rem] rounded-l-[1.1rem] bg-white/70"
+                    initial={{ opacity: 0, x: "-15%", y: "12%" }}
+                    whileInView={{ opacity: 1, x: "-35%", y: "-8%" }}
+                    transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                  />
+                  <motion.div
+                    className="absolute left-1/2 top-[41%] h-[8.2rem] w-[18rem] rounded-l-[1.1rem] bg-white/70"
+                    initial={{ opacity: 0, x: "-4%", y: "22%" }}
+                    whileInView={{ opacity: 1, x: "-24%", y: "2%" }}
+                    transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                  />
 
-                 <div
-  className="relative flex w-[18rem] bg-[#E9E6E8]/70  max-w-none shrink-0 items-center gap-3 rounded-l-[1.1rem]  px-6 py-6 shadow-[0_22px_44px_rgba(10,12,30,0.28)] ml-[1.8rem]"
-  style={{ top: '-1.5rem' }}
->  
-<div className="flex h-[90px] w-[90px] items-center justify-center rounded-[1.2rem] bg-[linear-gradient(180deg,#FF843E_0%,#F45B25_100%)] shadow-[0_0_30px_rgba(244,91,37,0.24)]">
+                  <motion.div
+                    className="relative flex w-[18rem] bg-[#E9E6E8]/70 max-w-none shrink-0 items-center gap-3 rounded-l-[1.1rem] px-6 py-6 shadow-[0_22px_44px_rgba(10,12,30,0.28)] ml-[1.8rem]"
+                    style={{ top: '-0.9rem' }}
+                    initial={{ opacity: 0, x: 60, y: 60 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="flex h-[90px] w-[90px] items-center justify-center rounded-[1.2rem] bg-[linear-gradient(180deg,#FF843E_0%,#F45B25_100%)] shadow-[0_0_30px_rgba(244,91,37,0.24)]">
                       <img
                         src="/bmyb-tech-whitelogo-01.svg"
                         alt="BMYBrand mark"
@@ -491,7 +531,7 @@ export default function BrandExperienceHero() {
                         AI Power!
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>

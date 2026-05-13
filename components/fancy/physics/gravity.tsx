@@ -109,9 +109,10 @@ export default function Gravity({
       const thickness = 60
 
       wallsRef.current = [
-        Matter.Bodies.rectangle(width / 2, height + thickness / 2, width, thickness, { isStatic: true }),
-        Matter.Bodies.rectangle(-thickness / 2, height / 2, thickness, height, { isStatic: true }),
-        Matter.Bodies.rectangle(width + thickness / 2, height / 2, thickness, height, { isStatic: true }),
+        Matter.Bodies.rectangle(width / 2, height + thickness / 2, width, thickness, { isStatic: true }), // Bottom
+        Matter.Bodies.rectangle(width / 2, -thickness / 2, width, thickness, { isStatic: true }), // Top
+        Matter.Bodies.rectangle(-thickness / 2, height / 2, thickness, height, { isStatic: true }), // Left
+        Matter.Bodies.rectangle(width + thickness / 2, height / 2, thickness, height, { isStatic: true }), // Right
       ]
 
       Matter.World.add(engine.world, wallsRef.current)
@@ -121,6 +122,13 @@ export default function Gravity({
 
     const observer = new ResizeObserver(() => buildBounds())
     observer.observe(container)
+
+    const handleMouseLeave = () => {
+      if (mouseConstraintRef.current) {
+        ;(mouseConstraintRef.current as any).mouse.button = -1
+        ;(mouseConstraintRef.current as any).body = null
+      }
+    }
 
     if (draggable) {
       const mouse = Matter.Mouse.create(container)
@@ -132,11 +140,13 @@ export default function Gravity({
         },
       })
 
+      container.addEventListener('mouseleave', handleMouseLeave)
       mouseConstraintRef.current = mouseConstraint
       Matter.World.add(engine.world, mouseConstraint)
     }
 
     return () => {
+      container.removeEventListener('mouseleave', handleMouseLeave)
       observer.disconnect()
       if (mouseConstraintRef.current) {
         Matter.World.remove(engine.world, mouseConstraintRef.current)
