@@ -1,23 +1,25 @@
 'use client'
-import React, { useEffect, useState, RefObject } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface BottomCTAProps {
-  targetRef: RefObject<HTMLElement | null>
-  footerRef?: RefObject<HTMLElement | null>
+  targetId: string
+  footerId?: string
 }
 
-const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
+const BottomCTA: React.FC<BottomCTAProps> = ({ targetId, footerId }) => {
   const [visible, setVisible] = useState<boolean>(false)
   const [closed, setClosed] = useState<boolean>(false)
   const [wasTriggered, setWasTriggered] = useState<boolean>(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!targetRef.current) return
+      const targetEl = document.getElementById(targetId)
+      if (!targetEl) return
+      const footerEl = footerId ? document.getElementById(footerId) : null
 
-      const designedGrowTop = targetRef.current.getBoundingClientRect().top
+      const designedGrowTop = targetEl.getBoundingClientRect().top
       const windowHeight = window.innerHeight
-      const footerTop = footerRef?.current?.getBoundingClientRect().top ?? Infinity
+      const footerTop = footerEl?.getBoundingClientRect().top ?? Infinity
 
       const shouldTrigger = designedGrowTop < 0 && footerTop - windowHeight >= 0
 
@@ -46,7 +48,7 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetRef, footerRef }) => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleScroll)
     }
-  }, [targetRef, footerRef, closed, wasTriggered])
+  }, [targetId, footerId, closed, wasTriggered])
 
   const handleClose = () => {
     setClosed(true)
