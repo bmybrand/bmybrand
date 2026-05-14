@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6'
 
 const subscribe = () => () => {}
 
@@ -32,46 +33,12 @@ const REVIEW_PLATFORMS = [
   { name: 'Google', logo: '/bmyb-logo-google-color-01.svg' },
 ]
 
-type SocialIconProps = {
-  className?: string
-}
-
-const FacebookIcon = ({ className }: SocialIconProps) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-    <path d="M13.5 21v-7h2.3l.4-3h-2.7V9.2c0-.9.2-1.5 1.5-1.5H16V5.1c-.2 0-.9-.1-1.8-.1-1.8 0-3.1 1.1-3.1 3.3V11H9v3h2.3v7h2.2Z" />
-  </svg>
-)
-
-const InstagramIcon = ({ className }: SocialIconProps) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-    <path d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3Zm0 1.8A2.7 2.7 0 0 0 4.8 7.5v9a2.7 2.7 0 0 0 2.7 2.7h9a2.7 2.7 0 0 0 2.7-2.7v-9a2.7 2.7 0 0 0-2.7-2.7h-9Zm9.45 1.35a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8ZM12 7.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5Zm0 1.8A2.7 2.7 0 1 0 14.7 12 2.7 2.7 0 0 0 12 9.3Z" />
-  </svg>
-)
-
-const LinkedInIcon = ({ className }: SocialIconProps) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-    <path d="M6.4 8.2A1.7 1.7 0 1 1 6.4 4.8a1.7 1.7 0 0 1 0 3.4ZM5 9.8h2.8V19H5V9.8Zm4.5 0h2.7v1.3h.1c.4-.7 1.3-1.5 2.8-1.5 3 0 3.6 2 3.6 4.5V19H16v-4.2c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V19H9.5V9.8Z" />
-  </svg>
-)
-
-const XIcon = ({ className }: SocialIconProps) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-    <path d="M18.9 4H21l-4.6 5.3L21.8 20h-4.7l-3.7-4.9L9.1 20H7l4.9-5.6L2.8 4h4.8l3.3 4.4L14.9 4Zm-.8 14.4h1.2L6.9 5.5H5.6l12.5 12.9Z" />
-  </svg>
-)
-
-const YouTubeIcon = ({ className }: SocialIconProps) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-    <path d="M21.6 7.2a2.9 2.9 0 0 0-2-2C17.9 4.7 12 4.7 12 4.7s-5.9 0-7.6.5a2.9 2.9 0 0 0-2 2A30.9 30.9 0 0 0 2 12a30.9 30.9 0 0 0 .4 4.8 2.9 2.9 0 0 0 2 2c1.7.5 7.6.5 7.6.5s5.9 0 7.6-.5a2.9 2.9 0 0 0 2-2A30.9 30.9 0 0 0 22 12a30.9 30.9 0 0 0-.4-4.8ZM9.6 15.3V8.7l5.8 3.3-5.8 3.3Z" />
-  </svg>
-)
-
 const SOCIAL_LINKS = [
-  { name: 'Facebook', href: '#', Icon: FacebookIcon },
-  { name: 'Instagram', href: '#', Icon: InstagramIcon },
-  { name: 'LinkedIn', href: '#', Icon: LinkedInIcon },
-  { name: 'Twitter', href: '#', Icon: XIcon },
-  { name: 'YouTube', href: '#', Icon: YouTubeIcon },
+  { name: 'Facebook', href: '#', Icon: FaFacebookF },
+  { name: 'Instagram', href: '#', Icon: FaInstagram },
+  { name: 'LinkedIn', href: '#', Icon: FaLinkedinIn },
+  { name: 'Twitter', href: '#', Icon: FaXTwitter },
+  { name: 'YouTube', href: '#', Icon: FaYoutube },
 ]
 
 const brandText = 'BMYBRAND'

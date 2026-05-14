@@ -27,7 +27,7 @@ export default function HerobarBrand() {
         </h1>
         
         <p className="text-[#ADAECC] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed">
-        We craft powerful brand identities and digital experiences that donâ€™t just look good â€” they perform. From strategy to visual systems, we design brands that resonate, convert, and scale.</p>
+        We craft powerful brand identities and digital experiences that don’t just look good — they perform. From strategy to visual systems, we design brands that resonate, convert, and scale.</p>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-2 BenzinSemibold justify-center items-center">
           <button
