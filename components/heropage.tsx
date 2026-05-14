@@ -19,18 +19,12 @@ const H1_WORDS: { word: string; orange: boolean; noSpace?: boolean }[] = [
 
 const Heropage: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [loaded, setLoaded] = useState(false);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 200);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (!headlineRef.current || !loaded) return;
+    if (!headlineRef.current) return;
     const chars = headlineRef.current.querySelectorAll(".typing-char");
     if (!chars.length) return;
 
@@ -72,7 +66,7 @@ const Heropage: React.FC = () => {
         "-=0.4"
       );
     }
-  }, [loaded]);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY, currentTarget } = e;
@@ -161,9 +155,9 @@ const Heropage: React.FC = () => {
             width={829}
             height={648}
             priority
-            sizes="(min-width: 1280px) 50vw, 90vw"
-            className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-all duration-700 ease-out
-              ${loaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
+            fetchPriority="high"
+            sizes="(min-width: 1280px) 506px, (min-width: 1024px) 44vw, 90vw"
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none transition-transform duration-700 ease-out"
             style={{
               transform: `
                 translate(${mousePos.x * 25}px, ${mousePos.y * 25}px)
@@ -180,12 +174,11 @@ const Heropage: React.FC = () => {
             width={644}
             height={582}
             priority
-            sizes="(min-width: 1280px) 42vw, 78vw"
-            className={`relative z-10 h-auto w-full max-w-[644px] transition-transform duration-1000 ease-out
-              ${loaded ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"}`}
+            fetchPriority="high"
+            sizes="(min-width: 1280px) 506px, (min-width: 1024px) 44vw, 78vw"
+            className="relative z-10 h-auto w-full max-w-[644px] transition-transform duration-700 ease-out"
             style={{
               transform: `
-                translateY(${loaded ? "0" : "6rem"})
                 translateX(${mousePos.x * 10}px)
                 translateY(${mousePos.y * 10}px)
               `,
