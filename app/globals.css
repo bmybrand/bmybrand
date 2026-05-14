@@ -6,39 +6,15 @@
   }
 }
 
-@font-face {
-  font-family: 'BenzinBold';
-  src:
-    url('/fonts/benzinbold.ttf') format('truetype'),
-    url('/benzinbold.ttf') format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
 .BenzinBold {
-  font-family: 'BenzinBold', sans-serif;
+  font-family: var(--font-benzin-bold), sans-serif;
 }
 
-@font-face {
-  font-family: 'BenzinSemibold';
-  src:
-    url('/fonts/benzinsemibold.ttf') format('truetype'),
-    url('/benzinsemibold.ttf') format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
 .BenzinSemibold {
-  font-family: 'BenzinSemibold', sans-serif;
-}
-@font-face {
-  font-family: 'BenzinRegular';
-  src:
-    url('/fonts/benzinregular.ttf') format('truetype'),
-    url('/benzinregular.ttf') format('truetype');
-  font-style: normal;
-  font-display: swap;
+  font-family: var(--font-benzin-semibold), sans-serif;
 }
 .BenzinRegular {
-  font-family: 'BenzinRegular', sans-serif;
+  font-family: var(--font-benzin-regular), sans-serif;
 }
 
 .brand-word {

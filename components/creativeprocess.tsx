@@ -222,7 +222,7 @@ export default function CreativeProcess() {
       <div className="mx-auto mt-12 w-full max-w-5xl px-6 pb-16 xl:hidden">
         <div className="mb-8 flex justify-center">
           <img
-            src="/Character-2%201.svg"
+            src="/bmyb-global-character-2-1-01.svg"
             alt="Creative process illustration"
             className="h-auto w-48 animate-bounceRocket sm:w-56"
           />

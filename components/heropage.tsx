@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 
 const H1_WORDS: { word: string; orange: boolean; noSpace?: boolean }[] = [
   { word: "Build", orange: false },
@@ -84,7 +85,15 @@ const Heropage: React.FC = () => {
   };
 
   return (
-    <div className=" overflow-hidden bg-[url('/bmyb-global-frame6-01.png')] bg-cover bg-center bg-no-repeat ">
+    <div className="relative overflow-hidden">
+      <Image
+        src="/bmyb-global-frame6-01.webp"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
       <div
         className="relative flex flex-col lg:flex-row pt-32 sm:pt-36 lg:pt-40 pb-0 lg:min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto lg:gap-20 gap-10"
         onMouseMove={handleMouseMove}
@@ -146,9 +155,13 @@ const Heropage: React.FC = () => {
         {/* RIGHT */}
         <div className="w-full xl:w-1/2 lg:min-h-[calc(100vh-160px)] relative flex items-end justify-center">
           {/* Tilting background image */}
-          <img
+          <Image
             src="/bmyb-logo-group15-01.webp"
-            alt="Hero Illustration"
+            alt=""
+            width={829}
+            height={648}
+            priority
+            sizes="(min-width: 1280px) 50vw, 90vw"
             className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-all duration-700 ease-out
               ${loaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
             style={{
@@ -161,20 +174,24 @@ const Heropage: React.FC = () => {
           />
 
           {/* Foreground hero layer with offset, shadow and hover effect */}
-          <img
-  src="/bmyb-global-layer-1-1-01.webp"
-  alt="Hero Layer"
-  className={`relative z-10 transition-transform duration-1000 ease-out
-    ${loaded ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"}`}
-  style={{
-    transform: `
-      translateY(${loaded ? "0" : "6rem"})
-      translateX(${mousePos.x * 10}px)
-      translateY(${mousePos.y * 10}px)
-    `,
-    filter: "drop-shadow(0px 20px 30px rgba(0,0,0,0.5))",
-  }}
-/>
+          <Image
+            src="/bmyb-global-layer-1-1-01.webp"
+            alt="Hero Layer"
+            width={644}
+            height={582}
+            priority
+            sizes="(min-width: 1280px) 42vw, 78vw"
+            className={`relative z-10 h-auto w-full max-w-[644px] transition-transform duration-1000 ease-out
+              ${loaded ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"}`}
+            style={{
+              transform: `
+                translateY(${loaded ? "0" : "6rem"})
+                translateX(${mousePos.x * 10}px)
+                translateY(${mousePos.y * 10}px)
+              `,
+              filter: "drop-shadow(0px 20px 30px rgba(0,0,0,0.5))",
+            }}
+          />
 
         </div>
       </div>
