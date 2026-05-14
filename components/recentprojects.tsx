@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState } from 'react'
+import Image from 'next/image'
 import CaseStudyModal from './casestudymodal'
 
 type Project = {
@@ -396,9 +397,11 @@ function ProjectCard({
           style={{ rotateX }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[#F45B25]/10 to-transparent z-10"></div>
-          <img
+          <Image
             src={project.image}
             alt={project.title}
+            fill
+            sizes="(max-width: 1024px) 100vw, 65vw"
             className="w-full h-full object-cover"
           />
         </motion.div>
