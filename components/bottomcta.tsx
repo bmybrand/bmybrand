@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 interface BottomCTAProps {
   targetId: string
@@ -86,8 +87,7 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetId, footerId }) => {
       <div
   className="
     relative z-10
-    bg-[url('/bmyb-global-noice-01.svg'),linear-gradient(to_left,#202141,#BE673F)]
-    bg-cover bg-center
+    bg-[linear-gradient(to_left,#202141,#BE673F)]
     text-white rounded-2xl shadow-2xl border-2 border-white/20
     px-2 py-2 lg:px-6 lg:py-6
     w-[90vw] 2xl:w-[60vw]
@@ -96,10 +96,12 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetId, footerId }) => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-3 ">
             <div className='md:ml-30 ml-0'>
           {/* image */}
-<img 
-  src="/bmyb-global-popupbear-01.webp" 
-  alt="" 
-  className='absolute bottom-0 left-0 hidden md:block ' 
+<Image
+  src="/bmyb-global-popupbear-01.webp"
+  alt=""
+  width={144}
+  height={164}
+  className='absolute bottom-0 left-0 hidden md:block'
 />
 
           </div>

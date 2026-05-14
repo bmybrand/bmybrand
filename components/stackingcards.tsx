@@ -1,5 +1,4 @@
 'use client';
-import { ReactLenis } from 'lenis/react';
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { JSX, useRef } from 'react';
 import Image from 'next/image';
@@ -85,34 +84,32 @@ export default function Index(): JSX.Element {
   });
 
   return (
-    <ReactLenis root>
-      <main className="mt-30 lg:mt-0" ref={container}>
-        <section className="text-white w-full ">
-          {projects.map((project, i) => {
-            const targetScale = 1 - (projects.length - i) * 0.05;
-            return (
-              <Card
-                key={`p_${i}`}
-                i={i}
-                title={project.title}
-                description={project.description}
-                buttonText={project.buttonText}
-                url={project.link}
-                imageSrc={project.src}
-                logo={project.logo}
-                gradient={project.gradient}
-                progress={scrollYProgress}
-                range={[i * 0.25, 1]}
-                targetScale={targetScale}
-                buttonColor={project.buttonColor}
-                buttonIcon={project.buttonIcon}
-                backgroundImage={project.backgroundImage}
-              />
-            );
-          })}
-        </section>
-      </main>
-    </ReactLenis>
+    <main className="mt-30 lg:mt-0" ref={container}>
+      <section className="text-white w-full ">
+        {projects.map((project, i) => {
+          const targetScale = 1 - (projects.length - i) * 0.05;
+          return (
+            <Card
+              key={`p_${i}`}
+              i={i}
+              title={project.title}
+              description={project.description}
+              buttonText={project.buttonText}
+              url={project.link}
+              imageSrc={project.src}
+              logo={project.logo}
+              gradient={project.gradient}
+              progress={scrollYProgress}
+              range={[i * 0.25, 1]}
+              targetScale={targetScale}
+              buttonColor={project.buttonColor}
+              buttonIcon={project.buttonIcon}
+              backgroundImage={project.backgroundImage}
+            />
+          );
+        })}
+      </section>
+    </main>
   );
 }
 
@@ -178,9 +175,21 @@ export const Card: React.FC<CardProps> = ({
             {/* LOGO */}
             {logo && (
               <div className="mb-6">
-                <img
+                <Image
                   src={logo}
                   alt={`${title} logo`}
+                  width={
+                    logo.includes('learnandlabel') ? 142 :
+                    logo.includes('jiggylogo') ? 238 :
+                    logo.includes('pink-me') ? 348 :
+                    284
+                  }
+                  height={
+                    logo.includes('learnandlabel') ? 102 :
+                    logo.includes('jiggylogo') ? 119 :
+                    logo.includes('pink-me') ? 91 :
+                    64
+                  }
                   className="object-contain"
                 />
               </div>

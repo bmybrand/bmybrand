@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, Variants } from "framer-motion";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,9 +128,11 @@ const OurBranding: React.FC = () => {
       <div className="w-[90%] 2xl:w-[75%]  mt-12 relative flex justify-center items-center">
         {/* LG+ absolute layout */}
         <div className="hidden lg:block relative w-full h-150">
-          <img
+          <Image
             src="/bmyb-logo-group-1597883284-01.webp"
             alt=""
+            width={553}
+            height={500}
             className=" relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
           />
           {cards.map((card, index) => {
