@@ -214,6 +214,82 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       ]
     }
   },
+  'babas-burgers': {
+    slug: 'babas-burgers',
+    accentColor: '#C40913',
+    accentColorRgb: '196 9 19',
+    hero: {
+      logo: '/bmyb-case-babas-burgers-logo-01.svg',
+      logoAlt: "Baba's Burgers Logo",
+      tags: ['Food', 'UI/UX', 'Development'],
+      title: 'Building a High-Appetite Digital\nExperience for a Burger Brand',
+      metrics: [
+        { label: 'Ordering Focus', value: 'Direct Orders' },
+        { label: 'Key Pages Delivered', value: '10+ Pages' },
+        { label: 'Industry', value: 'Food' },
+      ],
+      websiteUrl: '#',
+      sliderImages: [
+        '/bmyb-case-babas-burgers-slider-01.webp',
+        '/bmyb-case-babas-burgers-slider-02.webp',
+        '/bmyb-case-babas-burgers-slider-03.webp',
+        '/bmyb-case-babas-burgers-slider-04.webp',
+        '/bmyb-case-babas-burgers-slider-05.webp',
+      ]
+    },
+    background: {
+      introText: "BMYBrand partnered with Baba's Burgers to shape a bold digital experience that makes the food look irresistible, keeps browsing simple, and turns attention into orders across every device.",
+      backgroundParagraphs: [
+        "Baba's Burgers is a food brand built around craveable visuals, bold flavor, and a fast, satisfying customer experience. The website needed to reflect that same energy online while supporting smooth product browsing and order-ready navigation.",
+        'The goal was to create a digital presence that feels rich, confident, and easy to use, giving the brand a strong visual identity while helping customers move quickly from discovery to action.'
+      ],
+      challengeParagraphs: [
+        "Baba's Burgers needed a website that could make the brand feel as exciting online as it does in person. The challenge was to balance appetite-driven visuals with a clean structure that keeps menus, offers, and calls to action easy to understand.",
+        'The experience also had to work across mobile and desktop without losing the punch of the brand. Product presentation, hierarchy, and flow all needed to support fast decisions and low-friction engagement.',
+        'In short, the challenge was to create a food-focused digital experience that feels bold, modern, and conversion-ready without overwhelming the customer.'
+      ],
+      whatWeDidItems: [
+        'UI/UX Design',
+        'Website Development',
+        'Responsive Design',
+        'Website Deployment'
+      ],
+      galleryImages: [
+        '/bmyb-case-babas-burgers-gallery-01.svg',
+        '/bmyb-case-babas-burgers-gallery-02.svg',
+        '/bmyb-case-babas-burgers-gallery-03.svg',
+      ],
+      galleryImageFit: 'contain',
+      galleryImagePosition: 'center',
+      galleryBgColor: '#C40913'
+    },
+    solution: {
+      introParagraphs: [
+        "With a clear focus on visual appetite, mobile usability, and conversion, we created a digital solution tailored to Baba's Burgers.",
+        'BMYBrand handled the full UI/UX and development process, designing a high-impact experience with bold color, strong content hierarchy, and clear calls to action. The result is a food-brand website that feels fast, polished, and easy to engage with.'
+      ],
+      resultsParagraphs: [
+        "The final experience gives Baba's Burgers a stronger online presence with clearer product storytelling and a more confident brand presentation. The visual system feels more memorable, and the journey from landing on the page to exploring the offer is much smoother.",
+        'The result is a food-focused digital platform that supports growth, improves first impressions, and gives the brand a stronger foundation for campaigns, promotions, and future expansion.'
+      ],
+      accomplishments: [
+        { title: 'Stronger appetite appeal', desc: 'The digital experience uses bold visuals and confident layout choices to make the food feel more desirable immediately.' },
+        { title: 'Cleaner user journey', desc: 'Navigation and page structure were shaped to help users browse quickly and reach key actions without friction.' },
+        { title: 'Brand-forward presentation', desc: 'Color, pacing, and interface details work together to give Baba’s Burgers a more memorable and ownable online identity.' },
+        { title: 'Responsive execution', desc: 'The experience is built to stay sharp and usable across mobile, tablet, and desktop screens.' }
+      ],
+      bannerImage: '/bmyb-case-jiggy-jerky-jiggybg-01.svg'
+    },
+    reviews: {
+      title: "REVIEWS FROM\nBABA'S BURGERS TEAM",
+      subtitle: "We worked with Baba's Burgers to create a bold, food-first digital experience. These review entries are placeholder copy until final client quotes are available.",
+      reviewsList: [
+        { id: 1, name: 'Baba’s Burgers Founder', position: 'Owner', image: 'https://i.pravatar.cc/150?img=12', testimonial: 'The new direction feels bold, clear, and much more aligned with the energy of our brand. The website makes our food and identity feel more memorable right away.' },
+        { id: 2, name: 'Operations Team', position: 'Store Management', image: 'https://i.pravatar.cc/150?img=5', testimonial: 'The experience is cleaner and easier to follow. It gives customers a better sense of the brand while keeping the journey simple and fast.' },
+        { id: 3, name: 'Customer Feedback', position: 'Audience', image: 'https://i.pravatar.cc/150?img=8', testimonial: 'The website feels modern, bold, and much more appetizing. It creates a stronger first impression and makes the brand stand out.' }
+      ]
+    }
+  },
   'pink-me': {
     slug: 'pink-me',
     accentColor: '#E667A2',

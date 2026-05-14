@@ -129,11 +129,11 @@ const OurBranding: React.FC = () => {
         {/* LG+ absolute layout */}
         <div className="hidden lg:block relative w-full h-150">
           <Image
-            src="/bmyb-logo-group-1597883284-01.webp"
+            src="/Group 1597883284.png"
             alt=""
-            width={553}
-            height={500}
-            className=" relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+            width={460}
+            height={416}
+            className="relative top-1/2 left-1/2 w-[420px] xl:w-[460px] -translate-x-1/2 -translate-y-1/2 z-10 h-auto"
           />
           {cards.map((card, index) => {
             const isLeft = "left" in positions[index];

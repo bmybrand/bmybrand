@@ -107,6 +107,14 @@ const projects: Project[] = [
     image: '/bmyb-case-bhs-slider-05.webp',
     link: '/case-studies/bhs',
   },
+  {
+    id: '11',
+    number: '11',
+    title: "BABA'S BURGERS",
+    description: "We created a bold, food-first digital experience for Baba's Burgers that turns appetite-driven visuals into a clearer, more conversion-ready brand journey.",
+    image: '/bmyb-case-babas-burgers-slider-02.webp',
+    link: '/case-studies/babas-burgers',
+  },
 ]
 
 const caseStudies: CaseStudy[] = [
@@ -320,6 +328,30 @@ const caseStudies: CaseStudy[] = [
       { label: 'Scalability', value: 'Ready' }
     ],
     slug: 'bhs'
+  },
+  {
+    id: 'babas-burgers',
+    number: '11',
+    title: "BABA'S BURGERS",
+    subtitle: 'Bold Food Brand Experience',
+    client: "Baba's Burgers",
+    industry: 'Food',
+    services: ['Food', 'UI/UX', 'Development'],
+    challenge: "Baba's Burgers needed a digital experience that made the brand feel bold and craveable online while keeping the customer journey simple and action-focused across devices.",
+    solution: 'We created a stronger visual hierarchy, food-first presentation, and cleaner UX structure so the website could feel more memorable, modern, and conversion-ready.',
+    results: [
+      'Stronger digital brand presentation',
+      'Improved visual appetite appeal',
+      'Cleaner navigation and action flow',
+      'Better mobile and desktop consistency'
+    ],
+    image: '/bmyb-case-babas-burgers-slider-02.webp',
+    stats: [
+      { label: 'Industry', value: 'Food' },
+      { label: 'Core Focus', value: 'UI/UX' },
+      { label: 'Build Type', value: 'Development' }
+    ],
+    slug: 'babas-burgers'
   },
 ]
 
