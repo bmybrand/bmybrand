@@ -48,17 +48,6 @@ const faqData = [
 
 export default function HealthcareFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [hoveredLogo, setHoveredLogo] = useState<number | null>(null);
-  const [isLogoBarHovered, setIsLogoBarHovered] = useState(false);
-
-  const logos = [
-    { default: '/bmyb-logo-vector-08.svg', hover: '/bmyb-logo-vector-orange-02.svg', alt: 'Abbott' },
-    { default: '/bmyb-logo-vector-09.svg', hover: '/bmyb-logo-vector-orange-04.svg', alt: 'London Real' },
-    { default: '/bmyb-logo-vector-10.svg', hover: '/bmyb-logo-vector-orange-03.svg', alt: 'Decathlon' },
-    { default: '/bmyb-logo-vector-11.svg', hover: '/bmyb-logo-vector-orange-06.svg', alt: 'Targus' },
-    { default: '/bmyb-logo-vector-12.svg', hover: '/bmyb-logo-vector-orange-01.svg', alt: 'Single Grain' },
-    { default: '/bmyb-logo-vector-13.svg', hover: '/bmyb-logo-vector-orange-05.svg', alt: 'York University' }
-  ];
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -68,7 +57,7 @@ export default function HealthcareFAQ() {
     <section className="py-20 px-6 bg-[#11122F]">
       <div className="w-[90%] 2xl:w-[75%] mx-auto">
         {/* Centered Heading */}
-        <h2 className="BenzinSemibold text-white text-3xl sm:text-4xl lg:text-5xl mb-10 text-center">
+        <h2 className="BenzinSemibold text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] mb-10 text-center leading-tight">
           We Get Asked These<br />Questions Often
         </h2>
 
@@ -117,7 +106,7 @@ export default function HealthcareFAQ() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="mt-3 pb-5 pl-10 pr-5 text-sm leading-6 text-white/70 sm:text-base">
+                    <div className="mt-3 pb-5 pl-10 pr-5 text-[0.85rem] sm:text-sm md:text-base leading-6 text-white/70">
                       {faq.answer}
                     </div>
                   </motion.div>

@@ -5,15 +5,15 @@ import Link from 'next/link'
 export default function HealthcareHero() {
   return (
     <div className="mx-auto flex w-[90%] 2xl:w-[85%] flex-col items-center text-center py-16">
-      <h1 className="BenzinSemibold text-white text-[2.2rem] leading-[1.16] sm:text-[3rem] lg:text-[4.1rem]">
+      <h1 className="BenzinSemibold text-white text-[1rem] sm:text-[1.8rem] md:text-[2.6rem] lg:text-[3.0rem] xl:text-[3.4rem] 2xl:text-[3.8rem] leading-[1.1] sm:leading-[1.16]">
         Full-Service Healthcare Marketing
-        <br />
+        <br className="hidden lg:block" />
         &amp; Digital Solutions Built for
-        <br />
+        <br className="hidden lg:block" />
         Growth-Driven Organizations
       </h1>
 
-      <p className="mt-5 max-w-5xl text-sm sm:text-base lg:text-lg leading-5 sm:leading-6 lg:leading-8 text-white/60">
+      <p className="mt-5 max-w-5xl text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-relaxed sm:leading-6 lg:leading-8 text-white/60">
         Healthcare marketing requires more than design. It demands trust, clarity, compliance, and performance.
         Patients make critical decisions online, and your digital presence must communicate credibility instantly.
         At BMYBrand, we combine brand strategy, UX design, and AI-powered systems to create healthcare platforms

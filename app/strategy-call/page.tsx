@@ -845,7 +845,7 @@ export default function StrategyCallPage() {
                                 className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
                                 aria-label="Previous month"
                               >
-                                <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135" />
+                                <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135 brightness-0 invert" />
                               </button>
                               <button
                                 type="button"
@@ -853,7 +853,7 @@ export default function StrategyCallPage() {
                                 className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
                                 aria-label="Next month"
                               >
-                                <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45" />
+                                <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45 brightness-0 invert" />
                               </button>
                             </div>
                           </div>
@@ -971,7 +971,7 @@ export default function StrategyCallPage() {
                               className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
                               aria-label="Previous month"
                             >
-                              <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135" />
+                              <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135 brightness-0 invert" />
                             </button>
                             <button
                               type="button"
@@ -979,7 +979,7 @@ export default function StrategyCallPage() {
                               className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
                               aria-label="Next month"
                             >
-                              <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45" />
+                              <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45 brightness-0 invert" />
                             </button>
                           </div>
                         </div>

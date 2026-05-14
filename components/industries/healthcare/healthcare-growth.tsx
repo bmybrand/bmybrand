@@ -6,10 +6,10 @@ export default function HealthcareGrowth() {
   return (
     <section className="mx-auto w-[90%] 2xl:w-[75%] py-18 sm:py-22 lg:py-26">
       <div className="mx-auto text-center  max-w-5xl">
-        <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.1rem]">
+        <h2 className="BenzinSemibold text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.18]">
           Turning Digital Complexity into Seamless Patient Experiences
         </h2>
-        <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
+        <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
           Healthcare organizations operate in a complex digital environment where trust, compliance, and
           accessibility are critical. At BMYBrand, we simplify that complexity by building cohesive digital
           ecosystems tailored specifically for healthcare providers.
@@ -20,21 +20,21 @@ export default function HealthcareGrowth() {
         {capabilityItems.map((item, index) => (
           <div
             key={item.title}
-            className={`px-0 md:px-9 ${index < capabilityItems.length - 1 ? 'md:border-r md:border-white/10' : ''}`}
+            className={`px-0 md:px-5 ${index < capabilityItems.length - 1 ? 'md:border-r md:border-white/10' : ''}`}
           >
             <div className="mb-4">{item.icon}</div>
-            <h3 className="BenzinSemibold text-white text-lg sm:text-xl lg:text-2xl leading-snug">{item.title}</h3>
-            <p className="mt-3 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/55">{item.description}</p>
+            <h3 className="BenzinSemibold text-white text-[0.9rem] sm:text-[1.0rem] md:text-[1.1rem] lg:text-[1.15rem] xl:text-[1.2rem] 2xl:text-[1.25rem] leading-snug">{item.title}</h3>
+            <p className="mt-3 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/55">{item.description}</p>
           </div>
         ))}
       </div>
 
       <div className="mt-18">
         <div>
-          <h2 className="BenzinSemibold  max-w-6xl text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.05rem]">
+          <h2 className="BenzinSemibold  max-w-6xl text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.18]">
             Helping You Turn Healthcare Digital Complexity Into Measurable Growth
           </h2>
-          <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60  max-w-5xl">
+          <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60  max-w-5xl">
             We partner with healthcare providers, clinics, and medical organizations to transform complex digital
             challenges into seamless, scalable systems designed to build trust, improve patient experience, and
             drive consistent growth.
@@ -55,10 +55,10 @@ export default function HealthcareGrowth() {
                 <div className="grid h-full gap-0 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-stretch">
                   <div className="flex min-w-0 flex-col px-6 py-6 sm:px-8 sm:py-7">
                     <div className="text-xl tracking-[0.18em] text-white/20 BenzinSemibold">{card.number}</div>
-                    <h3 className="mt-6 text-white text-[34px] leading-[1.15] BenzinSemibold">
+                    <h3 className="mt-6 text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.3rem] lg:text-[1.6rem] xl:text-[1.9rem] 2xl:text-[2.1875rem] leading-[1.15] BenzinSemibold">
                       {card.title}
                     </h3>
-                    <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
+                    <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
                       {card.description}
                     </p>
                   </div>
@@ -73,10 +73,10 @@ export default function HealthcareGrowth() {
               ) : (
                 <div className="flex h-full flex-col">
                   <div className="text-xl tracking-[0.18em] text-white/20 BenzinSemibold">{card.number}</div>
-                  <h3 className="mt-6 text-white text-[34px] leading-[1.15] BenzinSemibold">
+                  <h3 className="mt-6 text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.3rem] lg:text-[1.6rem] xl:text-[1.9rem] 2xl:text-[2.1875rem] leading-[1.15] BenzinSemibold">
                     {card.title}
                   </h3>
-                  <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
+                  <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
                     {card.description}
                   </p>
                 </div>

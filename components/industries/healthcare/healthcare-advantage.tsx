@@ -45,7 +45,7 @@ export default function HealthcareAdvantage() {
     <section className="bg-[#11122F]">
       <div className="mx-auto w-[90%] lg:w-[75%] py-14 sm:py-18 lg:py-22">
         <div className="max-w-4xl">
-          <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.12] sm:text-[2.6rem] lg:text-[3.05rem]">
+          <h2 className="BenzinSemibold text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.12]">
             Experience the BMYBrand
             <br />
             Healthcare Advantage
@@ -64,10 +64,10 @@ export default function HealthcareAdvantage() {
               <div className="relative z-10 flex h-full flex-col gap-0 lg:flex-row lg:items-stretch lg:justify-between">
                 <div className={`flex w-full flex-col ${card.type === 'avatars' ? 'pr-0 pb-20' : 'pb-6 lg:w-[56%] lg:pb-7'}`}>
                   <span className="text-xs text-white/42">{card.eyebrow}</span>
-                  <h3 className="mt-3 whitespace-pre-line text-white text-[24px] leading-[1.05] transition-colors duration-300 group-hover:text-white BenzinSemibold">
+                  <h3 className="mt-3 whitespace-pre-line text-white text-[0.9rem] sm:text-[1.0rem] md:text-[1.1rem] lg:text-[1.15rem] xl:text-[1.2rem] 2xl:text-[1.25rem] leading-[1.05] transition-colors duration-300 group-hover:text-white BenzinSemibold">
                     {card.title}
                   </h3>
-                  <p className="mt-4 max-w-[28rem] text-sm leading-6 text-white/62 transition-colors duration-300 group-hover:text-white/78 sm:text-base sm:leading-7">
+                  <p className="mt-4 max-w-[28rem] text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 sm:leading-7 text-white/62 transition-colors duration-300 group-hover:text-white/78">
                     {card.description}
                   </p>
 

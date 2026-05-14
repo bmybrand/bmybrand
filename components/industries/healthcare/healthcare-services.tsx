@@ -103,8 +103,8 @@ export default function HealthcareServices() {
   return (
     <section className="min-h-screen bg-[#11122F] ">
       <div className="w-[90%] 2xl:w-[75%] mx-auto">
-        <div className="text-left w-full max-w-3xl px-0">
-          <h2 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
+        <div className="text-left w-full max-w-4xl px-0">
+          <h2 className="text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.3rem] 2xl:text-[2.8rem] BenzinSemibold mb-6">
             End-To-End Growth Solutions For Healthcare Brands
           </h2>
         </div>
@@ -122,7 +122,7 @@ export default function HealthcareServices() {
                       : 'text-white/70 hover:bg-white/5 hover:text-white'
                   }`}
                 >
-                  <span className="text-base md:text-lg font-medium BenzinSemibold">{service.title}</span>
+                  <span className="text-[0.85rem] sm:text-sm md:text-base lg:text-lg font-medium BenzinSemibold">{service.title}</span>
                 </button>
               ))}
             </div>
@@ -146,12 +146,12 @@ export default function HealthcareServices() {
                   <div className="w-20 h-20 bg-[#21223F] rounded-full flex items-center justify-center shrink-0 overflow-hidden p-5">
                     <img src={service.iconSrc} alt={service.title} className="w-full h-full object-contain" />
                   </div>
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl text-white BenzinSemibold">
+                  <h3 className="text-[0.9rem] sm:text-[1.0rem] md:text-[1.1rem] lg:text-[1.15rem] xl:text-[1.2rem] 2xl:text-[1.25rem] text-white BenzinSemibold">
                     {service.title}
                   </h3>
                 </div>
 
-                <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6">
+                <p className="text-white/60 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-relaxed mb-6">
                   {service.description}
                 </p>
 

@@ -149,7 +149,7 @@ export default function ServicesDetail() {
                   <div className="w-20 h-20 bg-[#21223F] rounded-full flex items-center justify-center shrink-0 overflow-hidden p-5">
                     <img src={service.iconSrc} alt={service.title} className="w-full h-full object-contain" />
                   </div>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl text-white BenzinSemibold">
+                  <h2 className="text-[0.9rem] sm:text-[1.0rem] md:text-[1.1rem] lg:text-[1.25rem] xl:text-[1.5rem] 2xl:text-[1.75rem] text-white BenzinSemibold">
                     {service.title}
                   </h2>
                 </div>

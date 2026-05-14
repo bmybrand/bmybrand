@@ -10,14 +10,14 @@ export default function HealthcareStories({
     <section className={transparentBackground ? "" : "bg-[#191A35]"}>
       <div className="mx-auto w-[90%] 2xl:w-[75%] py-10 sm:py-14 lg:py-18 ">
       <div className=" max-w-6xl">
-        <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.05rem]">
+        <h2 className="BenzinSemibold text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.18]">
           Real Healthcare Growth Stories Powered by Strategy &amp; Technology
         </h2>
         <div className="mt-6 h-px w-full bg-white/8" />
       </div>
 
       <div className="mt-16 text-left">
-        <h3 className="BenzinSemibold text-white text-xl sm:text-2xl leading-tight">
+        <h3 className="BenzinSemibold text-white text-[0.8rem] sm:text-[0.9rem] md:text-[1.05rem] lg:text-[1.2rem] xl:text-[1.5rem] 2xl:text-[1.75rem] leading-tight">
           Fountain Hills Emergency Room
           <br />
           Patient-First ER Care
@@ -38,7 +38,7 @@ export default function HealthcareStories({
               alt="Fountain Hills Emergency Room"
               className="block h-12 w-auto object-contain object-left self-start"
             />
-            <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/65 ">
+            <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/65 ">
               BMYBrand delivered exactly what we needed: a fast, professional, and patient-focused website. The new
               experience makes it easier for patients to find care quickly, and our team has seen a noticeable
               increase in engagement and inquiries.
@@ -64,7 +64,7 @@ export default function HealthcareStories({
       </div>
 
       <div className="mt-16 text-left">
-        <h3 className="BenzinSemibold text-white text-xl sm:text-2xl leading-tight">
+        <h3 className="BenzinSemibold text-white text-[0.8rem] sm:text-[0.9rem] md:text-[1.05rem] lg:text-[1.2rem] xl:text-[1.5rem] 2xl:text-[1.75rem] leading-tight">
           Instinctive Healthcare Solutions
           <br />
           Scalable Healthcare Growth
@@ -80,7 +80,7 @@ export default function HealthcareStories({
               />
             </div>
 
-            <p className="mt-6 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/65 ">
+            <p className="mt-6 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/65 ">
               Working with BMYBrand transformed how we present our services online. The improved structure, clarity,
               and overall performance have significantly enhanced how clients interact with our brand, making the
               experience more intuitive, engaging, and effective.

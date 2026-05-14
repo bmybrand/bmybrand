@@ -111,7 +111,7 @@ export default function HealthcareSpotlight() {
             className="h-16 w-auto object-contain"
           />
 
-          <blockquote className="mt-6 max-w-[34rem] text-[24px] leading-[1.85] text-white/88">
+          <blockquote className="mt-6 max-w-[34rem] text-[1rem] sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem] leading-[1.6] text-white/88">
             From the beginning, it was clear that BMYBrand understood the urgency and trust required in
             healthcare. They delivered a fast, patient-focused website that makes it easier for people to
             find care, access services, and take action when it matters most.
@@ -124,8 +124,8 @@ export default function HealthcareSpotlight() {
               className="h-14 w-14 rounded-full object-contain"
             />
             <div>
-              <div className="text-[20px] text-white BenzinSemibold">Fountain Hills</div>
-              <div className="text-base text-white/48">Operations Team</div>
+              <div className="text-[1.1rem] sm:text-[1.25rem] text-white BenzinSemibold">Fountain Hills</div>
+              <div className="text-[0.8rem] sm:text-base text-white/48">Operations Team</div>
             </div>
           </div>
         </div>

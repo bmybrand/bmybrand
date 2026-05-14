@@ -43,10 +43,10 @@ export default function HealthcareProcess() {
   return (
     <section className="mx-auto w-[90%] 2xl:w-[75%] py-14 sm:py-18 lg:py-22">
       <div className="mx-auto max-w-[760px] text-center">
-        <h2 className="BenzinSemibold text-white text-[2rem] leading-[1.18] sm:text-[2.6rem] lg:text-[3.05rem]">
+        <h2 className="BenzinSemibold text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.18]">
           A Proven Process Built for Healthcare Growth
         </h2>
-        <p className="mt-5 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
+        <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
           Our process is designed to simplify complexity and deliver measurable results for healthcare organizations.
           From strategy to ongoing optimization, we handle everything so your team can focus on delivering care.
         </p>
@@ -58,10 +58,10 @@ export default function HealthcareProcess() {
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/[0.04]">
               {step.icon}
             </div>
-            <h3 className="mt-5 text-white text-[1.9rem] leading-[1.12] BenzinSemibold">
+            <h3 className="mt-5 text-white text-[0.75rem] sm:text-[0.85rem] md:text-[0.95rem] lg:text-[1.1rem] xl:text-[1.35rem] 2xl:text-[1.57rem] leading-[1.12] BenzinSemibold">
               {step.title}
             </h3>
-            <p className="mt-4 text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/58">
+            <p className="mt-4 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/58">
               {step.description}
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function HealthcareProcess() {
       <div className="mt-12 rounded-[24px] bg-white/[0.04] px-6 py-10 sm:px-9 lg:px-10 lg:py-14">
         <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
           <div>
-            <h3 className="BenzinSemibold text-white text-[2.2rem] leading-[1.1] sm:text-[2.7rem]">
+            <h3 className="BenzinSemibold text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.2rem] 2xl:text-[2.64rem] leading-[1.1]">
               Your Healthcare Growth Partner Starts Here.
             </h3>
             <Link
@@ -121,7 +121,7 @@ export default function HealthcareProcess() {
             </div>
 
             <div className="mt-8 border-l border-white/18 pl-4">
-              <p className="text-sm sm:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
+              <p className="text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
                 A team of 50+ specialists in healthcare-focused strategy, design, development, and growth.
               </p>
             </div>
