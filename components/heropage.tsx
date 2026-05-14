@@ -156,7 +156,8 @@ const Heropage: React.FC = () => {
             height={648}
             priority
             fetchPriority="high"
-            sizes="(min-width: 1280px) 506px, (min-width: 1024px) 44vw, 90vw"
+            quality={60}
+            sizes="(max-width: 640px) 212px, (max-width: 1024px) 320px, (min-width: 1280px) 506px, 44vw"
             className="absolute inset-0 w-full h-full object-contain pointer-events-none transition-transform duration-700 ease-out"
             style={{
               transform: `
@@ -175,7 +176,8 @@ const Heropage: React.FC = () => {
             height={582}
             priority
             fetchPriority="high"
-            sizes="(min-width: 1280px) 506px, (min-width: 1024px) 44vw, 78vw"
+            quality={60}
+            sizes="(max-width: 640px) 212px, (max-width: 1024px) 320px, (min-width: 1280px) 506px, 44vw"
             className="relative z-10 h-auto w-full max-w-[644px] transition-transform duration-700 ease-out"
             style={{
               transform: `

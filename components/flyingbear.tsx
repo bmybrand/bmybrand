@@ -203,10 +203,12 @@ const FullyAnimatedGrid: React.FC = () => {
         >
           <div className="flex w-full flex-col items-center lg:hidden">
             <img
-              src="/bmyb-global-character-2-1-01.png"
+              src="/bmyb-global-character-2-1-01-mobile.png"
               alt=""
-              width="1669"
-              height="1556"
+              width="260"
+              height="242"
+              loading="lazy"
+              decoding="async"
               className="absolute top-1/2 left-1/2 w-[380px] sm:w-[430px] -translate-x-1/2 -translate-y-2/3 transform lg:-top-10 lg:-translate-y-0"
             />
             <h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
