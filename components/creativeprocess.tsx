@@ -3,6 +3,7 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -221,9 +222,12 @@ export default function CreativeProcess() {
       {/* Simple list (below xl) */}
       <div className="mx-auto mt-12 w-full max-w-5xl px-6 pb-16 xl:hidden">
         <div className="mb-8 flex justify-center">
-          <img
-            src="/bmyb-global-character-2-1-01.svg"
+          <Image
+            src="/bmyb-global-character-2-1-01.webp"
             alt="Creative process illustration"
+            width={1669}
+            height={1556}
+            sizes="(min-width: 640px) 224px, 192px"
             className="h-auto w-48 animate-bounceRocket sm:w-56"
           />
         </div>

@@ -10,7 +10,7 @@ const items = [
   {
     title: "Create Faster. Anywhere.",
     desc: "Bring your ideas to life with clean branding, modern UI/UX, and fast-loading design. We create intuitive visuals that engage your audience instantly—on every device, anywhere.",
-    image: "/bmyb-global-getskeebear-01.svg"
+    image: "/bmyb-global-technlogicalbear-01.webp"
   },
   {
     title: "Keep Your Brand Safe. Always.",

@@ -45,7 +45,7 @@ const ToolItem = ({
           boxShadow: isHovered ? `0 0 25px ${hoverColor}CC` : '0 10px 15px -3px rgb(0 0 0 / 0.1)',
         }}
       >
-        <img src={icon} className="w-5 h-5 object-contain" />
+        <img src={icon} alt="" className="w-5 h-5 object-contain" />
       </div>
 
       {/* LABEL */}
@@ -71,7 +71,7 @@ const ToolItem = ({
 const MobileTool = ({ name, icon }: { name: string; icon: string }) => (
   <div className="flex items-center gap-3 mx-6 shrink-0 group cursor-pointer pointer-events-auto">
     <div className="w-12 h-12 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:bg-[#F45B25] group-hover:border-[#F45B25] group-hover:shadow-[0_0_20px_rgba(244,91,37,0.8)]">
-      <img src={icon} className="w-5 h-5 object-contain" />
+      <img src={icon} alt="" className="w-5 h-5 object-contain" />
     </div>
 
     <div className="w-45 px-4 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm text-center truncate transition-all duration-300 group-hover:bg-[#F45B25]/30 group-hover:border-[#F45B25] group-hover:shadow-[0_0_15px_rgba(244,91,37,0.6)]">

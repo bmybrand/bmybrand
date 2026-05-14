@@ -205,6 +205,8 @@ const FullyAnimatedGrid: React.FC = () => {
             <img
               src="/bmyb-global-character-2-1-01.webp"
               alt=""
+              width="1669"
+              height="1556"
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2/3 transform lg:-top-10 lg:-translate-y-0"
             />
             <h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
@@ -225,8 +227,10 @@ const FullyAnimatedGrid: React.FC = () => {
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
                 <motion.img
-                  src="/bmyb-global-character-2-1-01.svg"
+                  src="/bmyb-global-character-2-1-01.webp"
                   alt=""
+                  width="1669"
+                  height="1556"
                   className="absolute -top-10 left-1/2 -translate-x-1/2"
                   initial={{
                     opacity: 0,

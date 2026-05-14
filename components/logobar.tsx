@@ -17,7 +17,7 @@ const Logos = [
   },
   {
     normal: "/bmyb-logo-client-logo3-01.svg",
-    hover: "/bmyb-logo-client-logo3-svg-01.svg",
+    hover: "/bmyb-logo-client-logo3-01.svg",
   },
   {
     normal: "/bmyb-logo-vector-14.svg",

@@ -538,15 +538,17 @@ const Navbar = () => {
           </li>
 
           {/* Mobile CTA - smaller */}
-          <Link
-            href="/grow-my-business"
-            onClick={() => setOpen(false)}
-            className={`mt-3 inline-flex justify-center items-center px-4 py-2.5 rounded-lg text-sm font-medium BenzinSemibold ${
-              isCaseStudyDetail ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
-            }`}
-          >
-            Grow My Business
-          </Link>
+          <li>
+            <Link
+              href="/grow-my-business"
+              onClick={() => setOpen(false)}
+              className={`mt-3 inline-flex justify-center items-center px-4 py-2.5 rounded-lg text-sm font-medium BenzinSemibold ${
+                isCaseStudyDetail ? "bg-white text-[#100203]" : "bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white"
+              }`}
+            >
+              Grow My Business
+            </Link>
+          </li>
         </ul>
       </div>
     </header>
