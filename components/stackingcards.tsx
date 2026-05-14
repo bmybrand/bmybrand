@@ -109,6 +109,16 @@ export default function Index(): JSX.Element {
           );
         })}
       </section>
+      <style jsx>{`
+        @media (min-width: 1024px) and (max-width: 1279px) {
+          .stack-card-scale {
+            height: 100%;
+            width: 100%;
+            transform: scale(clamp(0.82, calc(100dvh / 980), 1));
+            transform-origin: center top;
+          }
+        }
+      `}</style>
     </main>
   );
 }
@@ -163,82 +173,84 @@ export const Card: React.FC<CardProps> = ({
         }}
         className="overflow-hidden flex flex-col relative top-[25%] h-fit lg:h-[70vh] w-[94vw] lg:w-[80%] max-w-none rounded-3xl origin-top overflow-hidden"
       >
-        <div
-          className="relative bg-cover bg-left w-full h-full"
-          style={backgroundImage ? { backgroundImage: `url('${backgroundImage}')` } : undefined}
-        >
-          <div className="flex flex-col-reverse lg:flex-row h-full w-full">
+        <div className="stack-card-scale h-full w-full">
+          <div
+            className="relative bg-cover bg-left w-full h-full"
+            style={backgroundImage ? { backgroundImage: `url('${backgroundImage}')` } : undefined}
+          >
+            <div className="flex flex-col-reverse lg:flex-row h-full w-full">
 
-            {/* LEFT CONTENT */}
-            <div className="w-full lg:w-[50%] relative flex flex-col justify-center p-8 h-90% ">
+              {/* LEFT CONTENT */}
+              <div className="w-full lg:w-[50%] relative flex flex-col justify-center p-8 lg:px-6 lg:py-7 xl:p-8 h-90% ">
 
-            {/* LOGO */}
-            {logo && (
-              <div className="mb-6">
+              {/* LOGO */}
+              {logo && (
+                <div className="mb-4 lg:mb-3 xl:mb-6">
+                  <Image
+                    src={logo}
+                    alt={`${title} logo`}
+                    width={
+                      logo.includes('learnandlabel') ? 142 :
+                      logo.includes('jiggylogo') ? 238 :
+                      logo.includes('pink-me') ? 348 :
+                      284
+                    }
+                    height={
+                      logo.includes('learnandlabel') ? 102 :
+                      logo.includes('jiggylogo') ? 119 :
+                      logo.includes('pink-me') ? 91 :
+                      64
+                    }
+                    className="h-auto w-auto max-w-[180px] lg:max-w-[150px] xl:max-w-[220px] 2xl:max-w-none object-contain"
+                  />
+                </div>
+              )}
+
+              {/* TITLE */}
+              <h2 className="BenzinSemibold text-base sm:text-xl md:text-2xl lg:text-[1.55rem] xl:text-[1.68rem] 2xl:text-4xl font-bold mb-3 lg:mb-2 xl:mb-2 2xl:mb-3 leading-snug lg:leading-[1.12] xl:leading-[1.12] 2xl:leading-[1.3]">
+                {title}
+              </h2>
+
+              {/* DESCRIPTION */}
+              <p className="text-xs md:text-sm lg:text-[0.82rem] xl:text-[0.9rem] 2xl:text-base leading-5 lg:leading-[1.32] xl:leading-[1.38] 2xl:leading-6 text-[#B5BED6] ">
+                {description}
+              </p>
+
+              {/* BUTTON */}
+              <a
+                href={url}
+                style={{ backgroundColor: buttonColor }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 0 25px ${buttonColor}80`;
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+                className="mt-3 xl:mt-3 text-white px-2 py-2 lg:px-1.5 xl:px-2 2xl:px-2 lg:py-1.5 xl:py-2 2xl:py-2 BenzinSemibold rounded-lg hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 w-fit text-sm lg:text-[0.76rem] xl:text-[0.86rem] 2xl:text-base"
+              >
+                <div className="bg-white p-3 lg:p-2.5 xl:p-3.5 2xl:p-4 rounded-lg">
+                  <img src={buttonIcon} alt="button icon" className="w-4 h-4" />
+                </div>
+                <span className="px-2 lg:px-1.5 xl:px-2 2xl:px-2">{buttonText}</span>
+              </a>
+            </div>
+
+            {/* IMAGE RIGHT */}
+            <div className="flex-1 relative rounded-lg overflow-visible">
+              <motion.div className="w-full h-full">
                 <Image
-                  src={logo}
-                  alt={`${title} logo`}
-                  width={
-                    logo.includes('learnandlabel') ? 142 :
-                    logo.includes('jiggylogo') ? 238 :
-                    logo.includes('pink-me') ? 348 :
-                    284
-                  }
-                  height={
-                    logo.includes('learnandlabel') ? 102 :
-                    logo.includes('jiggylogo') ? 119 :
-                    logo.includes('pink-me') ? 91 :
-                    64
-                  }
-                  className="object-contain"
+                  src={imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`}
+                  alt="Project image"
+                  fill
+                  className="object-cover "
+                  priority
                 />
-              </div>
-            )}
+              </motion.div>
+            </div>
 
-            {/* TITLE */}
-            <h2 className="BenzinSemibold text-base sm:text-xl md:text-2xl lg:text-4xl font-bold mb-3 leading-snug lg:leading-[1.3]">
-              {title}
-            </h2>
-
-            {/* DESCRIPTION */}
-            <p className="text-xs md:text-sm lg:text-base  leading-6 text-[#B5BED6] ">
-              {description}
-            </p>
-
-            {/* BUTTON */}
-            <a
-              href={url}
-              style={{ backgroundColor: buttonColor }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `0 0 25px ${buttonColor}80`;
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-              className="mt-4 text-white px-2 py-2 BenzinSemibold rounded-lg hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 w-fit"
-            >
-              <div className="bg-white p-4 rounded-lg">
-                <img src={buttonIcon} alt="button icon" className="w-4 h-4" />
-              </div>
-              <span className="px-2">{buttonText}</span>
-            </a>
-          </div>
-
-          {/* IMAGE RIGHT */}
-          <div className="flex-1 relative rounded-lg overflow-visible">
-            <motion.div className="w-full h-full">
-              <Image
-                src={imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`}
-                alt="Project image"
-                fill
-                className="object-cover "
-                priority
-              />
-            </motion.div>
-          </div>
-
+            </div>
           </div>
         </div>
       </motion.div>

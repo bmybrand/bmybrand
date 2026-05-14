@@ -126,7 +126,7 @@ export default function Map() {
           </p>
         </div>
 
-        <div ref={mapWrapRef} className="relative overflow-visible">
+        <div ref={mapWrapRef} className="relative overflow-hidden">
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
