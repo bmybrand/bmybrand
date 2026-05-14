@@ -1,8 +1,10 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6'
+
+const subscribe = () => () => {}
 
 const IMPORTANT_LINKS = [
   { label: 'Home', href: '/' },
@@ -45,6 +47,7 @@ const Footer: React.FC = () => {
   const [email, setEmail] = useState('')
   const brandContainerRef = useRef<HTMLDivElement>(null)
   const [brandFontSize, setBrandFontSize] = useState(48)
+  const currentYear = useSyncExternalStore(subscribe, () => new Date().getFullYear(), () => null)
 
   useEffect(() => {
     const container = brandContainerRef.current
@@ -183,7 +186,7 @@ const Footer: React.FC = () => {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 rounded-lg bg-[#F45B25] text-white font-semibold hover:bg-[#e04f1f] transition-colors shrink-0 BenzinSemibold"
+                  className="px-6 py-3 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white font-semibold hover:opacity-90 transition-colors shrink-0 BenzinSemibold"
                 >
                   Subscribe
                 </button>
@@ -208,7 +211,7 @@ const Footer: React.FC = () => {
 
           {/* Copyright and policy links on same row */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4  text-sm text-white/70">
-            <p className="order-2 sm:order-1 text-[16px]">Copyright © {new Date().getFullYear()} BMYBrand | All Rights Reserved.</p>
+            <p className="order-2 sm:order-1 text-[16px]">Copyright © {currentYear ?? ''} BMYBrand | All Rights Reserved.</p>
             <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2">
               <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Terms Of Use</a>
               <span className="text-white/40">|</span>
@@ -257,5 +260,3 @@ const Footer: React.FC = () => {
 }
 
 export default Footer
-
-

@@ -224,7 +224,7 @@ export default function RequestForm() {
                 <button
                   type="submit"
                   disabled={submitStatus === 'loading'}
-                  className="w-full h-12 rounded-lg bg-[#F45B25] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                  className="w-full h-12 rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
                   {submitStatus === 'loading' ? 'Sending...' : 'Request a Quote'}
                 </button>

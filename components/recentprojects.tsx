@@ -103,7 +103,7 @@ const projects: Project[] = [
     number: '10',
     title: 'BHS',
     description: 'Placeholder description for BHS.',
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-bhs-slider-01.webp',
     link: '/case-studies/bhs',
   },
 ]
@@ -312,7 +312,7 @@ const caseStudies: CaseStudy[] = [
       'Improved content clarity',
       'Better cross-device experience'
     ],
-    image: '/bmyb-global-fullimage-01.webp',
+    image: '/bmyb-case-bhs-slider-01.webp',
     stats: [
       { label: 'Brand Clarity', value: 'Improved' },
       { label: 'UX Structure', value: 'Refined' },

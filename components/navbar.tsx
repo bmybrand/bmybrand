@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
+
+const subscribe = () => () => {};
 
 const companyMenuItems = [
   {
@@ -146,15 +148,17 @@ const resourcesMenuItems = [
 const MegaMenu = ({
   isOpen,
   onClose,
+  portalReady,
   type,
   style,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  portalReady: boolean;
   type: "services" | "industries" | "company" | "resources";
   style?: React.CSSProperties;
 }) => {
-  if (!isOpen) return null;
+  if (!isOpen || !portalReady) return null;
 
   const isCompany = type === "company";
   const isServices = type === "services";
@@ -188,7 +192,7 @@ const MegaMenu = ({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </Link>
-              <p className="text-white/60 text-sm mt-2">Find your place on our team. We're always looking for talented people to help us create exceptional work.</p>
+              <p className="text-white/60 text-sm mt-2">Find your place on our team. We&apos;re always looking for talented people to help us create exceptional work.</p>
             </div>
           </div>
         )}
@@ -244,21 +248,19 @@ const MegaMenu = ({
   );
 
   const pos = style as { top?: string; left?: string; transform?: string } | undefined;
-  return typeof document !== "undefined"
-    ? createPortal(
-        <div
-          className="fixed z-[10000]"
-          style={{
-            top: pos?.top ?? "5.5rem",
-            left: pos?.left ?? "50%",
-            transform: pos?.transform ?? "translateX(-50%)",
-          }}
-        >
-          {menuContent}
-        </div>,
-        document.body
-      )
-    : null;
+  return createPortal(
+    <div
+      className="fixed z-[10000]"
+      style={{
+        top: pos?.top ?? "5.5rem",
+        left: pos?.left ?? "50%",
+        transform: pos?.transform ?? "translateX(-50%)",
+      }}
+    >
+      {menuContent}
+    </div>,
+    document.body
+  );
 };
 
 const Navbar = () => {
@@ -267,6 +269,7 @@ const Navbar = () => {
   const [mobileExpanded, setMobileExpanded] = useState<"services" | "industries" | "company" | "resources" | null>(null);
   const [megaMenuOpen, setMegaMenuOpen] = useState<"services" | "industries" | "company" | "resources" | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: "5.5rem", left: "50%", transform: "translateX(-50%)" });
+  const portalReady = useSyncExternalStore(subscribe, () => true, () => false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tabRefs = useRef<Record<string, HTMLLIElement | null>>({
     services: null,
@@ -343,7 +346,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/services")}`}>Services</span>
-            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} type="services" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="services" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.industries = el; }}
@@ -360,7 +363,7 @@ const Navbar = () => {
             >
               Industries
             </span>
-            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} type="industries" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="industries" style={dropdownPosition} />
           </li>
           <li>
             <Link href="/case-studies" className={linkClasses("/case-studies")}>Case Studies</Link>
@@ -372,7 +375,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/about")}`}>Company</span>
-            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} type="company" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="company" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.resources = el; }}
@@ -381,7 +384,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/contact")}`}>Resources</span>
-            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} type="resources" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="resources" style={dropdownPosition} />
           </li>
         </ul>
 

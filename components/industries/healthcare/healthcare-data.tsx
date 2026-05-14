@@ -89,7 +89,7 @@ export const growthCards = [
     title: 'Built to Scale',
     description:
       'As your organization grows, your digital systems should scale with you. We build flexible, low-maintenance platforms that support expansion without complexity.',
-    image: '/bmyb-industries-healthcare-healthcareservies2-01.webp',
+    image: '/bmyb-industries-healthcare-healthcare-services2-01.webp',
     imageClassName: 'absolute bottom-0 right-0 w-[38%] max-w-[210px] object-contain opacity-95',
   },
 ]
