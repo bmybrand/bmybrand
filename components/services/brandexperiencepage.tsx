@@ -1,16 +1,16 @@
 'use client'
 
 import React from 'react'
+import dynamic from 'next/dynamic'
 import Navbar from '../navbar'
-import Footer from '../footer'
-import WorkTogether from '../worktogether'
-import Evaluate from '../evaluatcta'
-import Brandsspec from '../brandsspec'
-import RequestForm from '../requestform'
 import HerobarBrand from './herobarbrand'
 import BrandExperienceHero from './brandexperiencehero'
 import BrandSolutions from './brandsolutions'
-import BrandFaq from './brandfaq'
+const BrandFaq = dynamic(() => import('./brandfaq'))
+const Evaluate = dynamic(() => import('../evaluatcta'))
+const Brandsspec = dynamic(() => import('../brandsspec'))
+const RequestForm = dynamic(() => import('../requestform'))
+const Footer = dynamic(() => import('../footer'))
 
 export default function BrandExperiencePage() {
   return (
