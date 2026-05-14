@@ -223,7 +223,7 @@ export default function CreativeProcess() {
       <div className="mx-auto mt-12 w-full max-w-5xl px-6 pb-16 xl:hidden">
         <div className="mb-8 flex justify-center">
           <Image
-            src="/bmyb-global-character-2-1-01.webp"
+            src="/bmyb-global-character-2-1-01.png"
             alt="Creative process illustration"
             width={1669}
             height={1556}

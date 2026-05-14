@@ -157,7 +157,7 @@ const DesignedGrow = () => {
               key={index}
               src={item.image}
               alt={item.title}
-              className={`object-contain w-full absolute transition-all duration-500 ${
+              className={`object-contain absolute max-h-[82%] w-auto max-w-[82%] transition-all duration-500 ${
                 activeIndex === index 
                   ? 'opacity-100 scale-100' 
                   : 'opacity-0 scale-95 pointer-events-none'
