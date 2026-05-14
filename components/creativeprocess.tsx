@@ -92,11 +92,11 @@ export default function CreativeProcess() {
         gsap.set(pathEndDot, { x: trackW * initialPathScale })
 
         const st = ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: 'top top',
+          trigger: viewportRef.current,
+          start: 'top 42%',
           end: () => `+=${Math.max(1200, maxX * 1.5)}`, // enough scroll distance
           scrub: true,
-          pin: true,
+          pin: sectionRef.current,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: updateMetrics,
@@ -141,7 +141,7 @@ export default function CreativeProcess() {
   return (
     <section
       ref={sectionRef}
-      className="w-full xl:h-screen flex flex-col justify-center overflow-hidden bg-[#11122F] pt-20 lg:pt-24"
+      className="w-full xl:h-screen xl:min-h-[900px] flex flex-col justify-center overflow-hidden bg-[#11122F] pt-20 lg:pt-24 pb-20 lg:pb-24"
     >
       {/* Heading */}
       <div ref={headingRef} className="w-full flex flex-col justify-center items-center ">
