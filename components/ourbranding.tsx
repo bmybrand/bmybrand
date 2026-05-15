@@ -129,7 +129,7 @@ const OurBranding: React.FC = () => {
         {/* LG+ absolute layout */}
         <div className="hidden lg:block relative w-full h-150">
           <Image
-            src="/Group 1597883284.png"
+            src="/bmyb-logo-group-1597883284-01.png"
             alt=""
             width={460}
             height={416}

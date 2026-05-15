@@ -6,7 +6,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { createClient } from '@/lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -105,20 +104,27 @@ export default function RequestForm() {
   const onSubmit = async (data: FormValues) => {
     setSubmitStatus('loading');
     try {
-      const client = createClient();
-      const { error } = await client.from('requestform').insert({
-        'first name': data.firstName,
-        'last name': data.lastName,
-        email: data.email,
-        phonenumber: data.phone,
-        message: data.message,
-        accesspage: pathname ?? '',
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          service: 'Custom Quote Request',
+          accessPage: pathname ?? '',
+          sourceForm: 'Request Quote Form',
+        }),
       });
-      if (error) {
-        console.error('[RequestForm] Supabase error:', error.message, error.details);
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.error('[RequestForm] Email route error:', result);
         setSubmitStatus('error');
         return;
       }
+
       setSubmitStatus('success');
       reset();
     } catch (err) {
