@@ -278,7 +278,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Brand-forward presentation', desc: 'Color, pacing, and interface details work together to give Baba’s Burgers a more memorable and ownable online identity.' },
         { title: 'Responsive execution', desc: 'The experience is built to stay sharp and usable across mobile, tablet, and desktop screens.' }
       ],
-      bannerImage: '/bmyb-case-jiggy-jerky-jiggybg-01.svg'
+      bannerImage: '/bmyb-case-jiggy-jerky-jiggybg-01.svg',
+      bannerVideo: '/Burger (1) (1).mp4'
     },
     reviews: {
       title: "REVIEWS FROM\nBABA'S BURGERS TEAM",
