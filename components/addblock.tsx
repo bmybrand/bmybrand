@@ -8,7 +8,7 @@ const AddBlock = () => {
     <section className='bg-[#11122F] pt-30'>
       <div className='mx-auto w-[90%] 2xl:w-[75%] h-fit rounded-xl relative '>
         <Image
-          src="/bmyb-services-ai-chatgpt-01.webp"
+          src="/bmyb-cta-bear-rocket-01.webp"
           alt="Rocket"
           width={2134}
           height={1556}
