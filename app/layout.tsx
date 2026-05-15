@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import localFont from "next/font/local";
+import GlobalPreloader from "@/components/global-preloader";
 import "./globals.css";
 
 const benzinBold = localFont({
@@ -46,7 +47,7 @@ export default function RootLayout({
           } as CSSProperties
         }
       >
-        {children}
+        <GlobalPreloader>{children}</GlobalPreloader>
       </body>
     </html>
   );

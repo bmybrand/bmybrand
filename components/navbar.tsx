@@ -249,7 +249,9 @@ const MegaMenu = ({
   );
 
   const pos = style as { top?: string; left?: string; transform?: string } | undefined;
-  return createPortal(
+  const portalTarget = (typeof document !== 'undefined' && document.getElementById('__next')) || (typeof document !== 'undefined' && document.body) || null;
+  return portalTarget
+    ? createPortal(
     <div
       className="fixed z-[10000]"
       style={{
@@ -260,8 +262,9 @@ const MegaMenu = ({
     >
       {menuContent}
     </div>,
-    document.body
-  );
+    portalTarget
+  )
+    : null;
 };
 
 const Navbar = () => {

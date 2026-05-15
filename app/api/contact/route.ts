@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const DEFAULT_TO_EMAIL = 'info@bmybrand.com'
+const DEFAULT_SUPABASE_TABLE = 'leads'
 
 type ContactPayload = {
   firstName: string
@@ -31,6 +32,11 @@ export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY
   const from = process.env.RESEND_FROM_EMAIL
   const to = process.env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
 
   if (!apiKey || !from) {
     return NextResponse.json(
@@ -205,6 +211,45 @@ export async function POST(request: Request) {
       </table>
     </div>
   `
+
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json(
+      { error: 'Lead database is not configured.' },
+      { status: 500 }
+    )
+  }
+
+  const leadInsertResponse = await fetch(
+    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}`,
+    {
+      method: 'POST',
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({
+        source_form: sourceForm,
+        access_page: payload.accessPage || null,
+        first_name: payload.firstName,
+        last_name: payload.lastName,
+        email: payload.email,
+        phone: payload.phone,
+        service,
+        message: payload.message,
+      }),
+    }
+  )
+
+  if (!leadInsertResponse.ok) {
+    const errorText = await leadInsertResponse.text()
+
+    return NextResponse.json(
+      { error: 'Failed to save lead.', details: errorText },
+      { status: 502 }
+    )
+  }
 
   let resendResponse: Response
 
