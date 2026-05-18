@@ -1,0 +1,8 @@
+# Upload to public_html/api/.htaccess (same folder as strategy-call.php)
+# Ensures Apache passes Authorization to PHP on cPanel.
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>

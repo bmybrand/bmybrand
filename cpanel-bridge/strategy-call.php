@@ -10,6 +10,53 @@
 
 declare(strict_types=1);
 
+function getAuthorizationHeader(): string
+{
+    if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+        return (string) $_SERVER['HTTP_AUTHORIZATION'];
+    }
+
+    if (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        return (string) $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    }
+
+    if (function_exists('getallheaders')) {
+        $headers = getallheaders();
+        if (is_array($headers)) {
+            foreach ($headers as $key => $value) {
+                if (strcasecmp((string) $key, 'Authorization') === 0) {
+                    return (string) $value;
+                }
+            }
+        }
+    }
+
+    if (function_exists('apache_request_headers')) {
+        $headers = apache_request_headers();
+        if (is_array($headers)) {
+            foreach ($headers as $key => $value) {
+                if (strcasecmp((string) $key, 'Authorization') === 0) {
+                    return (string) $value;
+                }
+            }
+        }
+    }
+
+    return '';
+}
+
+function isAuthorized(): bool
+{
+    $auth = getAuthorizationHeader();
+    if ($auth === 'Bearer ' . BRIDGE_SECRET) {
+        return true;
+    }
+
+    // Fallback when Apache/cPanel does not pass Authorization to PHP
+    $token = $_GET['token'] ?? $_POST['token'] ?? '';
+    return is_string($token) && hash_equals(BRIDGE_SECRET, $token);
+}
+
 // --- Configure (match your cPanel MySQL user/database) ---
 const BRIDGE_SECRET = 'CHANGE_ME_TO_A_LONG_RANDOM_SECRET';
 const DB_HOST = 'localhost';
@@ -38,12 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-$auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-if ($auth !== 'Bearer ' . BRIDGE_SECRET) {
+if (!isAuthorized()) {
     http_response_code(401);
     echo json_encode([
         'error' => 'Unauthorized',
-        'hint' => 'Send header: Authorization: Bearer <your BRIDGE_SECRET>',
+        'hint' => 'Use Authorization: Bearer <BRIDGE_SECRET>, or ?health=1&token=<BRIDGE_SECRET> for testing.',
+        'receivedAuth' => getAuthorizationHeader() !== '' ? 'header-present' : 'header-missing',
     ]);
     exit;
 }
