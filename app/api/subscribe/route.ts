@@ -101,32 +101,6 @@ export async function POST(request: Request) {
     })
   }
 
-  const leadInsertResponse = await fetch(
-    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}`,
-    {
-      method: 'POST',
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({
-        access_page: payload.accessPage,
-        email: payload.email,
-        service: 'Newsletter Subscription',
-      }),
-    }
-  )
-
-  if (!leadInsertResponse.ok) {
-    const errorText = await leadInsertResponse.text()
-
-    return NextResponse.json(
-      { error: 'Failed to save lead.', details: errorText },
-      { status: 502 }
-    )
-  }
 
   const subject = 'Thanks for subscribing to BMYBrand'
   const text = [
@@ -231,6 +205,37 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { error: 'Failed to send thank-you email.', details: errorText },
+      { status: 502 }
+    )
+  }
+
+  // Only insert the lead after the thank-you email was sent successfully.
+  const leadInsertResponse = await fetch(
+    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}`,
+    {
+      method: 'POST',
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({
+        access_page: payload.accessPage,
+        email: payload.email,
+        service: 'Newsletter Subscription',
+      }),
+    }
+  )
+
+  if (!leadInsertResponse.ok) {
+    const errorText = await leadInsertResponse.text()
+
+    return NextResponse.json(
+      {
+        error: 'Failed to save lead after sending email.',
+        details: errorText,
+      },
       { status: 502 }
     )
   }
