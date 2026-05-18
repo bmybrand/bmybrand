@@ -39,7 +39,7 @@ const projects: Project[] = [
     number: '01',
     title: 'FOUNTAIN HILLS',
     description: 'We are proud to have partnered with Golden Meadows Nursing & Rehabilitation Center (GMNRC) to create a modern, user-friendly website that empowers families and residents.',
-    image: '/bmyb-case-fountain-hills-card-01.webp',
+    image: '/bmyb-case-fountain-hills-home-01.webp',
     link: '/case-studies/fountain-hills',
   },
   {
@@ -47,7 +47,7 @@ const projects: Project[] = [
     number: '02',
     title: 'PINK.ME',
     description: 'Vestibulum vehicula tempor nulla, sed hendrerit urna interdum eu. Mauris et ipsum sed enim feugiat sollicitudin at vel tortor. Nunc a viverra nibh. Aenean ligula magna.',
-    image: '/bmyb-case-pink-me-card-01.webp',
+    image: '/bmyb-case-pink-me-slider-04.webp',
     link: '/case-studies/pink-me',
   },
 
@@ -56,7 +56,7 @@ const projects: Project[] = [
     number: '03',
     title: 'JIGGY JERKY',
     description: 'We partnered with Jeremiahs Cigars, Inc, to build a bold, easy-to-use website that captures their fun vibe and showcases their artisan jerky.',
-    image: '/bmyb-case-jiggy-jerky-card-01.webp',
+    image: '/bmyb-case-jiggy-jerky-slider-01.webp',
     link: '/case-studies/jiggy-jerky',
   },
   {
@@ -134,7 +134,7 @@ const caseStudies: CaseStudy[] = [
       'Enhanced mobile accessibility for families',
       '98% positive feedback from residents and families'
     ],
-    image: '/bmyb-case-fountain-hills-card-01.webp',
+    image: '/bmyb-case-fountain-hills-home-01.webp',
     stats: [
       { label: 'Increase in Inquiries', value: '65%' },
       { label: 'User Engagement', value: '120%' },
@@ -158,7 +158,7 @@ const caseStudies: CaseStudy[] = [
       'Average order value up by 35%',
       'Customer retention improved by 60%'
     ],
-    image: '/bmyb-case-pink-me-card-01.webp',
+    image: '/bmyb-case-pink-me-slider-04.webp',
     stats: [
       { label: 'Sales Growth', value: '180%' },
       { label: 'Order Value', value: '+35%' },
@@ -183,7 +183,7 @@ const caseStudies: CaseStudy[] = [
       'Social media engagement increased by 150%',
       'Average session time up by 95%'
     ],
-    image: '/bmyb-case-jiggy-jerky-card-01.webp',
+    image: '/bmyb-case-jiggy-jerky-slider-01.webp',
     stats: [
       { label: 'Revenue Growth', value: '210%' },
       { label: 'Subscribers', value: '1,200+' },
