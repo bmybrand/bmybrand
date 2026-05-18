@@ -3,7 +3,6 @@ import Navbar from './navbar'
 import Herobarcase from './herobarcase'
 import RecentProjects from './recentprojects'
 
-const WorkTogether = dynamic(() => import('./worktogether'))
 const Evaluate = dynamic(() => import('./evaluatcta'))
 const Brandsspec = dynamic(() => import('./brandsspec'))
 const RequestForm = dynamic(() => import('./requestform'))
@@ -15,7 +14,6 @@ const CaseStudiespage = () => {
       <Navbar />
       <Herobarcase />
       <RecentProjects />
-      <WorkTogether />
       <Evaluate />
       <Brandsspec />
       <RequestForm /> 

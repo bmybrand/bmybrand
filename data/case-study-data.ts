@@ -356,7 +356,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Stronger product storytelling', desc: 'Product imagery, messaging, and layout work together to help items stand out and feel more desirable.' },
         { title: 'Responsive storefront', desc: 'A mobile-first e-commerce experience designed to look sharp and perform smoothly across devices.' }
       ],
-      bannerImage: '/bmyb-case-pink-me-pinkmebg-01.svg'
+      bannerImage: '/bmyb-case-pink-me-pinkmebg-01.svg',
+      bannerVideo: '/Pink me.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nPINK.ME TEAM',

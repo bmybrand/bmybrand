@@ -12,7 +12,6 @@ type ContactPayload = {
   service?: string
   message: string
   accessPage?: string
-  sourceForm?: string
 }
 
 function isValidEmail(value: string) {
@@ -61,7 +60,6 @@ export async function POST(request: Request) {
     service: body.service?.trim(),
     message: body.message?.trim(),
     accessPage: body.accessPage?.trim(),
-    sourceForm: body.sourceForm?.trim(),
   }
 
   if (
@@ -69,7 +67,8 @@ export async function POST(request: Request) {
     !payload.lastName ||
     !payload.email ||
     !payload.phone ||
-    !payload.message
+    !payload.message ||
+    !payload.accessPage
   ) {
     return NextResponse.json(
       { error: 'All fields are required.' },
@@ -85,17 +84,15 @@ export async function POST(request: Request) {
   }
 
   const service = payload.service || 'General Inquiry'
-  const sourceForm = payload.sourceForm || 'Website Form'
   const subject = `New contact form inquiry: ${service}`
   const text = [
     'New contact form submission',
     '',
-    `Source: ${sourceForm}`,
+    `Page: ${payload.accessPage}`,
     `Name: ${payload.firstName} ${payload.lastName}`,
     `Email: ${payload.email}`,
     `Phone: ${payload.phone}`,
     `Service: ${service}`,
-    ...(payload.accessPage ? [`Page: ${payload.accessPage}`] : []),
     '',
     'Message:',
     payload.message,
@@ -147,7 +144,7 @@ export async function POST(request: Request) {
               <tr>
                 <td style="padding:20px 32px 0; font-family:Arial,sans-serif; color:#11122f; font-size:18px; line-height:1.8;">
                   <p style="margin:0 0 22px;">Hi Team,</p>
-                  <p style="margin:0 0 22px;">You received a new inquiry through the <strong>${escapeHtml(sourceForm)}</strong>.</p>
+                  <p style="margin:0 0 22px;">You received a new inquiry from the page <strong>${escapeHtml(payload.accessPage)}</strong>.</p>
                   <p style="margin:0 0 22px;">${fullName} submitted a request and would like to hear back regarding <strong>${escapeHtml(service)}</strong>.</p>
                   <p style="margin:0 0 22px;">The submitted message is included below along with the sender details.</p>
                 </td>
@@ -176,11 +173,10 @@ export async function POST(request: Request) {
                       <td style="width:160px; padding:14px 20px; border-top:1px solid #e5e7eb; font-family:Arial,sans-serif; font-size:14px; color:#6b7280; font-weight:700;">Service</td>
                       <td style="padding:14px 20px; border-top:1px solid #e5e7eb; font-family:Arial,sans-serif; font-size:15px; color:#11122f;">${escapeHtml(service)}</td>
                     </tr>
-                    ${payload.accessPage ? `
                     <tr>
                       <td style="width:160px; padding:14px 20px; border-top:1px solid #e5e7eb; font-family:Arial,sans-serif; font-size:14px; color:#6b7280; font-weight:700;">Page</td>
                       <td style="padding:14px 20px; border-top:1px solid #e5e7eb; font-family:Arial,sans-serif; font-size:15px; color:#11122f;">${escapeHtml(payload.accessPage)}</td>
-                    </tr>` : ''}
+                    </tr>
                     <tr>
                       <td style="width:160px; padding:14px 20px; border-top:1px solid #e5e7eb; font-family:Arial,sans-serif; font-size:14px; color:#6b7280; font-weight:700; vertical-align:top;">Message</td>
                       <td style="padding:14px 20px; border-top:1px solid #e5e7eb; font-family:Arial,sans-serif; font-size:15px; line-height:1.8; color:#11122f; white-space:pre-wrap;">${escapeHtml(payload.message)}</td>
@@ -230,8 +226,7 @@ export async function POST(request: Request) {
         Prefer: 'return=minimal',
       },
       body: JSON.stringify({
-        source_form: sourceForm,
-        access_page: payload.accessPage || null,
+        access_page: payload.accessPage,
         first_name: payload.firstName,
         last_name: payload.lastName,
         email: payload.email,

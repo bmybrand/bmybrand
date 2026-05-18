@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 type FormValues = {
@@ -54,6 +55,7 @@ const services = [
 ]
 
 export default function ContactForm() {
+  const pathname = usePathname()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [submitSuccess, setSubmitSuccess] = useState('')
@@ -75,7 +77,10 @@ export default function ContactForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          accessPage: pathname || '/',
+        }),
       })
 
       const result = await response.json()
