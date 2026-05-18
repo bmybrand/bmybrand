@@ -27,6 +27,23 @@ export function usesMysqlBridge() {
   return Boolean(url && secret)
 }
 
+/** cPanel/Apache often strips Authorization; pass token in the query string too. */
+function buildBridgeUrl(baseUrl: string, secret: string, params: Record<string, string> = {}) {
+  const url = new URL(baseUrl)
+  url.searchParams.set('token', secret)
+  for (const [key, value] of Object.entries(params)) {
+    url.searchParams.set(key, value)
+  }
+  return url.toString()
+}
+
+function bridgeHeaders(secret: string) {
+  return {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${secret}`,
+  }
+}
+
 export async function saveStrategyCallBooking(payload: StrategyCallRecord) {
   const bridge = getBridgeConfig()
 
@@ -45,12 +62,9 @@ async function saveViaBridge(
   let response: Response
 
   try {
-    response = await fetch(url, {
+    response = await fetch(buildBridgeUrl(url, secret), {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${secret}`,
-      },
+      headers: bridgeHeaders(secret),
       body: JSON.stringify(payload),
       cache: 'no-store',
     })
@@ -114,15 +128,13 @@ export async function checkStrategyCallStorage() {
   const bridge = getBridgeConfig()
 
   if (bridge.url && bridge.secret) {
-    const healthUrl = bridge.url.includes('?')
-      ? `${bridge.url}&health=1`
-      : `${bridge.url}?health=1`
+    const healthUrl = buildBridgeUrl(bridge.url, bridge.secret, { health: '1' })
 
     let response: Response
     try {
       response = await fetch(healthUrl, {
         method: 'GET',
-        headers: { Authorization: `Bearer ${bridge.secret}` },
+        headers: bridgeHeaders(bridge.secret),
         cache: 'no-store',
       })
     } catch (error) {
