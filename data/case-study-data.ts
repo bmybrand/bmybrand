@@ -433,7 +433,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
         { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
       ],
-      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+      bannerImage: '/bmyb-global-backgroundfh-01.webp',
+      bannerVideo: '/vytisTours.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
