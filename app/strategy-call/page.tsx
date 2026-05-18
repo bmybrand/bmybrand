@@ -259,6 +259,20 @@ export default function StrategyCallPage() {
       })
       .catch((err) => console.error("Error fetching countries:", err));
   }, []);
+
+  useEffect(() => {
+    if (step !== "time" && step !== "complete") return;
+
+    const scrollTarget =
+      step === "time"
+        ? bookingPanelRef.current
+        : completeSectionRef.current;
+
+    requestAnimationFrame(() => {
+      scrollTarget?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [step]);
+
   const [calendarDate, setCalendarDate] = useState(new Date(2026, 3, 1));
   const [selectedDate, setSelectedDate] = useState(6);
   const [selectedTime, setSelectedTime] = useState("");
@@ -268,6 +282,8 @@ export default function StrategyCallPage() {
   const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h");
   const [hoveredSlot, setHoveredSlot] = useState<string | null>(null);
   const [activeAgenda, setActiveAgenda] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [completionVideoPaused, setCompletionVideoPaused] = useState(false);
   const [completionVideoMuted, setCompletionVideoMuted] = useState(true);
   const [reviewCardWidth, setReviewCardWidth] = useState(0);
@@ -275,6 +291,9 @@ export default function StrategyCallPage() {
   const [currentReview, setCurrentReview] = useState(0);
   const beltViewportRef = useRef<HTMLDivElement | null>(null);
   const beltTrackRef = useRef<HTMLDivElement | null>(null);
+  const bookingFlowRef = useRef<HTMLDivElement | null>(null);
+  const bookingPanelRef = useRef<HTMLElement | null>(null);
+  const completeSectionRef = useRef<HTMLElement | null>(null);
   const completionVideoRef = useRef<HTMLVideoElement | null>(null);
   const animRef = useRef<gsap.core.Tween | null>(null);
   const cardWidthRef = useRef(0);
@@ -458,6 +477,53 @@ export default function StrategyCallPage() {
     setCompletionVideoMuted(nextMuted);
   };
 
+  const handleFinishBooking = async () => {
+    if (!selectedTime || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    const year = calendarDate.getFullYear();
+    const month = String(calendarDate.getMonth() + 1).padStart(2, "0");
+    const day = String(selectedDate).padStart(2, "0");
+    const appointmentDate = `${year}-${month}-${day}`;
+
+    try {
+      const response = await fetch("/api/strategy-call", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          name,
+          countryCode,
+          phone,
+          companyName,
+          websiteUrl,
+          budget,
+          callNotes,
+          source,
+          appointmentDate,
+          appointmentTime: formatTimeSlot(selectedTime),
+          timezone: selectedTimezone,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to save your booking.");
+      }
+
+      setStep("complete");
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error ? error.message : "Failed to save your booking."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#11122F]">
       <div className="mx-auto w-[90%] 2xl:w-[85%] px-2 py-8 pt-24 lg:pt-32">
@@ -467,7 +533,10 @@ export default function StrategyCallPage() {
 
         <main className="mx-auto max-w-7xl pt-24 lg:pt-32">
           {step === "complete" ? (
-            <section className="px-2 py-2 lg:px-0 lg:py-0">
+            <section
+              ref={completeSectionRef}
+              className="scroll-mt-28 px-2 py-2 lg:scroll-mt-32 lg:px-0 lg:py-0"
+            >
               <div className="grid gap-10 lg:grid-cols-[minmax(0,0.88fr)_minmax(540px,1.02fr)] lg:items-start">
                 <div>
                   <div className="inline-flex h-[39px] items-center gap-2.5 rounded-xl border border-[#2A2B47] bg-[#1B1C3A] px-4 text-[0.8rem] text-white/90">
@@ -573,8 +642,13 @@ export default function StrategyCallPage() {
               </div>
             </section>
           ) : (
-            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-14">
-              <section className="w-full lg:w-[62%]">
+            <div
+              ref={bookingFlowRef}
+              className="flex scroll-mt-28 flex-col gap-12 lg:scroll-mt-32 lg:flex-row lg:items-start lg:gap-14"
+            >
+              <section
+                className={`w-full lg:w-[62%] ${step === "time" ? "max-lg:order-2" : ""}`}
+              >
                 <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#191A35] px-4 text-[0.8rem] text-white/90">
                   <img src="/bmyb-logo-logowhite-01.svg" alt="BMYBrand logo" className="h-4 w-auto" />
                   <span>Book a strategy call</span>
@@ -645,7 +719,10 @@ export default function StrategyCallPage() {
                 </div>
               </section>
 
-              <aside className="w-full rounded-[24px] border border-[#2A2B47] bg-[#1B1C3A] lg:sticky lg:top-28 lg:w-[38%] lg:self-stretch">
+              <aside
+                ref={bookingPanelRef}
+                className={`w-full scroll-mt-28 rounded-[24px] border border-[#2A2B47] bg-[#1B1C3A] lg:sticky lg:top-28 lg:w-[38%] lg:self-stretch lg:scroll-mt-32 ${step === "time" ? "max-lg:order-1" : ""}`}
+              >
                 <div className="border-b border-[#2A2B47] px-6 py-5">
                   <div className="flex items-center justify-center gap-3 text-sm">
                     <button
@@ -1081,12 +1158,19 @@ export default function StrategyCallPage() {
                             }`}
                         >
                           <div className="overflow-hidden">
+                            {submitError ? (
+                              <p className="mb-3 text-sm text-red-400">{submitError}</p>
+                            ) : null}
                             <button
                               type="button"
-                              onClick={() => setStep("complete")}
-                              className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] py-3.5 text-[1.05rem] text-white transition-all duration-200 hover:brightness-110 BenzinSemibold"
+                              onClick={() => void handleFinishBooking()}
+                              disabled={isSubmitting}
+                              className={`flex w-full items-center justify-center rounded-xl py-3.5 text-[1.05rem] text-white transition-all duration-200 BenzinSemibold ${isSubmitting
+                                ? "cursor-not-allowed bg-[#343556] text-white/45"
+                                : "bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] hover:brightness-110"
+                                }`}
                             >
-                              Finish
+                              {isSubmitting ? "Saving..." : "Finish"}
                             </button>
                           </div>
                         </div>
