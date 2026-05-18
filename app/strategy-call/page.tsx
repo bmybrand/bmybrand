@@ -511,7 +511,10 @@ export default function StrategyCallPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Failed to save your booking.");
+        const message = [result.error, result.hint, result.details?.message]
+          .filter(Boolean)
+          .join(" — ");
+        throw new Error(message || "Failed to save your booking.");
       }
 
       setStep("complete");

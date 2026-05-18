@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getMysqlPool } from '@/lib/mysql'
+import { getMysqlErrorDetails, getMysqlPool } from '@/lib/mysql'
 
 type StrategyCallPayload = {
   email: string
@@ -103,10 +103,39 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true, id: insertId })
   } catch (error) {
-    console.error('[strategy-call] Database insert failed:', error)
+    const details = getMysqlErrorDetails(error)
+    console.error('[strategy-call] Database insert failed:', details)
+
+    const showDetails =
+      process.env.NODE_ENV !== 'production' ||
+      process.env.MYSQL_DEBUG === 'true'
+
+    const hint = getMysqlHint(details.code)
+
     return NextResponse.json(
-      { error: 'Failed to save booking. Check database configuration and table schema.' },
+      {
+        error: 'Failed to save booking. Check database configuration and table schema.',
+        ...(showDetails ? { details, hint } : {}),
+      },
       { status: 500 }
     )
+  }
+}
+
+function getMysqlHint(code?: string) {
+  switch (code) {
+    case 'ECONNREFUSED':
+    case 'ETIMEDOUT':
+    case 'ENOTFOUND':
+      return 'Vercel cannot reach MYSQL_HOST. In cPanel open Remote MySQL, add access host "%", and use the remote hostname (not localhost).'
+    case 'ER_ACCESS_DENIED_ERROR':
+      return 'Wrong MYSQL_USER or MYSQL_PASSWORD, or this host is not allowed in cPanel Remote MySQL.'
+    case 'ER_NO_SUCH_TABLE':
+      return 'Run database/strategy_call_bookings.sql in phpMyAdmin on the production database.'
+    case 'HANDSHAKE_SSL_ERROR':
+    case 'ECONNRESET':
+      return 'Try setting MYSQL_SSL=true in Vercel environment variables.'
+    default:
+      return undefined
   }
 }
