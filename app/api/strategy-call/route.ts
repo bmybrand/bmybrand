@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
-import { getMysqlErrorDetails, getMysqlPool } from '@/lib/mysql'
+import { getMysqlErrorDetails } from '@/lib/mysql'
+import { saveStrategyCallBooking } from '@/lib/strategy-call-save'
 
 type StrategyCallPayload = {
   email: string
@@ -73,35 +74,22 @@ export async function POST(request: Request) {
   }
 
   try {
-    const pool = getMysqlPool()
+    const { id, mode } = await saveStrategyCallBooking({
+      email: payload.email,
+      name: payload.name,
+      countryCode: payload.countryCode ?? '',
+      phone: payload.phone,
+      companyName: payload.companyName,
+      websiteUrl: payload.websiteUrl,
+      budget: payload.budget,
+      callNotes: payload.callNotes,
+      source: payload.source,
+      appointmentDate: payload.appointmentDate,
+      appointmentTime: payload.appointmentTime,
+      timezone: payload.timezone,
+    })
 
-    const [result] = await pool.execute(
-      `INSERT INTO strategy_call_bookings (
-        email, name, country_code, phone, company_name, website_url,
-        budget, call_notes, source, appointment_date, appointment_time, timezone
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        payload.email,
-        payload.name,
-        payload.countryCode || null,
-        payload.phone,
-        payload.companyName,
-        payload.websiteUrl,
-        payload.budget,
-        payload.callNotes,
-        payload.source,
-        payload.appointmentDate,
-        payload.appointmentTime,
-        payload.timezone,
-      ]
-    )
-
-    const insertId =
-      typeof result === 'object' && result !== null && 'insertId' in result
-        ? Number((result as { insertId: number }).insertId)
-        : null
-
-    return NextResponse.json({ ok: true, id: insertId })
+    return NextResponse.json({ ok: true, id, mode })
   } catch (error) {
     const details = getMysqlErrorDetails(error)
     console.error('[strategy-call] Database insert failed:', details)
@@ -127,7 +115,7 @@ function getMysqlHint(code?: string) {
     case 'ECONNREFUSED':
     case 'ETIMEDOUT':
     case 'ENOTFOUND':
-      return 'Vercel cannot reach MYSQL_HOST. In cPanel open Remote MySQL, add access host "%", and use the remote hostname (not localhost).'
+      return 'Remote MySQL is blocked on many cPanel hosts. Use the cpanel-bridge/strategy-call.php file and set MYSQL_BRIDGE_URL + MYSQL_BRIDGE_SECRET on Vercel.'
     case 'ER_ACCESS_DENIED_ERROR':
       return 'Wrong MYSQL_USER or MYSQL_PASSWORD, or this host is not allowed in cPanel Remote MySQL.'
     case 'ER_NO_SUCH_TABLE':

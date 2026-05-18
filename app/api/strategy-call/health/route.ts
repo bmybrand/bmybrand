@@ -1,40 +1,42 @@
 import { NextResponse } from 'next/server'
-import { getMysqlConfig, getMysqlErrorDetails, getMysqlPool } from '@/lib/mysql'
+import { getMysqlConfig, getMysqlErrorDetails } from '@/lib/mysql'
+import { checkStrategyCallStorage, usesMysqlBridge } from '@/lib/strategy-call-save'
 
 export async function GET() {
+  if (usesMysqlBridge()) {
+    try {
+      const result = await checkStrategyCallStorage()
+      return NextResponse.json(result, { status: result.ok ? 200 : 500 })
+    } catch (error) {
+      return NextResponse.json(
+        { ok: false, mode: 'bridge', ...getMysqlErrorDetails(error) },
+        { status: 500 }
+      )
+    }
+  }
+
   const config = getMysqlConfig()
 
   if (!config.isConfigured) {
     return NextResponse.json(
       {
         ok: false,
-        error: 'Missing MYSQL_HOST, MYSQL_USER, or MYSQL_DATABASE in environment variables.',
+        error:
+          'Missing MYSQL_BRIDGE_URL + MYSQL_BRIDGE_SECRET, or MYSQL_HOST + MYSQL_USER + MYSQL_DATABASE.',
       },
       { status: 500 }
     )
   }
 
   try {
-    const pool = getMysqlPool()
-    await pool.query('SELECT 1')
-
-    const [tables] = await pool.query("SHOW TABLES LIKE 'strategy_call_bookings'")
-    const tableExists = Array.isArray(tables) && tables.length > 0
-
+    const result = await checkStrategyCallStorage()
     return NextResponse.json({
-      ok: true,
+      ...result,
       host: config.host,
       port: config.port,
       database: config.database,
       user: config.user,
       ssl: config.sslEnabled,
-      tableExists,
-      ...(tableExists
-        ? {}
-        : {
-            warning:
-              'Table strategy_call_bookings was not found. Import database/strategy_call_bookings.sql in phpMyAdmin.',
-          }),
     })
   } catch (error) {
     const details = getMysqlErrorDetails(error)
@@ -42,6 +44,7 @@ export async function GET() {
     return NextResponse.json(
       {
         ok: false,
+        mode: 'mysql',
         host: config.host,
         port: config.port,
         database: config.database,
