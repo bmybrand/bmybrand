@@ -11,11 +11,11 @@
 declare(strict_types=1);
 
 // --- Configure (match your cPanel MySQL user/database) ---
-const BRIDGE_SECRET = 'sbArA0cAh3xfqoXKdmOG';
+const BRIDGE_SECRET = 'CHANGE_ME_TO_A_LONG_RANDOM_SECRET';
 const DB_HOST = 'localhost';
 const DB_NAME = 'serverlinktestwe_bmybrand_leads';
 const DB_USER = 'serverlinktestwe_bmybrand_leads';
-const DB_PASS = 'N_~zF&UwTWmlq!#]';
+const DB_PASS = 'YOUR_CPANEL_DB_PASSWORD';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -41,7 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 if ($auth !== 'Bearer ' . BRIDGE_SECRET) {
     http_response_code(401);
-    echo json_encode(['error' => 'Unauthorized']);
+    echo json_encode([
+        'error' => 'Unauthorized',
+        'hint' => 'Send header: Authorization: Bearer <your BRIDGE_SECRET>',
+    ]);
     exit;
 }
 
