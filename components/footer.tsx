@@ -81,7 +81,7 @@ const Footer: React.FC = () => {
     }
   }, [])
 
-  const showStatus = (type: 'success' | 'error', message: string) => {
+  const showStatus = (type: 'success' | 'error' | 'warning', message: string) => {
     if (statusHideTimerRef.current) {
       clearTimeout(statusHideTimerRef.current)
     }
