@@ -11,11 +11,11 @@ const evaluate = () => {
       <div className='mx-auto w-[90%] 2xl:w-[75%] h-fit rounded-xl relative'>
       <img src="/bmyb-global-techbear-01.webp" alt="" className='absolute bottom-6 right-0 h-auto max-h-full object-contain w-40 md:w-48 lg:w-[45%] lg:block hidden z-20 animate-bounceRocket' />
       <div className='w-full lg:w-[90%] h-full bg-[#191A35] rounded-xl px-6 md:px-8 py-8   lg:py-20 flex flex-col justify-center gap-4'>
-        <h1 className='text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl BenzinSemibold w-full lg:w-3/5 leading-tight'>
-          Ready to Elevate Your Brand Beyond the Competition?
+        <h1 className='text-white text-2xl lg:text-3xl xl:text-4xl BenzinSemibold w-full lg:w-3/5 leading-tight'>
+          Start Your Next Digital Project with Us Now!
         </h1>
         <p className='text-white/70 text-sm md:text-base w-full lg:w-3/5'>
-          At BMYBrand, we blend strategy, AI, design, and development to help ambitious businesses scale smarter and faster.
+          Whether it&apos;s a website, platform, or full digital system, we&apos;re ready to build solutions tailored to your business goals.
         </p>
         <div className='flex flex-col sm:flex-row gap-4 mt-2 BenzinSemibold'>
           <button 
