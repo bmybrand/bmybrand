@@ -104,7 +104,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#11122F]">
-      <AuditNavbar siteLabel={siteLabel} resultsBy="Foresight" />
+      <AuditNavbar siteLabel={siteLabel} resultsBy="Brandsight" />
 
       <main className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center pt-28 lg:pt-36 pb-10 text-center">
           <h1 className="text-[35px] leading-none text-white BenzinSemibold">

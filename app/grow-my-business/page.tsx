@@ -124,32 +124,41 @@ export default function GrowMyBusinessPage() {
                 </h2>
 
                 <p className="mt-4 w-full text-sm leading-7 text-[#9EA2C5] sm:text-base">
-                  Foresight is BMYBrand&apos;s AI-powered website audit tool designed to help brands uncover
+                  Brandsight is BMYBrand&apos;s AI-powered website audit tool designed to help brands uncover
                   performance gaps, improve user experience, and drive better results.
                 </p>
 
-                <form onSubmit={handleSubmit} className="mt-7">
-                  <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
-                    <input
-                      type="text"
-                      value={website}
-                      onChange={(e) => setWebsite(e.target.value)}
-                      placeholder="Type your website address"
-                      className="h-14 min-w-0 flex-1 rounded-lg border border-[#2A2B47] bg-[#1B1C3A] px-4 text-white placeholder:text-white/28 outline-none transition-colors focus:border-[#F45B25]"
-                    />
-                    <button
-                      type="submit"
-                      className="h-14 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-7 text-white transition-all duration-200 hover:brightness-110 BenzinSemibold"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
+                <div className="mt-7 rounded-xl border border-[#2A2B47] bg-[#1B1C3A] px-5 py-4">
+                  <p className="text-[15px] text-white BenzinSemibold">Under Construction</p>
+                  <p className="mt-2 text-sm leading-6 text-[#9EA2C5]">
+                    This audit experience is being updated and will be available here soon.
+                  </p>
+                </div>
 
-                <p className="mt-3 text-sm leading-6 text-[#9EA2C5]">
-                  <span className="text-[#F45B25]">Free website audit.</span>{" "}
-                  {submitted ? "Request received. We&apos;ll send it shortly." : "Sent to your inbox in 2 minutes."}
-                </p>
+                <div className="hidden">
+                  <form onSubmit={handleSubmit} className="mt-7">
+                    <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
+                      <input
+                        type="text"
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        placeholder="Type your website address"
+                        className="h-14 min-w-0 flex-1 rounded-lg border border-[#2A2B47] bg-[#1B1C3A] px-4 text-white placeholder:text-white/28 outline-none transition-colors focus:border-[#F45B25]"
+                      />
+                      <button
+                        type="submit"
+                        className="h-14 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-7 text-white transition-all duration-200 hover:brightness-110 BenzinSemibold"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+
+                  <p className="mt-3 text-sm leading-6 text-[#9EA2C5]">
+                    <span className="text-[#F45B25]">Free website audit.</span>{" "}
+                    {submitted ? "Request received. We&apos;ll send it shortly." : "Sent to your inbox in 2 minutes."}
+                  </p>
+                </div>
               </div>
             </div>
           </section>
@@ -188,7 +197,7 @@ export default function GrowMyBusinessPage() {
 
             <div className="inline-flex h-[39px] items-center gap-1 rounded-lg border border-[#3A3B61] px-4 text-[0.8rem] text-white/90">
               <img src="/bmyb-tech-whitelogo-01.svg" alt="" className="w-4 h-4" />
-              <span className="text-white/85">Foresight™</span>
+              <span className="text-white/85 BenzinRegular">Brandsight</span>
             </div>
 
             <h2 className="mt-6 max-w-[25ch] text-[35px] leading-[1.03] text-white BenzinSemibold">

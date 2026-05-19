@@ -463,8 +463,8 @@ export default function RecentProjects() {
             {/* Left side - OUR CASE STUDIES with line (35%) */}
             <div className="w-full lg:w-[35%] flex items-center gap-4">
               <div>
-                <h3 className="text-white text-lg md:text-xl BenzinSemibold">OUR</h3>
-                <h3 className="text-white text-lg md:text-xl BenzinSemibold">CASE STUDIES</h3>
+                <h3 className="text-white text-lg md:text-xl BenzinSemibold">Selected Work</h3>
+                <h3 className="text-white text-lg md:text-xl BenzinSemibold">Across Industries</h3>
               </div>
               <div className="hidden lg:block h-[2px] flex-1 bg-white/30"></div>
             </div>
@@ -472,7 +472,7 @@ export default function RecentProjects() {
             {/* Right side - OUR RECENT PROJECTS (65%) */}
             <div className="w-full lg:w-[65%]">
               <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-[#F45B25] BenzinSemibold leading-tight">
-                OUR<br />RECENT<br />PROJECTS
+                Projects <br /> That Define <br /> Our Approach
               </h1>
             </div>
           </div>

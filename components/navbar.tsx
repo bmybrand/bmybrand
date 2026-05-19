@@ -222,22 +222,17 @@ const MegaMenu = ({
         )}
 
         {isResources && (
-          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4">
-            <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44">
+          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10">
+            <div className="relative rounded-xl overflow-hidden bg-white/5 h-40 lg:h-full lg:min-h-[17.5rem]">
               <img
-                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop"
+                src="/bmyb-navbar-resources-01.svg"
                 alt="Resources and insights"
                 className="w-full h-full object-cover"
               />
-            </div>
-            <div>
-              <Link href="/case-studies" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
-                Explore Resources
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </Link>
-              <p className="text-white/60 text-sm mt-2">Browse case studies, updates, and practical insights about the work we build and the results we help create.</p>
+              <div className="absolute bottom-2 left-4 inline-flex h-[39px] items-center gap-1 text-[0.8rem] text-white/90">
+                <img alt="" className="w-4 h-4" src="/bmyb-tech-whitelogo-01.svg" />
+                <span className="text-white/85 BenzinRegular">Brandsight</span>
+              </div>
             </div>
           </div>
         )}

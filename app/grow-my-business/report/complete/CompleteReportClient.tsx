@@ -219,7 +219,7 @@ export default function CompleteReportClient({ site }: { site?: string }) {
   return (
     <div className="min-h-screen bg-[#11122F] text-white">
       <div className="px-2">
-        <AuditNavbar siteLabel={siteLabel} resultsBy="Foresight" />
+        <AuditNavbar siteLabel={siteLabel} resultsBy="Brandsight" />
 
         <main className="mx-auto w-[90%] xl:w-[75%] pt-44 lg:pt-52">
           <section className="grid items-center gap-12 pb-16  lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.72fr)]">
