@@ -16,43 +16,43 @@ type Card = {
 
 const cards: Card[] = [
   {
-    title: "Creative Consistency",
-    desc: "Keep your brand looking clean, modern, and aligned everywhere.",
+    title: "Deep Understanding",
+    desc: "We learn your goals, audience, and challenges first",
     icon: "/bmyb-global-creative-consistency-01.svg",
   },
   {
-    title: "Detail-Driven Quality",
-    desc: "Experience designs crafted with precision, clarity, and detail.",
+    title: "Tailored Strategies",
+    desc: "Every solution is customized to fit your business needs",
     icon: "/bmyb-global-detail-driven-quality-01.svg",
   },
   {
-    title: "Reliable Workflow",
-    desc: "Enjoy a smooth, organized process from start to finish.",
+    title: "Creativity + Technology",
+    desc: "We combine design thinking with modern technical solutions",
     icon: "/bmyb-global-reliable-workflow-01.svg",
   },
   {
-    title: "Smart Optimization",
-    desc: "We build for speed, performance, and better results.",
+    title: "Real Results Focus",
+    desc: "Our work is driven by measurable growth and impact",
     icon: "/bmyb-global-smart-optimization-01.svg",
   },
   {
-    title: "Clear Communication",
-    desc: "Clear updates, real feedback, and open collaboration.",
+    title: "Simple Process",
+    desc: "We keep everything clear, structured, and easy to follow",
     icon: "/bmyb-global-clear-communication-01.svg",
   },
   {
-    title: "Flexible Creativity",
-    desc: "Bring any idea to life with adaptable, brand-focused creativity.",
+    title: "User Experience First",
+    desc: "We design smooth, intuitive, and engaging digital experiences",
     icon: "/bmyb-global-flexible-creativity-01.svg",
   },
   {
-    title: "Long-Term Stability",
-    desc: "Build a digital presence that stays strong and future-ready.",
+    title: "Built to Scale",
+    desc: "Every solution is designed to grow with your business",
     icon: "/bmyb-global-long-term-stability-01.svg",
   },
   {
-    title: "Built for Growth",
-    desc: "Build on a structure designed to scale as your business grows.",
+    title: "Close Collaboration",
+    desc: "We work closely with you at every stage together",
     icon: "/bmyb-global-built-for-growth-01.svg",
   },
 ];
@@ -114,13 +114,11 @@ const OurBranding: React.FC = () => {
     <section className="w-full pt-30 pb-30 flex flex-col items-center">
       {/* HEADING */}
       <div ref={headingRef} className="w-full flex flex-col items-center">
-        <h2 className="mb-6 w-[90%] 2xl:w-[60%]  text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-          Why Clients Count on Our Branding{" "}
-          <span className="text-[#F45B25]">Our Branding</span>
+        <h2 className="mb-6 w-[90%] 2xl:w-[60%] text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
+          A Closer Look at the <span className="text-[#F45B25]">BMYBrand</span> Approach
         </h2>
         <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
-          Clients trust us for clean design, honest communication, and a dedication
-          to work that performs in the real world—not just looking good.
+          At BMYBrand, we focus on understanding your business first, then building the right mix of strategy, design, and technology to support real growth. Our approach is simple, practical, and tailored to help your brand move forward with clarity and confidence.
         </p>
       </div>
 

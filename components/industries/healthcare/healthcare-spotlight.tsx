@@ -4,15 +4,62 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Stack, { type StackHandle } from '@/components/stack'
 
 export default function HealthcareSpotlight() {
-  const videoPool = ["/bmyb-global-rickroll-01.mp4", "/bmyb-global-strock-animation-1-01.mp4"]
-  const videos = useMemo(
-    () => Array.from({ length: 10 }, (_, index) => videoPool[index % videoPool.length]),
+  const spotlightItems = useMemo(
+    () => [
+      {
+        video: '/FHMC_2.mp4',
+        logo: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg',
+        logoAlt: 'Fountain Hills Emergency Room and Medical Center',
+        title: 'Strengthening Healthcare Brands With Precision, Trust, And Innovation',
+        description:
+          'From the beginning, it was clear that BMYBrand understood the urgency and trust required in healthcare. They delivered a fast, patient-focused website that makes it easier for people to find care, access services, and take action when it matters most.',
+        name: 'Fountain Hills',
+        role: 'Healthcare Brand',
+        avatar: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg',
+      },
+      {
+        video: '/Pink me.mp4',
+        logo: '/bmyb-case-pink-me-pm-logo-01.svg',
+        logoAlt: 'Pink.Me',
+        title: 'Strengthening Breast Cancer Support With Compassion, Clarity, And Empowerment',
+        description:
+          'A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.',
+        name: 'Pink.Me',
+        role: 'Breast Cancer Support',
+        avatar: '/bmyb-case-pink-me-pm-logo-01.svg',
+      },
+      {
+        video: '/JIggy (1).mp4',
+        logo: '/bmyb-case-jiggy-jerky-jiggylogo-01.svg',
+        logoAlt: 'Jiggy Jerky',
+        title: 'Delivering Clean-Ingredient, Bold-Flavor Experiences For Jerky Fans',
+        description:
+          'Built to translate the brand’s playful energy online, the experience makes product discovery simple, appetizing, and conversion-focused for customers shopping bold artisan jerky.',
+        name: 'Jiggy Jerky',
+        role: 'Food Brand',
+        avatar: '/bmyb-case-jiggy-jerky-jiggylogo-01.svg',
+      },
+      {
+        video: '/animation3.mp4',
+        logo: '/bmyb-case-learnandlabel-learnandlabellogo-01.svg',
+        logoAlt: 'Learn and Label',
+        title: 'Creating AI-Powered Labels And Newsletters For Smarter Communication',
+        description:
+          'Built to simplify content creation, enhance productivity, and deliver personalized results, the platform helps businesses and individuals communicate smarter and faster.',
+        name: 'Learn and Label',
+        role: 'AI Product',
+        avatar: '/bmyb-case-learnandlabel-learnandlabellogo-01.svg',
+      },
+    ],
     []
   )
+  const videos = useMemo(() => spotlightItems.map((item) => item.video), [spotlightItems])
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([])
   const stackRef = useRef<StackHandle>(null)
+  const activeItem = spotlightItems[activeIndex] ?? spotlightItems[0]
   const stackCards = useMemo(
     () =>
       videos.map((src, index) => (
@@ -22,14 +69,14 @@ export default function HealthcareSpotlight() {
             videoRefs.current[index] = el
           }}
           src={src}
-          muted
+          muted={isMuted}
           loop
           playsInline
           preload="metadata"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       )),
-    [videos]
+    [isMuted, videos]
   )
 
   useEffect(() => {
@@ -50,8 +97,8 @@ export default function HealthcareSpotlight() {
 
   return (
     <section className="bg-[#11122F]">
-      <div className="mx-auto grid w-[90%] lg:w-[75%] gap-12 py-14 sm:py-18 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-22">
-        <div className="group relative mx-auto flex w-full max-w-[430px] items-center justify-center py-8 lg:mx-0 lg:translate-x-14 lg:max-w-[470px]">
+      <div className="mx-auto grid w-[90%] gap-12 py-14 sm:gap-16 sm:py-18 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20 lg:py-22 xl:w-[75%] xl:gap-24 2xl:gap-12">
+        <div className="group relative mx-auto flex w-full max-w-[430px] items-center justify-center py-8 lg:mx-0 xl:-translate-x-10 xl:max-w-[470px] 2xl:translate-x-14">
           <div className="relative" style={{ width: 380, height: 500 }}>
             <Stack
               ref={stackRef}
@@ -64,6 +111,27 @@ export default function HealthcareSpotlight() {
               onActiveIndexChange={setActiveIndex}
               cards={stackCards}
             />
+
+            <button
+              type="button"
+              onClick={() => setIsMuted((prev) => !prev)}
+              className="absolute right-0 top-3 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[#17183B]/88 text-white shadow-[0_10px_28px_rgba(0,0,0,0.28)] transition-all duration-200 hover:scale-[1.03] hover:bg-[#FF7A32] sm:right-[-8px] sm:top-4"
+              aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+            >
+              {isMuted ? (
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <line x1="23" y1="9" x2="17" y2="15" />
+                  <line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+              ) : (
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                  <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+                </svg>
+              )}
+            </button>
 
             <button
               type="button"
@@ -106,26 +174,28 @@ export default function HealthcareSpotlight() {
 
         <div className="max-w-[560px]">
           <img
-            src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg"
-            alt="Fountain Hills Emergency Room and Medical Center"
+            src={activeItem.logo}
+            alt={activeItem.logoAlt}
             className="h-16 w-auto object-contain"
           />
 
-          <blockquote className="mt-6 max-w-[34rem] text-[1rem] sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem] leading-[1.6] text-white/88">
-            From the beginning, it was clear that BMYBrand understood the urgency and trust required in
-            healthcare. They delivered a fast, patient-focused website that makes it easier for people to
-            find care, access services, and take action when it matters most.
+          <h3 className="mt-6 max-w-[34rem] text-[1rem] leading-[1.18] text-white BenzinSemibold sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem]">
+            {activeItem.title}
+          </h3>
+
+          <blockquote className="mt-5 max-w-[34rem] text-[0.95rem] leading-[1.6] text-white/72 sm:text-[1rem] md:text-[1.08rem] lg:text-[1.12rem]">
+            {activeItem.description}
           </blockquote>
 
           <div className="mt-10 flex items-center gap-3">
             <img
-              src="/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg"
-              alt=""
+              src={activeItem.avatar}
+              alt={activeItem.name}
               className="h-14 w-14 rounded-full object-contain"
             />
             <div>
-              <div className="text-[1.1rem] sm:text-[1.25rem] text-white BenzinSemibold">Fountain Hills</div>
-              <div className="text-[0.8rem] sm:text-base text-white/48">Operations Team</div>
+              <div className="text-[1.1rem] sm:text-[1.25rem] text-white BenzinSemibold">{activeItem.name}</div>
+              <div className="text-[0.8rem] sm:text-base text-white/48">{activeItem.role}</div>
             </div>
           </div>
         </div>

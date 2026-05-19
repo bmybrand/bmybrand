@@ -244,13 +244,11 @@ const Footer = () => {
       <div className="relative z-10 min-h-screen flex items-center justify-center ">
         <div ref={headingRef} className="text-center w-[90%] lg:w-[50%] px-6">
           <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-            Modern <span className="text-[#F45B25]">Tools & Technologies</span>
-            <br />
-            That Power Your Brand
+            The <span className="text-[#F45B25]">Stack</span> We Work With
           </h1>
           <p className="text-[#ADAECC] text-sm sm:text-base">
-            We use industry-leading tools and technologies to build powerful,
-            scalable, and visually stunning digital experiences.
+            Our technology stack is carefully chosen to ensure performance, flexibility, and long-term
+            stability across all projects
           </p>
         </div>
       </div>

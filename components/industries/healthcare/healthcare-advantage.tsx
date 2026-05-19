@@ -43,7 +43,7 @@ const avatarImages = [13, 22, 34, 47, 58]
 export default function HealthcareAdvantage() {
   return (
     <section className="bg-[#11122F]">
-      <div className="mx-auto w-[90%] lg:w-[75%] py-14 sm:py-18 lg:py-22">
+      <div className="mx-auto w-[90%] py-14 sm:py-18 xl:w-[75%] xl:py-22">
         <div className="max-w-4xl">
           <h2 className="BenzinSemibold text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.12]">
             Experience the BMYBrand
@@ -52,7 +52,7 @@ export default function HealthcareAdvantage() {
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-12">
+        <div className="mt-10 grid gap-4 lg:grid-cols-12">
           {advantageCards.map((card) => (
             <article
               key={card.title}
@@ -61,8 +61,8 @@ export default function HealthcareAdvantage() {
               }`}
             >
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,120,255,0.18),transparent_42%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              <div className="relative z-10 flex h-full flex-col gap-0 lg:flex-row lg:items-stretch lg:justify-between">
-                <div className={`flex w-full flex-col ${card.type === 'avatars' ? 'pr-0 pb-20' : 'pb-6 lg:w-[56%] lg:pb-7'}`}>
+              <div className="relative z-10 flex h-full flex-col gap-0 xl:flex-row xl:items-stretch xl:justify-between">
+                <div className={`flex w-full flex-col ${card.type === 'avatars' ? 'pr-0 pb-20' : 'pb-6 xl:w-[56%] xl:pb-7'}`}>
                   <span className="text-xs text-white/42">{card.eyebrow}</span>
                   <h3 className="mt-3 whitespace-pre-line text-white text-[0.9rem] sm:text-[1.0rem] md:text-[1.1rem] lg:text-[1.15rem] xl:text-[1.2rem] 2xl:text-[1.25rem] leading-[1.05] transition-colors duration-300 group-hover:text-white BenzinSemibold">
                     {card.title}
@@ -73,7 +73,7 @@ export default function HealthcareAdvantage() {
 
                 </div>
 
-                <div className={`relative flex min-h-[120px] w-full items-end justify-end self-end lg:w-[40%] ${card.type === 'avatars' ? 'hidden' : ''}`}>
+                <div className={`relative flex min-h-[120px] w-full items-end justify-end self-end xl:w-[40%] ${card.type === 'avatars' ? 'hidden' : ''}`}>
                   {card.type === 'dashboard' && card.image && (
                     <div className="pointer-events-none w-full self-end opacity-92 transition-transform duration-500 group-hover:scale-[1.01]">
                       <img src={card.image} alt="" className="block h-auto w-full object-contain object-right-bottom" />

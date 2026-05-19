@@ -5,16 +5,15 @@ import gsap from "gsap";
 import Image from "next/image";
 
 const H1_WORDS: { word: string; orange: boolean; noSpace?: boolean }[] = [
-  { word: "Build", orange: false },
-  { word: "a", orange: false },
-  { word: "High-", orange: false, noSpace: true },
-  { word: "Performing", orange: false },
-  { word: "Brand", orange: true },
-  { word: "With", orange: true },
-  { word: "Creative", orange: true },
-  { word: "Power", orange: false },
-  { word: "Behind", orange: false },
-  { word: "It", orange: false },
+  { word: "We", orange: false },
+  { word: "Help", orange: false },
+  { word: "You", orange: false },
+  { word: "Build", orange: true },
+  { word: "a", orange: true },
+  { word: "Business", orange: true },
+  { word: "that", orange: false },
+  { word: "People", orange: false },
+  { word: "Remember", orange: false },
 ];
 
 const Heropage: React.FC = () => {
@@ -96,20 +95,21 @@ const Heropage: React.FC = () => {
         <div className="w-full xl:w-1/2 lg:min-h-[calc(100vh-160px)] flex flex-col justify-center gap-4 px-4 lg:px-0 z-10">
           <h1
             ref={headlineRef}
-            className="text-white text-[18px] sm:text-[20px] md:text-[24px] lg:text-[30px] xl:text-[40px] 2xl:text-[50px] BenzinBold leading-[25px] sm:leading-8 md:leading-tight lg:leading-tight xl:leading-[50px] 2xl:leading-[60px]"
+            className="text-white text-[21px] sm:text-[23px] md:text-[27px] lg:text-[34px] xl:text-[46px] 2xl:text-[56px] BenzinBold leading-7.25 sm:leading-10 md:leading-tight lg:leading-tight xl:leading-14 2xl:leading-16.5"
           >
             {H1_WORDS.map((item, i) => (
-              <span
-                key={i}
-                className={`inline-block whitespace-pre ${item.orange ? "text-[#F45B25]" : ""}`}
-              >
-                {item.word.split("").map((char, j) => (
-                  <span key={j} className="typing-char inline-block">
-                    {char}
-                  </span>
-                ))}
-                {!item.noSpace && "\u00A0"}
-              </span>
+              <React.Fragment key={i}>
+                <span
+                  className={`inline-block whitespace-pre ${item.orange ? "text-[#F45B25]" : ""}`}
+                >
+                  {item.word.split("").map((char, j) => (
+                    <span key={j} className="typing-char inline-block">
+                      {char}
+                    </span>
+                  ))}
+                  {!item.noSpace && "\u00A0"}
+                </span>
+              </React.Fragment>
             ))}
           </h1>
           <p
@@ -117,8 +117,10 @@ const Heropage: React.FC = () => {
             className="text-white text-[14px] sm:text-[15px] md:text-[16px] leading-[1.75] sm:leading-[1.8] tracking-wide max-w-[540px] opacity-0"
             style={{ transform: "translateY(18px)" }}
           >
-            Make unlimited design, website, or marketing requests — and get unlimited revisions. 
-            Grow your brand faster with your own dedicated creative team handling everything from logos to full websites.
+            BMYBrand helps businesses grow with simple, smart digital solutions made for real-world
+            needs. From building strong brands and websites to using AI, marketing, commerce, and
+            improving daily operations, we bring everything together to help your business move forward
+            and grow with confidence.
           </p>
         <div
           ref={buttonsRef}

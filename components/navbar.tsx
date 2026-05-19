@@ -163,15 +163,16 @@ const MegaMenu = ({
 
   const isCompany = type === "company";
   const isServices = type === "services";
+  const isResources = type === "resources";
   const isIndustries = type === "industries";
-  const hasTwoColumnLayout = isCompany || isServices;
+  const hasTwoColumnLayout = isCompany || isServices || isResources;
 
   const menuContent = (
     <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`rounded-2xl bg-[#FFFFFF]/5 border-2 border-white/20 shadow-xl ${isCompany ? "w-[min(90vw,44rem)]" : isServices ? "w-[min(90vw,53rem)]" : hasTwoColumnLayout ? "w-[min(90vw,50rem)]" : isIndustries ? "w-[min(90vw,22rem)]" : "w-[min(90vw,42rem)]"}`}
+      className={`rounded-2xl bg-[#FFFFFF]/5 border-2 border-white/20 shadow-xl ${isCompany ? "w-[min(90vw,44rem)]" : isServices ? "w-[min(90vw,53rem)]" : isResources ? "w-[min(90vw,44rem)]" : hasTwoColumnLayout ? "w-[min(90vw,50rem)]" : isIndustries ? "w-[min(90vw,22rem)]" : "w-[min(90vw,42rem)]"}`}
       style={{ WebkitBackdropFilter: "blur(24px)", backdropFilter: "blur(24px)" }}
       onMouseLeave={onClose}
     >
@@ -220,8 +221,24 @@ const MegaMenu = ({
           </div>
         )}
 
+        {isResources && (
+          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10">
+            <div className="relative rounded-xl overflow-hidden bg-white/5 h-40 lg:h-full lg:min-h-[17.5rem]">
+              <img
+                src="/bmyb-navbar-resources-01.svg"
+                alt="Resources and insights"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-2 left-4 inline-flex h-[39px] items-center gap-1 text-[0.8rem] text-white/90">
+                <img alt="" className="w-4 h-4" src="/bmyb-tech-whitelogo-01.svg" />
+                <span className="text-white/85 BenzinRegular">Brandsight</span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Right section - Menu items */}
-        <div className={`${isCompany ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-[55%]" : "lg:w-1/2"}` : ""}`}>
+        <div className={`${isCompany || isResources ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-[55%]" : "lg:w-1/2"}` : ""}`}>
           <div className={hasTwoColumnLayout ? "flex flex-col justify-between flex-1 min-h-0" : isIndustries ? "flex flex-col gap-1" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
             {(type === "company" ? companyMenuItems : type === "services" ? servicesMenuItems : type === "industries" ? industriesMenuItems : resourcesMenuItems).map(
               (item: { title: string; href: string; desc: string; icon?: React.ReactNode }, idx: number
@@ -293,7 +310,7 @@ const Navbar = () => {
         setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.left}px`, transform: "none" });
       } else if (type === "industries") {
         setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.left}px`, transform: "none" });
-      } else if (type === "company") {
+      } else if (type === "company" || type === "resources") {
         setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.left + rect.width / 2}px`, transform: "translateX(-50%)" });
       } else {
         setDropdownPosition({ top: `${rect.bottom + padding}px`, left: `${rect.right}px`, transform: "translateX(-100%)" });

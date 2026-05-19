@@ -18,7 +18,7 @@ export default function HerobarBrand() {
         >
           <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto text-center pt-32 pb-20">
@@ -27,7 +27,8 @@ export default function HerobarBrand() {
         </h1>
         
         <p className="text-[#ADAECC] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed">
-        We craft powerful brand identities and digital experiences that don’t just look good — they perform. From strategy to visual systems, we design brands that resonate, convert, and scale.</p>
+          BMYBrand is a digital branding agency delivering strategic brand identity development services and branding and logo design services that help businesses create a clear, memorable, and consistent brand presence across digital platforms.
+        </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-2 BenzinSemibold justify-center items-center">
           <button

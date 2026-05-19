@@ -31,18 +31,19 @@ export default function BrandExperienceHero() {
   }, [activeEdgeStory, edgeStoryCount, goToEdgeStory])
 
   const features = [
-    { image: '/bmyb-services-brand-card-icon-1-01.svg', title: 'Strategic Positioning', description: 'Define your brand\'s unique value, voice, and market advantage.' },
-    { image: '/bmyb-services-brand-card-icon-2-01.svg', title: 'Visual Identity', description: 'Craft a cohesive visual system that reflects authority and trust.' },
-    { image: '/bmyb-services-brand-card-icon-3-01.svg', title: 'Brand Storytelling', description: 'Create narratives that connect with your audience on a deeper level.' },
-    { image: '/bmyb-services-brand-card-icon-4-01.svg', title: 'Design Systems', description: 'Develop scalable brand guidelines for consistent growth.' }
+    { image: '/bmyb-services-brand-card-icon-1-01.svg', title: 'Visual Identity System', description: 'We design logos, colors, and typography for branding and logo design services.' },
+    { image: '/bmyb-services-brand-card-icon-2-01.svg', title: 'Unified Brand Messaging', description: 'We create consistent messaging for business branding services in Texas.' },
+    { image: '/bmyb-services-brand-card-icon-3-01.svg', title: 'Cross-Platform Consistency', description: 'We keep brand identity consistent through branding identity development services.' },
+    { image: '/bmyb-services-brand-card-icon-4-01.svg', title: 'Experience-Driven Design', description: 'We design smooth experiences that improve brand experience and trust.' }
   ]
 
   const impactAreas = [
-    { number: '01', title: 'Brand Identity & Logo Design', description: 'Memorable, scalable identities that establish credibility & recognition.' },
-    { number: '02', title: 'UI/UX Design', description: 'User experiences built to guide, engage, and convert.' },
-    { number: '03', title: 'Brand Messaging Framework', description: 'Clear messaging architecture that strengthens positioning.' },
-    { number: '04', title: 'Visual Design & Typography', description: 'Structured design systems that ensure visual consistency.' },
-    { number: '05', title: 'Marketing Kits & Assets', description: 'Complete brand assets for campaigns, social, and digital channels.' }
+    { number: '01', title: 'Brand Research', description: 'We analyze the market, audience, and competitors to build informed and effective brand experience strategies.' },
+    { number: '02', title: 'Brand Positioning', description: 'We define how your brand stands out clearly in competitive markets with a strong differentiation strategy.' },
+    { number: '03', title: 'Tone of Voice', description: 'We establish a consistent communication style that reflects personality and builds an emotional connection with the audience.' },
+    { number: '04', title: 'Creative Direction', description: 'We guide visual and conceptual direction to ensure all brand elements stay aligned and impactful.' },
+    { number: '05', title: 'Brand Guidelines', description: 'We create structured rules for visuals and messaging to maintain consistency across all platforms.' },
+    { number: '06', title: 'Digital Presence', description: 'We shape how your brand appears across websites, social media, and digital platforms consistently.' }
   ]
   const edgeStoryImageByIndex: Record<number, string> = {
     1: '/bmyb-services-brand-story-card-2-01.webp',
@@ -152,11 +153,11 @@ export default function BrandExperienceHero() {
         <div className="max-w-7xl mx-auto">
           <div className="pb-30 grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <h2 className="text-white text-4xl md:text-5xl lg:text-6xl BenzinBold mb-6 leading-tight">
-                Build Brands That Resonate
+              <h2 className="text-white text-2xl md:text-3xl lg:text-[45px] BenzinBold mb-8 leading-tight ">
+                We Build Brands That Feel Consistent Everywhere
               </h2>
-              <p className="text-white/70 text-lg md:text-xl leading-relaxed">
-                Your brand is more than a logo - it&apos;s the perception people form the moment they encounter your business. It influences trust, credibility, and buying decisions before a single word is spoken. At BMYBrand, we combine strategic positioning, visual identity systems, and user-centered design to build brands that are clear, consistent, and impossible to ignore.
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">
+                At BMYBrand, a leading digital branding agency, we specialize in creating powerful and consistent brand experience systems that help businesses stand out across every platform. Our focus on brand identity development services ensures that your visuals, messaging, and overall presence work together as one unified system. From strategy to execution, we build brands that feel cohesive, recognizable, and memorable at every customer touchpoint, whether digital or physical. This consistency strengthens trust, improves recognition, and positions your business as a professional and reliable brand in competitive markets like the USA and Texas.
               </p>
             </div>
 
@@ -565,14 +566,15 @@ export default function BrandExperienceHero() {
           <div className="mb-20 grid items-stretch gap-16 lg:grid-cols-2">
             <div>
               <h2 className="text-white text-3xl md:text-4xl lg:text-5xl BenzinBold mb-6 leading-tight">
-                Where Branding Builds Competitive Advantage
+                Key Aspects of Our Strong Brand
+                <span className="block">Experience</span>
               </h2>
               <div className="space-y-4 text-white/70 text-lg leading-relaxed">
                 <p>
-                  We don&apos;t design for aesthetics alone - we design for outcomes. A strong brand should support business growth, improve customer perception, and create measurable results across every touchpoint. At BMYBrand, we build structured brand ecosystems that align strategy, messaging, and design into one cohesive system engineered for long-term performance.
+                  We focus on building complete brand experience systems that help businesses create lasting impact. Our approach to brand identity development services ensures every element, from visuals to messaging, works together seamlessly to build recognition, trust, and consistency. We combine strategy, creativity, and design to deliver strong branding solutions for businesses searching for branding and logo design services near me, branding company in Texas, and the best branding services in the USA.
                 </p>
                 <p>
-                  From first impression to customer loyalty, every brand element we create is intentional - designed to increase clarity, strengthen trust, and drive meaningful engagement.
+                  A strong brand is more than just visuals; it is the full experience people have at every interaction. Through structured brand identity development services, we ensure your business communicates clearly across all platforms. Whether it is business branding services in Texas or logo design and branding services near me, we create unified brand systems that feel professional, memorable, and consistent everywhere your audience connects with you.
                 </p>
               </div>
             </div>

@@ -6,55 +6,73 @@ import gsap from 'gsap'
 type Review = {
   name: string
   title: string
-  company: string
+  company?: string
   testimonial: string
 }
 
 const reviewsRow1: Review[] = [
   {
-    name: 'Sarah Mitchell',
-    title: 'Founder',
-    company: 'Bloom Avenue',
+    name: 'Daniel Reeves',
+    title: 'Client',
     testimonial:
-      'Our brand finally feels modern, consistent, and polished. The redesign brought clarity to our message, and customers are responding better than ever. BMYBrand exceeded every expectation.',
+      'BMYBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
   },
   {
-    name: 'Michael Lee',
-    title: 'CEO',
-    company: 'TechNova',
+    name: 'Hannah Brooks',
+    title: 'Client',
     testimonial:
-      'Working with BMYBrand has transformed our online presence. The team is highly professional and creative, delivering results beyond what we imagined.',
+      'The AI automation solution saved us so much time, improved workflow, and made daily operations much more efficient overall.',
   },
   {
-    name: 'Ava Rodriguez',
-    title: 'Marketing Lead',
-    company: 'GreenLeaf Co.',
+    name: 'Mark Bennett',
+    title: 'Client',
     testimonial:
-      'BMYBrand’s redesign gave our brand the consistency and polish we needed. Customers notice the difference immediately.',
+      'Their digital marketing team helped increase our traffic significantly, and we started getting real leads within a few weeks.',
+  },
+  {
+    name: 'Laura Mitchell',
+    title: 'Client',
+    testimonial:
+      'We got a complete e-commerce store, and it works flawlessly, with easy checkout and excellent user experience for customers.',
+  },
+  {
+    name: 'Jason Clarke',
+    title: 'Client',
+    testimonial:
+      'Branding work was outstanding; they understood our vision clearly and created a strong identity that truly represents our business.',
   },
 ]
 
 const reviewsRow2: Review[] = [
   {
-    name: 'James Carter',
-    title: 'Head of Sales',
-    company: 'BlueWave Inc.',
+    name: 'Emily Harper',
+    title: 'Client',
     testimonial:
-      'Our collaboration with BMYBrand has taken our branding and digital presence to the next level. Truly outstanding work!',
+      'Software development was smooth, professional, and exactly tailored to our needs, making our internal system much easier to manage.',
   },
   {
-    name: 'Olivia Bennett',
-    title: 'Creative Director',
-    company: 'Lumina Studios',
+    name: 'Kevin Lawson',
+    title: 'Client',
     testimonial:
-      'BMYBrand exceeded all expectations. Their design process is thorough, creative, and results-driven.',
+      'Business operations became far more organized after their automation setup, reducing manual work and improving overall productivity.',
   },
   {
-    name: 'Ethan Wilson',
-    title: 'Product Manager',
-    company: 'Skyline Tech',
+    name: 'Megan Foster',
+    title: 'Client',
     testimonial:
-      'From strategy to design, BMYBrand delivered exceptional quality. Our brand now feels modern, cohesive, and trustworthy.',
+      'The team was very responsive, listened carefully, and delivered a solution that matched exactly what we were looking for.',
+  },
+  {
+    name: 'Andrew Cole',
+    title: 'Client',
+    testimonial:
+      'Our online presence improved massively after their marketing strategy, and engagement across platforms has grown consistently every month.',
+  },
+  {
+    name: 'Rachel Turner',
+    title: 'Client',
+    testimonial:
+      'From start to finish, everything felt professional, simple, and result-driven, making the whole experience very easy and stress-free.',
   },
 ]
 
@@ -100,7 +118,7 @@ export default function Brandsspec() {
 
       const role = document.createElement('div')
       role.className = 'text-[15px] text-white/70'
-      role.textContent = `${review.title} - ${review.company}`
+      role.textContent = review.company ? `${review.title} - ${review.company}` : review.title
 
       meta.appendChild(name)
       meta.appendChild(role)
@@ -231,14 +249,14 @@ export default function Brandsspec() {
   }
 
   useLayoutEffect(() => {
-    setup(row1Ref, reviewsRow1, 20, true)
-    setup(row2Ref, reviewsRow2, 25, false)
+    setup(row1Ref, reviewsRow1, 28, true)
+    setup(row2Ref, reviewsRow2, 32, false)
 
     const onResize = () => {
       anims.current.forEach((a) => a.kill())
       anims.current = []
-      setup(row1Ref, reviewsRow1, 20, true)
-      setup(row2Ref, reviewsRow2, 25, false)
+      setup(row1Ref, reviewsRow1, 28, true)
+      setup(row2Ref, reviewsRow2, 32, false)
     }
 
     window.addEventListener('resize', onResize)
@@ -252,11 +270,10 @@ export default function Brandsspec() {
     <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#11122F]">
       <div className="text-center w-[90%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-          Built With Care. <span className="text-[#F45B25]">Trusted By </span>Brands.
+          What People Say <span className="text-[#F45B25]">About BMYBrand</span>
         </h1>
         <p className="text-[#ADAECC] text-sm sm:text-base max-w-2xl mx-auto">
-          At BMYBrand, businesses trust us for clean design, smooth functionality, and results that help
-          their brand grow. Here's what our clients are saying.
+          Our clients share their real experiences working with us, highlighting trust, results, and long-term collaboration.
         </p>
       </div>
 

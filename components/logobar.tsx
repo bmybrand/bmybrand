@@ -93,9 +93,9 @@ const Logobar = () => {
     >
       {/* Heading */}
       <div className="w-full flex justify-center">
-        <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[42px] 2xl:leading-[50px]">
-          Every day, <span className="text-[#F45B25]">BMYBrand</span> is trusted by
-          businesses, startups, and creators worldwide.
+        <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center leading-7 sm:leading-10 md:leading-tight lg:leading-snug xl:leading-10.5 2xl:leading-12.5">
+          <span className="text-[#F45B25]">Trusted</span>{" "}
+          <span>by Businesses, Startups &amp; Creators</span>
         </h1>
       </div>
 

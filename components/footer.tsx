@@ -2,7 +2,8 @@
 
 import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6'
+import { usePathname } from 'next/navigation'
+import { FaCircleCheck, FaTriangleExclamation, FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6'
 
 const subscribe = () => () => {}
 
@@ -44,9 +45,16 @@ const SOCIAL_LINKS = [
 const brandText = 'BMYBRAND'
 
 const Footer: React.FC = () => {
+  const pathname = usePathname()
   const [email, setEmail] = useState('')
   const brandContainerRef = useRef<HTMLDivElement>(null)
+  const statusHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [brandFontSize, setBrandFontSize] = useState(48)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | 'warning'
+    message: string
+  } | null>(null)
   const currentYear = useSyncExternalStore(subscribe, () => new Date().getFullYear(), () => null)
 
   useEffect(() => {
@@ -64,6 +72,73 @@ const Footer: React.FC = () => {
     ro.observe(container)
     return () => ro.disconnect()
   }, [])
+
+  useEffect(() => {
+    return () => {
+      if (statusHideTimerRef.current) {
+        clearTimeout(statusHideTimerRef.current)
+      }
+    }
+  }, [])
+
+  const showStatus = (type: 'success' | 'error' | 'warning', message: string) => {
+    if (statusHideTimerRef.current) {
+      clearTimeout(statusHideTimerRef.current)
+    }
+
+    setSubmitStatus({ type, message })
+
+    statusHideTimerRef.current = setTimeout(() => {
+      setSubmitStatus(null)
+      statusHideTimerRef.current = null
+    }, 4200)
+  }
+
+  const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (statusHideTimerRef.current) {
+      clearTimeout(statusHideTimerRef.current)
+      statusHideTimerRef.current = null
+    }
+    setSubmitStatus(null)
+
+    if (!email.trim()) {
+      showStatus('error', 'Enter your email address.')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          accessPage: pathname || '/',
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Something went wrong.')
+      }
+
+      if (result.alreadySubscribed) {
+        showStatus('warning', result.message || 'You are already subscribed.')
+      } else {
+        showStatus('success', result.message || 'Subscribed successfully.')
+        setEmail('')
+      }
+    } catch (error) {
+      showStatus('error', error instanceof Error ? error.message : 'Failed to subscribe.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <footer className="relative bg-[linear-gradient(to_bottom,#1C1D3F,#1A1B38)] text-white overflow-hidden">
@@ -145,7 +220,7 @@ const Footer: React.FC = () => {
         {/* Middle: Reviewed on platforms */}
         <div className="flex flex-wrap items-center lg:justify-between justify-center gap-6 sm:gap-4 py-8 border-y border-white/10">
           {REVIEW_PLATFORMS.map((platform) => (
-            <div key={platform.name} className="flex flex-col items-center gap-2 min-w-[80px]">
+            <div key={platform.name} className="flex flex-col items-center gap-2 min-w-20">
               <img
                 src={platform.logo}
                 alt={platform.name}
@@ -173,24 +248,69 @@ const Footer: React.FC = () => {
               From BMYBrand.
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-              <form
-                className="flex flex-1 flex-col sm:flex-row gap-3 min-w-0"
-                onSubmit={(e) => e.preventDefault()}
-              >
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter Your Email Address"
-                  className="flex-1 max-w-96 px-4 py-3 rounded-lg border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#F45B25] transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white font-semibold hover:opacity-90 transition-colors shrink-0 BenzinSemibold"
+              <div className="flex flex-col flex-1 min-w-0 relative">
+                <form
+                  className="flex flex-1 flex-col sm:flex-row gap-3 min-w-0"
+                  onSubmit={handleSubscribe}
                 >
-                  Subscribe
-                </button>
-              </form>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter Your Email Address"
+                    className="flex-1 max-w-96 px-4 py-3 rounded-lg border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#F45B25] transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    className="px-6 py-3 rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white font-semibold hover:opacity-90 transition-colors shrink-0 BenzinSemibold disabled:cursor-not-allowed disabled:opacity-70"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                  </button>
+                </form>
+
+                {/* Reserved status area under the subscription field so layout won't shift */}
+                <div className="mt-3 w-full max-w-96 min-h-10">
+                  <div
+                    className={`w-full h-full transition-opacity duration-300 ${
+                      submitStatus ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {submitStatus ? (
+                      <div
+                        className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-[0_10px_30px_rgba(0,0,0,0.18)] ${
+                          submitStatus.type === 'success'
+                            ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-100'
+                            : submitStatus.type === 'warning'
+                            ? 'border-yellow-400/30 bg-yellow-400/10 text-yellow-100'
+                            : 'border-red-500/30 bg-red-500/10 text-red-100'
+                        }`}
+                      >
+                        <span
+                          className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
+                            submitStatus.type === 'success'
+                              ? 'text-emerald-400'
+                              : submitStatus.type === 'warning'
+                              ? 'text-yellow-400'
+                              : 'text-red-400'
+                          }`}
+                        >
+                          {submitStatus.type === 'success' ? (
+                            <FaCircleCheck className="h-5 w-5" />
+                          ) : submitStatus.type === 'warning' ? (
+                            '!'
+                          ) : (
+                            <FaTriangleExclamation className="h-5 w-5" />
+                          )}
+                        </span>
+                        <p className="leading-6">{submitStatus.message}</p>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
               <div className="flex gap-3 shrink-0 sm:items-center">
                 {SOCIAL_LINKS.map((social) => {
                   const Icon = social.Icon
@@ -210,7 +330,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Copyright and policy links on same row */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4  text-sm text-white/70">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-white/70">
             <p className="order-2 sm:order-1 text-[16px]">Copyright © {currentYear ?? ''} BMYBrand | All Rights Reserved.</p>
             <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2">
               <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Terms Of Use</a>
@@ -226,7 +346,7 @@ const Footer: React.FC = () => {
       {/* BMYBRAND at bottom - flex font: scales with container width */}
       <div
         ref={brandContainerRef}
-        className="absolute bottom-0 left-0 right-0 z-20 flex justify-center items-end pt-4 min-h-[100px]"
+        className="absolute bottom-0 left-0 right-0 z-20 flex justify-center items-end pt-4 min-h-25"
       >
           <h2
             className="group BenzinSemibold text-center leading-none text-[#1A1B38] "

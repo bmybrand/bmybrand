@@ -37,13 +37,19 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
+
+    const previousBodyOverflow = document.body.style.overflow
+    const previousHtmlOverflow = document.documentElement.style.overflow
+
     if (isOpen) {
       window.addEventListener('keydown', handleEsc)
       document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
     }
     return () => {
       window.removeEventListener('keydown', handleEsc)
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = previousBodyOverflow
+      document.documentElement.style.overflow = previousHtmlOverflow
     }
   }, [isOpen, onClose])
 

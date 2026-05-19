@@ -39,7 +39,7 @@ const projects: Project[] = [
     number: '01',
     title: 'FOUNTAIN HILLS',
     description: 'We are proud to have partnered with Golden Meadows Nursing & Rehabilitation Center (GMNRC) to create a modern, user-friendly website that empowers families and residents.',
-    image: '/bmyb-case-fountain-hills-card-01.webp',
+    image: '/bmyb-case-fountain-hills-home-01.webp',
     link: '/case-studies/fountain-hills',
   },
   {
@@ -47,7 +47,7 @@ const projects: Project[] = [
     number: '02',
     title: 'PINK.ME',
     description: 'Vestibulum vehicula tempor nulla, sed hendrerit urna interdum eu. Mauris et ipsum sed enim feugiat sollicitudin at vel tortor. Nunc a viverra nibh. Aenean ligula magna.',
-    image: '/bmyb-case-pink-me-card-01.webp',
+    image: '/bmyb-case-pink-me-slider-04.webp',
     link: '/case-studies/pink-me',
   },
 
@@ -56,7 +56,7 @@ const projects: Project[] = [
     number: '03',
     title: 'JIGGY JERKY',
     description: 'We partnered with Jeremiahs Cigars, Inc, to build a bold, easy-to-use website that captures their fun vibe and showcases their artisan jerky.',
-    image: '/bmyb-case-jiggy-jerky-card-01.webp',
+    image: '/bmyb-case-jiggy-jerky-slider-01.webp',
     link: '/case-studies/jiggy-jerky',
   },
   {
@@ -123,22 +123,21 @@ const caseStudies: CaseStudy[] = [
     number: '01',
     title: 'FOUNTAIN HILLS',
     subtitle: 'Modern Digital Experience for Healthcare',
-    client: 'Golden Meadows Nursing & Rehabilitation Center',
-    industry: 'Healthcare',
-    services: ['Website Design', 'UI/UX', 'Brand Strategy'],
-    challenge: 'GMNRC needed a modern, user-friendly website that would empower families and residents while maintaining accessibility standards for healthcare facilities.',
-    solution: 'We designed and developed a clean, intuitive website with easy navigation, family resources, and virtual tour capabilities. The design prioritized accessibility and mobile responsiveness while reflecting the caring nature of the facility.',
+    client: 'Fountain Hills Emergency Room & Medical Center',
+    industry: 'Healthcare / Emergency Care',
+    services: ['UI/UX Design', 'Web Development', 'Patient Accessibility'],
+    challenge: 'The facility needed a fast, reliable, and easy-to-navigate digital platform that allows patients in urgent situations to quickly access emergency care information without confusion or delay.',
+    solution: 'We designed and developed a high-performance healthcare website focused on speed, clarity, and accessibility. The interface was structured to support high-stress decision-making, ensuring patients can instantly find services, locations, and care options when needed.',
     results: [
-      'Increased online inquiries by 65%',
-      'Improved user engagement time by 120%',
-      'Enhanced mobile accessibility for families',
-      '98% positive feedback from residents and families'
+      'Ensured uninterrupted access to emergency care information with 100% uptime',
+      'Improved page speed by 35% for faster patient response time',
+      'Created a patient-first digital experience focused on clarity and trust'
     ],
-    image: '/bmyb-case-fountain-hills-card-01.webp',
+    image: '/bmyb-case-fountain-hills-home-01.webp',
     stats: [
-      { label: 'Increase in Inquiries', value: '65%' },
-      { label: 'User Engagement', value: '120%' },
-      { label: 'Mobile Traffic', value: '85%' }
+      { label: 'Site Uptime', value: '100%' },
+      { label: 'Faster Load Speed', value: '+35%' },
+      { label: 'Accessibility Compliance', value: 'WCAG 2.1' }
     ],
     slug: 'fountain-hills'
   },
@@ -146,23 +145,22 @@ const caseStudies: CaseStudy[] = [
     id: 'pink-me',
     number: '02',
     title: 'PINK.ME',
-    subtitle: 'E-commerce Platform for Fashion Brand',
-    client: 'Pink.Me Fashion',
-    industry: 'Non-profit',
-    services: ['E-commerce Development', 'Brand Identity', 'Digital Marketing'],
-    challenge: 'Pink.Me needed a vibrant online presence that would capture their unique brand personality and convert visitors into customers through an engaging shopping experience.',
-    solution: 'We created a bold, visually stunning e-commerce platform with advanced filtering, personalized recommendations, and seamless checkout. The design showcased products beautifully while maintaining fast load times.',
+    subtitle: 'Nonprofit Healthcare Digital Experience',
+    client: 'PINK "ME"',
+    industry: 'Nonprofit Healthcare',
+    services: ['UI/UX Design', 'Web Development', 'Donor & Patient Accessibility'],
+    challenge: 'PINK "ME" needed a digital platform that could clearly communicate breast cancer support programs while maintaining emotional sensitivity, accessibility, and ease of use for patients, survivors, donors, and families.',
+    solution: 'We designed a compassionate, user-friendly platform that highlights financial aid, wellness programs, screening access, and community support while keeping the experience warm, clear, and dignity-focused.',
     results: [
-      'Online sales increased by 180%',
-      'Cart abandonment reduced by 45%',
-      'Average order value up by 35%',
-      'Customer retention improved by 60%'
+      'Improved clarity of financial assistance and support programs',
+      'Increased engagement from donors and community users',
+      'Enhanced accessibility for patients and families in need'
     ],
-    image: '/bmyb-case-pink-me-card-01.webp',
+    image: '/bmyb-case-pink-me-slider-04.webp',
     stats: [
-      { label: 'Sales Growth', value: '180%' },
-      { label: 'Order Value', value: '+35%' },
-      { label: 'Retention Rate', value: '60%' }
+      { label: 'Program Clarity', value: '100%' },
+      { label: 'User Engagement', value: '+45%' },
+      { label: 'Accessibility Compliance', value: 'WCAG 2.1' }
     ],
     slug: 'pink-me'
   },
@@ -172,22 +170,21 @@ const caseStudies: CaseStudy[] = [
     number: '03',
     title: 'JIGGY JERKY',
     subtitle: 'Bold Brand Experience for Artisan Jerky',
-    client: 'Jeremiahs Cigars, Inc',
-    industry: 'Food',
-    services: ['Brand Identity', 'E-commerce', 'Content Strategy'],
-    challenge: 'Jiggy Jerky needed a website that captured their fun, bold personality while making it easy for customers to browse and purchase their artisan jerky products online.',
-    solution: 'We designed a vibrant, personality-driven e-commerce site with playful animations, mouthwatering product photography, and a subscription service for regular customers. The site reflected the brand\'s unique character while driving sales.',
+    client: 'Jiggy Jerky',
+    industry: 'Food & E-commerce',
+    services: ['UI/UX Design', 'E-commerce Development', 'Brand Experience Design'],
+    challenge: 'Jiggy Jerky needed an engaging e-commerce experience that reflected its bold, playful brand personality while clearly showcasing premium Angus beef jerky products.',
+    solution: 'We created a flavor-driven, conversion-focused online store with a strong visual identity, product storytelling, and a smooth shopping experience optimized for mobile and desktop users.',
     results: [
-      'Online revenue up by 210%',
-      'Subscription sign-ups: 1,200+ in 3 months',
-      'Social media engagement increased by 150%',
-      'Average session time up by 95%'
+      'Improved product visibility and user engagement',
+      'Higher conversion rates across all product pages',
+      'Faster, smoother shopping experience for users'
     ],
-    image: '/bmyb-case-jiggy-jerky-card-01.webp',
+    image: '/bmyb-case-jiggy-jerky-slider-01.webp',
     stats: [
-      { label: 'Revenue Growth', value: '210%' },
-      { label: 'Subscribers', value: '1,200+' },
-      { label: 'Engagement', value: '150%' }
+      { label: 'Product Engagement', value: '+60%' },
+      { label: 'Conversion Rate', value: '+40%' },
+      { label: 'Load Speed', value: '2.5s' }
     ],
     slug: 'jiggy-jerky'
   },
@@ -195,161 +192,160 @@ const caseStudies: CaseStudy[] = [
     id: 'instinctive-healthcare-solutions',
     number: '04',
     title: 'INSTINCTIVE HEALTHCARE SOLUTIONS',
-    subtitle: '24/7 Patient-Centric Emergency Care',
+    subtitle: 'Instinctive Healthcare Solutions',
     client: 'Instinctive Healthcare Solutions',
     industry: 'Healthcare',
     services: ['UI/UX Design', 'Web Development', 'Patient Accessibility'],
-    challenge: 'Instinctive Healthcare Solutions needed a streamlined digital platform to provide critical information and access to emergency care services with zero downtime.',
-    solution: 'We developed a high-performance website with clear navigation and a clean interface that prioritizes accessibility in high-stress situations.',
+    challenge: 'Instinctive Healthcare Solutions needed a streamlined digital platform to provide critical healthcare information and emergency service access with zero downtime, ensuring patients could quickly find care in urgent situations.',
+    solution: 'We built a high-performance, accessibility-focused website with clear navigation, fast loading speeds, and a structured interface designed for high-stress emergency scenarios.',
     results: [
-      '100% Site Uptime during launch',
-      '35% Faster page load times',
-      'Improved navigation for urgent care'
+      '100% uptime, ensuring uninterrupted access to emergency information',
+      '35% improvement in website performance and speed',
+      'Improved navigation for faster urgent care decision-making'
     ],
     image: '/bmyb-case-instinctive-healthcare-slider-01.webp',
     stats: [
       { label: 'Site Uptime', value: '100%' },
-      { label: 'Load Speed', value: '+35%' },
-      { label: 'Accessibility', value: 'WCAG 2.1' }
+      { label: 'Faster Load Speed', value: '+35%' },
+      { label: 'Accessibility Compliance', value: 'WCAG 2.1' }
     ],
     slug: 'instinctive-healthcare-solutions'
   },
   {
     id: 'instinctive-health',
     number: '05',
-    title: 'INSTINCTIVE HEALTH',
-    subtitle: 'Innovative Wellness and Diagnostic Services',
-    client: 'Instinctive Health',
-    industry: 'Healthcare',
-    services: ['Brand Identity', 'Responsive Design', 'Content Strategy'],
-    challenge: 'The brand needed to communicate complex diagnostic services in a way that felt approachable and professional to a broad patient base.',
-    solution: 'We created a visual language that balances medical expertise with human-centric design, supported by a clear content hierarchy.',
+    title: 'INSTINCTIVE HEALTHPASS',
+    subtitle: 'Instinctive HealthPass',
+    client: 'Instinctive HealthPass',
+    industry: 'Healthcare Membership Platform',
+    services: ['UI/UX Design', 'Web Development', 'Patient Experience Design'],
+    challenge: 'Patients struggled with unpredictable healthcare costs, confusing insurance systems, and lack of clarity around out-of-pocket expenses.',
+    solution: 'We designed a simplified membership-based healthcare platform that explains benefits clearly and helps users understand care access, participating providers, and cost predictability.',
     results: [
-      'Increase in online patient inquiries',
-      'Positive community feedback on accessibility',
-      'Consistent brand identity across locations'
+      'Simplified understanding of healthcare costs and access',
+      'Improved patient confidence in healthcare decisions',
+      'Increased engagement with participating providers'
     ],
     image: '/bmyb-case-instinctive-health-slider-01.webp',
     stats: [
-      { label: 'Patient Engagement', value: '+40%' },
-      { label: 'Inquiry Rate', value: '+25%' },
-      { label: 'Brand Reach', value: 'High' }
+      { label: 'Clarity in Structure', value: '100%' },
+      { label: 'User Sign-ups', value: '+42%' },
+      { label: 'User Confusion', value: '-30%' }
     ],
     slug: 'instinctive-health'
   },
   {
     id: 'learnandlabel',
     number: '06',
-    title: 'LEARN AND LABEL',
-    subtitle: 'Education and Certification Management',
-    client: 'Learn and Label',
-    industry: 'Education',
-    services: ['LMS Integration', 'UI/UX Design', 'Full-Stack Development'],
-    challenge: 'The client required a platform that could handle complex certification workflows while remaining easy for students to navigate.',
-    solution: 'We built a custom learning management system with intuitive dashboards and automated labeling systems for certification tracking.',
+    title: 'LABEL N LEARN',
+    subtitle: 'Label N Learn',
+    client: 'Label N Learn',
+    industry: 'EdTech / Productivity',
+    services: ['UI/UX Design', 'Mobile App Design', 'Workflow Optimization'],
+    challenge: 'Teachers needed a simple tool to reduce classroom workload, improve organization, and streamline parent communication without complex or time-consuming software.',
+    solution: 'We designed an intuitive mobile-first platform that allows teachers to create labels, newsletters, and classroom materials quickly using templates and AI-assisted tools.',
     results: [
-      'Automated certification workflow',
-      '60% reduction in manual labeling tasks',
-      'Improved student completion rates'
+      'Reduced time spent on classroom organization tasks',
+      'Improved communication between teachers and parents',
+      'High user satisfaction from educators'
     ],
     image: '/bmyb-case-learnandlabel-slider-01.webp',
     stats: [
-      { label: 'Efficiency', value: '60%' },
-      { label: 'Completion Rate', value: '92%' },
-      { label: 'User Rating', value: '4.9/5' }
+      { label: 'Time Saved', value: '+50%' },
+      { label: 'Teacher Productivity', value: '+38%' },
+      { label: 'User Rating', value: '4.8★' }
     ],
     slug: 'learnandlabel'
   },
   {
     id: 'vytis-tour',
     number: '07',
-    title: 'VYTIS TOUR',
-    subtitle: 'Premium Travel and Destination Management',
-    client: 'Vytis Tour',
-    industry: 'Travel and Tourism',
-    services: ['Web Design', 'Digital Marketing', 'Booking Engine Integration'],
-    challenge: 'Vytis Tour needed a premium online presence that reflected the luxury and exclusivity of their travel packages.',
-    solution: 'We designed a visual-heavy website with immersive galleries and an integrated booking experience that feels effortless.',
+    title: 'VYTIS TOURS',
+    subtitle: 'Vytis Tours',
+    client: 'Vytis Tours',
+    industry: 'Travel & Tourism',
+    services: ['UI/UX Design', 'Web Development', 'Content Structuring'],
+    challenge: 'Travelers needed a clear and inspiring way to explore complex Baltic tour packages while understanding destinations, itineraries, and travel options easily.',
+    solution: 'We designed a storytelling-driven travel platform showcasing Baltic destinations with structured tour details, making planning and exploration simple and engaging.',
     results: [
-      'Successful luxury brand positioning',
-      '25% increase in premium travel bookings',
-      'Enhanced user engagement on destination pages'
+      'Improved tour discovery and user engagement',
+      'Higher travel inquiries and bookings',
+      'Simplified navigation across destinations'
     ],
     image: '/bmyb-case-vytis-tour-slider-01.webp',
     stats: [
-      { label: 'Bookings', value: '+25%' },
-      { label: 'Site Traffic', value: '+50%' },
-      { label: 'Trip Value', value: '+15%' }
+      { label: 'Tour Engagement', value: '+55%' },
+      { label: 'Inquiry Rate', value: '+40%' },
+      { label: 'Page Load Speed', value: '3s' }
     ],
     slug: 'vytis-tour'
   },
   {
     id: 'jersey',
     number: '08',
-    title: 'JERSEY',
-    subtitle: 'Brand and Digital Experience',
-    client: 'Jersey',
-    industry: 'Brand / Business',
-    services: ['Branding', 'UI/UX Design', 'Development'],
-    challenge: 'Jersey needed a clearer digital presence that could present the brand more confidently while remaining easy to navigate across devices.',
-    solution: 'We created a cleaner, more structured digital experience with stronger visual hierarchy and a scalable foundation for future growth.',
+    title: 'JERSEY RECREATIONAL TENNIS',
+    subtitle: 'Jersey Recreational Tennis',
+    client: 'Jersey Recreational Tennis',
+    industry: 'Sports Community Platform',
+    services: ['UI/UX Design', 'Web Development', 'Community Platform Design'],
+    challenge: 'Players needed a simple way to connect, find matches, join tournaments, and participate in local tennis events across New Jersey.',
+    solution: 'We built a community-driven platform that supports player profiles, challenge matches, tournaments, score tracking, and social tennis events.',
     results: [
-      'Stronger brand presentation',
-      'Improved content clarity',
-      'Better cross-device experience'
+      'Improved player connectivity and match discovery',
+      'Increased participation in tournaments and events',
+      'Stronger local tennis community engagement'
     ],
     image: '/bmyb-case-jersey-slider-01.webp',
     stats: [
-      { label: 'Brand Clarity', value: 'Improved' },
-      { label: 'UX Structure', value: 'Refined' },
-      { label: 'Scalability', value: 'Ready' }
+      { label: 'Player Engagement', value: '+60%' },
+      { label: 'Match Participation', value: '+45%' },
+      { label: 'Load Speed', value: '2.8s' }
     ],
     slug: 'jersey'
   },
   {
     id: 'bhs',
     number: '09',
-    title: 'BHS',
-    subtitle: 'Brand and Digital Experience',
-    client: 'BHS',
-    industry: 'Business',
-    services: ['Branding', 'UI/UX Design', 'Development'],
-    challenge: 'BHS needed a clearer digital presence with a stronger visual identity and a more structured user experience.',
-    solution: 'We created a cleaner digital direction with improved layout hierarchy, stronger brand presentation, and a scalable foundation for future growth.',
+    title: 'BROWARD HOUSING SOLUTIONS (BHS)',
+    subtitle: 'Broward Housing Solutions (BHS)',
+    client: 'Broward Housing Solutions (BHS)',
+    industry: 'Nonprofit / Housing & Community Support',
+    services: ['UI/UX Design', 'Web Development', 'Dashboard Development', 'Brand Identity Design'],
+    challenge: 'Broward Housing Solutions needed a compassionate yet professional digital platform to communicate its mission, strengthen donor trust, and support housing-focused community initiatives effectively.',
+    solution: 'We designed and developed a mission-driven nonprofit platform with accessible navigation, emotional storytelling, impact-focused visuals, and a custom dashboard system to improve operational workflows and community engagement.',
     results: [
-      'Stronger brand presentation',
-      'Improved content clarity',
-      'Better cross-device experience'
+      'Improved campaign visibility and donor engagement across the platform',
+      'Streamlined internal workflows through a custom dashboard system',
+      'Strengthened community awareness around housing and mental health support'
     ],
     image: '/bmyb-case-bhs-slider-05.webp',
     stats: [
-      { label: 'Brand Clarity', value: 'Improved' },
-      { label: 'UX Structure', value: 'Refined' },
-      { label: 'Scalability', value: 'Ready' }
+      { label: 'Community Engagement', value: '+45%' },
+      { label: 'Operational Workflow', value: 'Improved' },
+      { label: 'Digital Experience', value: 'Mission-Driven' }
     ],
     slug: 'bhs'
   },
   {
     id: 'babas-burgers',
     number: '10',
-    title: "BABA'S BURGERS",
-    subtitle: 'Bold Food Brand Experience',
-    client: "Baba's Burgers",
-    industry: 'Food',
-    services: ['Food', 'UI/UX', 'Development'],
-    challenge: "Baba's Burgers needed a digital experience that made the brand feel bold and craveable online while keeping the customer journey simple and action-focused across devices.",
-    solution: 'We created a stronger visual hierarchy, food-first presentation, and cleaner UX structure so the website could feel more memorable, modern, and conversion-ready.',
+    title: "BABA’S BURGERS",
+    subtitle: 'Baba’s Burgers',
+    client: "Baba’s Burgers",
+    industry: 'Food & Restaurant',
+    services: ['UI/UX Design', 'Web Development', 'Brand Identity Design', 'Marketing Visuals'],
+    challenge: "Baba’s Burgers needed a bold digital presence that matched the energy of its brand while showcasing fresh halal burgers, signature menu items, and promotional offers in a visually engaging way.",
+    solution: 'We designed and developed a modern, food-focused website experience with bold visuals, interactive menu sections, and high-impact branding that highlights freshness, flavor, and customer trust across every touchpoint.',
     results: [
-      'Stronger digital brand presentation',
-      'Improved visual appetite appeal',
-      'Cleaner navigation and action flow',
-      'Better mobile and desktop consistency'
+      'Created a bold and recognizable digital identity for the restaurant',
+      'Strengthened trust through clean halal-focused brand presentation',
+      'Delivered a modern fast-food experience with strong visual impact'
     ],
     image: '/bmyb-case-babas-burgers-slider-02.webp',
     stats: [
-      { label: 'Industry', value: 'Food' },
-      { label: 'Core Focus', value: 'UI/UX' },
-      { label: 'Build Type', value: 'Development' }
+      { label: 'Menu Engagement', value: '+50%' },
+      { label: 'Customer Interaction', value: '+40%' },
+      { label: 'Brand Experience', value: 'Modern' }
     ],
     slug: 'babas-burgers'
   },
@@ -463,8 +459,8 @@ export default function RecentProjects() {
             {/* Left side - OUR CASE STUDIES with line (35%) */}
             <div className="w-full lg:w-[35%] flex items-center gap-4">
               <div>
-                <h3 className="text-white text-lg md:text-xl BenzinSemibold">OUR</h3>
-                <h3 className="text-white text-lg md:text-xl BenzinSemibold">CASE STUDIES</h3>
+                <h3 className="text-white text-lg md:text-xl BenzinSemibold">Selected Work</h3>
+                <h3 className="text-white text-lg md:text-xl BenzinSemibold">Across Industries</h3>
               </div>
               <div className="hidden lg:block h-[2px] flex-1 bg-white/30"></div>
             </div>
@@ -472,7 +468,7 @@ export default function RecentProjects() {
             {/* Right side - OUR RECENT PROJECTS (65%) */}
             <div className="w-full lg:w-[65%]">
               <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-[#F45B25] BenzinSemibold leading-tight">
-                OUR<br />RECENT<br />PROJECTS
+                Projects <br /> That Define <br /> Our Approach
               </h1>
             </div>
           </div>

@@ -17,43 +17,97 @@ const services: Service[] = [
     id: 'ai-driven',
     title: 'AI-Driven Solutions',
     iconSrc: '/bmyb-services-ai-driven-01.svg',
-    description: 'Take your brand to the next level with AI-powered AI Drive web and applications. From predictive analytics to intelligent automation, we build tools that optimize your business operations, enhance customer experiences, and drive data-driven decision-making at scale.',
-    items: ['Chatbot AI', 'AI Apps', 'AI Insight', 'Chatgpt API', 'Prompt Engineering', 'AI Automation'],
+    description: 'At BMYBrand, a leading AI automation agency in the USA, we design intelligent systems that help businesses work smarter and faster. From AI-driven automation solutions to custom AI software development solutions and company services, we build scalable tools that improve efficiency, reduce manual work, and enhance decision-making.',
+    items: [
+      'AI Automation Solutions',
+      'Custom AI Development',
+      'Smart Business Systems',
+      'Workflow Automation',
+      'Enterprise AI Solutions',
+      'AI Integration Services',
+      'Scalable AI Systems',
+      'Data-Driven Intelligence',
+    ],
   },
   {
     id: 'brand-experience',
     title: 'Brand Experience',
     iconSrc: '/bmyb-services-brand-experience-01.svg',
-    description: 'We help companies stand out online by forging strong brand identities. From understanding your audience to designing memorable visuals, we create experiences that resonate emotionally, position you as an industry leader, and cultivate lasting loyalty through cohesive brand storytelling.',
-    items: ['Brand Identity', 'Brand Strategy', 'UI/UX Design', 'Logo Design', 'Visual Design', 'Typography', 'Marketing Kit', 'User Research'],
+    description: 'We create powerful brand identities that define how your business looks, feels, and communicates across every touchpoint. As a digital branding agency, we build strategic and visual systems that help businesses stand out, stay consistent, and grow with confidence.',
+    items: [
+      'Brand strategy',
+      'Logo design',
+      'Visual identity',
+      'Brand messaging',
+      'Brand guidelines',
+      'Brand positioning',
+      'Brand experience design',
+      'Rebranding solutions',
+    ],
   },
   {
     id: 'software-development',
     title: 'Software Development',
     iconSrc: '/bmyb-services-software-development-01.svg',
-    description: 'We build custom software that fits your business like a glove and scales as you grow. From idea to launch, we carefully plan every step, design intuitive interfaces, and rigorously test all functionality so that your product not only meets expectations but exceeds them.',
-    items: ['Website Build', 'Mobile App', 'Web App', 'Custom CMS', 'Admin Dashboards', 'SaaS Platform', 'Blockchain', 'Progressive'],
+    description: 'We build custom software solutions that help businesses streamline operations, improve efficiency, and scale digitally. From web applications to enterprise systems, we develop secure, high-performance software tailored to your business needs and long-term growth.',
+    items: [
+      'Custom software development',
+      'Web applications',
+      'Mobile app development',
+      'API development',
+      'System architecture',
+      'Cloud-based solutions',
+      'Enterprise software',
+      'Software maintenance & support',
+    ],
   },
   {
     id: 'commerce-solutions',
     title: 'Commerce Solutions',
     iconSrc: '/bmyb-services-commerce-solutions-01.svg',
-    description: 'Build a thriving online store with E-commerce Solutions that are fast, intuitive, and scalable. From plug-and-play platforms to fully customized storefronts, we provide secure payments, personalized shopping experiences, and tools to help you grow your sales and keep customers coming back.',
-    items: ['eShop Setup', 'Custom Storefront', 'Subscription Box', 'Gateway Unified', 'Product Catalogs', 'CMS', 'Order Management', 'B2B Portals'],
+    description: 'We build end-to-end commerce solutions that help businesses sell smarter, scale faster, and deliver seamless customer experiences. From online stores to integrated commerce systems, we create platforms designed to increase conversions, streamline operations, and support long-term growth.',
+    items: [
+      'E-commerce website development',
+      'Online store design',
+      'Payment gateway integration',
+      'Product catalog management',
+      'Shopping cart systems',
+      'Order management solutions',
+      'Conversion optimization',
+      'Multi-platform commerce integration',
+    ],
   },
   {
     id: 'digital-marketing',
     title: 'Digital Marketing',
     iconSrc: '/bmyb-services-digital-marketing-01.svg',
-    description: 'We power data-driven digital marketing campaigns that raise brand awareness, inspire, and convert. Whether you want to enhance your social presence, appear at the top of search results, or engage audiences with high-quality content, we tailor every strategy to deliver measurable outcomes aligned with your business goals.',
-    items: ['Social Media', 'Content Creation', 'Email Marketing', 'Media List', 'Campaigns', 'SEO'],
+    description: 'We help brands grow online through strategic and performance-driven marketing. Our focus is on visibility, engagement, and conversions across all digital channels. We use data-backed strategies to ensure measurable results and consistent growth. Every campaign is designed to strengthen your brand presence and maximize ROI across platforms.',
+    items: [
+      'SEO optimization',
+      'Content strategy',
+      'Social media marketing',
+      'Paid advertising',
+      'Email marketing',
+      'Brand awareness campaigns',
+      'Lead generation',
+      'Performance tracking',
+    ],
   },
   {
     id: 'business-operations',
     title: 'Business Operations',
     iconSrc: '/bmyb-services-business-operations-01.svg',
-    description: 'Streamline day-to-day tasks and unlock efficiency with Business Operations services. We provide solutions that automate repetitive workflows, enhance team collaboration, and improve overall productivity. From centralized data systems to real-time reporting and seamless internal tools, we help you run a leaner, smarter operation.',
-    items: ['Process Automation', 'Workflow Design', 'Team Portals', 'CRM Integrations', 'Resource Scheduling', 'BI/Analytics', 'Help Desk', 'Project Management'],
+    description: 'We help businesses improve internal operations through structured systems, automation, and digital tools. Our solutions are designed to reduce inefficiencies, improve productivity, and support smooth day-to-day business management. We focus on creating scalable operational frameworks that align teams and processes.',
+    items: [
+      'Operational consulting',
+      'Workflow management',
+      'Process optimization',
+      'Resource planning',
+      'Performance tracking',
+      'Business automation',
+      'Internal systems setup',
+      'Efficiency improvement',
+    ],
   },
 ]
 
@@ -99,10 +153,10 @@ export default function ServicesDetail() {
     <section className="min-h-screen bg-[#11122F] pt-32 pb-20">
        <div className="text-center w-[90%] lg:w-[50%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-          Discover BMYBrand's Core <span className="text-[#F45B25]"> Services</span>
+          Everything Your <span className="text-[#F45B25]">Business Needs</span> to Build, Scale & Stand Out
         </h1>
         <p className="text-[#ADAECC] text-sm sm:text-base">
-          Your all-in-one creative & digital partner — helping your business grow with premium branding, websites, and marketing solutions.
+          From brand identity development services and visual design to AI-driven automation solutions and web development, we build systems that help businesses operate smarter and grow faster.
         </p>
       </div>
       <div className="w-[90%] 2xl:w-[75%] mx-auto">

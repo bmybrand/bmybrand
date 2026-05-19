@@ -7,11 +7,11 @@ const projects = [
   {
     title: (
       <>
-        Strengthening <span className="text-[#B91E2C]">Healthcare Brands With Precision</span>, Trust, And Innovation
+        Designed A <span className="text-[#B91E2C]">Trusted, Physician-Led</span> Emergency Care System
       </>
     ),
     description:
-      "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
+      "A 24/7 physician-led emergency and medical center providing fast, compassionate care for Fountain Hills and surrounding communities. With on-site diagnostics, board-certified doctors, and patient-first treatment, the facility ensures immediate care when it matters most.",
     buttonText: "View Full Case Study",
     src: "/bmyb-case-fountain-hills-fountainhills-01.webp",
     link: "/case-studies/fountain-hills",
@@ -24,11 +24,11 @@ const projects = [
   {
     title: (
       <>
-        Strengthening <span className="text-[#ED349D]">Breast Cancer Support</span> With Compassion, Clarity, And Empowerment
+        Built A Compassion-Driven Nonprofit Digital Experience for <span className="text-[#ED349D]">Breast Cancer Support</span>
       </>
     ),
     description:
-      "A compassionate, women-centered website designed to support and uplift those affected by breast cancer, making it easy to find resources, access programs, and connect with a caring community.",
+      "We designed a compassion-led digital platform for PINK “ME” to support women and families affected by breast cancer through financial assistance, wellness programs, awareness resources, and community-driven support. The experience focuses on dignity, clarity, and accessibility, making it easier for users to access help, apply for grants, and connect with vital support services.",
     buttonText: "View Full Case Study",
     src: "/bmyb-case-pink-me-pinkme-01.webp",
     link: "/case-studies/pink-me",
@@ -42,11 +42,11 @@ const projects = [
   {
     title: (
       <>
-        Delivering <span className="text-[#F59E0B]">Clean-Ingredient, Bold-Flavor Experiences</span> For Jerky Fans
+        Crafted a <span className="text-[#F59E0B]">Flavor-Led Brand Experience</span> for an Energetic Snack Product
       </>
     ),
     description:
-      "Famous About Town, A Classic MTV-Style, Legal Jerky Is Made For Jerky Lovers Who Want Bold Flavors Without The Fuss— Smoky, Savory, And Bold. That's Just Like It.",
+      "We created a fun and flavor-driven ecommerce experience for Jiggy Jerky, a premium Angus beef jerky brand focused on bold taste, clean ingredients, and energetic personality. The platform highlights handcrafted quality, unique flavor profiles, and a playful brand voice that makes snacking feel exciting, while clearly communicating product value, nutrition, and purchase ease for customers and wholesale partners.",
     buttonText: "View Full Case Study",
     src: "/bmyb-case-jiggy-jerky-jiggy-01.webp",
     link: "/case-studies/jiggy-jerky",
@@ -60,11 +60,11 @@ const projects = [
   {
     title: (
       <>
-        Creating <span className="text-[#B0BD31]">AI-Powered Labels & Newsletters</span> For Smarter Communication
+        Built a Teacher-Focused App to Save Time and <span className="text-[#B0BD31]">Improve Communication</span>
       </>
     ),
     description:
-      "Built to simplify content creation, enhance productivity, and deliver personalized results, the app empowers businesses and individuals to communicate smarter and faster.",
+      "We designed a practical, teacher-friendly digital platform that simplifies classroom organization and parent communication through easy label creation and newsletter tools. Label N Learn helps educators save time with customizable templates, AI-assisted label generation, and quick sharing options, allowing them to stay organized, communicate clearly, and focus more on teaching.",
     buttonText: "View Full Case Study",
     src: "/bmyb-case-learnandlabel-learnandlabel-02.webp",
     link: "/case-studies/learnandlabel",

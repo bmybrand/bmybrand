@@ -1,10 +1,7 @@
 'use client'
-
-import React from 'react'
+ 
 import Navbar from '../navbar'
 import Footer from '../footer'
-import WorkTogether from '../worktogether'
-import RequestForm from '../requestform'
 import EvaluatCTA from '../evaluatcta'
 import Brandsspec from '../brandsspec'
 import AIDrivenHero from './aidrivenhero'
@@ -18,7 +15,6 @@ export default function AIDrivenPage() {
       <AIDrivenHero />
       <AISolutions />
       <AIFaq />
-      <RequestForm />
       <EvaluatCTA />
       <Brandsspec />
       <Footer />

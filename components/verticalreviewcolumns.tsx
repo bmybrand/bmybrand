@@ -16,57 +16,93 @@ interface Review {
 const reviews: Review[] = [
   {
     id: 1,
-    name: 'Michael Anderson',
+    name: 'Daniel Reeves',
     role: 'Client',
-    review: 'The branding upgrade was exactly what we needed—clean, consistent, and professional. Our online presence improved immediately, and clients noticed fast. The whole process with BMYBrand was smooth and straightforward.',
-    initials: 'MA',
+    review: 'BMYBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
+    initials: 'DR',
     rating: 5,
     logo: '/bmyb-logo-trustpilot-1-01.svg'
   },
   {
     id: 2,
-    name: 'Sarah Mitchell',
+    name: 'Hannah Brooks',
     role: 'Client',
-    review: 'Our brand now feels modern, consistent, and polished. The redesign clarified our message, and customers are responding better than ever.',
-    initials: 'SM',
+    review: 'The AI automation solution saved us so much time, improved workflow, and made daily operations much more efficient overall.',
+    initials: 'HB',
     rating: 5,
     logo: '/bmyb-logo-google-01.svg'
   },
   {
     id: 3,
-    name: 'Hassan Mughis',
+    name: 'Mark Bennett',
     role: 'Client',
-    review: 'The branding upgrade was exactly what we needed—clean, consistent, and professional. Our online presence improved immediately, and clients noticed fast. The whole process with BMYBrand was smooth and straightforward.',
-    initials: 'HM',
+    review: 'Their digital marketing team helped increase our traffic significantly, and we started getting real leads within a few weeks.',
+    initials: 'MB',
     rating: 5,
     logo: '/bmyb-logo-upwork-01.svg'
   },
   {
     id: 4,
-    name: 'James Carter',
+    name: 'Laura Mitchell',
     role: 'Client',
-    review: 'BMYBrand\'s redesign gave our brand the consistency and polish we needed. Customers notice the difference immediately.',
-    initials: 'JC',
+    review: 'We got a complete e-commerce store, and it works flawlessly, with easy checkout and excellent user experience for customers.',
+    initials: 'LM',
     rating: 5,
     logo: '/bmyb-logo-clutchco-01.svg'
   },
   {
     id: 5,
-    name: 'Ava Rodriguez',
+    name: 'Jason Clarke',
     role: 'Client',
-    review: 'Our brand finally feels modern and polished. The redesign brought clarity to our message, and customers are engaging better than ever.',
-    initials: 'AR',
+    review: 'Branding work was outstanding; they understood our vision clearly and created a strong identity that truly represents our business.',
+    initials: 'JC',
     rating: 5,
     logo: '/bmyb-logo-yelp-01.svg'
   },
   {
     id: 6,
-    name: 'Oliver Bennett',
+    name: 'Emily Harper',
     role: 'Client',
-    review: 'Working with BMYBrand transformed our online presence. The attention to detail and creative approach exceeded all expectations.',
-    initials: 'OB',
+    review: 'Software development was smooth, professional, and exactly tailored to our needs, making our internal system much easier to manage.',
+    initials: 'EH',
     rating: 5,
     logo: '/bmyb-global-bark-01.svg'
+  },
+  {
+    id: 7,
+    name: 'Kevin Lawson',
+    role: 'Client',
+    review: 'Business operations became far more organized after their automation setup, reducing manual work and improving overall productivity.',
+    initials: 'KL',
+    rating: 5,
+    logo: '/bmyb-logo-trustpilot-1-01.svg'
+  },
+  {
+    id: 8,
+    name: 'Megan Foster',
+    role: 'Client',
+    review: 'The team was very responsive, listened carefully, and delivered a solution that matched exactly what we were looking for.',
+    initials: 'MF',
+    rating: 5,
+    logo: '/bmyb-logo-google-01.svg'
+  },
+  {
+    id: 9,
+    name: 'Andrew Cole',
+    role: 'Client',
+    review: 'Our online presence improved massively after their marketing strategy, and engagement across platforms has grown consistently every month.',
+    initials: 'AC',
+    rating: 5,
+    logo: '/bmyb-logo-upwork-01.svg'
+  },
+  {
+    id: 10,
+    name: 'Rachel Turner',
+    role: 'Client',
+    review: 'From start to finish, everything felt professional, simple, and result-driven, making the whole experience very easy and stress-free.',
+    initials: 'RT',
+    rating: 5,
+    logo: '/bmyb-logo-clutchco-01.svg'
   }
 ]
 
@@ -77,8 +113,8 @@ const ReviewCard = ({ review }: { review: Review }) => {
       <div className="flex items-start gap-3 md:gap-4">
         <div className="w-20 h-4 md:w-24 md:h-6 flex items-center justify-start shrink-0 mb-2">
           {review.image ? (
-            <img 
-              src={review.image} 
+            <img
+              src={review.image}
               alt={review.name}
               className="w-full h-full object-cover object-left"
             />
@@ -92,11 +128,11 @@ const ReviewCard = ({ review }: { review: Review }) => {
           )}
         </div>
       </div>
-      
+
       <p className="text-white/80 text-xs md:text-sm leading-relaxed grow">
         {review.review}
       </p>
-      
+
       <div className="flex flex-col gap-1.5 md:gap-2">
         <h3 className="text-white font-semibold text-base md:text-lg BenzinSemibold">
           {review.name}
@@ -116,16 +152,15 @@ const ReviewCard = ({ review }: { review: Review }) => {
   )
 }
 
-const VerticalScrollColumn = ({ 
-  reviews, 
+const VerticalScrollColumn = ({
+  reviews,
   animationClass
-}: { 
+}: {
   reviews: Review[]
   animationClass: string
 }) => {
-  // Duplicate reviews for infinite scroll effect
   const duplicatedReviews = [...reviews, ...reviews, ...reviews]
-  
+
   return (
     <div className="relative w-full h-full overflow-hidden">
       <div className={`flex flex-col ${animationClass}`}>
@@ -138,19 +173,17 @@ const VerticalScrollColumn = ({
 }
 
 const VerticalReviewColumns = () => {
-  // Split reviews into 4 columns with different content
-  const column1 = [reviews[0], reviews[1], reviews[5]]
-  const column2 = [reviews[2], reviews[3]]
-  const column3 = [reviews[4], reviews[0]]
-  const column4 = [reviews[1], reviews[2], reviews[4]]
+  const column1 = [reviews[0], reviews[1], reviews[2]]
+  const column2 = [reviews[3], reviews[4]]
+  const column3 = [reviews[5], reviews[6]]
+  const column4 = [reviews[7], reviews[8], reviews[9]]
 
   return (
     <div className="w-full bg-[#11122F] py-10 md:py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-3 md:px-4">
         <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 h-[400px] sm:h-[500px] md:h-[700px] lg:h-[900px] xl:h-[1000px] overflow-hidden">
-          {/* Top fade - applies to all columns */}
           <div className="absolute inset-x-0 top-0 h-20 sm:h-24 md:h-32 lg:h-40 xl:h-48 bg-linear-to-b from-[#11122F] via-[#11122F]/95 to-transparent z-30 pointer-events-none" />
-          
+
           <div className="h-full">
             <VerticalScrollColumn reviews={column1} animationClass="animate-scroll-up" />
           </div>
@@ -163,8 +196,7 @@ const VerticalReviewColumns = () => {
           <div className="hidden lg:block h-full">
             <VerticalScrollColumn reviews={column4} animationClass="animate-scroll-down-slow" />
           </div>
-          
-          {/* Bottom fade - applies to all columns */}
+
           <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 md:h-32 lg:h-40 xl:h-48 bg-linear-to-t from-[#11122F] via-[#11122F]/95 to-transparent z-30 pointer-events-none" />
         </div>
       </div>

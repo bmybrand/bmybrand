@@ -73,10 +73,10 @@ const herobar = () => {
           }`}
         >
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
-              Case Studies
+              Our Case Studies
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-            At BMYBrand, we turn ideas into impact and strategies into measurable results. Our case studies showcase real projects where branding, design, technology, and marketing came together to solve challenges, drive growth, and create lasting value for our clients.</p>
+            We design and build digital solutions that combine strategy, design, and technology to create real impact. Every project is approached with a clear understanding of the business, user needs, and long-term goals. Explore how we turn complex challenges into simple, effective digital experiences across different industries.</p>
             
         </div>
         <div

@@ -78,23 +78,23 @@ const FullyAnimatedGrid: React.FC = () => {
 
   const leftItems = [
     {
-      title: "Brand Experience",
+      title: "AI-Driven Solutions",
       text:
-        "We create logos, visual styles, and brand guides that help your business stand out and communicate clearly.",
+        "We build smart AI-powered solutions that automate tasks, improve decision-making, and help businesses work faster and more efficiently.",
       img: "/bmyb-services-brand-brand-experience-01.svg",
       delay: 0.1,
     },
     {
       title: "Software Development",
       text:
-        "Get responsive, user-friendly websites built to convert visitors into customers and represent your brand professionally.",
+        "We create custom software, websites, and applications tailored to your business needs, focusing on performance and user experience.",
       img: "/bmyb-services-software-software-development-01.svg",
       delay: 0.3,
     },
     {
-      title: "Commerce Solutions",
+      title: "Digital Marketing",
       text:
-        "We build secure online stores with easy product management, smooth payments, and a seamless shopping experience.",
+        "We help brands grow online through SEO, social media, paid ads, and content strategies that drive traffic, leads, and engagement.",
       img: "/bmyb-services-commerce-commerce-solutions-01.svg",
       delay: 0.5,
     },
@@ -102,23 +102,23 @@ const FullyAnimatedGrid: React.FC = () => {
 
   const rightItems = [
     {
-      title: "Digital Marketing",
+      title: "Commerce Solutions",
       text:
-        "From SEO to social media, we boost visibility, attract the right audience, and drive business growth.",
+        "We develop complete e-commerce solutions that make selling online easy, with smooth checkout experiences and secure payments.",
       img: "/bmyb-services-marketing-digital-marketing-01.svg",
       delay: 0.1,
     },
     {
-      title: "Creative Production",
+      title: "Brand Experience",
       text:
-        "Engage your audience with custom graphics, illustrations, and animations that bring your ideas to life.",
+        "We design strong brand identities and user experiences that connect with audiences, build trust, and make your business memorable.",
       img: "/bmyb-tech-creative-production-01.svg",
       delay: 0.3,
     },
     {
       title: "Business Operations",
       text:
-        "We offer reliable bookkeeping and admin support so you stay organized, save time, and focus on running your business.",
+        "We streamline business operations using smart systems, automation, and workflow improvements that increase efficiency.",
       img: "/bmyb-services-operations-business-operations-01.svg",
       delay: 0.5,
     },
@@ -132,11 +132,10 @@ const FullyAnimatedGrid: React.FC = () => {
       >
         <div className="flex w-full flex-col items-center">
           <h2 className="mb-6 text-center text-[#FFFFFF] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold">
-            Discover BMYBrand&apos;s Core <span className="text-[#F45B25]">Services</span>
+            Everything Your <span className="text-[#F45B25]">Business Needs</span> Under One Roof
           </h2>
           <p className="text-center text-base text-[#ADAECC]">
-            Your all-in-one creative & digital partner helping your business grow with
-            premium branding,<br /> websites, and marketing solutions.
+            BMYBrand delivers smart, practical solutions that help businesses grow in the digital world. Our services are built to make your<br /> brand stronger, more visible, and more effective.
           </p>
         </div>
       </div>
@@ -212,7 +211,7 @@ const FullyAnimatedGrid: React.FC = () => {
               className="absolute top-1/2 left-1/2 w-[380px] sm:w-[430px] -translate-x-1/2 -translate-y-2/3 transform lg:-top-10 lg:-translate-y-0"
             />
             <h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
-              Smarter AI Workflows That Reduce Manual Work and Drive Impact
+              Our Services Designed for Real Business Growth
             </h2>
             <button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
               Get Started Now
@@ -258,7 +257,7 @@ const FullyAnimatedGrid: React.FC = () => {
                   }}
                 />
                 <motion.h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
-                  Smarter AI Workflows That Reduce Manual Work and Drive Impact
+                  Our Services Designed for Real Business Growth
                 </motion.h2>
 
                 <motion.button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
