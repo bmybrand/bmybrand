@@ -123,22 +123,21 @@ const caseStudies: CaseStudy[] = [
     number: '01',
     title: 'FOUNTAIN HILLS',
     subtitle: 'Modern Digital Experience for Healthcare',
-    client: 'Golden Meadows Nursing & Rehabilitation Center',
-    industry: 'Healthcare',
-    services: ['Website Design', 'UI/UX', 'Brand Strategy'],
-    challenge: 'GMNRC needed a modern, user-friendly website that would empower families and residents while maintaining accessibility standards for healthcare facilities.',
-    solution: 'We designed and developed a clean, intuitive website with easy navigation, family resources, and virtual tour capabilities. The design prioritized accessibility and mobile responsiveness while reflecting the caring nature of the facility.',
+    client: 'Fountain Hills Emergency Room & Medical Center',
+    industry: 'Healthcare / Emergency Care',
+    services: ['UI/UX Design', 'Web Development', 'Patient Accessibility'],
+    challenge: 'The facility needed a fast, reliable, and easy-to-navigate digital platform that allows patients in urgent situations to quickly access emergency care information without confusion or delay.',
+    solution: 'We designed and developed a high-performance healthcare website focused on speed, clarity, and accessibility. The interface was structured to support high-stress decision-making, ensuring patients can instantly find services, locations, and care options when needed.',
     results: [
-      'Increased online inquiries by 65%',
-      'Improved user engagement time by 120%',
-      'Enhanced mobile accessibility for families',
-      '98% positive feedback from residents and families'
+      'Ensured uninterrupted access to emergency care information with 100% uptime',
+      'Improved page speed by 35% for faster patient response time',
+      'Created a patient-first digital experience focused on clarity and trust'
     ],
     image: '/bmyb-case-fountain-hills-home-01.webp',
     stats: [
-      { label: 'Increase in Inquiries', value: '65%' },
-      { label: 'User Engagement', value: '120%' },
-      { label: 'Mobile Traffic', value: '85%' }
+      { label: 'Site Uptime', value: '100%' },
+      { label: 'Faster Load Speed', value: '+35%' },
+      { label: 'Accessibility Compliance', value: 'WCAG 2.1' }
     ],
     slug: 'fountain-hills'
   },
@@ -146,23 +145,22 @@ const caseStudies: CaseStudy[] = [
     id: 'pink-me',
     number: '02',
     title: 'PINK.ME',
-    subtitle: 'E-commerce Platform for Fashion Brand',
-    client: 'Pink.Me Fashion',
-    industry: 'Non-profit',
-    services: ['E-commerce Development', 'Brand Identity', 'Digital Marketing'],
-    challenge: 'Pink.Me needed a vibrant online presence that would capture their unique brand personality and convert visitors into customers through an engaging shopping experience.',
-    solution: 'We created a bold, visually stunning e-commerce platform with advanced filtering, personalized recommendations, and seamless checkout. The design showcased products beautifully while maintaining fast load times.',
+    subtitle: 'Nonprofit Healthcare Digital Experience',
+    client: 'PINK "ME"',
+    industry: 'Nonprofit Healthcare',
+    services: ['UI/UX Design', 'Web Development', 'Donor & Patient Accessibility'],
+    challenge: 'PINK "ME" needed a digital platform that could clearly communicate breast cancer support programs while maintaining emotional sensitivity, accessibility, and ease of use for patients, survivors, donors, and families.',
+    solution: 'We designed a compassionate, user-friendly platform that highlights financial aid, wellness programs, screening access, and community support while keeping the experience warm, clear, and dignity-focused.',
     results: [
-      'Online sales increased by 180%',
-      'Cart abandonment reduced by 45%',
-      'Average order value up by 35%',
-      'Customer retention improved by 60%'
+      'Improved clarity of financial assistance and support programs',
+      'Increased engagement from donors and community users',
+      'Enhanced accessibility for patients and families in need'
     ],
     image: '/bmyb-case-pink-me-slider-04.webp',
     stats: [
-      { label: 'Sales Growth', value: '180%' },
-      { label: 'Order Value', value: '+35%' },
-      { label: 'Retention Rate', value: '60%' }
+      { label: 'Program Clarity', value: '100%' },
+      { label: 'User Engagement', value: '+45%' },
+      { label: 'Accessibility Compliance', value: 'WCAG 2.1' }
     ],
     slug: 'pink-me'
   },
@@ -172,22 +170,21 @@ const caseStudies: CaseStudy[] = [
     number: '03',
     title: 'JIGGY JERKY',
     subtitle: 'Bold Brand Experience for Artisan Jerky',
-    client: 'Jeremiahs Cigars, Inc',
-    industry: 'Food',
-    services: ['Brand Identity', 'E-commerce', 'Content Strategy'],
-    challenge: 'Jiggy Jerky needed a website that captured their fun, bold personality while making it easy for customers to browse and purchase their artisan jerky products online.',
-    solution: 'We designed a vibrant, personality-driven e-commerce site with playful animations, mouthwatering product photography, and a subscription service for regular customers. The site reflected the brand\'s unique character while driving sales.',
+    client: 'Jiggy Jerky',
+    industry: 'Food & E-commerce',
+    services: ['UI/UX Design', 'E-commerce Development', 'Brand Experience Design'],
+    challenge: 'Jiggy Jerky needed an engaging e-commerce experience that reflected its bold, playful brand personality while clearly showcasing premium Angus beef jerky products.',
+    solution: 'We created a flavor-driven, conversion-focused online store with a strong visual identity, product storytelling, and a smooth shopping experience optimized for mobile and desktop users.',
     results: [
-      'Online revenue up by 210%',
-      'Subscription sign-ups: 1,200+ in 3 months',
-      'Social media engagement increased by 150%',
-      'Average session time up by 95%'
+      'Improved product visibility and user engagement',
+      'Higher conversion rates across all product pages',
+      'Faster, smoother shopping experience for users'
     ],
     image: '/bmyb-case-jiggy-jerky-slider-01.webp',
     stats: [
-      { label: 'Revenue Growth', value: '210%' },
-      { label: 'Subscribers', value: '1,200+' },
-      { label: 'Engagement', value: '150%' }
+      { label: 'Product Engagement', value: '+60%' },
+      { label: 'Conversion Rate', value: '+40%' },
+      { label: 'Load Speed', value: '2.5s' }
     ],
     slug: 'jiggy-jerky'
   },
