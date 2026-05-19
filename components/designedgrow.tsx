@@ -8,31 +8,31 @@ gsap.registerPlugin(ScrollTrigger)
 
 const items = [
   {
-    title: 'Create Faster. Anywhere.',
-    desc: 'Bring your ideas to life with clean branding, modern UI/UX, and fast-loading design. We create intuitive visuals that engage your audience instantly-on every device, anywhere.',
+    title: 'Strategy That Makes Sense',
+    desc: 'We start by understanding your business goals, audience, and challenges to create a clear, focused strategy that guides every step of your digital journey effectively.',
     image: '/bmyb-global-getskeebear-01.webp',
   },
   {
-    title: 'Keep Your Brand Safe. Always.',
-    desc: 'We keep your brand secure, stable, and worry-free with clean builds and reliable support.',
+    title: 'Design That Connects',
+    desc: 'Our designs are not just visually appealing but also user-focused, helping you create meaningful connections with your audience and improve overall engagement and trust online.',
     image: '/bmyb-global-designedgrow-brand-safe-01.webp',
   },
   {
-    title: 'Launch Smarter. Everywhere.',
-    desc: 'From branding to ecommerce, we create scalable digital experiences built for real growth.',
+    title: 'Technology That Works',
+    desc: 'We use modern, reliable technologies to build fast, secure, and scalable digital solutions that support your business needs and ensure long-term performance and stability.',
     image: '/bmyb-global-designedgrow-launch-smarter-01.webp',
   },
 ]
 
 const checklist = [
-  'Fast delivery',
-  'Clean branding',
-  'Modern UI/UX',
-  'Mobile-ready',
-  'Smooth loading',
-  'High engagement',
-  'Quick updates',
-  'Creative flexibility',
+  'Strategy First',
+  'Design Focused',
+  'Tech Driven',
+  'Result Oriented',
+  'Scalable Systems',
+  'User Centric',
+  'Process Clear',
+  'Quality Assured',
 ]
 
 const DesignedGrow = () => {
@@ -112,12 +112,11 @@ const DesignedGrow = () => {
     <div ref={sectionRef} className="mb-30 flex w-full flex-col items-center overflow-hidden">
       <div ref={headingRef} className="mt-30 flex w-full flex-col items-center justify-center">
         <h1 className="BenzinSemibold mb-4 w-[90%] text-center text-sm text-white sm:text-lg md:text-xl lg:text-2xl xl:w-[60%] xl:text-3xl 2xl:text-4xl">
-          Built to Create. <span className="text-[#F45B25]">Designed to Grow</span>
+          We Start <span className="text-[#F45B25]">Every Project</span> with a Clear Direction
         </h1>
         <p className="w-[90%] text-center text-base text-[#ADAECC] 2xl:w-[60%]">
-          At BMYBrand, we help businesses grow with powerful design, high-performing websites,
-          <br />
-          and strategic digital experiences.
+          At BMYBrand, we combine strategy, design, and technology to create solutions that help
+          businesses grow, scale, and succeed in today&apos;s digital world.
         </p>
       </div>
 
@@ -133,7 +132,7 @@ const DesignedGrow = () => {
               }`}
             >
               <div
-                className={`absolute inset-0 bg-gradient-to-r from-white/10 to-transparent transition-opacity duration-500 ease-out ${
+                className={`absolute inset-0 bg-linear-to-r from-white/10 to-transparent transition-opacity duration-500 ease-out ${
                   activeIndex === index ? 'opacity-100' : 'opacity-0'
                 }`}
               />

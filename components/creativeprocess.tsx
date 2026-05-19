@@ -8,10 +8,10 @@ import Image from 'next/image'
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  { step: 'Step-1', title: 'Discover & Understand', desc: 'We learn about your brand, goals, audience, and vision.' },
-  { step: 'Step-2', title: 'Plan & Align', desc: 'We define scope, timelines, and a clear roadmap.' },
-  { step: 'Step-3', title: 'Design & Build', desc: 'We design the experience and develop it cleanly.' },
-  { step: 'Step-4', title: 'Launch & Improve', desc: 'We launch, monitor, and iterate for growth.' },
+  { step: 'Step 1', title: 'Understand Requirements', desc: 'We carefully analyze your needs, goals, and expectations before starting any project.' },
+  { step: 'Step 2', title: 'Create Strategy', desc: 'We design a clear, structured plan that aligns with your business objectives effectively.' },
+  { step: 'Step 3', title: 'Develop Solution', desc: 'We build functional, scalable digital solutions using modern tools and technologies.' },
+  { step: 'Step 4', title: 'Deliver Results', desc: 'We ensure final output meets expectations, performs well, and supports long-term success.' },
 ]
 
 export default function CreativeProcess() {
@@ -146,10 +146,11 @@ export default function CreativeProcess() {
       {/* Heading */}
       <div ref={headingRef} className="w-full flex flex-col justify-center items-center ">
         <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-        A <span className="text-[#F45B25]">Creative Process</span> That Works 
+        Work That <span className="text-[#F45B25]">Follows</span> a Clear Flow
         </h1>
         <p className="w-[90%] 2xl:w-[60%] text-base sm:text-lg text-[#ADAECC] text-center">
-        We follow a clear, collaborative process that keeps every step smooth and aligned with your goals, from the first conversation to the final launch.
+        We follow a clear and structured process from understanding your needs to delivering a<br />
+        complete digital solution with precision, clarity, and consistency.
         </p>
       </div>
 
@@ -161,19 +162,19 @@ export default function CreativeProcess() {
         {/* Fixed gray track - width set to track width in JS so path reaches Step 4 */}
         <div
           ref={pathLineRef}
-          className="absolute left-[11.25rem] top-35 h-1 origin-left bg-white/10"
+          className="absolute left-45 top-35 h-1 origin-left bg-white/10"
         />
 
         {/* Expanding orange path - width set to track width in JS, on top of gray */}
         <div
           ref={progressRef}
-          className="absolute left-[11.25rem] top-35 h-1 origin-left bg-[#F45B25]"
+          className="absolute left-45 top-35 h-1 origin-left bg-[#F45B25]"
         />
 
         {/* Small dot at the end of the expanding path */}
         <div
           ref={pathEndDotRef}
-          className="absolute left-[11.25rem] top-35.5 z-10 -translate-y-1/2 pointer-events-none"
+          className="absolute left-45 top-35.5 z-10 -translate-y-1/2 pointer-events-none"
         >
           <div className="h-3 w-3 rounded-full bg-[#F45B25]" />
         </div>

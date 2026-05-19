@@ -6,18 +6,18 @@ export default function BrandSolutions() {
   const solutions = [
     {
       icon: '/bmyb-global-background1-01.svg',
-      title: 'Brand Identity Design',
-      description: 'Complete visual identity systems that reflect your brand\'s purpose and personality. From logo architecture and color palettes to typography and brand guidelines, we create cohesive identities that ensure clarity and consistency across every touchpoint.'
+      title: 'Brand Strategy & Identity',
+      description: 'We define your brand direction using brand identity development services to build a strong foundation. As a digital branding agency, we ensure clear positioning, research, and strategy that help businesses seeking a branding company in Texas.'
     },
     {
       icon: '/bmyb-global-background2-01.svg',
-      title: 'Brand Strategy & Direction',
-      description: 'Strategic brand foundations built on research, competitive insight, and market clarity. We define your positioning, value proposition, and messaging framework to clearly differentiate your brand, strengthen credibility, & establish long-term authority within your industry.'
+      title: 'Logo & Visual Design',
+      description: 'We design impactful logos and visuals through branding and logo design services. Our focus on brand identity development services ensures consistency and a strong visual system for businesses looking for affordable brand development agency solutions.'
     },
     {
       icon: '/bmyb-global-background3-01.svg',
-      title: 'UI/UX & Visual Design',
-      description: 'User-centered digital experiences designed to drive engagement and meaningful conversions. Through intuitive interfaces, mobile-first layouts, and scalable design systems, we transform brand strategy into seamless, high-performing digital interactions.'
+      title: 'Digital Brand Experience',
+      description: 'We create seamless digital experiences using brand identity development services across websites and platforms. As a digital branding agency, we help brands achieve consistency and impact for users searching for branding identity development services.'
     }
   ]
 
@@ -51,10 +51,12 @@ export default function BrandSolutions() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-white text-4xl md:text-5xl lg:text-6xl BenzinBold mb-6">
-              Our Brand Solutions, End-to-End
+              Our Services That Define Your Brand Identity
             </h2>
             <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto ">
-              At BMYBrand, we deliver complete brand ecosystems — not just visual updates. From defining your strategic positioning to designing scalable identity systems and high-performing digital experiences, we build brands with purpose and precision.
+              At BMYBrand, we offer complete brand experience services designed to build strong, consistent,
+              and memorable brands. From brand identity development services and branding and logo
+              design services to strategy, messaging, and digital presence,
             </p>
           </div>
 
@@ -80,10 +82,12 @@ export default function BrandSolutions() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-white text-4xl md:text-5xl lg:text-6xl BenzinBold mb-6">
-              A Clear Process for Delivering Brands That Perform
+              Our Approach to Brand Development
             </h2>
             <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto ">
-              Our proven methodology ensures your brand not only looks great but drives measurable business results.
+              Our process is designed to create clarity, consistency, and impact at every stage of brand
+              building. As a digital branding agency, we follow a structured approach that combines strategy,
+              design, and execution
             </p>
           </div>
 

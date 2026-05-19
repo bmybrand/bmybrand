@@ -9,25 +9,25 @@ export default function AISolutions() {
       <section className="py-20 ">
         <div className="w-[90%] 2xl:w-[75%] mx-auto">
           <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white BenzinSemibold mb-12 text-center">
-            Our AI Solutions, End-to-End
+            Core Benefits of AI-Driven Solutions
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             {[
               {
                 icon: '/bmyb-global-solutionsicon-01.svg',
-                title: 'AI Strategy &\nPlanning',
-                items: ['Business Analysis', 'AI Roadmap Creation', 'Use-Case Validation']
+                title: 'Automated\nWorkflows',
+                items: ['Reduce manual work', 'Improve efficiency', 'Speed up operations']
               },
               {
                 icon: '/bmyb-global-solutionsicon2-01.svg',
-                title: 'AI Development\n& Automation',
-                items: ['Custom AI Models', 'Workflow Automation', 'Intelligent Assistants']
+                title: 'Smarter Decision\n-Making',
+                items: ['Data-driven insights', 'Faster decisions', 'Accurate forecasting']
               },
               {
                 icon: '/bmyb-global-solutionsicon3-01.svg',
-                title: 'Deployment &\nScaling',
-                items: ['System Integration', 'Testing & Optimization', 'Ongoing Support']
+                title: 'Improved\nProductivity',
+                items: ['Streamlined processes', 'Less repetitive work', 'Better team focus']
               }
             ].map((solution, index) => (
               <div 
@@ -59,12 +59,12 @@ export default function AISolutions() {
       <section className="pb-20 ">
         <div className="w-[90%] 2xl:w-[75%] mx-auto">
           <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-white BenzinSemibold mb-16 text-center">
-            A Clear Process for<br />Delivering AI That Performs
+            How We Automate Business Workflows
           </h2>
 
           <div className="relative">
             {/* Connecting line - hidden on mobile, visible on large screens */}
-            <div className="hidden lg:block absolute top-8 left-0 right-0 h-[2px] bg-white/10">
+            <div className="hidden lg:block absolute top-8 left-0 right-0 h-0.5 bg-white/10">
               <div className="absolute inset-0 bg-linear-to-r from-transparent via-[#F45B25]/30 to-transparent" />
             </div>
 
@@ -72,23 +72,23 @@ export default function AISolutions() {
               {[
                 {
                   number: '01',
-                  title: 'Operations &\nProductivity',
-                  desc: 'Assess goals, workflows, and data to identify the right AI opportunities.'
+                  title: 'Understand & Analyze',
+                  desc: 'We study your business processes, challenges, and identify automation opportunities.'
                 },
                 {
                   number: '02',
-                  title: 'Solution Design &\nPlanning',
-                  desc: 'Design AI workflows and automation tailored to your business systems.'
+                  title: 'Design & Plan',
+                  desc: 'We map out AI workflows and design intelligent systems tailored to your operations.'
                 },
                 {
                   number: '03',
-                  title: 'Develop, Integrate\n& Validate',
-                  desc: 'Build AI solutions, integrate tools, and test real-world performance.'
+                  title: 'Build & Integrate',
+                  desc: 'We develop and integrate AI solutions into your existing tools and business systems.'
                 },
                 {
                   number: '04',
-                  title: 'Launch, Monitor\n& Optimize',
-                  desc: 'Deploy, monitor, and optimize for long-term performance.'
+                  title: 'Test & Optimize',
+                  desc: 'We refine performance, improve accuracy, and ensure smooth, scalable automation.'
                 }
               ].map((step, index) => (
                 <div key={index} className="text-center relative group">
@@ -109,7 +109,7 @@ export default function AISolutions() {
           {/* CTA */} 
           <div className="text-center w-full flex justify-center">
             <p className="text-white/70 text-sm md:text-base lg:text-lg bg-[#202141] border-2 border-[#2A2B47] rounded-full py-3 px-5 w-fit text-center flex items-center gap-2">
-              Ready to build smarter systems with AI?{' '}
+              Give Your Business a Brain Upgrade.{' '}
               <button className="text-[#F45B25] hover:text-[#FF843E] hover:-translate-y-0.5 transition-all duration-300 BenzinSemibold inline-flex items-center gap-2">
                 → LET'S TALK
               </button>

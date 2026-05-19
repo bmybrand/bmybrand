@@ -17,7 +17,7 @@ const AddBlock = () => {
         />
         <div className='w-full lg:w-[90%] h-full bg-[#191A35] rounded-xl px-6 md:px-8 py-8 lg:py-20 flex flex-col justify-center gap-4'>
           <h2 className=' text-white text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold w-full lg:w-[62%] leading-tight text-center lg:text-left'>
-            Boost Your Brand Beyond the Competition
+            Let’s Take the Next Step Forward.
           </h2>
 
           <button className="w-fit BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg flex justify-center items-center gap-2 mx-auto lg:mx-0 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
@@ -28,7 +28,7 @@ const AddBlock = () => {
           </button>
 
           <p className='text-white/70 text-sm md:text-base w-full lg:w-3/5 text-center lg:text-left'>
-            Get started instantly. No credit card needed.
+            Get solutions tailored to your business needs.
           </p>
         </div>
       </div>

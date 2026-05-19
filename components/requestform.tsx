@@ -26,27 +26,39 @@ type FaqItem = {
 const FAQS: FaqItem[] = [
   {
     number: '01',
-    question: 'How long does a typical project take?',
+    question: 'What services does BMYBrand offer?',
     answer:
-      'Most branding and website projects are completed within 2-6 weeks, depending on the overall complexity, number of pages, and the level of design detail required. Simple branding or smaller websites generally finish on the shorter end of the timeline, while larger projects with multiple pages, custom features, or ecommerce integrations may take a bit longer.',
+      'BMYBrand provides complete digital solutions, including AI-driven systems, software development, digital marketing, commerce solutions, brand experience design, and business operations support.',
   },
   {
     number: '02',
-    question: 'What do you need from me to get started?',
+    question: 'Do you work with small businesses and startups?',
     answer:
-      'We are Murasaki, a consortium of Japanese and European entrepreneurs that have come together to create a company that builds decentralized, Japanese video games and products, entirely on the blockchain. Utilizing the power of the community, the Murasaki vision is to be the no.1 Japanese video game development company by 2032, where our future game engine is accessible to anyone wanting to build blockchain titles.',
+      'Yes, we work with startups, small businesses, and established brands. Our solutions are tailored to match each business stage, goals, and budget requirements.',
   },
   {
     number: '03',
-    question: 'Do you offer revisions during the project?',
+    question: 'How long does a project usually take?',
     answer:
-      'Yes. We include revision rounds at key milestones to make sure the work aligns with your vision. The exact number depends on the scope, and we confirm it upfront before we begin.',
+      'Timelines depend on the project scope. Simple projects may take a few weeks, while complex solutions like software or platforms take longer based on requirements.',
   },
   {
     number: '04',
-    question: 'Can you redesign my existing brand or website?',
+    question: 'Do you provide custom solutions or ready-made templates?',
     answer:
-      'Yes, we specialize in redesigning existing brands and websites. Our team ensures that your new design aligns with your business goals while providing a modern and engaging experience for your audience.',
+      'We focus on fully custom solutions designed specifically for your business needs, ensuring better performance, scalability, and long-term usability.',
+  },
+  {
+    number: '05',
+    question: 'Can I request changes during the project?',
+    answer:
+      'Yes, we follow a collaborative process where feedback and revisions are included to ensure the final output matches your expectations and requirements.',
+  },
+  {
+    number: '06',
+    question: 'How do I get started with BMYBrand?',
+    answer:
+      'You can simply contact us through the website, share your idea or requirements, and our team will guide you through the next steps.',
   },
 ];
 
@@ -143,11 +155,13 @@ export default function RequestForm() {
           <div ref={formColRef} className="flex-1 min-w-0">
           <div ref={headingRef}>
           <h2 className="text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-semibold mb-4 text-center lg:text-left BenzinSemibold  max-w-2xl">
-            <span className="text-[#F45B25]"> Get in Touch</span> With Our Team for a Custom Quote
+            <span className="text-[#F45B25]">Talk to Us</span> About Your Business Goals and
+            <br />
+            Ideas!
           </h2>
           <p className="text-[#ADAECC] text-sm sm:text-base mb-12 text-center lg:text-left max-w-2xl">
-            Tell us about your project, ask a question, or just say hi. We're here to help bring your ideas to life with
-            clarity, creativity, and a seamless experience from start to finish.
+            Contact us today to discuss how we can help you design, develop, and scale your digital
+            presence effectively.
           </p>
         </div>
             <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>

@@ -119,10 +119,10 @@ export default function Map() {
       <div className="w-[90%] lg:w-[85%] 2xl:w-[80%] mx-auto">
         <div ref={headingRef} className="text-center mb-12">
           <h2 className="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-white BenzinSemibold mb-4">
-            Our <span className="text-[#F45B25]">Global Reach</span>
+            We Own a Truly <span className="text-[#F45B25]">Global Presence</span>
           </h2>
           <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto">
-            We work with clients from all around the world, delivering exceptional digital solutions globally.
+            We partner with clients worldwide, helping them build, grow, and scale their digital presence effectively.
           </p>
         </div>
 

@@ -5,28 +5,28 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const FAQS = [
   {
-    question: "What is included in a brand identity package?",
-    answer: "A complete brand identity package includes logo design (primary, secondary, and icon variations), color palette, typography system, brand guidelines, business card designs, letterheads, email signatures, social media templates, and comprehensive usage instructions to ensure consistency across all applications."
+    question: "What is Brand Experience?",
+    answer: "Brand Experience is how people see, feel, and interact with your brand across every touchpoint, including visuals, messaging, and digital presence."
   },
   {
-    question: "How long does a brand identity project take?",
-    answer: "A typical brand identity project takes 6-8 weeks from kickoff to final delivery. This includes discovery and research (1-2 weeks), strategy development (1 week), design exploration (2-3 weeks), refinement (1-2 weeks), and final delivery with brand guidelines."
+    question: "How is Brand Experience different from branding?",
+    answer: "Branding focuses on identity creation, while Brand Experience ensures that identity feels consistent and meaningful across all platforms and customer interactions."
   },
   {
-    question: "Do I need a rebrand or just a refresh?",
-    answer: "A rebrand is recommended when your business has fundamentally changed, you're targeting a new audience, or your current brand no longer reflects your values. A refresh updates your existing brand to feel more modern and relevant while maintaining brand equity. We assess your needs during discovery to recommend the best approach."
+    question: "What services are included in Brand Experience?",
+    answer: "It includes brand strategy, logo design, visual identity systems, messaging, and digital brand consistency across websites, social media, and marketing materials."
   },
   {
-    question: "Can you help with brand strategy as well as design?",
-    answer: "Absolutely. We believe great design stems from solid strategy. Our brand strategy services include market research, competitor analysis, audience personas, brand positioning, messaging frameworks, and tone of voice development—all integrated into the visual identity design process."
+    question: "Why is Brand Experience important for my business?",
+    answer: "A strong Brand Experience builds trust, improves recognition, and helps your business stand out in competitive markets with a clear and consistent identity."
   },
   {
-    question: "What if I already have a logo but need other brand materials?",
-    answer: "We can work with your existing logo to develop complementary brand elements like color palettes, typography systems, brand patterns, templates, and guidelines. We ensure all new materials align with and enhance your current logo while creating a cohesive brand system."
+    question: "Do you work with startups or only established brands?",
+    answer: "We work with both startups and established businesses, creating tailored brand systems that fit each stage of growth and business need."
   },
   {
-    question: "How do you ensure the brand works across different platforms?",
-    answer: "We design with versatility in mind, creating responsive logos and flexible brand systems that adapt to digital, print, and physical applications. Our deliverables include multiple file formats, size variations, and clear guidelines for implementation across websites, social media, packaging, signage, and more."
+    question: "Can you help rebrand an existing business?",
+    answer: "Yes, we specialize in rebranding by improving identity, messaging, and visual systems to create a stronger and more modern brand presence."
   }
 ]
 

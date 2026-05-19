@@ -3,10 +3,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 const stats = [
-  { value: '50+', label: 'Team Members' },
-  { value: '6.5K+', label: 'Clients Served Worldwide' },
-  { value: '128K+', label: 'Project Completed Worldwide' },
-  { value: '60+', label: 'Countries Served' },
+  { value: '50+', label: 'Countries Served' },
+  { value: '200+', label: 'Happy Clients' },
+  { value: '500+', label: 'Projects Completed' },
+  { value: '24/7', label: 'Support Available' },
 ]
 
 const BrandStats = () => {
@@ -70,8 +70,7 @@ const BrandStats = () => {
           {stats.map((stat) => (
             <div key={stat.label} className="rounded-2xl bg-white/5 py-6">
               <div className="BenzinSemibold text-3xl sm:text-4xl">
-                {stat.value.replace('+', '')}
-                <span className="text-[#FF843E]">+</span>
+                {stat.value}
               </div>
               <div className="mt-2 text-xs sm:text-sm text-white/70">{stat.label}</div>
             </div>

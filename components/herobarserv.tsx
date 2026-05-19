@@ -43,10 +43,11 @@ const herobarserv = () => {
           }`}
         >
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
-            Services
+            What We Offer
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-            At BMYBrand, we deliver end-to-end digital services designed to help brands grow with confidence. From branding and web development to marketing, AI, and automation, our solutions combine creativity, strategy, and technology to drive real, measurable</p>
+            BMYBrand helps businesses grow through a powerful mix of branding, design, development, and AI-driven solutions. As a full-service digital branding agency, we create everything from strong brand identities and websites to intelligent automation systems.
+            </p>
             
         </div>
         <div

@@ -12,35 +12,30 @@ export default function AIDrivenHero() {
         <div className="absolute inset-0 bg-linear-to-br" />
         <div className="relative z-10 mx-auto w-[90%] 2xl:w-[75%]">
           <div className="mb-4 flex items-center gap-2">
-            <span className="text-sm tracking-wider text-[#F45B25] uppercase BenzinSemibold">
-              AI-SOLUTIONS
+            <span className="text-sm tracking-wider text-[#F45B25] BenzinSemibold">
+              AI-Driven Solutions
             </span>
             <div className="h-0.5 w-16 bg-[#F45B25]/30" />
           </div>
 
-          <h1 className="mb-8 text-3xl leading-tight text-white md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl BenzinSemibold">
-            AI-Driven
-            <br />
-            Solutions
+          <h1 className="mb-6 text-3xl leading-tight text-white md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl BenzinSemibold">
+            Power Your Business with Intelligent Automation
           </h1>
 
           <p className="mb-12 text-sm leading-relaxed text-white/70 md:text-base lg:text-lg">
-            We help businesses work smarter by integrating AI into everyday operations. From automation and
-            intelligent analytics to advanced system integrations, our AI-driven solutions are designed to
-            reduce manual effort, improve accuracy, and speed up decision-making. Every solution is tailored
-            to your workflows, optimizing resources, saving costs today and scalability for the future.
+            At BMYBrand, a leading AI automation agency in the USA, we design intelligent systems that help businesses work smarter and faster. From AI-driven automation solutions to custom AI software development solutions and company services, we build scalable tools that improve efficiency, reduce manual work, and enhance decision-making.
           </p>
 
           <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
-              '3D Process Automation',
-              'Smart Workforce Systesm',
-              'AI Framework for Scalion',
-              'AI Solutions for Teams',
-              'AI Powered Documentation',
-              'Real-time Data Inference',
-              'Integrated Analytics',
-              'Automated Report Gen',
+              'AI Automation Solutions',
+              'Custom AI Development',
+              'Smart Business Systems',
+              'Workflow Automation',
+              'Enterprise AI Solutions',
+              'AI Integration Services',
+              'Scalable AI Systems',
+              'Data-Driven Intelligence',
             ].map((text) => (
               <div key={text} className="flex items-center gap-3">
                 <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[#F45B25]">
@@ -72,51 +67,46 @@ export default function AIDrivenHero() {
 
       <section className="py-20">
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
-          <h2 className="mb-12 text-2xl text-white md:text-3xl lg:text-4xl xl:text-5xl BenzinSemibold">
-            Service Overview
-          </h2>
+          <h2 className="mb-8 text-2xl text-white md:text-3xl lg:text-4xl xl:text-5xl BenzinSemibold">AI Solutions We Build <br /> for Modern Businesses</h2>
 
           <div className="grid items-stretch gap-12 lg:grid-cols-2">
             <div className="h-full">
-              <p className="mb-12 text-sm leading-relaxed text-white/60 md:text-base">
-                AI-Driven Solutions focus on integrating intelligent systems into your business to automate
-                processes, improve decision-making, and unlock new growth opportunities. From smart automation
-                and AI assistants to advanced integrations and personalization, our solutions are designed to
-                work seamlessly within your operations while scaling with your business needs.
+              <p className="mb-8 text-sm leading-relaxed text-white/60 md:text-base">
+                We deliver advanced AI automation services in the USA designed to help businesses work smarter and scale faster. As a trusted AI automation agency in the USA and an AI software development solutions company, we build intelligent systems that streamline operations, improve efficiency, and enhance decision-making. From AI-driven automation solutions to custom AI development services and custom business solutions, our focus is on creating practical, real-world AI-driven digital solutions that transform how businesses operate.
               </p>
 
               <h3 className="mb-8 text-xl text-[#F45B25] md:text-2xl lg:text-3xl xl:text-4xl BenzinSemibold">
-                Where AI Creates Business Impact
+                Move Forward Your Businesses With AI
               </h3>
 
               <div className="space-y-6">
                 {[
                   {
-                    number: '01',
-                    title: 'Operations & Productivity',
-                    desc: 'Reduce manual workload and speed up execution with smarter internal workflows.',
+                    number: '1',
+                    title: 'AI Automation Solutions',
+                    desc: "We build automation systems that streamline workflows, reduce manual tasks, and improve overall business efficiency.",
                   },
                   {
-                    number: '02',
-                    title: 'Customer Support & Experience',
-                    desc: 'Handle requests faster, improve satisfaction, and support customers anytime with AI-powered help.',
+                    number: '2',
+                    title: 'Custom AI Development',
+                    desc: "We create tailored AI solutions designed specifically for your business needs, goals, and operational challenges.",
                   },
                   {
-                    number: '03',
-                    title: 'Sales Enablement & Lead Flow',
-                    desc: 'Qualify leads, respond faster, and guide customers toward action with intelligent assistance.',
+                    number: '3',
+                    title: 'AI Integration Services',
+                    desc: "We integrate AI capabilities into existing platforms and systems to enhance performance, automation, and usability.",
                   },
                   {
-                    number: '04',
-                    title: 'Marketing Personalization',
-                    desc: 'Deliver more relevant messaging and experiences with AI-driven personalization and segmentation.',
+                    number: '4',
+                    title: 'Enterprise AI Solutions',
+                    desc: "We deliver scalable AI systems for large organizations to optimize operations, data processing, and decision-making.",
                   },
                   {
-                    number: '05',
-                    title: 'Data & Decision Intelligence',
-                    desc: 'Make better business calls using insights, forecasting, and performance reporting powered by AI.',
+                    number: '5',
+                    title: 'AI Customer Service Solutions',
+                    desc: "We develop AI-powered support tools that improve response time, customer satisfaction, and service availability.",
                   },
-                ].map((item, index) => (
+                ].map((item) => (
                   <div key={item.number} className="flex gap-4">
                       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#21223F] text-[16px] leading-none font-semibold text-white BenzinSemibold">
                         {item.number}

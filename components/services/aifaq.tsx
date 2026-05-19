@@ -5,34 +5,34 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const FAQS = [
   {
-    question: "What is AI-driven marketing?",
+    question: 'What are AI automation services in the USA?',
     answer:
-      "AI-driven marketing uses artificial intelligence and machine learning to analyze data, predict customer behavior, and automate marketing decisions. It helps businesses deliver personalized experiences at scale, optimize campaigns in real-time, and achieve better ROI through data-driven insights.",
+      'AI automation services in the USA help businesses streamline workflows, reduce manual tasks, and improve efficiency using intelligent systems and machine learning.',
   },
   {
-    question: "How long does it take to implement AI solutions?",
+    question: 'What does an AI automation agency in the USA do?',
     answer:
-      "Implementation timelines vary based on project complexity and scope. Simple AI integrations can take 4-6 weeks, while comprehensive AI transformations may require 3-6 months. We work closely with your team to ensure smooth deployment and minimal disruption to your operations.",
+      'An AI automation agency in the USA designs and builds smart systems that automate business processes, improve productivity, and enhance decision-making.',
   },
   {
-    question: "Do I need technical expertise to use your AI solutions?",
+    question: 'What is an AI software development solutions company?',
     answer:
-      "No technical expertise is required. Our AI solutions are designed with user-friendly interfaces and intuitive controls. We provide comprehensive training and ongoing support to ensure your team can leverage AI capabilities effectively, regardless of their technical background.",
+      'An AI software development solutions company creates custom AI tools, applications, and systems tailored to solve specific business challenges and improve operations.',
   },
   {
-    question: "What kind of data do I need for AI implementation?",
+    question: 'Do you offer AI development services and custom business solutions?',
     answer:
-      "The data requirements depend on your specific use case. Generally, we work with customer data, behavioral data, transaction history, and engagement metrics. We help you assess your current data infrastructure and identify any gaps that need to be filled for optimal AI performance.",
+      'Yes, we provide AI development services and custom business solutions designed to meet unique business needs, workflows, and automation requirements.',
   },
   {
-    question: "How do you ensure data privacy and security?",
+    question: 'What are AI-driven automation solutions?',
     answer:
-      "Data security is our top priority. We implement enterprise-grade encryption, comply with GDPR and other data protection regulations, and follow industry best practices. All data is processed securely, and we provide transparent documentation of our security measures and compliance certifications.",
+      'AI-driven automation solutions use artificial intelligence to automate repetitive tasks, optimize workflows, and improve overall business performance.',
   },
   {
-    question: "Can AI solutions integrate with our existing systems?",
+    question: 'Do you provide AI customer service solutions for small businesses?',
     answer:
-      "Yes, our AI solutions are designed to integrate seamlessly with popular CRM, marketing automation, analytics, and business intelligence platforms. We conduct a thorough assessment of your tech stack and ensure smooth integration with minimal disruption to your existing workflows.",
+      'Yes, we build AI customer service solutions for small businesses that improve response time, handle queries, and enhance customer experience 24/7.',
   },
 ]
 
@@ -88,7 +88,7 @@ export default function AIFaq() {
         {/* FAQ Section (two-column flex: 50/50) */}
         <div className="flex flex-col lg:flex-row  items-start">
           {/* Left - Heading (fits content) */}
-          <div className="w-full lg:flex-none lg:max-w-[560px]">
+          <div className="w-full lg:flex-none lg:max-w-140">
             <h2 className="BenzinBold leading-tight text-[70px]">Frequently <br /> Asked <br /> Questions</h2>
           </div>
 
