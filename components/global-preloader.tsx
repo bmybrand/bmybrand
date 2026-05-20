@@ -11,6 +11,11 @@ export default function GlobalPreloader({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+  if (pathname?.startsWith("/brief-forms")) {
+    return <>{children}</>;
+  }
+
   return <PreloaderScreen key={pathname}>{children}</PreloaderScreen>;
 }
 
