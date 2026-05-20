@@ -42,11 +42,11 @@ const herobarreview = () => {
             loaded ? 'translate-x-0 opacity-100' : 'translate-x-24 opacity-0'
           }`}
         >
-            <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
-            Reviews
+            <h1 className="BenzinSemibold text-2xl sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-white">
+            We&rsquo;re <span className="text-[#ff6b35]">Trusted</span> by Businesses Worldwide
             </h1>
-            <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-            At BMYBrand, client success is at the center of everything we do. Our testimonials reflect real partnerships, real results, and the trust brands place in us to deliver impactful design, technology, and growth-driven solutions.</p>
+            <p className="text-[11px] sm:text-xs lg:text-base xl:text-lg text-white/80 max-w-2xl">
+            We work with clients across different regions and industries, delivering consistent quality, clear communication, and reliable execution. Every project is built with a focus on understanding business needs and creating solutions that truly make an impact.</p>
             
         </div>
         <div

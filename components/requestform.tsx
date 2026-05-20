@@ -62,7 +62,11 @@ const FAQS: FaqItem[] = [
   },
 ];
 
-export default function RequestForm() {
+type RequestFormProps = {
+  title?: React.ReactNode;
+};
+
+export default function RequestForm({ title }: RequestFormProps) {
   const pathname = usePathname();
   const [openFaq, setOpenFaq] = useState<string | null>('01');
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -155,9 +159,13 @@ export default function RequestForm() {
           <div ref={formColRef} className="flex-1 min-w-0">
           <div ref={headingRef}>
           <h2 className="text-2xl md:text-3xl xl:text-4xl 2xl:text-4xl font-semibold mb-4 text-center lg:text-left BenzinSemibold  max-w-2xl">
-            <span className="text-[#F45B25]">Talk to Us</span> About Your Business Goals and
-            <br />
-            Ideas!
+            {title ?? (
+              <>
+                <span className="text-[#F45B25]">Talk to Us</span> About Your Business Goals and
+                <br />
+                Ideas!
+              </>
+            )}
           </h2>
           <p className="text-[#ADAECC] text-sm sm:text-base mb-12 text-center lg:text-left max-w-2xl">
             Contact us today to discuss how we can help you design, develop, and scale your digital

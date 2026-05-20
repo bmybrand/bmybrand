@@ -5,8 +5,15 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa'
 
+type WorkTogetherProps = {
+  headingTop?: React.ReactNode
+  headingBottom?: React.ReactNode
+}
 
-export default function WorkTogether() {
+export default function WorkTogether({
+  headingTop = "Let's Work",
+  headingBottom,
+}: WorkTogetherProps) {
   const sectionRef = useRef(null)
   const [isDesktop, setIsDesktop] = useState(true)
 
@@ -178,11 +185,13 @@ export default function WorkTogether() {
           {/* Headline */}
           <div className="relative z-20">
             <h2 className="text-5xl BenzinSemibold text-white sm:text-7xl lg:text-[109px]">
-              Let's Work
+              {headingTop}
             </h2>
-            <h3 className="text-5xl BenzinSemibold text-[#F45B25] sm:text-7xl lg:text-8xl">
-              Together!
-            </h3>
+            {headingBottom ? (
+              <h3 className="text-5xl BenzinSemibold text-[#F45B25] sm:text-7xl lg:text-8xl">
+                {headingBottom}
+              </h3>
+            ) : null}
             <div className="mt-6 flex flex-col sm:flex-row gap-4 BenzinSemibold mb-12">
   <button className="bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2">
     <div className="bg-white p-4 rounded-lg">

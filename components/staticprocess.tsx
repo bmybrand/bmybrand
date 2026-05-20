@@ -8,25 +8,28 @@ gsap.registerPlugin(ScrollTrigger)
 
 const steps = [
   {
-    step: 'Step 01',
-    title: 'Discover & Understand',
-    desc: 'We learn about your brand, goals, audience, and vision—so we know exactly what you need.',
+    step: 'Step 1',
+    title: 'Understand Requirements',
+    desc: 'We carefully analyze your needs, goals, and expectations before starting any project.',
     bg: '#191A35',
-    accent: '#F45B25',
   },
   {
-    step: 'Step 02',
-    title: 'Design & Build',
-    desc: 'We create brand visuals, websites, and campaigns that look premium and perform better.',
+    step: 'Step 2',
+    title: 'Create Strategy',
+    desc: 'We design a clear, structured plan that aligns with your business objectives effectively.',
     bg: '#21223F',
-    accent: '#FF4BCB',
   },
   {
-    step: 'Step 03',
-    title: 'Launch & Optimize',
-    desc: 'We launch, refine, and improve results over time for consistent growth.',
+    step: 'Step 3',
+    title: 'Develop Solution',
+    desc: 'We build functional, scalable digital solutions using modern tools and technologies.',
     bg: '#2C2D4B',
-    accent: '#4BD6FF',
+  },
+  {
+    step: 'Step 4',
+    title: 'Deliver Results',
+    desc: 'We ensure final output meets expectations, performs well, and supports long-term success.',
+    bg: '#343557',
   },
 ]
 
@@ -49,36 +52,36 @@ export default function StaticProcess() {
         let baseX: number[] = []
         let spacing = 0
         let overlapSpacing = 0
+        let scrollDistance = 0
 
         const updateMetrics = () => {
           const cards = Array.from(track.children) as HTMLDivElement[]
           if (!cards.length) return
+
           baseX = cards.map((card) => card.offsetLeft)
-          
+
           const cardWidth = cards[0].offsetWidth
           const containerWidth = track.parentElement?.offsetWidth ?? track.offsetWidth
-          
-          // Calculate dynamic overlap based on screen width
-          // Larger screens = more spacing between stacked cards
-          const availableWidth = containerWidth * 0.85
-          overlapSpacing = cards.length > 1 
-            ? Math.max(10, Math.min(160, (availableWidth - cardWidth) / (cards.length - 1)))
-            : 0
-          
-          leftStackX = baseX[0] ?? 0
-          spacing =
+
+          const availableWidth = containerWidth * 0.96
+          overlapSpacing =
             cards.length > 1
-              ? Math.max(0, baseX[1] - baseX[0])
-              : cardWidth
+              ? Math.max(12, Math.min(92, (availableWidth - cardWidth) / (cards.length - 1)))
+              : 0
+
+          leftStackX = baseX[0] ?? 0
+          spacing = cards.length > 1 ? Math.max(0, baseX[1] - baseX[0]) : cardWidth
           maxX = Math.max(0, spacing * (cards.length - 1))
+          scrollDistance = Math.max(1600, maxX + cardWidth * 0.9 + cards.length * 120)
         }
 
         const applyPositions = (progress: number) => {
           const trackX = -maxX * progress
           gsap.set(track, { x: trackX })
+
           const cards = Array.from(track.children) as HTMLDivElement[]
           cards.forEach((card, i) => {
-            const targetStackX = leftStackX + (i * overlapSpacing)
+            const targetStackX = leftStackX + i * overlapSpacing
             const clamp = Math.max(0, targetStackX - (baseX[i] + trackX))
             gsap.set(card, { x: clamp, zIndex: i + 1 })
           })
@@ -90,9 +93,9 @@ export default function StaticProcess() {
         const st = ScrollTrigger.create({
           trigger: container,
           start: 'top top',
-          end: () => `+=${Math.max(1200, maxX)}`,
+          end: () => `+=${scrollDistance}`,
           pin: true,
-          scrub: 1,
+          scrub: 0.7,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: (self) => {
@@ -129,42 +132,31 @@ export default function StaticProcess() {
   }, [])
 
   return (
-    <div className="bg-[#0B0F2B] overflow-hidden">
-      <section
-        ref={containerRef}
-        className="relative flex w-full pt-40 items-center bg-[#0B0F2B]"
-      >
+    <div className="overflow-hidden bg-[#0B0F2B]">
+      <section ref={containerRef} className="relative flex w-full items-center bg-[#0B0F2B] pt-40">
         <div className="mx-auto w-[90%] 2xl:w-[85%]">
           <div className="grid w-full gap-10 lg:grid-cols-[1fr_1.8fr] lg:items-center">
-            {/* Left copy */}
-            <div className="pt-4 lg:text-right max-w-xl">
-              <h2 className="mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl  font-semibold text-white BenzinSemibold">
-                A Simple,{' '}
-                <span className="text-[#F45B25]">
-                  Strategic
-                  <br className="hidden lg:block" />
-                  Process
-                </span>{' '}
-                That Works
+            <div className="max-w-xl pt-4 lg:text-right">
+              <h2 className="BenzinSemibold mt-2 text-xl font-semibold text-white sm:text-2xl md:text-3xl lg:text-4xl">
+                Work That <span className="text-[#F45B25]">Follows</span> a Clear Flow
               </h2>
-              <p className="mt-3 text-sm sm:text-base lg:text-lg leading-6 lg:leading-7 text-white/60">
-                From planning to launch, we keep the process smooth, collaborative, and results-driven - so your project stays on track and your brand moves forward.
+              <p className="mt-3 text-sm leading-6 text-white/60 sm:text-base lg:text-lg lg:leading-7">
+                We follow a clear and structured process from understanding your needs to delivering a complete digital solution with precision, clarity, and consistency.
               </p>
             </div>
 
-            {/* Card stack */}
             <div className="relative flex items-start justify-start lg:pl-2">
               <div
                 ref={trackRef}
-                className="relative flex w-full flex-col items-stretch gap-6  lg:max-w-120 lg:flex-row lg:gap-8"
+                className="relative flex w-full flex-col items-stretch gap-6 lg:max-w-120 lg:flex-row lg:gap-8"
               >
                 {steps.map((item, i) => (
                   <div
                     key={i}
                     style={{ backgroundColor: item.bg }}
-                    className="group relative flex gap-6 flex-col w-full rounded-xl p-8 lg:min-w-140 lg:max-w-170"
+                    className="group relative flex w-full flex-col gap-6 rounded-xl p-8 lg:min-w-140 lg:max-w-170"
                   >
-                    <span className="text-base sm:text-3xl text-white  flex items-center gap-1">
+                    <span className="flex items-center gap-1 text-base text-white sm:text-3xl">
                       {item.step}{' '}
                       <img
                         src="/bmyb-services-ai-aiicon-01.svg"
@@ -172,11 +164,11 @@ export default function StaticProcess() {
                         className="transition-transform duration-300 group-hover:rotate-45"
                       />
                     </span>
-                    <h3 className="mt-3 text-lg sm:text-3xl BenzinSemibold text-white">
+                    <h3 className="BenzinSemibold mt-3 text-lg text-white sm:text-3xl">
                       {item.title}
                     </h3>
                     <hr className="text-[#DCDCDC]/10" />
-                    <p className="mt-auto text-sm sm:text-base leading-6 sm:leading-7 text-white/60">
+                    <p className="mt-auto text-sm leading-6 text-white/60 sm:text-base sm:leading-7">
                       {item.desc}
                     </p>
                   </div>
@@ -187,7 +179,6 @@ export default function StaticProcess() {
         </div>
       </section>
 
-      {/* Big Steps label (scrolls normally) */}
       <div className="BenzinSemibold mx-auto w-[92%] pb-16 text-[88px] leading-none font-black text-[#F45B25] sm:text-[120px] lg:text-[260px] xl:text-[305px] 2xl:w-[85%]">
         Steps
       </div>

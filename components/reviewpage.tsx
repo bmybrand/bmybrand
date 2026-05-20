@@ -18,7 +18,13 @@ const Aboutpage = () => {
       <Herobarreview />
       <VerticalReviewColumns />
       <WorkTogether />
-      <RequestForm />
+      <RequestForm
+        title={
+          <>
+            <span className="text-[#F45B25]">Let&apos;s Talk</span> About Your Idea
+          </>
+        }
+      />
       <div ref={footerRef}>
         <Footer />
       </div>

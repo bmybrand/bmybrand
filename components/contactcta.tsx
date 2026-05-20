@@ -21,7 +21,7 @@ export default function ContactCTA({ compact = false }: { compact?: boolean }) {
                 transition={{ duration: 0.6 }}
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-5xl text-white BenzinSemibold mb-6 leading-tight"
               >
-                Ready to Elevate Your Brand Beyond the Competition?
+                Get a Quote That Fits Your Vision.
               </motion.h2>
 
               <motion.p
@@ -31,7 +31,7 @@ export default function ContactCTA({ compact = false }: { compact?: boolean }) {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="text-white/70 text-sm md:text-base mb-8 max-w-xl"
               >
-                At BMYBrand, we blend strategy, AI, design, and development to help ambitious businesses scale smarter and faster.
+                Share your idea with us, and we&apos;ll respond with a tailored approach that reflects your needs, scope, and the smartest way to build it right.
               </motion.p>
 
               <motion.div

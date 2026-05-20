@@ -6,7 +6,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const items = [
+type DesignedGrowItem = {
+  title: string
+  desc: string
+  image: string
+}
+
+type DesignedGrowProps = {
+  heading?: React.ReactNode
+  intro?: string
+  items?: DesignedGrowItem[]
+  checklist?: string[]
+}
+
+const defaultItems: DesignedGrowItem[] = [
   {
     title: 'Strategy That Makes Sense',
     desc: 'We start by understanding your business goals, audience, and challenges to create a clear, focused strategy that guides every step of your digital journey effectively.',
@@ -24,7 +37,7 @@ const items = [
   },
 ]
 
-const checklist = [
+const defaultChecklist = [
   'Strategy First',
   'Design Focused',
   'Tech Driven',
@@ -35,7 +48,21 @@ const checklist = [
   'Quality Assured',
 ]
 
-const DesignedGrow = () => {
+const defaultHeading = (
+  <>
+    We Start <span className="text-[#F45B25]">Every Project</span> with a Clear Direction
+  </>
+)
+
+const defaultIntro =
+  "At BMYBrand, we combine strategy, design, and technology to create solutions that help businesses grow, scale, and succeed in today's digital world."
+
+const DesignedGrow = ({
+  heading = defaultHeading,
+  intro = defaultIntro,
+  items = defaultItems,
+  checklist = defaultChecklist,
+}: DesignedGrowProps) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const sectionRef = useRef<HTMLDivElement>(null)
   const headingRef = useRef<HTMLDivElement>(null)
@@ -112,11 +139,10 @@ const DesignedGrow = () => {
     <div ref={sectionRef} className="mb-30 flex w-full flex-col items-center overflow-hidden">
       <div ref={headingRef} className="mt-30 flex w-full flex-col items-center justify-center">
         <h1 className="BenzinSemibold mb-4 w-[90%] text-center text-sm text-white sm:text-lg md:text-xl lg:text-2xl xl:w-[60%] xl:text-3xl 2xl:text-4xl">
-          We Start <span className="text-[#F45B25]">Every Project</span> with a Clear Direction
+          {heading}
         </h1>
         <p className="w-[90%] text-center text-base text-[#ADAECC] 2xl:w-[60%]">
-          At BMYBrand, we combine strategy, design, and technology to create solutions that help
-          businesses grow, scale, and succeed in today&apos;s digital world.
+          {intro}
         </p>
       </div>
 

@@ -18,28 +18,33 @@ const contactOptions = [
   {
     iconSrc: '/bmyb-contact-book-discovery-call-01.svg',
     title: 'Book A Discovery Call',
-    description: 'Schedule a quick call to discuss your goals, scope, and timeline—no pressure, just clarity.'
+    description:
+      'Schedule a quick call to discuss your goals, project scope, and timeline. No pressure-just clear direction and next steps.',
   },
   {
     iconSrc: '/bmyb-contact-custom-quote-01.svg',
     title: 'Get A Custom Quote',
-    description: 'Share what you need and we\'ll send a tailored estimate with the right package and next steps.'
+    description:
+      "Tell us what you need, and we'll provide a tailored estimate with the right solution, pricing, and approach for your project.",
   },
   {
     iconSrc: '/bmyb-contact-website-audit-01.svg',
     title: 'Request A Website Audit',
-    description: 'Want quick wins? Send us your URL and we\'ll review UX, messaging, and conversion opportunities.'
+    description:
+      "Share your website URL, and we'll review it for UX, messaging, performance, and conversion improvement opportunities.",
   },
   {
     iconSrc: '/bmyb-contact-project-support-01.svg',
-    title: 'Project Support',
-    description: 'Already working with us? Reach out here for updates, revisions, or ongoing support.'
+    title: 'Get Project Support',
+    description:
+      'Need help with an ongoing project? Reach out for updates, revisions, or any technical or design support.',
   },
   {
     iconSrc: '/bmyb-contact-partnership-collabs-01.svg',
-    title: 'Partnerships & Collabs',
-    description: 'Already working with us? Reach out here for updates, revisions, or ongoing support.'
-  }
+    title: 'Partnerships & Collaborations',
+    description:
+      "Let's explore how we can work together on long-term partnerships, collaborations, or strategic opportunities.",
+  },
 ]
 
 const services = [
@@ -51,7 +56,7 @@ const services = [
   'Business Operations',
   'Mobile App Development',
   'Custom Software',
-  'Other'
+  'Other',
 ]
 
 export default function ContactForm() {
@@ -60,7 +65,13 @@ export default function ContactForm() {
   const [submitError, setSubmitError] = useState('')
   const [submitSuccess, setSubmitSuccess] = useState('')
 
-  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<FormValues>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<FormValues>({
     mode: 'onSubmit',
   })
 
@@ -101,48 +112,43 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="bg-[#11122F] text-white py-20 overflow-x-hidden">
-      <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-360">
-        <div className="flex flex-col lg:flex-row gap-12 w-full min-w-0">
-          
-          {/* Left Section - Contact Options */}
-          <div className="flex-1 min-w-0 flex max-w-xl flex-col justify-between min-h-0">
-            {contactOptions.map((option, index) => (
-              <div key={index} className="flex max-w-lg gap-4 items-start">
-                <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-white shrink-0">
+    <section className="overflow-x-hidden bg-[#11122F] py-20 text-white">
+      <div className="mx-auto w-[90%] max-w-360 2xl:w-[75%]">
+        <div className="flex w-full min-w-0 flex-col gap-12 lg:flex-row">
+          <div className="flex min-h-0 min-w-0 max-w-xl flex-1 flex-col justify-between">
+            {contactOptions.map((option) => (
+              <div key={option.title} className="flex max-w-lg items-start gap-4">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/5 text-white">
                   <Image
                     src={option.iconSrc}
                     alt=""
                     width={32}
                     height={32}
-                    className="w-7 h-7"
+                    className="h-7 w-7"
                   />
                 </div>
                 <div className="max-w-md">
-                  <h3 className="text-white text-base md:text-lg xl:text-xl 2xl:text-2xl BenzinRegular mb-2">
+                  <h3 className="BenzinRegular mb-2 text-base text-white md:text-lg xl:text-xl 2xl:text-2xl">
                     {option.title}
                   </h3>
-                  <p className="text-white/60 text-base">
-                    {option.description}
-                  </p>
+                  <p className="text-base text-white/60">{option.description}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Right Section - Contact Form */}
-          <div className="flex-1 min-w-0">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl text-white BenzinSemibold mb-8">
-              Let's Build Something<br />
-              Powerful Together
+          <div className="min-w-0 flex-1">
+            <h2 className="BenzinSemibold mb-8 text-2xl text-white md:text-3xl lg:text-4xl">
+              Let&apos;s Talk About What You Want to Build
+              <br />
+              Next
             </h2>
 
-            <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
-              {/* First and Last Name Row */}
-              <div className="flex flex-col sm:flex-row gap-4 w-full">
-                <div className="flex flex-col gap-2 flex-1 min-w-0">
+            <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex w-full flex-col gap-4 sm:flex-row">
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <input
-                    className="h-12 w-full rounded-lg bg-transparent border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25] text-white placeholder:text-white/40"
+                    className="h-12 w-full rounded-lg border border-white/10 bg-transparent px-4 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#F45B25]"
                     placeholder="First Name"
                     type="text"
                     {...register('firstName', { required: 'First name is required' })}
@@ -151,9 +157,9 @@ export default function ContactForm() {
                     <span className="text-xs text-[#F45B25]">{errors.firstName.message}</span>
                   )}
                 </div>
-                <div className="flex flex-col gap-2 flex-1 min-w-0">
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <input
-                    className="h-12 w-full rounded-lg bg-transparent border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25] text-white placeholder:text-white/40"
+                    className="h-12 w-full rounded-lg border border-white/10 bg-transparent px-4 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#F45B25]"
                     placeholder="Last Name"
                     type="text"
                     {...register('lastName', { required: 'Last name is required' })}
@@ -164,25 +170,27 @@ export default function ContactForm() {
                 </div>
               </div>
 
-              {/* Email and Phone Row */}
-              <div className="flex flex-col sm:flex-row gap-4 w-full">
-                <div className="flex flex-col gap-2 flex-1 min-w-0">
+              <div className="flex w-full flex-col gap-4 sm:flex-row">
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <input
-                    className="h-12 w-full rounded-lg bg-transparent border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25] text-white placeholder:text-white/40"
+                    className="h-12 w-full rounded-lg border border-white/10 bg-transparent px-4 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#F45B25]"
                     placeholder="Email"
                     type="email"
                     {...register('email', {
                       required: 'Email is required',
-                      pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Enter a valid email' },
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: 'Enter a valid email',
+                      },
                     })}
                   />
                   {errors.email && (
                     <span className="text-xs text-[#F45B25]">{errors.email.message}</span>
                   )}
                 </div>
-                <div className="flex flex-col gap-2 flex-1 min-w-0">
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <input
-                    className="h-12 w-full rounded-lg bg-transparent border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25] text-white placeholder:text-white/40"
+                    className="h-12 w-full rounded-lg border border-white/10 bg-transparent px-4 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#F45B25]"
                     placeholder="Phone"
                     type="tel"
                     {...register('phone', { required: 'Phone number is required' })}
@@ -193,18 +201,17 @@ export default function ContactForm() {
                 </div>
               </div>
 
-              {/* Service Select */}
-              <div className="flex flex-col gap-2 w-full min-w-0">
+              <div className="flex w-full min-w-0 flex-col gap-2">
                 <select
-                  className={`h-12 w-full rounded-lg bg-transparent border border-white/10 px-4 text-sm outline-none focus:border-[#F45B25] ${selectedService ? 'text-white' : 'text-white/40'}`}
+                  className={`h-12 w-full rounded-lg border border-white/10 bg-transparent px-4 text-sm outline-none focus:border-[#F45B25] ${selectedService ? 'text-white' : 'text-white/40'}`}
                   {...register('service', { required: 'Please select a service' })}
                   defaultValue=""
                 >
                   <option value="" disabled className="bg-[#11122F] text-white/40">
                     Select Service
                   </option>
-                  {services.map((service, index) => (
-                    <option key={index} value={service} className="bg-[#11122F] text-white">
+                  {services.map((service) => (
+                    <option key={service} value={service} className="bg-[#11122F] text-white">
                       {service}
                     </option>
                   ))}
@@ -214,10 +221,9 @@ export default function ContactForm() {
                 )}
               </div>
 
-              {/* Message Field */}
-              <div className="flex flex-col gap-2 w-full min-w-0">
+              <div className="flex w-full min-w-0 flex-col gap-2">
                 <textarea
-                  className="min-h-35 w-full rounded-lg bg-transparent border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#F45B25] text-white placeholder:text-white/40 resize-none"
+                  className="min-h-35 w-full resize-none rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#F45B25]"
                   placeholder="Message"
                   {...register('message', { required: 'Message is required' })}
                 />
@@ -226,25 +232,19 @@ export default function ContactForm() {
                 )}
               </div>
 
-              {/* Submit Button */}
               <div className="w-full">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-12 rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold disabled:cursor-not-allowed disabled:opacity-70"
+                  className="BenzinSemibold h-12 w-full rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </div>
-              {submitSuccess && (
-                <p className="text-sm text-green-400">{submitSuccess}</p>
-              )}
-              {submitError && (
-                <p className="text-sm text-[#F45B25]">{submitError}</p>
-              )}
+              {submitSuccess && <p className="text-sm text-green-400">{submitSuccess}</p>}
+              {submitError && <p className="text-sm text-[#F45B25]">{submitError}</p>}
             </form>
           </div>
-
         </div>
       </div>
     </section>

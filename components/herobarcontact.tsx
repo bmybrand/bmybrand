@@ -43,10 +43,10 @@ const herobarcontact = () => {
           }`}
         >
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
-            Contact Us
+            Get in Touch
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-            Let's bring your vision to life. Whether you have a project in mind, a question about our services, or just want to connect, we're here to help. Reach out today and let's start the conversation.</p>
+            Have an idea, a project, or a challenge you want to solve? We&apos;re here to listen, understand, and turn it into a clear, structured digital solution that works for your business. Our team is ready to help you move forward with clarity and confidence.</p>
             
         </div>
         <div
