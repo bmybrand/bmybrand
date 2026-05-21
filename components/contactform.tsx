@@ -139,9 +139,7 @@ export default function ContactForm() {
 
           <div className="min-w-0 flex-1">
             <h2 className="BenzinSemibold mb-8 text-2xl text-white md:text-3xl lg:text-4xl">
-              Let&apos;s Talk About What You Want to Build
-              <br />
-              Next
+              Let&apos;s Talk About What You Want to Build Next
             </h2>
 
             <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
