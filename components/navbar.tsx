@@ -98,8 +98,18 @@ const industriesMenuItems = [
     ),
   },
   {
+    title: "Food",
+    href: "/industries/food",
+    desc: "Conversion-focused digital experiences for food brands and restaurants.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 3v8a3 3 0 006 0V3M5 21h14M12 11v10M17 3c1.657 0 3 1.343 3 3v15" />
+      </svg>
+    ),
+  },
+  {
     title: "Non-Profit",
-    href: "#",
+    href: "/industries/non-profit",
     desc: "Amplify your cause with technology that connects and inspires.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +119,7 @@ const industriesMenuItems = [
   },
   {
     title: "Sports",
-    href: "#",
+    href: "/industries/sports",
     desc: "Engage fans and athletes with powerful digital experiences.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +129,7 @@ const industriesMenuItems = [
   },
   {
     title: "Travel and Tourism",
-    href: "#",
+    href: "/industries/travel-and-tourism",
     desc: "Bring destinations to life and inspire wanderlust.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,7 +139,7 @@ const industriesMenuItems = [
   },
   {
     title: "Education",
-    href: "#",
+    href: "/industries/education",
     desc: "Transform learning with innovative digital platforms.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

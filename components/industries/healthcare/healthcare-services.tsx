@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import type { IndustryService } from '@/data/industries/types'
 
 type Service = {
   id: string
@@ -12,7 +13,7 @@ type Service = {
   items: string[]
 }
 
-const services: Service[] = [
+const servicesTemplate: Service[] = [
   {
     id: 'ai-driven',
     title: 'AI-Driven Solutions',
@@ -63,10 +64,27 @@ const services: Service[] = [
   },
 ]
 
-export default function HealthcareServices() {
+type HealthcareServicesProps = {
+  title?: string
+  description?: string
+  services?: IndustryService[]
+}
+
+export default function HealthcareServices({
+  title = 'End-To-End Growth Solutions For Healthcare Brands',
+  description = 'We support healthcare organizations with digital systems, brand strategy, and performance-focused solutions across every stage of growth.',
+  services: customServices,
+}: HealthcareServicesProps) {
   const router = useRouter()
   const [activeService, setActiveService] = useState('ai-driven')
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
+  const services = (customServices ?? []).length
+    ? customServices.map((service, index) => ({
+        ...servicesTemplate[index],
+        ...service,
+        items: service.items ?? servicesTemplate[index]?.items ?? [],
+      }))
+    : servicesTemplate
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,7 +107,7 @@ export default function HealthcareServices() {
     handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [services])
 
   const scrollToSection = (id: string) => {
     const section = sectionRefs.current[id]
@@ -105,8 +123,11 @@ export default function HealthcareServices() {
       <div className="w-[90%] 2xl:w-[75%] mx-auto">
         <div className="text-left w-full max-w-4xl px-0">
           <h2 className="text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.3rem] 2xl:text-[2.8rem] BenzinSemibold mb-6">
-            End-To-End Growth Solutions For Healthcare Brands
+            {title}
           </h2>
+          <p className="text-[0.85rem] leading-6 text-white/60 sm:text-sm md:text-base lg:text-lg lg:leading-8">
+            {description}
+          </p>
         </div>
 
         <div className="flex flex-col gap-8 py-20 lg:flex-row lg:items-start">

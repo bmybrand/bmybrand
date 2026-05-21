@@ -1,5 +1,7 @@
 'use client'
 
+import type { ReactNode } from 'react'
+
 const advantageCards = [
   {
     eyebrow: 'Healthcare-Focused Team',
@@ -40,20 +42,41 @@ const advantageCards = [
 
 const avatarImages = [13, 22, 34, 47, 58]
 
-export default function HealthcareAdvantage() {
+type HealthcareAdvantageProps = {
+  title?: ReactNode
+  cards?: Array<{
+    eyebrow: string
+    title: string
+    description: string
+  }>
+}
+
+export default function HealthcareAdvantage({
+  title = (
+    <>
+      Experience the BMYBrand
+      <br />
+      Healthcare Advantage
+    </>
+  ),
+  cards,
+}: HealthcareAdvantageProps) {
+  const cardContent = (cards ?? advantageCards).map((card, index) => ({
+    ...advantageCards[index],
+    ...card,
+  }))
+
   return (
     <section className="bg-[#11122F]">
       <div className="mx-auto w-[90%] py-14 sm:py-18 xl:w-[75%] xl:py-22">
         <div className="max-w-4xl">
           <h2 className="BenzinSemibold text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.12]">
-            Experience the BMYBrand
-            <br />
-            Healthcare Advantage
+            {title}
           </h2>
         </div>
 
         <div className="mt-10 grid gap-4 lg:grid-cols-12">
-          {advantageCards.map((card) => (
+          {cardContent.map((card) => (
             <article
               key={card.title}
               className={`${card.span} group relative min-h-[280px] overflow-hidden rounded-[18px] border border-[#2A2B47] bg-[#11122F] transition-all duration-300 hover:-translate-y-1 hover:border-[#2A2B47] hover:bg-[#202141] hover:shadow-[0_24px_60px_rgba(4,8,30,0.45)] ${

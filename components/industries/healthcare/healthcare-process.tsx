@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import type { IndustryProcessStep } from '@/data/industries/types'
 
 const processSteps = [
   {
@@ -39,21 +40,41 @@ const processSteps = [
 
 const avatarImages = [14, 27, 33, 45, 52]
 
-export default function HealthcareProcess() {
+type HealthcareProcessProps = {
+  title?: string
+  description?: string
+  steps?: IndustryProcessStep[]
+  ctaTitle?: string
+  ctaButtonLabel?: string
+  teamDescription?: string
+}
+
+export default function HealthcareProcess({
+  title = 'A Proven Process Built for Healthcare Growth',
+  description = 'Our process is designed to simplify complexity and deliver measurable results for healthcare organizations. From strategy to ongoing optimization, we handle everything so your team can focus on delivering care.',
+  steps,
+  ctaTitle = 'Your Healthcare Growth Partner Starts Here.',
+  ctaButtonLabel = 'Start Your Healthcare Project',
+  teamDescription = 'A team of 50+ specialists in healthcare-focused strategy, design, development, and growth.',
+}: HealthcareProcessProps) {
+  const processContent = (steps ?? processSteps).map((step, index) => ({
+    ...step,
+    icon: 'icon' in step ? step.icon : processSteps[index]?.icon,
+  }))
+
   return (
     <section className="mx-auto w-[90%] 2xl:w-[75%] py-14 sm:py-18 lg:py-22">
       <div className="mx-auto max-w-[760px] text-center">
         <h2 className="BenzinSemibold text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.18]">
-          A Proven Process Built for Healthcare Growth
+          {title}
         </h2>
         <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
-          Our process is designed to simplify complexity and deliver measurable results for healthcare organizations.
-          From strategy to ongoing optimization, we handle everything so your team can focus on delivering care.
+          {description}
         </p>
       </div>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {processSteps.map((step) => (
+        {processContent.map((step) => (
           <div key={step.title} className="rounded-[18px] bg-white/[0.035] px-6 py-7 sm:px-7 sm:py-8">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/[0.04]">
               {step.icon}
@@ -72,7 +93,7 @@ export default function HealthcareProcess() {
         <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
           <div>
             <h3 className="BenzinSemibold text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.2rem] 2xl:text-[2.64rem] leading-[1.1]">
-              Your Healthcare Growth Partner Starts Here.
+              {ctaTitle}
             </h3>
             <Link
               href="/contact"
@@ -81,7 +102,7 @@ export default function HealthcareProcess() {
               <div className="rounded-lg bg-white p-4">
                 <img src="/bmyb-logo-group1190-01.svg" alt="" className="h-4 w-4" />
               </div>
-              <span className="px-2">Start Your Healthcare Project</span>
+              <span className="px-2">{ctaButtonLabel}</span>
             </Link>
           </div>
 
@@ -122,7 +143,7 @@ export default function HealthcareProcess() {
 
             <div className="mt-8 border-l border-white/18 pl-4">
               <p className="text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
-                A team of 50+ specialists in healthcare-focused strategy, design, development, and growth.
+                {teamDescription}
               </p>
             </div>
           </div>

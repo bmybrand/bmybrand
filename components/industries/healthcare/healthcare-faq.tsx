@@ -1,7 +1,9 @@
 "use client";
 
+import type { ReactNode } from 'react'
 import { useState } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
+import type { IndustryFaq } from '@/data/industries/types'
 
 const faqData = [
   {
@@ -46,7 +48,21 @@ const faqData = [
   },
 ];
 
-export default function HealthcareFAQ() {
+type HealthcareFAQProps = {
+  title?: ReactNode
+  faqs?: IndustryFaq[]
+}
+
+export default function HealthcareFAQ({
+  title = (
+    <>
+      We Get Asked These
+      <br />
+      Questions Often
+    </>
+  ),
+  faqs = faqData,
+}: HealthcareFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
@@ -58,12 +74,12 @@ export default function HealthcareFAQ() {
       <div className="w-[90%] 2xl:w-[75%] mx-auto">
         {/* Centered Heading */}
         <h2 className="BenzinSemibold text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] mb-10 text-center leading-tight">
-          We Get Asked These<br />Questions Often
+          {title}
         </h2>
 
         {/* FAQ Accordion */}
         <div className="space-y-4">
-          {faqData.map((faq, index) => (
+          {faqs.map((faq, index) => (
             <div 
               key={index}
               className="w-full overflow-hidden rounded-md border border-white/10 bg-[#11122F]/50"

@@ -2,6 +2,7 @@
 
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import { healthcareIndustry } from '@/data/industries'
 import HealthcareGrowth from './healthcare/healthcare-growth'
 import HealthcareAdvantage from './healthcare/healthcare-advantage'
 import HealthcareHero from './healthcare/healthcare-hero'
@@ -24,9 +25,12 @@ export default function HealthcarePage() {
         <section className="relative mx-auto w-full">
           <HealthcareHero />
           <HealthcareLogoBelt />
-          <HealthcareSlider />
+          <HealthcareSlider slides={healthcareIndustry.sliderImages} />
           <HealthcareGrowth />
-          <HealthcareStories />
+          <HealthcareStories
+            title={healthcareIndustry.storiesTitle}
+            stories={healthcareIndustry.stories}
+          />
           <HealthcareProcess />
           <HealthcareProjects />
           <HealthcareServices />

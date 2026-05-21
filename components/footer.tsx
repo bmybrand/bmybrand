@@ -173,7 +173,7 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-white font-semibold text-base lg:text-lg mb-4 BenzinSemibold">Specialized Industry</h3>
             <ul className="space-y-2.5 text-sm lg:text-base text-white/70">
-              {[{ label: 'Healthcare', href: '/industries/healthcare' }, { label: 'E-Commerce', href: '#' }, { label: 'SaaS & Startups', href: '#' }, { label: 'Finance & Fintech', href: '#' }, { label: 'Industrial & Engineering', href: '#' }, { label: 'NGOs & Nonprofits', href: '#' }].map(({ label, href }) => (
+              {[{ label: 'Healthcare', href: '/industries/healthcare' }, { label: 'Food', href: '/industries/food' }, { label: 'Non-Profit', href: '/industries/non-profit' }, { label: 'Sports', href: '/industries/sports' }, { label: 'Travel and Tourism', href: '/industries/travel-and-tourism' }, { label: 'Education', href: '/industries/education' }].map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href} className="hover:text-white transition-colors">{label}</Link>
                 </li>

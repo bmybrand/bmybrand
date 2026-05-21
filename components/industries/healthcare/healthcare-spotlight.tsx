@@ -3,7 +3,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Stack, { type StackHandle } from '@/components/stack'
 
-export default function HealthcareSpotlight() {
+type SpotlightItem = {
+  title: string
+  description: string
+  name: string
+  role: string
+}
+
+type HealthcareSpotlightProps = {
+  items?: SpotlightItem[]
+}
+
+export default function HealthcareSpotlight({ items }: HealthcareSpotlightProps) {
   const spotlightItems = useMemo(
     () => [
       {
@@ -53,13 +64,15 @@ export default function HealthcareSpotlight() {
     ],
     []
   )
+  const contentItems = items ?? spotlightItems
   const videos = useMemo(() => spotlightItems.map((item) => item.video), [spotlightItems])
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([])
   const stackRef = useRef<StackHandle>(null)
-  const activeItem = spotlightItems[activeIndex] ?? spotlightItems[0]
+  const activeContent = contentItems[activeIndex] ?? contentItems[0]
+  const activeMedia = spotlightItems[activeIndex] ?? spotlightItems[0]
   const stackCards = useMemo(
     () =>
       videos.map((src, index) => (
@@ -174,28 +187,28 @@ export default function HealthcareSpotlight() {
 
         <div className="max-w-[560px]">
           <img
-            src={activeItem.logo}
-            alt={activeItem.logoAlt}
+            src={activeMedia.logo}
+            alt={activeMedia.logoAlt}
             className="h-16 w-auto object-contain"
           />
 
           <h3 className="mt-6 max-w-[34rem] text-[1rem] leading-[1.18] text-white BenzinSemibold sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem]">
-            {activeItem.title}
+            {activeContent?.title}
           </h3>
 
           <blockquote className="mt-5 max-w-[34rem] text-[0.95rem] leading-[1.6] text-white/72 sm:text-[1rem] md:text-[1.08rem] lg:text-[1.12rem]">
-            {activeItem.description}
+            {activeContent?.description}
           </blockquote>
 
           <div className="mt-10 flex items-center gap-3">
             <img
-              src={activeItem.avatar}
-              alt={activeItem.name}
+              src={activeMedia.avatar}
+              alt={activeContent?.name}
               className="h-14 w-14 rounded-full object-contain"
             />
             <div>
-              <div className="text-[1.1rem] sm:text-[1.25rem] text-white BenzinSemibold">{activeItem.name}</div>
-              <div className="text-[0.8rem] sm:text-base text-white/48">{activeItem.role}</div>
+              <div className="text-[1.1rem] sm:text-[1.25rem] text-white BenzinSemibold">{activeContent?.name}</div>
+              <div className="text-[0.8rem] sm:text-base text-white/48">{activeContent?.role}</div>
             </div>
           </div>
         </div>
