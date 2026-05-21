@@ -78,8 +78,9 @@ export default function HealthcareServices({
   const router = useRouter()
   const [activeService, setActiveService] = useState('ai-driven')
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
-  const services = (customServices ?? []).length
-    ? customServices.map((service, index) => ({
+  const serviceOverrides = customServices ?? []
+  const services = serviceOverrides.length
+    ? serviceOverrides.map((service, index) => ({
         ...servicesTemplate[index],
         ...service,
         items: service.items ?? servicesTemplate[index]?.items ?? [],

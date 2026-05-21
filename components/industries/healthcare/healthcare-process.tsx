@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import type { IndustryProcessStep } from '@/data/industries/types'
 
 const processSteps = [
@@ -40,10 +41,14 @@ const processSteps = [
 
 const avatarImages = [14, 27, 33, 45, 52]
 
+type HealthcareProcessStep = IndustryProcessStep & {
+  icon?: ReactNode
+}
+
 type HealthcareProcessProps = {
   title?: string
   description?: string
-  steps?: IndustryProcessStep[]
+  steps?: HealthcareProcessStep[]
   ctaTitle?: string
   ctaButtonLabel?: string
   teamDescription?: string

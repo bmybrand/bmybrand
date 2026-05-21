@@ -1,15 +1,24 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { capabilityItems, growthCards } from './healthcare-data'
 import type { IndustryFeature, IndustryMetricCard } from '@/data/industries/types'
+
+type HealthcareCapability = IndustryFeature & {
+  icon?: ReactNode
+}
+
+type HealthcareMetricCard = IndustryMetricCard & {
+  image?: string
+}
 
 type HealthcareGrowthProps = {
   title?: string
   description?: string
-  capabilities?: IndustryFeature[]
+  capabilities?: HealthcareCapability[]
   metricTitle?: string
   metricDescription?: string
-  metrics?: IndustryMetricCard[]
+  metrics?: HealthcareMetricCard[]
 }
 
 export default function HealthcareGrowth({
