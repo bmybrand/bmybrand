@@ -9,19 +9,11 @@ type HealthcareHeroProps = {
 }
 
 export default function HealthcareHero({
-  title = (
-    <>
-      Full-Service Healthcare Marketing
-      <br className="hidden lg:block" />
-      &amp; Digital Solutions Built for
-      <br className="hidden lg:block" />
-      Growth-Driven Organizations
-    </>
-  ),
+  title = 'Full-Service Healthcare Marketing & Digital Solutions Built for Growth-Driven Organizations',
   description = 'Healthcare marketing requires more than design. It demands trust, clarity, compliance, and performance. Patients make critical decisions online, and your digital presence must communicate credibility instantly. At BMYBrand, we combine brand strategy, UX design, and AI-powered systems to create healthcare platforms that build trust and drive measurable growth.',
 }: HealthcareHeroProps) {
   return (
-    <div className="mx-auto flex w-[90%] 2xl:w-[85%] flex-col items-center text-center py-16">
+    <div className="mx-auto flex w-[90%] 2xl:w-[75%] flex-col items-center text-center py-16">
       <h1 className="BenzinSemibold text-white text-[1rem] sm:text-[1.8rem] md:text-[2.6rem] lg:text-[3.0rem] xl:text-[3.4rem] 2xl:text-[3.8rem] leading-[1.1] sm:leading-[1.16]">
         {title}
       </h1>
