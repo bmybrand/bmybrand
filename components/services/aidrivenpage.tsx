@@ -1,23 +1,8 @@
 'use client'
- 
-import Navbar from '../navbar'
-import Footer from '../footer'
-import EvaluatCTA from '../evaluatcta'
-import Brandsspec from '../brandsspec'
-import AIDrivenHero from './aidrivenhero'
-import AISolutions from './aisolutions'
-import AIFaq from './aifaq'
+
+import { aiDrivenServiceData } from '@/data/service-pages/ai-driven'
+import SharedServicePage from './sharedservicepage'
 
 export default function AIDrivenPage() {
-  return (
-    <div className="bg-[#11122F]">
-      <Navbar />
-      <AIDrivenHero />
-      <AISolutions />
-      <AIFaq />
-      <EvaluatCTA />
-      <Brandsspec />
-      <Footer />
-    </div>
-  )
+  return <SharedServicePage data={aiDrivenServiceData} />
 }
