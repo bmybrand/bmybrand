@@ -18,7 +18,7 @@ export default function HealthcareSpotlight({ items }: HealthcareSpotlightProps)
   const spotlightItems = useMemo(
     () => [
       {
-        video: '/FHMC_2.mp4',
+        video: '/bmyb-case-fountain-hills-01.mp4',
         logo: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg',
         logoAlt: 'Fountain Hills Emergency Room and Medical Center',
         title: 'Strengthening Healthcare Brands With Precision, Trust, And Innovation',
@@ -29,7 +29,7 @@ export default function HealthcareSpotlight({ items }: HealthcareSpotlightProps)
         avatar: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg',
       },
       {
-        video: '/Pink me.mp4',
+        video: '/bmyb-case-pink-me-01.mp4',
         logo: '/bmyb-case-pink-me-pm-logo-01.svg',
         logoAlt: 'Pink.Me',
         title: 'Strengthening Breast Cancer Support With Compassion, Clarity, And Empowerment',
@@ -40,7 +40,7 @@ export default function HealthcareSpotlight({ items }: HealthcareSpotlightProps)
         avatar: '/bmyb-case-pink-me-pm-logo-01.svg',
       },
       {
-        video: '/JIggy (1).mp4',
+        video: '/bmyb-case-jiggy-jerky-01.mp4',
         logo: '/bmyb-case-jiggy-jerky-jiggylogo-01.svg',
         logoAlt: 'Jiggy Jerky',
         title: 'Delivering Clean-Ingredient, Bold-Flavor Experiences For Jerky Fans',
@@ -51,7 +51,7 @@ export default function HealthcareSpotlight({ items }: HealthcareSpotlightProps)
         avatar: '/bmyb-case-jiggy-jerky-jiggylogo-01.svg',
       },
       {
-        video: '/animation3.mp4',
+        video: '/bmyb-global-preloader-01.mp4',
         logo: '/bmyb-case-learnandlabel-learnandlabellogo-01.svg',
         logoAlt: 'Learn and Label',
         title: 'Creating AI-Powered Labels And Newsletters For Smarter Communication',

@@ -65,7 +65,7 @@ function PreloaderScreen({
             playsInline
             preload="auto"
           >
-            <source src="/animation3.mp4" type="video/mp4" />
+            <source src="/bmyb-global-preloader-01.mp4" type="video/mp4" />
           </video>
         </div>
       ) : null}

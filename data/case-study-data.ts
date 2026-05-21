@@ -124,7 +124,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
       ],
       bannerImage: '/bmyb-global-backgroundfh-01.webp',
-      bannerVideo: '/FHMC_2.mp4'
+      bannerVideo: '/bmyb-case-fountain-hills-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
@@ -202,7 +202,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Responsive storefront', desc: 'A mobile-friendly e-commerce platform built to look sharp and perform smoothly on every device.' }
       ],
       bannerImage: '/bmyb-case-jiggy-jerky-jiggybg-01.svg',
-      bannerVideo: '/JIggy (1).mp4'
+      bannerVideo: '/bmyb-case-jiggy-jerky-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nJIGGY JERKY TEAM',
@@ -279,7 +279,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Responsive execution', desc: 'The experience is built to stay sharp and usable across mobile, tablet, and desktop screens.' }
       ],
       bannerImage: '/bmyb-case-jiggy-jerky-jiggybg-01.svg',
-      bannerVideo: '/Burger (1) (1).mp4'
+      bannerVideo: '/bmyb-case-babas-burgers-01.mp4'
     },
     reviews: {
       title: "REVIEWS FROM\nBABA'S BURGERS TEAM",
@@ -357,7 +357,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Responsive storefront', desc: 'A mobile-first e-commerce experience designed to look sharp and perform smoothly across devices.' }
       ],
       bannerImage: '/bmyb-case-pink-me-pinkmebg-01.svg',
-      bannerVideo: '/Pink me.mp4'
+      bannerVideo: '/bmyb-case-pink-me-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nPINK.ME TEAM',
@@ -433,7 +433,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
         { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
       ],
-      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+      bannerImage: '/bmyb-global-backgroundfh-01.webp',
+      bannerVideo: '/bmyb-case-instinctive-healthcare-solutions-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
@@ -509,7 +510,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
       ],
       bannerImage: '/bmyb-global-backgroundfh-01.webp',
-      bannerVideo: '/Instective heath pass (1) (1) (1).mp4'
+      bannerVideo: '/bmyb-case-instinctive-health-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
@@ -585,7 +586,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       ],
       bannerImage: '/bmyb-global-backgroundfh-01.webp'
       ,
-      bannerVideo: '/vytisTours.mp4'
+      bannerVideo: '/bmyb-case-vytis-tour-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
@@ -664,7 +665,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       ],
       bannerImage: '/bmyb-global-backgroundfh-01.webp'
       ,
-      bannerVideo: '/vytisTours.mp4'
+      bannerVideo: '/bmyb-case-vytis-tour-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
@@ -739,7 +740,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Simplified patient experience', desc: 'Easy access to contact details, directions, billing information, and patient portals reduces stress and friction.' },
         { title: 'Modern, responsive platform', desc: 'A mobile-first, accessible website experience designed to perform across all devices and support the local community.' }
       ],
-      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+      bannerImage: '/bmyb-global-backgroundfh-01.webp',
+      bannerVideo: '/bmyb-case-jersey-01.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
