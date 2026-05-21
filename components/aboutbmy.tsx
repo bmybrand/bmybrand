@@ -9,18 +9,22 @@ const services = [
   {
     title: 'Brand Experience',
     desc: 'Creative branding that strengthens identity and engagement.',
+    image: '/bmyb-about-bmybrand-01.webp',
   },
   {
     title: 'AI-Driven Solutions',
     desc: 'Smart AI systems that automate and simplify business workflows.',
+    image: '/bmyb-about-bmybrand-02.webp',
   },
   {
     title: 'Digital Marketing',
     desc: 'Targeted strategies that improve visibility and audience reach.',
+    image: '/bmyb-about-bmybrand-03.webp',
   },
   {
     title: 'Software Development',
     desc: 'Custom-built software designed for performance and scalability.',
+    image: '/bmyb-about-bmybrand-04.webp',
   },
 ]
 
@@ -211,7 +215,7 @@ const AboutBmy = () => {
                   style={{ zIndex: cards.length - index }}
                 >
                   <img
-                    src={`https://picsum.photos/300/550?random=${index + 1}`}
+                    src={services[index]?.image ?? ''}
                     alt={`About BMYBrand ${index + 1}`}
                     className="h-full w-full object-cover"
                   />
