@@ -3,7 +3,12 @@
 import React from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 
-const evaluate = () => {
+type EvaluateCTAProps = {
+  title?: string
+  description?: string
+}
+
+const evaluate = ({ title, description }: EvaluateCTAProps) => {
   const router = useRouter()
   const pathname = usePathname()
   const isServices = pathname?.startsWith('/services') ?? false
@@ -16,7 +21,9 @@ const evaluate = () => {
         <img src="/bmyb-global-techbear-01.webp" alt="" className='absolute bottom-6 right-0 h-auto max-h-full object-contain w-40 md:w-48 lg:w-[45%] lg:block hidden z-20 animate-bounceRocket' />
         <div className='w-full lg:w-[90%] h-full bg-[#191A35] rounded-xl px-6 md:px-8 py-8 lg:py-20 flex flex-col justify-center gap-4'>
           <h1 className='text-white text-2xl lg:text-3xl xl:text-4xl BenzinSemibold w-full lg:w-3/5 leading-tight'>
-          {isAiDriven ? (
+          {title ? (
+            title
+          ) : isAiDriven ? (
             <>
               <span>Let&apos;s Build Intelligent AI Systems for Your Business</span>
             </>
@@ -31,7 +38,9 @@ const evaluate = () => {
             )}
           </h1>
           <p className='text-white/70 text-sm md:text-base w-full lg:w-3/5'>
-            {isAiDriven
+            {description
+              ? description
+              : isAiDriven
               ? 'Transform your operations with advanced AI-driven automation solutions designed to optimize workflows, improve efficiency, and scale your business'
               : isBrandExperience
                 ? 'Create a strong brand presence that stands out in competitive markets and stays consistent everywhere.'

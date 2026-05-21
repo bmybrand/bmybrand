@@ -169,12 +169,12 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
 
           <div className="flex w-full justify-center text-center">
             <p className="flex w-fit items-center gap-2 rounded-full border-2 border-[#2A2B47] bg-[#202141] px-5 py-3 text-center text-sm text-white/70 md:text-base lg:text-lg">
-              Give Your Business a Brain Upgrade.
+              {data.ctaText ?? 'Give Your Business a Brain Upgrade.'}
               <Link
                 href="/strategy-call"
                 className="BenzinSemibold inline-flex items-center gap-2 text-[#F45B25] transition-all duration-300 hover:-translate-y-0.5 hover:text-[#FF843E]"
               >
-                LET&apos;S TALK
+                {data.ctaLinkLabel ?? "LET'S TALK"}
               </Link>
             </p>
           </div>
@@ -281,7 +281,10 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
         </div>
       </section>
 
-      <EvaluatCTA />
+      <EvaluatCTA
+        title={data.evaluateCtaTitle}
+        description={data.evaluateCtaDescription}
+      />
       <Brandsspec />
       <Footer />
     </div>

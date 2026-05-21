@@ -3,95 +3,100 @@ import type { ServicePageData } from './types'
 export const businessOperationsServiceData: ServicePageData = {
   slug: 'business-operations',
   eyebrow: 'Business Operations',
-  heroTitle: 'Build Operations That Scale',
+  heroTitle: 'We Deliver Smart Business Operations That Improve Efficiency',
   heroDescription:
-    'Transform your business operations with automated workflows, integrated systems, and intelligent tools that drive efficiency and enable growth.',
+    'At BMYBrand, we provide structured and scalable business operations solutions that help companies run more smoothly, faster, and more efficiently. From business operations management services to advanced digital business operations services, we streamline workflows, reduce inefficiencies, and improve overall performance. As a trusted provider of business operations management and support systems, we help businesses gain clarity, control, and operational excellence.',
   heroList: [
-    { title: 'Process Automation' },
-    { title: 'Workflow Design' },
-    { title: 'Team Collaboration' },
-    { title: 'Real-time Analytics' },
-    { title: 'CRM Integrations' },
-    { title: 'Team Portals' },
-    { title: 'Help Desk Systems' },
-    { title: 'BI Dashboards' },
+    { title: 'Business Process Optimization' },
+    { title: 'Operations Management Systems' },
+    { title: 'Digital Workflow Solutions' },
+    { title: 'Business Operations Software' },
+    { title: 'Performance Tracking Systems' },
+    { title: 'Process Automation Support' },
+    { title: 'Scalable Business Systems' },
+    { title: 'E-commerce Operations Management' },
   ],
   bannerImage: '/bmyb-services-service-banner-01.webp',
   bannerAlt: 'Business operations',
-  overviewTitle: 'Where Operations Create Business Impact',
+  overviewTitle: 'Smarter Operations for Better Business Performance',
   overviewDescription:
-    'Efficient operations are the foundation of scalable growth. We build systems that eliminate bottlenecks, automate workflows, and empower teams to do their best work.',
-  overviewAccentTitle: 'Operate Smarter With Connected Systems',
+    'We help organizations improve the way they operate through structured systems, automation, and strategic process design. As experts in business operations service solutions, we focus on eliminating inefficiencies and building streamlined workflows that support growth. From startups to enterprises, our business operations of a company approach ensures every process is optimized for clarity, speed, and scalability.',
+  overviewAccentTitle: 'Business Operations Solutions We Offer',
   overviewItems: [
     {
       number: '1',
-      title: 'Process Automation & Workflow Design',
-      desc: 'Eliminate repetitive tasks and optimize business processes with intelligent automation that saves time and reduces errors.',
+      title: 'Business Process Operations',
+      desc: 'We analyze and optimize your internal workflows to improve efficiency, reduce delays, and enhance productivity.',
     },
     {
       number: '2',
-      title: 'Team Portals & Collaboration Tools',
-      desc: 'Build centralized platforms for team communication, document sharing, and project collaboration that boost productivity.',
+      title: 'Business Operations Management',
+      desc: 'We provide structured business operations management systems that help businesses maintain control and consistency.',
     },
     {
       number: '3',
-      title: 'CRM Integrations & Data Systems',
-      desc: 'Connect your tools and centralize data with seamless CRM integrations and unified business intelligence systems.',
+      title: 'Digital Business Operations Services',
+      desc: 'We implement modern digital systems to automate and streamline core business functions.',
     },
     {
       number: '4',
-      title: 'Resource Scheduling & Project Management',
-      desc: 'Streamline resource allocation, project tracking, and timeline management with custom scheduling and PM solutions.',
+      title: 'Business Operations Software Solutions',
+      desc: 'We develop and integrate business operations software tailored to your company’s needs.',
     },
     {
       number: '5',
-      title: 'Help Desk & BI Analytics',
-      desc: 'Implement support ticket systems and business intelligence dashboards for better customer service and decision-making.',
+      title: 'E-commerce Business Operations Management',
+      desc: 'We optimize ecommerce business operation management services for inventory, orders, and customer workflows.',
     },
   ],
   overviewImage: '/bmyb-services-ai-aioverview-01.webp',
   overviewImageAlt: 'Business operations systems',
-  benefitsTitle: 'Core Benefits of Business Operations Solutions',
+  benefitsTitle: 'Why Strong Business Operations Matter',
   benefitsCards: [
     {
       icon: '/bmyb-global-solutionsicon-01.svg',
-      title: 'Automation & Workflows',
-      items: ['Reduce repetitive work', 'Improve process speed', 'Lower operational friction'],
+      title: 'Improved Efficiency',
+      items: ['Faster workflows', 'Reduced manual effort', 'Better task execution'],
     },
     {
       icon: '/bmyb-global-solutionsicon2-01.svg',
-      title: 'Collaboration & Integration',
-      items: ['Unify team tools', 'Connect key systems', 'Improve cross-team visibility'],
+      title: 'Better Business Control',
+      items: ['Clear process structure', 'Improved decision visibility', 'Organized operations'],
     },
     {
       icon: '/bmyb-global-solutionsicon3-01.svg',
-      title: 'Analytics & Reporting',
-      items: ['Track performance', 'See real-time insights', 'Support better decisions'],
+      title: 'Cost Optimization',
+      items: ['Reduced operational waste', 'Improved resource allocation', 'Efficient systems'],
     },
   ],
-  processTitle: 'How We Build Better Business Operations',
+  processTitle: 'How We Optimize Business Operations',
   processSteps: [
     {
       number: '01',
-      title: 'Process Analysis',
-      desc: 'Map current workflows, identify bottlenecks, and discover automation opportunities to optimize operations.',
+      title: 'Analyze & Assess',
+      desc: 'We evaluate your existing business operations and identify inefficiencies.',
     },
     {
       number: '02',
-      title: 'System Design',
-      desc: 'Design integrated solutions with automated workflows, collaboration tools, and reporting systems.',
+      title: 'Design & Structure',
+      desc: 'We create optimized workflows and structured operational systems.',
     },
     {
       number: '03',
-      title: 'Implementation & Training',
-      desc: 'Deploy solutions, integrate with existing tools, and train your team for smooth adoption.',
+      title: 'Implement & Automate',
+      desc: 'We integrate tools, software, and automation to streamline processes.',
     },
     {
       number: '04',
-      title: 'Optimization & Support',
-      desc: 'Monitor performance, gather feedback, and continuously improve processes for maximum efficiency.',
+      title: 'Monitor & Improve',
+      desc: 'We track performance and continuously refine operations for better efficiency.',
     },
   ],
+  ctaText: 'Build an Efficient Business Engine.',
+  ctaLinkLabel: 'Let’s Talk',
+  evaluateCtaTitle: 'Let’s Streamline Your Business Operations.',
+  evaluateCtaDescription:
+    'Transform your workflows with structured, scalable, and efficient digital business operations services designed to improve performance and reduce operational complexity.',
   faqTitle: 'Frequently Asked Questions',
   faqImages: [
     { src: '/bmyb-services-servicefaq-01.webp', alt: 'Business operations planning' },
@@ -99,34 +104,34 @@ export const businessOperationsServiceData: ServicePageData = {
   ],
   faqs: [
     {
-      question: 'What types of business processes can you automate?',
+      question: 'What are business operations solutions?',
       answer:
-        'We can automate repetitive business processes including approval workflows, data entry, invoice processing, employee onboarding, inventory management, support ticketing, reporting, and communication flows.',
+        'Business operations solutions are structured systems and strategies designed to improve workflows, efficiency, and overall business performance.',
     },
     {
-      question: 'How long does it take to implement operational improvements?',
+      question: 'What does business operations management include?',
       answer:
-        'Simple workflow automation can be implemented in a few weeks, while broader operational systems may take a few months. We use phased rollouts so you see value early.',
+        'Business operations management includes planning, organizing, and optimizing company processes to improve productivity and efficiency.',
     },
     {
-      question: 'Will automation replace our team members?',
+      question: 'Do you offer digital business operations services?',
       answer:
-        'No. Automation is designed to remove low-value repetitive work so your team can focus on strategic, creative, and higher-impact responsibilities.',
+        'Yes, we provide digital business operations services that streamline workflows through automation and modern digital systems.',
     },
     {
-      question: 'Can you integrate with our existing tools and systems?',
+      question: 'What is a business operations management service?',
       answer:
-        'Yes. We connect CRMs, project management tools, communication platforms, accounting systems, and custom software to create unified workflows.',
+        'A business operations management service helps companies structure, manage, and optimize their internal processes for better performance.',
     },
     {
-      question: 'How do you measure operational improvements?',
+      question: 'Can you help with ecommerce business operation management services?',
       answer:
-        'We establish baseline metrics and then track time saved, error reduction, process speed, employee experience, and cost efficiency with ongoing reporting.',
+        'Yes, we provide ecommerce business operation management services, including order handling, inventory workflows, and system optimization.',
     },
     {
-      question: 'What ongoing support do you provide?',
+      question: 'What does a business operations specialist do?',
       answer:
-        'We support monitoring, optimization, training, troubleshooting, updates, and continuous improvement as your business evolves.',
+        'A business operations specialist focuses on improving workflows, efficiency, and internal processes within an organization.',
     },
   ],
 }

@@ -48,6 +48,10 @@ export type ServicePageData = {
   benefitsCards: ServiceBenefitCard[]
   processTitle: string
   processSteps: ServiceProcessStep[]
+  ctaText?: string
+  ctaLinkLabel?: string
+  evaluateCtaTitle?: string
+  evaluateCtaDescription?: string
   faqTitle: string
   faqImages: ServiceFaqImage[]
   faqs: ServiceFaqItem[]

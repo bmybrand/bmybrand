@@ -3,95 +3,100 @@ import type { ServicePageData } from './types'
 export const commerceSolutionsServiceData: ServicePageData = {
   slug: 'commerce-solutions',
   eyebrow: 'Commerce Solutions',
-  heroTitle: 'Build Commerce That Converts',
+  heroTitle: 'We Build High-Performing eCommerce Solutions',
   heroDescription:
-    'Transform your online store into a revenue-generating powerhouse with commerce solutions designed for growth, conversions, and exceptional customer experiences.',
+    'At BMYBrand, we create scalable and conversion-focused commerce platforms that help businesses sell smarter online. From custom ecommerce website development services to complete e-commerce website design & development, we deliver seamless shopping experiences built for performance, usability, and long-term growth. As a trusted ecommerce store development company in the USA, we build digital commerce systems tailored to modern businesses and evolving customer expectations.',
   heroList: [
-    { title: 'Seamless Shopping' },
-    { title: 'Secure Payments' },
-    { title: 'Order Management' },
-    { title: 'Sales Analytics' },
-    { title: 'Custom Storefronts' },
-    { title: 'Subscription Models' },
-    { title: 'B2B Portals' },
-    { title: 'Catalog Management' },
+    { title: 'Custom eCommerce Development' },
+    { title: 'Conversion-Focused Store Design' },
+    { title: 'Magento Store Development' },
+    { title: 'B2C Commerce Solutions' },
+    { title: 'Scalable Store Platforms' },
+    { title: 'Secure Payment Integration' },
+    { title: 'Responsive Shopping Experiences' },
+    { title: 'eCommerce Growth Solutions' },
   ],
   bannerImage: '/bmyb-services-service-banner-01.webp',
   bannerAlt: 'Commerce solutions',
-  overviewTitle: 'Where Commerce Creates Business Impact',
+  overviewTitle: 'Modern Commerce Solutions for Modern Buyers',
   overviewDescription:
-    'E-commerce is more than just selling online. It is about creating frictionless experiences that turn browsers into buyers and customers into loyal advocates.',
-  overviewAccentTitle: 'Grow Sales With Smarter Commerce Systems',
+    'We help businesses create powerful online shopping experiences through strategic development and user-focused design. As providers of ecommerce website development services in the USA, we combine performance, scalability, and functionality to build digital storefronts that convert visitors into customers. Whether you need custom ecommerce store development services or a complete custom e-commerce solution, our platforms are designed to support growth, streamline operations, and improve customer experience.',
+  overviewAccentTitle: 'Commerce Solutions We Offer',
   overviewItems: [
     {
       number: '1',
-      title: 'eShop Setup & Custom Storefronts',
-      desc: 'Launch beautiful online stores with custom designs that reflect your brand and provide seamless shopping experiences.',
+      title: 'Custom eCommerce Website Development',
+      desc: 'We create scalable online stores tailored to your products, audience, and long-term business goals.',
     },
     {
       number: '2',
-      title: 'Payment Gateway Integration',
-      desc: 'Implement secure payment processing with multiple gateways, supporting various payment methods and currencies.',
+      title: 'eCommerce Website Design',
+      desc: 'Our e-commerce website design experts create visually engaging storefronts optimized for conversions and usability.',
     },
     {
       number: '3',
-      title: 'Product Catalogs & CMS',
-      desc: 'Build flexible product management systems with advanced filtering, search, and inventory management capabilities.',
+      title: 'Magento Store Development',
+      desc: 'We provide advanced Magento ecommerce store development solutions for flexible and scalable commerce operations.',
     },
     {
       number: '4',
-      title: 'Subscription & B2B Portals',
-      desc: 'Create recurring revenue models with subscription boxes and dedicated B2B platforms for wholesale customers.',
+      title: 'B2C eCommerce Solutions',
+      desc: 'We build seamless B2C e-commerce solution platforms designed to improve customer experience and increase online sales.',
     },
     {
       number: '5',
-      title: 'Order & Customer Management',
-      desc: 'Streamline operations with comprehensive order tracking, customer accounts, and automated fulfillment systems.',
+      title: 'Custom Commerce Integrations',
+      desc: 'We integrate payment systems, inventory tools, shipping platforms, and automation into your commerce ecosystem.',
     },
   ],
   overviewImage: '/bmyb-services-ai-aioverview-01.webp',
   overviewImageAlt: 'Commerce platform overview',
-  benefitsTitle: 'Core Benefits of Commerce Solutions',
+  benefitsTitle: 'Why Businesses Invest in eCommerce Solutions',
   benefitsCards: [
     {
       icon: '/bmyb-global-solutionsicon-01.svg',
-      title: 'E-Commerce Platforms',
-      items: ['Flexible storefronts', 'Smooth checkout flows', 'Inventory-ready systems'],
+      title: 'Better Customer Experience',
+      items: ['Smooth shopping journeys', 'Faster website performance', 'Mobile-friendly experiences'],
     },
     {
       icon: '/bmyb-global-solutionsicon2-01.svg',
-      title: 'Payment & Security',
-      items: ['Trusted payment gateways', 'Secure transactions', 'Compliance-focused setup'],
+      title: 'Higher Conversion Rates',
+      items: ['Optimized product pages', 'Streamlined checkout process', 'Conversion-focused layouts'],
     },
     {
       icon: '/bmyb-global-solutionsicon3-01.svg',
-      title: 'Growth & Optimization',
-      items: ['Improve conversions', 'Recover abandoned carts', 'Support repeat purchases'],
+      title: 'Scalable Store Systems',
+      items: ['Built for business growth', 'Flexible platform expansion', 'Handles increasing traffic'],
     },
   ],
-  processTitle: 'How We Build Commerce That Performs',
+  processTitle: 'How We Build E-commerce Platforms',
   processSteps: [
     {
       number: '01',
-      title: 'Store Planning & Design',
-      desc: 'Define your products, customer journey, and create a user-friendly store design that maximizes conversions.',
+      title: 'Discovery & Planning',
+      desc: 'We understand your products, audience, and operational goals before development begins.',
     },
     {
       number: '02',
-      title: 'Platform Development',
-      desc: 'Build your store with product catalogs, checkout flows, payment integration, and order management systems.',
+      title: 'Store Design & UX',
+      desc: 'We create conversion-focused storefronts designed for usability, branding, and customer engagement.',
     },
     {
       number: '03',
-      title: 'Testing & Launch',
-      desc: 'Test payment flows, security, and user experience thoroughly before launching to customers.',
+      title: 'Development & Integration',
+      desc: 'Next, we build secure eCommerce systems with payment, inventory, and platform integrations.',
     },
     {
       number: '04',
-      title: 'Growth & Optimization',
-      desc: 'Improve the storefront continuously with analytics review, A/B testing, and feature enhancements.',
+      title: 'Optimization & Launch',
+      desc: 'Lastly, we test performance, improve usability, and optimize your platform before going live.',
     },
   ],
+  ctaText: 'Build Your Next High-Converting Store.',
+  ctaLinkLabel: 'Let’s Talk',
+  evaluateCtaTitle: 'Build an Online Store Designed to Sell & Scale',
+  evaluateCtaDescription:
+    'From custom storefronts to advanced commerce platforms, we create eCommerce solutions that improve customer experience, increase conversions, and support long-term growth.',
   faqTitle: 'Frequently Asked Questions',
   faqImages: [
     { src: '/bmyb-services-servicefaq-01.webp', alt: 'E-commerce store' },
@@ -99,34 +104,34 @@ export const commerceSolutionsServiceData: ServicePageData = {
   ],
   faqs: [
     {
-      question: 'Which e-commerce platform should I use?',
+      question: 'What are custom ecommerce website development services?',
       answer:
-        'The right platform depends on your goals. Shopify works well for speed and simplicity, WooCommerce fits WordPress ecosystems, and custom storefronts work best for more advanced requirements and flexibility.',
+        'Custom ecommerce website development services create tailored online stores designed specifically for your business goals, products, and customer experience.',
     },
     {
-      question: 'How long does it take to launch an online store?',
+      question: 'Do you provide ecommerce website development services in the USA?',
       answer:
-        'A simpler store can launch in several weeks, while custom storefronts and more advanced systems may take longer depending on features, integrations, and catalog complexity.',
+        'Yes, we offer ecommerce website development services in the USA for startups, growing businesses, and enterprise-level brands.',
     },
     {
-      question: 'What payment methods can you integrate?',
+      question: 'What does an ecommerce store development company in the USA do?',
       answer:
-        'We integrate major payment gateways including cards, digital wallets, buy-now-pay-later options, and region-specific providers based on your market.',
+        'An ecommerce store development company in the USA builds scalable online stores, integrates payment systems, and optimizes shopping experiences.',
     },
     {
-      question: 'How do you handle inventory management?',
+      question: 'Do you offer Magento ecommerce store development?',
       answer:
-        'We build inventory systems that track stock in real time, manage variants, support low-stock alerts, and connect with fulfillment or ERP systems when needed.',
+        'Yes, we provide Magento ecommerce store development solutions for businesses requiring scalable and flexible commerce platforms.',
     },
     {
-      question: 'Can you help with existing store migration?',
+      question: 'What is included in e-commerce website design & development?',
       answer:
-        'Yes. We can migrate products, customers, order history, and important SEO settings while minimizing disruption and downtime.',
+        'It includes storefront design, development, payment integration, responsive layouts, optimization, and functionality tailored for online selling.',
     },
     {
-      question: 'What about marketing and customer retention?',
+      question: 'Can you build custom B2C e-commerce solutions?',
       answer:
-        'We can support email marketing integration, abandoned cart recovery, loyalty flows, personalization, and analytics to help drive repeat purchases.',
+        'Yes, we create custom B2C e-commerce solution platforms focused on customer engagement, seamless shopping experiences, and conversion growth.',
     },
   ],
 }
