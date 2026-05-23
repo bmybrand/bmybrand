@@ -8,10 +8,12 @@ export default function BrandExperienceHero() {
   const [activePrimaryCard, setActivePrimaryCard] = React.useState<'audit' | 'strategy'>('audit')
   const [bentoInView, setBentoInView] = React.useState(false)
   const [physicsReady, setPhysicsReady] = React.useState(false)
+  const [heroVideoInView, setHeroVideoInView] = React.useState(false)
   const [activeEdgeStory, setActiveEdgeStory] = React.useState(0)
   const [isEdgeStoryPaused, setIsEdgeStoryPaused] = React.useState(false)
   const [edgeStoryProgress, setEdgeStoryProgress] = React.useState(0)
   const bentoGridRef = React.useRef<HTMLDivElement | null>(null)
+  const heroVideoSectionRef = React.useRef<HTMLDivElement | null>(null)
   const edgeStoryFrameRef = React.useRef<number | null>(null)
   const edgeStoryStartTimeRef = React.useRef<number | null>(null)
   const edgeStoryCount = 3
@@ -80,6 +82,25 @@ export default function BrandExperienceHero() {
         }
       },
       { threshold: 0.35 }
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
+  React.useEffect(() => {
+    const node = heroVideoSectionRef.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeroVideoInView(entry.isIntersecting)
+      },
+      {
+        root: null,
+        rootMargin: '250px 0px',
+        threshold: 0,
+      }
     )
 
     observer.observe(node)
@@ -599,15 +620,23 @@ export default function BrandExperienceHero() {
       {/* Hero Image Section */}
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
-          <div className="h-[400px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1a2e] to-[#11122F] md:h-[500px] lg:h-[600px]">
-            <video
-              src="/bmyb-services-brand-hero-video-01.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="h-full w-full object-cover"
-            />
+          <div
+            ref={heroVideoSectionRef}
+            className="h-[400px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1a2e] to-[#11122F] md:h-[500px] lg:h-[600px]"
+          >
+            {heroVideoInView ? (
+              <video
+                src="/bmyb-services-brand-hero-video-01.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="h-full w-full bg-[radial-gradient(circle_at_center,rgba(244,91,37,0.14),transparent_30%),linear-gradient(135deg,#1a1a2e_0%,#11122F_100%)]" />
+            )}
           </div>
         </div>
       </section>

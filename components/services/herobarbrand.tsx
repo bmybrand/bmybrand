@@ -5,19 +5,45 @@ import { useRouter } from 'next/navigation'
 
 export default function HerobarBrand() {
   const router = useRouter()
+  const sectionRef = React.useRef<HTMLElement | null>(null)
+  const [shouldRenderVideo, setShouldRenderVideo] = React.useState(false)
+
+  React.useEffect(() => {
+    const node = sectionRef.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShouldRenderVideo(entry.isIntersecting)
+      },
+      {
+        root: null,
+        rootMargin: '200px 0px',
+        threshold: 0,
+      }
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
   
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
       <div className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
-        </video>
+        {shouldRenderVideo ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.16),transparent_36%),linear-gradient(180deg,#171832_0%,#11122F_100%)]" />
+        )}
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>
 
