@@ -1,9 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-const MIN_PRELOADER_MS = 1200;
+const MIN_PRELOADER_MS = 3000;
+const ROUTE_TRANSITION_MS = 3000;
 
 export default function GlobalPreloader({
   children,
@@ -25,6 +26,8 @@ function PreloaderScreen({
   children: React.ReactNode;
 }) {
   const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
+  const previousPathnameRef = useRef(pathname);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -46,6 +49,21 @@ function PreloaderScreen({
       document.body.style.overflow = "";
     };
   }, [isLoading]);
+
+  useLayoutEffect(() => {
+    if (previousPathnameRef.current === pathname) return;
+
+    previousPathnameRef.current = pathname;
+    setIsLoading(true);
+
+    const timer = window.setTimeout(() => {
+      setIsLoading(false);
+    }, ROUTE_TRANSITION_MS);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [pathname]);
 
   return (
     <>
