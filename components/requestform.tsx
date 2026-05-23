@@ -28,7 +28,7 @@ const FAQS: FaqItem[] = [
     number: '01',
     question: 'What services does BMYBrand offer?',
     answer:
-      'BMYBrand provides complete digital solutions, including AI-driven systems, software development, digital marketing, commerce solutions, brand experience design, and business operations support.',
+      'BMYBrand provides complete digital solutions, including AI-driven systems, software development, digital marketing, e-commerce solutions, brand experience design, and business operations support.',
   },
   {
     number: '02',

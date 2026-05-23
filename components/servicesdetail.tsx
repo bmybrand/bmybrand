@@ -63,9 +63,9 @@ const services: Service[] = [
   },
   {
     id: 'commerce-solutions',
-    title: 'Commerce Solutions',
+    title: 'E-Commerce Solutions',
     iconSrc: '/bmyb-services-commerce-solutions-01.svg',
-    description: 'We build end-to-end commerce solutions that help businesses sell smarter, scale faster, and deliver seamless customer experiences. From online stores to integrated commerce systems, we create platforms designed to increase conversions, streamline operations, and support long-term growth.',
+    description: 'We build end-to-end e-commerce solutions that help businesses sell smarter, scale faster, and deliver seamless customer experiences. From online stores to integrated commerce systems, we create platforms designed to increase conversions, streamline operations, and support long-term growth.',
     items: [
       'E-commerce website development',
       'Online store design',

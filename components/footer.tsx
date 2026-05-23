@@ -22,7 +22,7 @@ const SERVICE_LINKS = [
   { label: 'Branding & Identity', href: '/services/brand-experience' },
   { label: 'AI Solutions', href: '/services/ai-driven' },
   { label: 'Digital Marketing', href: '/services/digital-marketing' },
-  { label: 'Commerce Solutions', href: '/services/commerce-solutions' },
+  { label: 'E-Commerce Solutions', href: '/services/commerce-solutions' },
 ]
 
 const REVIEW_PLATFORMS = [

@@ -102,7 +102,7 @@ const FullyAnimatedGrid: React.FC = () => {
 
   const rightItems = [
     {
-      title: "Commerce Solutions",
+      title: "E-Commerce Solutions",
       text:
         "We develop complete e-commerce solutions that make selling online easy, with smooth checkout experiences and secure payments.",
       img: "/bmyb-services-marketing-digital-marketing-01.svg",

@@ -86,8 +86,8 @@ const herobar = () => {
           }`}
         >
             <Image
-              src="/bmyb-global-technlogicalbear-01.webp"
-              alt="About us"
+              src="/bmyb-case-studies-hero-01.webp"
+              alt="Case studies hero"
               width={606}
               height={456}
               sizes="(max-width: 1024px) 100vw, 50vw"

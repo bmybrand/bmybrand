@@ -40,7 +40,7 @@ const servicesTemplate: Service[] = [
   },
   {
     id: 'commerce-solutions',
-    title: 'Commerce Solutions',
+    title: 'E-Commerce Solutions',
     iconSrc: '/bmyb-services-commerce-solutions-01.svg',
     description:
       'Build a thriving online store with E-commerce Solutions that are fast, intuitive, and scalable. From plug-and-play platforms to fully customized storefronts, we provide secure payments, personalized shopping experiences, and tools to help you grow your sales and keep customers coming back.',

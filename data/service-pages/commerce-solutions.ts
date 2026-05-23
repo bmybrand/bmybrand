@@ -2,15 +2,15 @@ import type { ServicePageData } from './types'
 
 export const commerceSolutionsServiceData: ServicePageData = {
   slug: 'commerce-solutions',
-  eyebrow: 'Commerce Solutions',
-  heroTitle: 'We Build High-Performing eCommerce Solutions',
+  eyebrow: 'E-Commerce Solutions',
+  heroTitle: 'We Build High-Performing E-Commerce Solutions',
   heroDescription:
     'At BMYBrand, we create scalable and conversion-focused commerce platforms that help businesses sell smarter online. From custom ecommerce website development services to complete e-commerce website design & development, we deliver seamless shopping experiences built for performance, usability, and long-term growth. As a trusted ecommerce store development company in the USA, we build digital commerce systems tailored to modern businesses and evolving customer expectations.',
   heroList: [
     { title: 'Custom eCommerce Development' },
     { title: 'Conversion-Focused Store Design' },
     { title: 'Magento Store Development' },
-    { title: 'B2C Commerce Solutions' },
+    { title: 'B2C E-Commerce Solutions' },
     { title: 'Scalable Store Platforms' },
     { title: 'Secure Payment Integration' },
     { title: 'Responsive Shopping Experiences' },
@@ -18,10 +18,10 @@ export const commerceSolutionsServiceData: ServicePageData = {
   ],
   bannerImage: '/bmyb-services-service-banner-01.webp',
   bannerAlt: 'Commerce solutions',
-  overviewTitle: 'Modern Commerce Solutions for Modern Buyers',
+  overviewTitle: 'Modern E-Commerce Solutions for Modern Buyers',
   overviewDescription:
     'We help businesses create powerful online shopping experiences through strategic development and user-focused design. As providers of ecommerce website development services in the USA, we combine performance, scalability, and functionality to build digital storefronts that convert visitors into customers. Whether you need custom ecommerce store development services or a complete custom e-commerce solution, our platforms are designed to support growth, streamline operations, and improve customer experience.',
-  overviewAccentTitle: 'Commerce Solutions We Offer',
+  overviewAccentTitle: 'E-Commerce Solutions We Offer',
   overviewItems: [
     {
       number: '1',
@@ -40,7 +40,7 @@ export const commerceSolutionsServiceData: ServicePageData = {
     },
     {
       number: '4',
-      title: 'B2C eCommerce Solutions',
+      title: 'B2C E-Commerce Solutions',
       desc: 'We build seamless B2C e-commerce solution platforms designed to improve customer experience and increase online sales.',
     },
     {
@@ -51,7 +51,7 @@ export const commerceSolutionsServiceData: ServicePageData = {
   ],
   overviewImage: '/bmyb-services-ai-aioverview-01.webp',
   overviewImageAlt: 'Commerce platform overview',
-  benefitsTitle: 'Why Businesses Invest in eCommerce Solutions',
+  benefitsTitle: 'Why Businesses Invest in E-Commerce Solutions',
   benefitsCards: [
     {
       icon: '/bmyb-global-solutionsicon-01.svg',
