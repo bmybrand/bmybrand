@@ -87,7 +87,8 @@ export const foodIndustry: IndustryItem = {
   projects: [
     {
       brand: 'JIGGY JERKY',
-      brandLogo: '/bmyb-case-jiggy-jerky-jiggylogo-01.svg',
+      brandLogo: '/Jiggy white-01.png',
+      logoClassName: '',
       title: 'Bold Digital Experience For Artisan Jerky Lovers',
       tag: 'Food',
       href: '/case-studies/jiggy-jerky',
@@ -96,7 +97,8 @@ export const foodIndustry: IndustryItem = {
     },
     {
       brand: "BABA'S BURGERS",
-      brandLogo: '/bmyb-case-babas-burgers-logo-01.svg',
+      brandLogo: '/baba-02.png',
+      logoClassName: '',
       title: 'High-Appetite Digital Experience For A Burger Brand',
       tag: 'Restaurant',
       href: '/case-studies/babas-burgers',

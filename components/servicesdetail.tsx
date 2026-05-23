@@ -1,8 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 
 type Service = {
   id: string
@@ -112,39 +112,40 @@ const services: Service[] = [
 ]
 
 export default function ServicesDetail() {
-  const router = useRouter()
   const [activeService, setActiveService] = useState('ai-driven')
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
-  // Scroll spy functionality - activates when section is in center
   useEffect(() => {
-    const handleScroll = () => {
-      const centerY = window.scrollY + window.innerHeight / 2
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries.find((entry) => entry.isIntersecting)
+        if (!visibleEntry) return
 
-      for (const service of services) {
-        const section = sectionRefs.current[service.id]
-        if (section) {
-          const top = section.offsetTop
-          const bottom = top + section.offsetHeight
-
-          if (centerY >= top && centerY < bottom) {
-            setActiveService(service.id)
-            break
-          }
+        const nextId = visibleEntry.target.getAttribute('id')
+        if (nextId) {
+          setActiveService(nextId)
         }
+      },
+      {
+        root: null,
+        rootMargin: '-40% 0px -40% 0px',
+        threshold: 0,
       }
+    )
+
+    for (const service of services) {
+      const section = sectionRefs.current[service.id]
+      if (section) observer.observe(section)
     }
 
-    handleScroll() 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => observer.disconnect()
   }, [])
 
   const scrollToSection = (id: string) => {
     const section = sectionRefs.current[id]
     if (section) {
       const offset = 120
-      const top = section.offsetTop - offset
+      const top = window.scrollY + section.getBoundingClientRect().top - offset
       window.scrollTo({ top, behavior: 'smooth' })
     }
   }
@@ -241,15 +242,15 @@ export default function ServicesDetail() {
                 </div>
 
                 {/* CTA Button */}
-                <button 
-                  onClick={() => router.push(`/services/${service.id}`)}
-                  className="bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold flex items-center gap-3 text-lg"
+                <Link
+                  href={`/services/${service.id}`}
+                  className="inline-flex bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold items-center gap-3 text-lg"
                 >
                   <div className="bg-white p-4 rounded-lg">
                     <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
                   </div>
                   <span className="px-2">View More</span>
-                </button>
+                </Link>
               </motion.div>
             ))}
           </div>

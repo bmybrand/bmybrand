@@ -104,10 +104,10 @@ export default function HealthcareProjects({
               <div className="flex items-start justify-between gap-4">
                 <div>
                   {card.brandLogo ? (
-                    <img 
-                      src={card.brandLogo} 
-                      alt={card.brandTitle} 
-                      className={`h-12 w-auto object-contain brightness-0 invert ${card.logoClassName || ''}`} 
+                    <img
+                      src={card.brandLogo}
+                      alt={card.brandTitle}
+                      className={`h-12 w-auto object-contain ${card.logoClassName ?? 'brightness-0 invert'}`}
                     />
                   ) : card.brandSubtitle ? (
                     <div className="leading-none">

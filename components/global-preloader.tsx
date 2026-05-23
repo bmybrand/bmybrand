@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const MIN_PRELOADER_MS = 2600;
+const MIN_PRELOADER_MS = 1200;
 
 export default function GlobalPreloader({
   children,
@@ -16,7 +16,7 @@ export default function GlobalPreloader({
     return <>{children}</>;
   }
 
-  return <PreloaderScreen key={pathname}>{children}</PreloaderScreen>;
+  return <PreloaderScreen>{children}</PreloaderScreen>;
 }
 
 function PreloaderScreen({
