@@ -126,9 +126,10 @@ export default function RequestForm({ title }: RequestFormProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          formType: 'custom_quote_request',
           ...data,
           service: 'Custom Quote Request',
-          accessPage: pathname ?? '',
+          accessPage: pathname || '/',
         }),
       });
 

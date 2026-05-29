@@ -11,10 +11,12 @@ type SpotlightItem = {
 }
 
 type HealthcareSpotlightProps = {
+  title?: string
+  description?: string
   items?: SpotlightItem[]
 }
 
-export default function HealthcareSpotlight({ items }: HealthcareSpotlightProps) {
+export default function HealthcareSpotlight({ title, description, items }: HealthcareSpotlightProps) {
   const spotlightItems = useMemo(
     () => [
       {
@@ -110,6 +112,22 @@ export default function HealthcareSpotlight({ items }: HealthcareSpotlightProps)
 
   return (
     <section className="bg-[#11122F]">
+      {(title || description) && (
+        <div className="mx-auto w-[90%] pt-14 sm:pt-18 xl:w-[75%] xl:pt-22">
+          <div className="max-w-5xl">
+            {title ? (
+              <h2 className="BenzinSemibold text-white text-[1.0rem] sm:text-[1.2rem] md:text-[1.5rem] lg:text-[1.9rem] xl:text-[2.3rem] 2xl:text-[2.8rem] leading-[1.12]">
+                {title}
+              </h2>
+            ) : null}
+            {description ? (
+              <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/60">
+                {description}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      )}
       <div className="mx-auto grid w-[90%] gap-12 py-14 sm:gap-16 sm:py-18 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20 lg:py-22 xl:w-[75%] xl:gap-24 2xl:gap-12">
         <div className="group relative mx-auto flex w-full max-w-[430px] items-center justify-center py-8 lg:mx-0 xl:-translate-x-10 xl:max-w-[470px] 2xl:translate-x-14">
           <div className="relative" style={{ width: 380, height: 500 }}>

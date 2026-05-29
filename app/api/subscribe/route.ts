@@ -72,7 +72,7 @@ export async function POST(request: Request) {
   }
 
   const existingLeadResponse = await fetch(
-    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}?select=id&email=eq.${encodeURIComponent(payload.email)}&service=eq.${encodeURIComponent('Newsletter Subscription')}&limit=1`,
+    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}?select=id&email=eq.${encodeURIComponent(payload.email)}&form_type=eq.${encodeURIComponent('newsletter_subscription')}&limit=1`,
     {
       method: 'GET',
       headers: {
@@ -221,9 +221,9 @@ export async function POST(request: Request) {
         Prefer: 'return=minimal',
       },
       body: JSON.stringify({
+        form_type: 'newsletter_subscription',
         access_page: payload.accessPage,
         email: payload.email,
-        service: 'Newsletter Subscription',
       }),
     }
   )

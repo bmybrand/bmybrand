@@ -46,22 +46,30 @@ export default function Industries({ industry }: IndustriesProps) {
             title={industry.processTitle}
             description={industry.processDescription}
             steps={industry.processSteps}
-            ctaTitle={`Your ${industry.title} Growth Partner Starts Here.`}
-            ctaButtonLabel={`Start Your ${industry.title} Project`}
-            teamDescription={`A team of 50+ specialists in ${industry.title.toLowerCase()} strategy, design, development, and growth.`}
+            ctaTitle={industry.processCtaTitle ?? `Your ${industry.title} Growth Partner Starts Here.`}
+            ctaButtonLabel={industry.processCtaButtonLabel ?? `Start Your ${industry.title} Project`}
+            teamDescription={industry.processTeamDescription ?? `A team of 50+ specialists in ${industry.title.toLowerCase()} strategy, design, development, and growth.`}
           />
           <HealthcareProjects
             title={industry.projectTitle}
             description={industry.projectDescription}
             projects={industry.projects}
           />
-          <HealthcareServices />
+          <HealthcareServices
+            title={industry.servicesTitle}
+            description={industry.servicesDescription}
+            services={industry.services}
+          />
           <HealthcareAdvantage
             title={industry.advantageTitle}
             cards={industry.advantageCards}
           />
-          <HealthcareSpotlight items={industry.spotlightItems} />
-          <IndustriesHero />
+          <HealthcareSpotlight
+            title={industry.spotlightTitle}
+            description={industry.spotlightDescription}
+            items={industry.spotlightItems}
+          />
+          <IndustriesHero title={industry.industriesHeroTitle} />
           <HealthcareFAQ title={industry.faqTitle} faqs={industry.faqs} />
         </section>
       </main>

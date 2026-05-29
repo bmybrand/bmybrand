@@ -89,6 +89,7 @@ export default function ContactForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          formType: 'contact',
           ...data,
           accessPage: pathname || '/',
         }),

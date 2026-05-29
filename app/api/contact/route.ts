@@ -5,6 +5,7 @@ const DEFAULT_TO_EMAIL = 'info@bmybrand.com'
 const DEFAULT_SUPABASE_TABLE = 'leads'
 
 type ContactPayload = {
+  formType?: 'contact' | 'custom_quote_request'
   firstName: string
   lastName: string
   email: string
@@ -53,6 +54,7 @@ export async function POST(request: Request) {
   }
 
   const payload = {
+    formType: body.formType,
     firstName: body.firstName?.trim(),
     lastName: body.lastName?.trim(),
     email: body.email?.trim(),
@@ -61,6 +63,11 @@ export async function POST(request: Request) {
     message: body.message?.trim(),
     accessPage: body.accessPage?.trim(),
   }
+
+  const formType =
+    payload.formType === 'custom_quote_request'
+      ? 'custom_quote_request'
+      : 'contact'
 
   if (
     !payload.firstName ||
@@ -226,6 +233,7 @@ export async function POST(request: Request) {
         Prefer: 'return=minimal',
       },
       body: JSON.stringify({
+        form_type: formType,
         access_page: payload.accessPage,
         first_name: payload.firstName,
         last_name: payload.lastName,

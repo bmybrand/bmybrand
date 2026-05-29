@@ -88,6 +88,9 @@ export type IndustryItem = {
   processTitle: string
   processDescription: string
   processSteps: IndustryProcessStep[]
+  processCtaTitle?: string
+  processCtaButtonLabel?: string
+  processTeamDescription?: string
   advantageTitle: string
   advantageCards: IndustryAdvantageCard[]
   projectTitle: string
@@ -96,7 +99,10 @@ export type IndustryItem = {
   servicesTitle: string
   servicesDescription: string
   services: IndustryService[]
+  spotlightTitle?: string
+  spotlightDescription?: string
   spotlightItems: IndustrySpotlightItem[]
+  industriesHeroTitle?: string
   faqTitle: string
   faqs: IndustryFaq[]
 }

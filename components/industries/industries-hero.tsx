@@ -12,14 +12,18 @@ const INDUSTRIES = [
   { label: "Education", href: "/industries/education" },
 ];
 
-export default function IndustriesHero() {
+type IndustriesHeroProps = {
+  title?: string
+}
+
+export default function IndustriesHero({ title = 'Tailored Solutions For The Way You Work' }: IndustriesHeroProps) {
   const pathname = usePathname()
 
   return (
     <section className="w-full bg-[#11122F] py-12 md:py-16">
       <div className="w-[90%] 2xl:w-[75%] mx-auto">
         <h2 className="text-center text-white BenzinSemibold text-2xl md:text-4xl lg:text-5xl leading-tight mb-8">
-          Tailored Solutions For The<br />Way You Work
+          {title}
         </h2>
         <hr className="border-t border-white/10 mb-6" />
         <div className="text-center text-white/80 mb-4 font-medium">Industries</div>
