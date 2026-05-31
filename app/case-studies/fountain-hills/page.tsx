@@ -1,11 +1,9 @@
-import FountainHillsDetail from '@/components/FountainHillsDetail'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import CaseStudyDetail from '@/components/case-sections/CaseStudyDetail'
 
 export default function FountainHillsPage() {
   return (
     <div className="bg-[#100203]">
-      <FountainHillsDetail />
+      <CaseStudyDetail slug="fountain-hills" />
     </div>
   )
 }

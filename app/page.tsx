@@ -1,51 +1,48 @@
-'use client'
-import React, { useRef } from 'react'
+import dynamic from 'next/dynamic'
 import Heropage from "@/components/heropage";
-import Logobar from "@/components/logobar";
-import Navbar from "@/components/Navbar";
-import Flyingbear from "@/components/flyingbear";
+import Navbar from "@/components/navbar";
 import Addblock from "@/components/addblock";
 import Ourbranding from "@/components/ourbranding";
-import StackingCards from "@/components/StackingCards";
-import DesignedGrow from "@/components/DesignedGrow";
-import BottomCTA from "@/components/BottomCTA";
-import Footer from '@/components/Footer';
-import Technologies from '@/components/Technologies';
-import CreativeProcess from '@/components/CreativeProcess';
-import Brandsspec from '@/components/Brandsspec';
-import RequestForm from '@/components/RequestForm';
-import Map from '@/components/Map';
+import BottomCTA from "@/components/bottomcta";
+const Logobar = dynamic(() => import("@/components/logobar"))
+const Flyingbear = dynamic(() => import("@/components/flyingbear"))
+const StackingCards = dynamic(() => import("@/components/stackingcards"))
+const DesignedGrow = dynamic(() => import("@/components/designedgrow"))
+const Footer = dynamic(() => import("@/components/footer"))
+const Technologies = dynamic(() => import("@/components/technologies"))
+const CreativeProcess = dynamic(() => import("@/components/creativeprocess"))
+const Brandsspec = dynamic(() => import("@/components/brandsspec"))
+const RequestForm = dynamic(() => import("@/components/requestform"))
+const Map = dynamic(() => import("@/components/map"))
 
 // Map component temporarily disabled to avoid conflicts with horizontal scroll
-// const Map = dynamic(() => import('@/components/Map'), { ssr: false });
+// const Map = dynamic(() => import('@/components/map'), { ssr: false });
 export default function Home() {
-  const designedGrowRef = useRef<HTMLDivElement>(null)
-  const footerRef = useRef<HTMLDivElement>(null) // placeholder footer
-
   return (
     <div className="bg-[#11122F]">
       <Navbar />
-      <Heropage />
+      <div className="pb-30">
+        <Heropage />
+      </div>
       <Logobar />
       <Flyingbear />
       <Addblock />
       <Ourbranding />
       <StackingCards />
       <Map />
-      {/* DesignedGrow section with ref */}
-      <div ref={designedGrowRef}>
+      <div id="designed-grow-anchor">
         <DesignedGrow />
       </div>
 
       {/* Bottom CTA appears after DesignedGrow */}
-      <BottomCTA targetRef={designedGrowRef} footerRef={footerRef} />
+      <BottomCTA targetId="designed-grow-anchor" footerId="page-footer" />
       <Technologies />
       <CreativeProcess />
       <Brandsspec />
       <RequestForm />
-      <div ref={footerRef}>
-  <Footer />
-</div>
+      <div id="page-footer">
+        <Footer />
+      </div>
     </div>
   )
 }

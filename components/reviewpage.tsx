@@ -1,20 +1,12 @@
 'use client'
 
 import React, { useRef } from 'react'
-import Navbar from './Navbar'
-import Herobar from './herobar'
-import Aboutbmy from './aboutbmy'
-import BrandStats from './brandstats'
-import DesignedGrow from './DesignedGrow'
-import BottomCTA from './BottomCTA'
-import CreativeProcess from './CreativeProcess'
-import Brandsspec from './Brandsspec'
-import RequestForm from './RequestForm'
-import Footer from './Footer'
-import StaticProcess from './staticprocess'
-import WorkTogether from './WorkTogether'
+import Navbar from './navbar'
+import RequestForm from './requestform'
+import Footer from './footer'
+import WorkTogether from './worktogether'
 import Herobarreview from './herobarreview'
-import VerticalReviewColumns from './VerticalReviewColumns'
+import VerticalReviewColumns from './verticalreviewcolumns'
 
 const Aboutpage = () => {
   const designedGrowRef = useRef<HTMLDivElement>(null)
@@ -26,7 +18,13 @@ const Aboutpage = () => {
       <Herobarreview />
       <VerticalReviewColumns />
       <WorkTogether />
-      <RequestForm />
+      <RequestForm
+        title={
+          <>
+            <span className="text-[#F45B25]">Let&apos;s Talk</span> About Your Idea
+          </>
+        }
+      />
       <div ref={footerRef}>
         <Footer />
       </div>

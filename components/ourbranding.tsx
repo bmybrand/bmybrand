@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, Variants } from "framer-motion";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,44 +16,44 @@ type Card = {
 
 const cards: Card[] = [
   {
-    title: "Creative Consistency",
-    desc: "Keep your brand looking clean, modern, and aligned everywhere.",
-    icon: "/Creative Consistency.svg",
+    title: "Deep Understanding",
+    desc: "We learn your goals, audience, and challenges first",
+    icon: "/bmyb-global-creative-consistency-01.svg",
   },
   {
-    title: "Detail-Driven Quality",
-    desc: "Experience designs crafted with precision, clarity, and detail.",
-    icon: "/Detail-Driven Quality.svg",
+    title: "Tailored Strategies",
+    desc: "Every solution is customized to fit your business needs",
+    icon: "/bmyb-global-detail-driven-quality-01.svg",
   },
   {
-    title: "Reliable Workflow",
-    desc: "Enjoy a smooth, organized process from start to finish.",
-    icon: "/Reliable Workflow.svg",
+    title: "Creativity + Technology",
+    desc: "We combine design thinking with modern technical solutions",
+    icon: "/bmyb-global-reliable-workflow-01.svg",
   },
   {
-    title: "Smart Optimization",
-    desc: "We build for speed, performance, and better results.",
-    icon: "/Smart Optimization.svg",
+    title: "Real Results Focus",
+    desc: "Our work is driven by measurable growth and impact",
+    icon: "/bmyb-global-smart-optimization-01.svg",
   },
   {
-    title: "Clear Communication",
-    desc: "Clear updates, real feedback, and open collaboration.",
-    icon: "/Clear Communication.svg",
+    title: "Simple Process",
+    desc: "We keep everything clear, structured, and easy to follow",
+    icon: "/bmyb-global-clear-communication-01.svg",
   },
   {
-    title: "Flexible Creativity",
-    desc: "Bring any idea to life with adaptable, brand-focused creativity.",
-    icon: "/Flexible Creativity.svg",
+    title: "User Experience First",
+    desc: "We design smooth, intuitive, and engaging digital experiences",
+    icon: "/bmyb-global-flexible-creativity-01.svg",
   },
   {
-    title: "Long-Term Stability",
-    desc: "Build a digital presence that stays strong and future-ready.",
-    icon: "/Long-Term Stability.svg",
+    title: "Built to Scale",
+    desc: "Every solution is designed to grow with your business",
+    icon: "/bmyb-global-long-term-stability-01.svg",
   },
   {
-    title: "Built for Growth",
-    desc: "Build on a structure designed to scale as your business grows.",
-    icon: "/Built for Growth.svg",
+    title: "Close Collaboration",
+    desc: "We work closely with you at every stage together",
+    icon: "/bmyb-global-built-for-growth-01.svg",
   },
 ];
 
@@ -110,16 +111,14 @@ const OurBranding: React.FC = () => {
   }, []);
 
   return (
-    <section className="w-full min-h-screen flex flex-col justify-center items-center">
+    <section className="w-full pt-30 pb-30 flex flex-col items-center">
       {/* HEADING */}
       <div ref={headingRef} className="w-full flex flex-col items-center">
-        <h2 className="mb-6 w-[90%] 2xl:w-[60%]  text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-          Why Clients Count on Our Branding{" "}
-          <span className="text-[#F45B25]">Our Branding</span>
+        <h2 className="mb-6 w-[90%] 2xl:w-[60%] text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
+          A Closer Look at the <span className="text-[#F45B25]">BMYBrand</span> Approach
         </h2>
         <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
-          Clients trust us for clean design, honest communication, and a dedication
-          to work that performs in the real world—not just looking good.
+          At BMYBrand, we focus on understanding your business first, then building the right mix of strategy, design, and technology to support real growth. Our approach is simple, practical, and tailored to help your brand move forward with clarity and confidence.
         </p>
       </div>
 
@@ -127,10 +126,12 @@ const OurBranding: React.FC = () => {
       <div className="w-[90%] 2xl:w-[75%]  mt-12 relative flex justify-center items-center">
         {/* LG+ absolute layout */}
         <div className="hidden lg:block relative w-full h-150">
-          <img
-            src="/Group 1597883284.svg"
+          <Image
+            src="/bmyb-logo-group-1597883284-01.png"
             alt=""
-            className=" relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+            width={460}
+            height={416}
+            className="relative top-1/2 left-1/2 w-[420px] xl:w-[460px] -translate-x-1/2 -translate-y-1/2 z-10 h-auto"
           />
           {cards.map((card, index) => {
             const isLeft = "left" in positions[index];
@@ -143,6 +144,8 @@ const OurBranding: React.FC = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
                 className="absolute z-30 w-90 bg-[#191A35] border border-[#2A2B47] rounded-xl py-4 px-6
+                           lg:border-white/18 lg:bg-white/[0.06] lg:backdrop-blur-xl lg:backdrop-saturate-125
+                           xl:bg-[#191A35] xl:border-[#2A2B47] xl:backdrop-blur-none xl:backdrop-saturate-100 xl:shadow-none
                            transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]"
                 style={positions[index]}
               >

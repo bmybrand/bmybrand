@@ -8,44 +8,44 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Logos = [
   {
-    normal: "/abboott.svg.svg",
-    hover: "/abboott.svg (1).svg",
+    normal: "/bmyb-logo-abboott-01.svg",
+    hover: "/bmyb-logo-abboott-svg-01.svg",
   },
   {
-    normal: "/Mask group (3).svg",
-    hover: "/Mask group (2).svg",
+    normal: "/bmyb-logo-mask-group-03.svg",
+    hover: "/bmyb-logo-mask-group-02.svg",
   },
   {
-    normal: "/client_logo3.svg.svg",
-    hover: "/client_logo3.svg (1).svg",
+    normal: "/bmyb-logo-client-logo3-01.svg",
+    hover: "/bmyb-logo-client-logo3-01.svg",
   },
   {
-    normal: "/Vector (9).svg",
-    hover: "/Vector (15).svg",
+    normal: "/bmyb-logo-vector-14.svg",
+    hover: "/bmyb-logo-vector-06.webp",
   },
   {
-    normal: "/client_logo5.svg.svg",
-    hover: "client_logo5.svg (1).svg",
+    normal: "/bmyb-logo-client-logo5-01.svg",
+    hover: "/bmyb-logo-client-logo5-svg-01.webp",
   },
   {
-    normal: "/client_logo6.svg.svg",
-    hover: "/client_logo6.svg (1).svg",
+    normal: "/bmyb-logo-client-logo6-01.svg",
+    hover: "/bmyb-logo-client-logo6-svg-01.webp",
   },
   {
-    normal: "/Vector (11).svg",
-    hover: "/Vector (16).svg",
+    normal: "/bmyb-logo-vector-03.svg",
+    hover: "/bmyb-logo-vector-07.webp",
   },
   {
-    normal: "/Universal.svg",
-    hover: "/Universal (1).svg",
+    normal: "/bmyb-logo-universal-02.svg",
+    hover: "/bmyb-logo-universal-01.webp",
   },
   {
-    normal: "/client_logo9.svg fill.svg",
-    hover: "/client_logo9.svg fill (1).svg",
+    normal: "/bmyb-logo-client-logo9-svg-fill-02.svg",
+    hover: "/bmyb-logo-client-logo9-svg-fill-01.webp",
   },
   {
-    normal: "/Mask group (1).svg",
-    hover: "/Mask group (4).svg",
+    normal: "/bmyb-logo-mask-group-01.svg",
+    hover: "/bmyb-logo-mask-group-04.svg",
   },
 ];
 
@@ -92,10 +92,10 @@ const Logobar = () => {
       style={{ transform: "translateY(24px)" }}
     >
       {/* Heading */}
-      <div className="w-full flex justify-center mt-30">
-        <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center leading-[28px] sm:leading-10 md:leading-tight lg:leading-snug xl:leading-[42px] 2xl:leading-[50px]">
-          Every day, <span className="text-[#F45B25]">BMYBrand</span> is trusted by
-          businesses, startups, and creators worldwide.
+      <div className="w-full flex justify-center">
+        <h1 className="mb-10 w-[90%] xl:w-[60%] text-white text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center leading-7 sm:leading-10 md:leading-tight lg:leading-snug xl:leading-10.5 2xl:leading-12.5">
+          <span className="text-[#F45B25]">Trusted</span>{" "}
+          <span>by Businesses, Startups &amp; Creators</span>
         </h1>
       </div>
 

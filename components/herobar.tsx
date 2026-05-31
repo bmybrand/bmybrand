@@ -26,11 +26,11 @@ const herobar = () => {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[url('/herobarbg.svg')] bg-cover bg-center h-fit lg:h-150 overflow-hidden flex justify-center items-center "
+      className="relative bg-[url('/bmyb-home-herobarbg-01.svg')] bg-cover bg-center h-fit lg:h-150 overflow-hidden flex justify-center items-center "
       onMouseMove={handleMove}
     >
         <img
-  src="/spaceoverlay.svg"
+  src="/bmyb-global-spaceoverlay-01.svg"
   alt=""
   className="absolute scale-125 inset-0 h-full w-full object-cover opacity-20 transition-transform duration-700 ease-out"
   style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
@@ -43,10 +43,10 @@ const herobar = () => {
           }`}
         >
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
-              ABOUT US
+              Get to Know Us
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-              At BMYBrand, we transform ideas into high-performing brands. Our team blends creativity, strategy, and technology to help businesses stand out, connect with their audience, and achieve long-term growth in an ever-evolving digital world.
+              At BMYBrand, we combine strategy, creativity, and technology to build digital experiences that feel purposeful, functional, and future-ready. From startups to established businesses, we work closely with brands to create solutions that support long-term success through thoughtful design, modern development, and result-focused execution.
             </p>
             
         </div>
@@ -56,7 +56,7 @@ const herobar = () => {
           }`}
           style={{ transform: `translate3d(${-offset.x}px, ${-offset.y}px, 0)` }}
         >
-            <img src="/about-hero.svg" alt="About us" className="h-auto max-h-full w-full object-contain lg:pt-30 pt-10" />
+            <img src="/bmyb-global-about-hero-01.webp" alt="About us" className="h-auto max-h-full w-full object-contain lg:pt-30 pt-10" />
         </div>
         </div>
     </div> 

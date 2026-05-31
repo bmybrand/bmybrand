@@ -1,16 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { CSSProperties } from "react";
+import localFont from "next/font/local";
+import GlobalPreloader from "@/components/global-preloader";
 import "./globals.css";
-import ChatWidget from "@/components/chatbot/ChatWidget";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const benzinBold = localFont({
+  src: "../public/fonts/benzinbold.ttf",
+  variable: "--font-benzin-bold",
+  display: "swap",
+  preload: true,
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const benzinSemibold = localFont({
+  src: "../public/fonts/benzinsemibold.ttf",
+  variable: "--font-benzin-semibold",
+  display: "swap",
+  preload: true,
+});
+
+const benzinRegular = localFont({
+  src: "../public/fonts/benzinregular.ttf",
+  variable: "--font-benzin-regular",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -24,11 +36,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+        className={`${benzinBold.variable} ${benzinSemibold.variable} ${benzinRegular.variable} antialiased`}
+        style={
+          {
+            "--font-geist-sans": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "--font-geist-mono": "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace",
+          } as CSSProperties
+        }
       >
-        {children}
+        <GlobalPreloader>{children}</GlobalPreloader>
         <ChatWidget />
       </body>
     </html>

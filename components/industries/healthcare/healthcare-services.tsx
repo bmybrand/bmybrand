@@ -1,0 +1,209 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+import type { IndustryService } from '@/data/industries/types'
+
+type Service = {
+  id: string
+  title: string
+  iconSrc: string
+  description: string
+  items: string[]
+}
+
+const servicesTemplate: Service[] = [
+  {
+    id: 'ai-driven',
+    title: 'AI-Driven Solutions',
+    iconSrc: '/bmyb-services-ai-driven-01.svg',
+    description:
+      'Take your brand to the next level with AI-powered AI Drive web and applications. From predictive analytics to intelligent automation, we build tools that optimize your business operations, enhance customer experiences, and drive data-driven decision-making at scale.',
+    items: ['Chatbot AI', 'AI Apps', 'AI Insight', 'Chatgpt API', 'Prompt Engineering', 'AI Automation'],
+  },
+  {
+    id: 'brand-experience',
+    title: 'Brand Experience',
+    iconSrc: '/bmyb-services-brand-experience-01.svg',
+    description:
+      'We help companies stand out online by forging strong brand identities. From understanding your audience to designing memorable visuals, we create experiences that resonate emotionally, position you as an industry leader, and cultivate lasting loyalty through cohesive brand storytelling.',
+    items: ['Brand Identity', 'Brand Strategy', 'UI/UX Design', 'Logo Design', 'Visual Design', 'Typography', 'Marketing Kit', 'User Research'],
+  },
+  {
+    id: 'software-development',
+    title: 'Software Development',
+    iconSrc: '/bmyb-services-software-development-01.svg',
+    description:
+      'We build custom software that fits your business like a glove and scales as you grow. From idea to launch, we carefully plan every step, design intuitive interfaces, and rigorously test all functionality so that your product not only meets expectations but exceeds them.',
+    items: ['Website Build', 'Mobile App', 'Web App', 'Custom CMS', 'Admin Dashboards', 'SaaS Platform', 'Blockchain', 'Progressive'],
+  },
+  {
+    id: 'commerce-solutions',
+    title: 'E-Commerce Solutions',
+    iconSrc: '/bmyb-services-commerce-solutions-01.svg',
+    description:
+      'Build a thriving online store with E-commerce Solutions that are fast, intuitive, and scalable. From plug-and-play platforms to fully customized storefronts, we provide secure payments, personalized shopping experiences, and tools to help you grow your sales and keep customers coming back.',
+    items: ['eShop Setup', 'Custom Storefront', 'Subscription Box', 'Gateway Unified', 'Product Catalogs', 'CMS', 'Order Management', 'B2B Portals'],
+  },
+  {
+    id: 'digital-marketing',
+    title: 'Digital Marketing',
+    iconSrc: '/bmyb-services-digital-marketing-01.svg',
+    description:
+      'We power data-driven digital marketing campaigns that raise brand awareness, inspire, and convert. Whether you want to enhance your social presence, appear at the top of search results, or engage audiences with high-quality content, we tailor every strategy to deliver measurable outcomes aligned with your business goals.',
+    items: ['Social Media', 'Content Creation', 'Email Marketing', 'Media List', 'Campaigns', 'SEO'],
+  },
+  {
+    id: 'business-operations',
+    title: 'Business Operations',
+    iconSrc: '/bmyb-services-business-operations-01.svg',
+    description:
+      'Streamline day-to-day tasks and unlock efficiency with Business Operations services. We provide solutions that automate repetitive workflows, enhance team collaboration, and improve overall productivity. From centralized data systems to real-time reporting and seamless internal tools, we help you run a leaner, smarter operation.',
+    items: ['Process Automation', 'Workflow Design', 'Team Portals', 'CRM Integrations', 'Resource Scheduling', 'BI/Analytics', 'Help Desk', 'Project Management'],
+  },
+]
+
+type HealthcareServicesProps = {
+  title?: string
+  description?: string
+  services?: IndustryService[]
+}
+
+export default function HealthcareServices({
+  title = 'End-To-End Growth Solutions For Healthcare Brands',
+  description = 'We support healthcare organizations with digital systems, brand strategy, and performance-focused solutions across every stage of growth.',
+  services: customServices,
+}: HealthcareServicesProps) {
+  const router = useRouter()
+  const [activeService, setActiveService] = useState('ai-driven')
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
+  const serviceOverrides = customServices ?? []
+  const services = serviceOverrides.length
+    ? serviceOverrides.map((service, index) => ({
+        ...servicesTemplate[index],
+        ...service,
+        items: service.items ?? servicesTemplate[index]?.items ?? [],
+      }))
+    : servicesTemplate
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const centerY = window.scrollY + window.innerHeight / 2
+
+      for (const service of services) {
+        const section = sectionRefs.current[service.id]
+        if (section) {
+          const top = section.offsetTop
+          const bottom = top + section.offsetHeight
+
+          if (centerY >= top && centerY < bottom) {
+            setActiveService(service.id)
+            break
+          }
+        }
+      }
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [services])
+
+  const scrollToSection = (id: string) => {
+    const section = sectionRefs.current[id]
+    if (section) {
+      const offset = 120
+      const top = section.offsetTop - offset
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <section className="min-h-screen bg-[#11122F] ">
+      <div className="w-[90%] 2xl:w-[75%] mx-auto">
+        <div className="text-left w-full max-w-4xl px-0">
+          <h2 className="text-white text-[0.9rem] sm:text-[1.1rem] md:text-[1.4rem] lg:text-[1.8rem] xl:text-[2.3rem] 2xl:text-[2.8rem] BenzinSemibold mb-6">
+            {title}
+          </h2>
+          <p className="text-[0.85rem] leading-6 text-white/60 sm:text-sm md:text-base lg:text-lg lg:leading-8">
+            {description}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-8 py-20 lg:flex-row lg:items-start">
+          <div className="self-start shrink-0 lg:sticky lg:top-24 lg:w-[35%]">
+            <div className="rounded-2xl p-4">
+              {services.map((service) => (
+                <button
+                  key={service.id}
+                  onClick={() => scrollToSection(service.id)}
+                  className={`w-full text-left px-6 py-4 rounded-xl transition-all duration-300 mb-2 ${
+                    activeService === service.id
+                      ? 'bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white'
+                      : 'text-white/70 hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  <span className="text-[0.85rem] sm:text-sm md:text-base lg:text-lg font-medium BenzinSemibold">{service.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="lg:w-[65%] shrink-0 space-y-8">
+            {services.map((service, index) => (
+              <motion.div
+                key={service.id}
+                ref={(el) => {
+                  sectionRefs.current[service.id] = el
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-[#191A35] rounded-2xl p-8 md:p-10 scroll-mt-32"
+                id={service.id}
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-20 h-20 bg-[#21223F] rounded-full flex items-center justify-center shrink-0 overflow-hidden p-5">
+                    <img src={service.iconSrc} alt={service.title} className="w-full h-full object-contain" />
+                  </div>
+                  <h3 className="text-[0.9rem] sm:text-[1.0rem] md:text-[1.1rem] lg:text-[1.15rem] xl:text-[1.2rem] 2xl:text-[1.25rem] text-white BenzinSemibold">
+                    {service.title}
+                  </h3>
+                </div>
+
+                <p className="text-white/60 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-relaxed mb-6">
+                  {service.description}
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+                  {service.items.map((item) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <div className="w-5 h-5 bg-[#F45B25] rounded flex items-center justify-center shrink-0">
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-white/80 text-xs md:text-sm">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => router.push(`/services/${service.id}`)}
+                  className="bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold flex items-center gap-3 text-lg"
+                >
+                  <div className="bg-white p-4 rounded-lg">
+                    <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
+                  </div>
+                  <span className="px-2">View More</span>
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
