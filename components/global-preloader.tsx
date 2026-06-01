@@ -29,10 +29,9 @@ function PreloaderScreen({
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const routeKey = `${pathname ?? ""}?${searchParams?.toString() ?? ""}`;
+  const [currentHash, setCurrentHash] = useState('');
+  const routeKey = `${pathname ?? ""}?${searchParams?.toString() ?? ""}${currentHash}`;
   const previousRouteKeyRef = useRef(routeKey);
-  const suppressNextRouteTransitionRef = useRef(false);
-  const manualTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -55,15 +54,27 @@ function PreloaderScreen({
     };
   }, [isLoading]);
 
+  useEffect(() => {
+    const syncHash = () => {
+      setCurrentHash(window.location.hash || '');
+    };
+
+    syncHash();
+    window.addEventListener('hashchange', syncHash);
+
+    return () => {
+      window.removeEventListener('hashchange', syncHash);
+    };
+  }, []);
+
+  useEffect(() => {
+    setCurrentHash(window.location.hash || '');
+  }, [pathname, searchParams]);
+
   useLayoutEffect(() => {
     if (previousRouteKeyRef.current === routeKey) return;
 
     previousRouteKeyRef.current = routeKey;
-
-    if (suppressNextRouteTransitionRef.current) {
-      suppressNextRouteTransitionRef.current = false;
-      return;
-    }
 
     setIsLoading(true);
 
@@ -78,25 +89,12 @@ function PreloaderScreen({
 
   useEffect(() => {
     const handleNavigationPreloader = () => {
-      if (manualTimerRef.current) {
-        window.clearTimeout(manualTimerRef.current);
-      }
-
-      suppressNextRouteTransitionRef.current = true;
       setIsLoading(true);
-
-      manualTimerRef.current = window.setTimeout(() => {
-        setIsLoading(false);
-        manualTimerRef.current = null;
-      }, ROUTE_TRANSITION_MS);
     };
 
     window.addEventListener(NAVIGATION_PRELOADER_EVENT, handleNavigationPreloader);
 
     return () => {
-      if (manualTimerRef.current) {
-        window.clearTimeout(manualTimerRef.current);
-      }
       window.removeEventListener(NAVIGATION_PRELOADER_EVENT, handleNavigationPreloader);
     };
   }, []);
