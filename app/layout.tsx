@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import { Suspense } from "react";
 import localFont from "next/font/local";
 import GlobalPreloader from "@/components/global-preloader";
 import "./globals.css";
@@ -47,7 +48,9 @@ export default function RootLayout({
           } as CSSProperties
         }
       >
-        <GlobalPreloader>{children}</GlobalPreloader>
+        <Suspense fallback={children}>
+          <GlobalPreloader>{children}</GlobalPreloader>
+        </Suspense>
       </body>
     </html>
   );
