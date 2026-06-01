@@ -6,6 +6,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 const MIN_PRELOADER_MS = 3000;
 const ROUTE_TRANSITION_MS = 3000;
 const NAVIGATION_PRELOADER_EVENT = "bmy:navigation-preloader-start";
+const PRELOADER_FADE_MS = 300;
 
 export default function GlobalPreloader({
   children,
@@ -27,21 +28,49 @@ function PreloaderScreen({
   children: React.ReactNode;
 }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [currentHash, setCurrentHash] = useState('');
   const routeKey = `${pathname ?? ""}?${searchParams?.toString() ?? ""}${currentHash}`;
   const previousRouteKeyRef = useRef(routeKey);
+  const fadeTimerRef = useRef<number | null>(null);
+
+  const finishLoading = () => {
+    setIsLoading(false);
+
+    if (fadeTimerRef.current) {
+      window.clearTimeout(fadeTimerRef.current);
+    }
+
+    fadeTimerRef.current = window.setTimeout(() => {
+      setIsVisible(false);
+      fadeTimerRef.current = null;
+    }, PRELOADER_FADE_MS);
+  };
+
+  const startLoading = () => {
+    if (fadeTimerRef.current) {
+      window.clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
+
+    setIsVisible(true);
+    setIsLoading(true);
+  };
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      setIsLoading(false);
+      finishLoading();
     }, MIN_PRELOADER_MS);
 
     document.body.style.overflow = "hidden";
 
     return () => {
       window.clearTimeout(timer);
+      if (fadeTimerRef.current) {
+        window.clearTimeout(fadeTimerRef.current);
+      }
       document.body.style.overflow = "";
     };
   }, []);
@@ -76,10 +105,10 @@ function PreloaderScreen({
 
     previousRouteKeyRef.current = routeKey;
 
-    setIsLoading(true);
+    startLoading();
 
     const timer = window.setTimeout(() => {
-      setIsLoading(false);
+      finishLoading();
     }, ROUTE_TRANSITION_MS);
 
     return () => {
@@ -89,7 +118,7 @@ function PreloaderScreen({
 
   useEffect(() => {
     const handleNavigationPreloader = () => {
-      setIsLoading(true);
+      startLoading();
     };
 
     window.addEventListener(NAVIGATION_PRELOADER_EVENT, handleNavigationPreloader);
@@ -103,10 +132,12 @@ function PreloaderScreen({
     <>
       {children}
 
-      {isLoading ? (
+      {isVisible ? (
         <div
           aria-label="Page loading"
-          className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black"
+          className={`fixed inset-0 z-[2147483647] flex items-center justify-center bg-black transition-opacity duration-300 ${
+            isLoading ? "opacity-100" : "opacity-0"
+          }`}
           role="status"
         >
           <video

@@ -68,7 +68,7 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
 
       <section className="py-20">
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
-          <h2 className="BenzinSemibold mb-8 text-2xl text-white md:text-3xl lg:text-4xl xl:text-5xl">
+          <h2 className="BenzinSemibold mb-12 md:mb-14 lg:mb-16 text-2xl text-white md:text-3xl lg:text-4xl xl:text-5xl">
             {data.overviewTitle}
           </h2>
 

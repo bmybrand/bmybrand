@@ -332,6 +332,7 @@ const Navbar = () => {
     resources: null,
   });
   const isCaseStudyDetail = pathname.startsWith("/case-studies/") && pathname !== "/case-studies";
+  const isServicesPage = pathname.startsWith("/services");
   const isIndustriesPage = pathname.startsWith("/industries");
 
   useEffect(() => {
@@ -432,7 +433,15 @@ const Navbar = () => {
             onMouseEnter={handleMegaMenuEnter("services")}
             onMouseLeave={handleMegaMenuLeave}
           >
-            <span className={`cursor-pointer ${linkClasses("/services")}`}>Services</span>
+            <span
+              className={`cursor-pointer block relative py-2 transition ${
+                isServicesPage ? "text-[#F45B25]" : "text-white/80 hover:text-[#F45B25]"
+              } after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full after:bg-[#F45B25] after:origin-left after:transition ${
+                isServicesPage ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100"
+              }`}
+            >
+              Services
+            </span>
             <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="services" style={dropdownPosition} />
           </li>
           <li
