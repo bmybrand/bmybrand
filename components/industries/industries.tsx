@@ -3,11 +3,6 @@
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import type { IndustryItem } from '@/data/industries'
-import {
-  sharedIndustryServices,
-  sharedIndustryServicesDescription,
-  sharedIndustryServicesTitle,
-} from '@/data/industries/shared-services'
 import HealthcareAdvantage from './healthcare/healthcare-advantage'
 import HealthcareFAQ from './healthcare/healthcare-faq'
 import HealthcareGrowth from './healthcare/healthcare-growth'
@@ -61,9 +56,9 @@ export default function Industries({ industry }: IndustriesProps) {
             projects={industry.projects}
           />
           <HealthcareServices
-            title={sharedIndustryServicesTitle}
-            description={sharedIndustryServicesDescription}
-            services={sharedIndustryServices}
+            title={industry.servicesTitle}
+            description={industry.servicesDescription}
+            services={industry.services}
           />
           <HealthcareAdvantage
             title={industry.advantageTitle}
