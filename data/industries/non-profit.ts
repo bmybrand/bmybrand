@@ -10,8 +10,8 @@ export const nonProfitIndustry: IndustryItem = {
   heroDescription:
     'We help non-profits communicate their mission clearly, build donor trust, and create digital experiences that support awareness, fundraising, and long-term impact.',
   sliderImages: [
-    { alt: 'Pink.Me Case Study', image: '/bmyb-case-pink-me-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'BHS Case Study', image: '/bmyb-case-bhs-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Pink.Me Case Study', image: '/bmyb-case-pink-me-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'BHS Case Study', image: '/bmyb-case-bhs-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
   growthTitle: 'Helping Non-Profits Turn Mission Into Measurable Momentum',
   growthDescription:

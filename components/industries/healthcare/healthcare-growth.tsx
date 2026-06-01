@@ -97,7 +97,7 @@ export default function HealthcareGrowth({
                     <img
                       src={card.image}
                       alt=""
-                      className="h-full max-h-[240px] w-full object-contain object-right-bottom"
+                      className="h-full max-h-[240px] w-full object-cover object-right-bottom"
                     />
                   </div>
                 </div>

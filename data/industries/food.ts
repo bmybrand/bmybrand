@@ -10,9 +10,9 @@ export const foodIndustry: IndustryItem = {
   heroDescription:
     'At BMYBrand, we design powerful digital solutions for restaurants, cloud kitchens, cafés, and food chains that want to stand out in a highly competitive market. We combine branding, design, and technology to help food businesses attract customers and increase orders.',
   sliderImages: [
-    { alt: 'Jiggy Jerky Case Study 1', image: '/bmyb-case-jiggy-jerky-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: "Baba's Burgers Case Study 1", image: '/bmyb-case-babas-burgers-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Jiggy Jerky Case Study 2', image: '/bmyb-case-jiggy-jerky-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Jiggy Jerky Case Study 1', image: '/bmyb-case-jiggy-jerky-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: "Baba's Burgers Case Study 1", image: '/bmyb-case-babas-burgers-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Jiggy Jerky Case Study 2', image: '/bmyb-case-jiggy-jerky-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
   growthTitle: 'Digital Solutions That Elevate Modern Food Brands',
   growthDescription:

@@ -278,10 +278,14 @@ export default function Brandsspec() {
       </div>
 
       <div className="relative overflow-hidden w-full">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
         <div ref={row1Ref} className="flex gap-4 md:gap-5" />
       </div>
 
       <div className="relative overflow-hidden w-full">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
         <div ref={row2Ref} className="flex gap-4 md:gap-5" />
       </div>
     </div>

@@ -46,7 +46,7 @@ const projectCards: ProjectCard[] = [
     image: '/bmyb-industries-healthcare-project-03.svg',
     tag: 'AI / Healthcare',
     href: '#',
-    imageClassName: 'object-contain object-center bg-[#f1f5fb]',
+    imageClassName: 'object-cover object-center bg-[#f1f5fb]',
   },
 ]
 

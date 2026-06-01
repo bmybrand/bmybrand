@@ -10,9 +10,9 @@ export const travelAndTourismIndustry: IndustryItem = {
   heroDescription:
     'We help travel brands create digital experiences that capture attention, build trust, and guide visitors from inspiration to booking with greater clarity.',
   sliderImages: [
-    { alt: 'Vytis Tour Case Study 1', image: '/bmyb-case-vytis-tour-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Vytis Tour Case Study 2', image: '/bmyb-case-vytis-tour-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Vytis Tour Case Study 3', image: '/bmyb-case-vytis-tour-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Vytis Tour Case Study 1', image: '/bmyb-case-vytis-tour-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Vytis Tour Case Study 2', image: '/bmyb-case-vytis-tour-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Vytis Tour Case Study 3', image: '/bmyb-case-vytis-tour-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
   growthTitle: 'Helping Travel Brands Turn Interest into Bookings',
   growthDescription:

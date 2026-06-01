@@ -10,9 +10,9 @@ export const sportsIndustry: IndustryItem = {
   heroDescription:
     'We help sports organizations create high-energy digital experiences that strengthen fan engagement, improve communication, and support long-term brand growth.',
   sliderImages: [
-    { alt: 'Jersey Case Study 1', image: '/bmyb-case-jersey-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Jersey Case Study 2', image: '/bmyb-case-jersey-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Jersey Case Study 3', image: '/bmyb-case-jersey-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Jersey Case Study 1', image: '/bmyb-case-jersey-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Jersey Case Study 2', image: '/bmyb-case-jersey-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Jersey Case Study 3', image: '/bmyb-case-jersey-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
   growthTitle: 'Helping Sports Brands Build Momentum Beyond the Game',
   growthDescription:

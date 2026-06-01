@@ -10,9 +10,9 @@ export const healthcareIndustry: IndustryItem = {
   heroDescription:
     'At BMYBrand, we create digital ecosystems for healthcare providers, emergency centers, hospitals, and medical organizations that need reliability and performance. We specialize in building secure websites, operational systems, and AI-driven healthcare solutions that improve patient access and streamline medical workflows.',
   sliderImages: [
-    { alt: 'Fountain Hills Case Study', image: '/bmyb-case-fountain-hills-home-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Instinctive Healthcare Solutions Case Study', image: '/bmyb-case-instinctive-healthcare-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Instinctive Health Case Study', image: '/bmyb-case-instinctive-health-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Fountain Hills Case Study', image: '/bmyb-case-fountain-hills-home-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Instinctive Healthcare Solutions Case Study', image: '/bmyb-case-instinctive-healthcare-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Instinctive Health Case Study', image: '/bmyb-case-instinctive-health-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
   growthTitle: 'Digital Transformation for Modern Healthcare Systems',
   growthDescription:
@@ -176,7 +176,7 @@ export const healthcareIndustry: IndustryItem = {
       tag: 'AI / Healthcare',
       href: '/case-studies/instinctive-health',
       image: '/bmyb-industries-healthcare-project-03.svg',
-      imageClassName: 'object-contain object-center bg-[#f1f5fb]',
+      imageClassName: 'object-cover object-center bg-[#f1f5fb]',
     },
   ],
   spotlightTitle: 'Hear From Industry Leaders Who Trust Our Digital Solutions',

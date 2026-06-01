@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect, useSyncExternalStore } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useRef, useEffect, useSyncExternalStore, type MouseEvent } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 
 const subscribe = () => () => {};
+const NAVIGATION_PRELOADER_EVENT = "bmy:navigation-preloader-start";
 
 const companyMenuItems = [
   {
@@ -56,7 +57,7 @@ const servicesMenuItems = [
   },
   {
     title: "Website Development",
-    href: "/services/software-development",
+    href: "/services/software-development#website-development",
     desc: "Custom websites built for performance and conversion.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +67,7 @@ const servicesMenuItems = [
   },
   {
     title: "Mobile App Development",
-    href: "/services/software-development",
+    href: "/services/software-development#mobile-app-development",
     desc: "Native and cross-platform apps that users love.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,12 +160,14 @@ const resourcesMenuItems = [
 const MegaMenu = ({
   isOpen,
   onClose,
+  onServiceNavigate,
   portalReady,
   type,
   style,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  onServiceNavigate?: (href: string) => (event: MouseEvent<HTMLAnchorElement>) => void;
   portalReady: boolean;
   type: "services" | "industries" | "company" | "resources";
   style?: React.CSSProperties;
@@ -256,6 +259,7 @@ const MegaMenu = ({
               <Link
                 key={idx}
                 href={item.href}
+                onClick={type === "services" && onServiceNavigate ? onServiceNavigate(item.href) : undefined}
                 className={`flex rounded-xl transition-colors group hover:bg-white/10 ${hasTwoColumnLayout ? "gap-4 min-w-0 py-1.5 px-3" : isIndustries ? "gap-3 py-2 px-2 min-w-0" : "gap-4 p-4"}`}
               >
                 {"icon" in item && item.icon && (
@@ -295,6 +299,7 @@ const MegaMenu = ({
 };
 
 const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<"services" | "industries" | "company" | "resources" | null>(null);
@@ -310,6 +315,26 @@ const Navbar = () => {
   });
   const isCaseStudyDetail = pathname.startsWith("/case-studies/") && pathname !== "/case-studies";
   const isIndustriesPage = pathname.startsWith("/industries");
+
+  const navigateWithPreloader = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setOpen(false);
+    setMegaMenuOpen(null);
+
+    if (typeof window === "undefined") return;
+
+    const currentUrl = new URL(window.location.href);
+    const targetUrl = new URL(href, window.location.origin);
+    const isSameUrl =
+      currentUrl.pathname === targetUrl.pathname &&
+      currentUrl.search === targetUrl.search &&
+      currentUrl.hash === targetUrl.hash;
+
+    if (isSameUrl) return;
+
+    window.dispatchEvent(new CustomEvent(NAVIGATION_PRELOADER_EVENT));
+    router.push(href);
+  };
 
   const updateDropdownPosition = (type: "services" | "industries" | "company" | "resources") => {
     const el = tabRefs.current[type];
@@ -379,7 +404,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/services")}`}>Services</span>
-            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="services" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} onServiceNavigate={navigateWithPreloader} portalReady={portalReady} type="services" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.industries = el; }}
@@ -396,7 +421,7 @@ const Navbar = () => {
             >
               Industries
             </span>
-            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="industries" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} onServiceNavigate={navigateWithPreloader} portalReady={portalReady} type="industries" style={dropdownPosition} />
           </li>
           <li>
             <Link href="/case-studies" className={linkClasses("/case-studies")}>Case Studies</Link>
@@ -408,7 +433,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/about")}`}>Company</span>
-            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="company" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} onServiceNavigate={navigateWithPreloader} portalReady={portalReady} type="company" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.resources = el; }}
@@ -417,7 +442,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/contact")}`}>Resources</span>
-            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="resources" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} onServiceNavigate={navigateWithPreloader} portalReady={portalReady} type="resources" style={dropdownPosition} />
           </li>
         </ul>
 
@@ -464,7 +489,7 @@ const Navbar = () => {
                 </li>
                 {servicesMenuItems.map((item, idx) => (
                   <li key={idx} onClick={() => setOpen(false)}>
-                    <Link href={item.href} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
+                    <Link href={item.href} onClick={navigateWithPreloader(item.href)} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
                   </li>
                 ))}
               </ul>

@@ -1,10 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const MIN_PRELOADER_MS = 3000;
 const ROUTE_TRANSITION_MS = 3000;
+const NAVIGATION_PRELOADER_EVENT = "bmy:navigation-preloader-start";
 
 export default function GlobalPreloader({
   children,
@@ -27,7 +28,11 @@ function PreloaderScreen({
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
-  const previousPathnameRef = useRef(pathname);
+  const searchParams = useSearchParams();
+  const routeKey = `${pathname ?? ""}?${searchParams?.toString() ?? ""}`;
+  const previousRouteKeyRef = useRef(routeKey);
+  const suppressNextRouteTransitionRef = useRef(false);
+  const manualTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -51,9 +56,15 @@ function PreloaderScreen({
   }, [isLoading]);
 
   useLayoutEffect(() => {
-    if (previousPathnameRef.current === pathname) return;
+    if (previousRouteKeyRef.current === routeKey) return;
 
-    previousPathnameRef.current = pathname;
+    previousRouteKeyRef.current = routeKey;
+
+    if (suppressNextRouteTransitionRef.current) {
+      suppressNextRouteTransitionRef.current = false;
+      return;
+    }
+
     setIsLoading(true);
 
     const timer = window.setTimeout(() => {
@@ -63,11 +74,36 @@ function PreloaderScreen({
     return () => {
       window.clearTimeout(timer);
     };
-  }, [pathname]);
+  }, [routeKey]);
+
+  useEffect(() => {
+    const handleNavigationPreloader = () => {
+      if (manualTimerRef.current) {
+        window.clearTimeout(manualTimerRef.current);
+      }
+
+      suppressNextRouteTransitionRef.current = true;
+      setIsLoading(true);
+
+      manualTimerRef.current = window.setTimeout(() => {
+        setIsLoading(false);
+        manualTimerRef.current = null;
+      }, ROUTE_TRANSITION_MS);
+    };
+
+    window.addEventListener(NAVIGATION_PRELOADER_EVENT, handleNavigationPreloader);
+
+    return () => {
+      if (manualTimerRef.current) {
+        window.clearTimeout(manualTimerRef.current);
+      }
+      window.removeEventListener(NAVIGATION_PRELOADER_EVENT, handleNavigationPreloader);
+    };
+  }, []);
 
   return (
     <>
-      {!isLoading ? children : null}
+      {children}
 
       {isLoading ? (
         <div

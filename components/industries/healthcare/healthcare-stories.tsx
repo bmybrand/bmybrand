@@ -67,17 +67,17 @@ export default function HealthcareStories({
       {stories.map((story, index) => {
         const isReversed = index % 2 === 1
         const showcase = (
-          <div className={`overflow-hidden rounded-4xl ${storyBackgrounds[index % storyBackgrounds.length]}`}>
+          <div className={`h-full min-h-[320px] overflow-hidden rounded-4xl ${storyBackgrounds[index % storyBackgrounds.length]}`}>
             <img
               src={story.showcaseImage ?? '/bmyb-global-container-01.webp'}
               alt={story.showcaseAlt ?? 'Case study showcase'}
-              className="h-auto w-full object-cover object-center"
+              className="block h-full w-full object-cover object-center"
             />
           </div>
         )
 
         const details = (
-          <div className="rounded-[14px] bg-white/[0.04] px-6 py-6 sm:px-7 sm:py-7 flex flex-col">
+          <div className="flex h-full flex-col rounded-[14px] bg-white/[0.04] px-6 py-6 sm:px-7 sm:py-7">
             <img
               src={story.logoSrc ?? '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg'}
               alt={story.logoAlt ?? story.name ?? 'Case study logo'}
@@ -113,7 +113,7 @@ export default function HealthcareStories({
                 ))}
               </h3>
 
-              <div className={`mt-4 grid gap-6 ${isReversed ? 'lg:grid-cols-[0.3fr_0.7fr]' : 'lg:grid-cols-[0.7fr_0.3fr]'}`}>
+              <div className={`mt-4 grid items-stretch gap-6 ${isReversed ? 'lg:grid-cols-[0.3fr_0.7fr]' : 'lg:grid-cols-[0.7fr_0.3fr]'}`}>
                 {isReversed ? (
                   <>
                     {details}

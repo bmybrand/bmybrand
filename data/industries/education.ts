@@ -10,9 +10,9 @@ export const educationIndustry: IndustryItem = {
   heroDescription:
     'We help education brands and institutions create digital experiences that improve communication, support enrollment goals, and make learning systems easier to navigate.',
   sliderImages: [
-    { alt: 'Learn and Label Case Study 1', image: '/bmyb-case-learnandlabel-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Learn and Label Case Study 2', image: '/bmyb-case-learnandlabel-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Learn and Label Case Study 3', image: '/bmyb-case-learnandlabel-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Learn and Label Case Study 1', image: '/bmyb-case-learnandlabel-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Learn and Label Case Study 2', image: '/bmyb-case-learnandlabel-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Learn and Label Case Study 3', image: '/bmyb-case-learnandlabel-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
   growthTitle: 'Helping Education Brands Create Clearer Learning Experiences',
   growthDescription:

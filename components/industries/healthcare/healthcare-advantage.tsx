@@ -99,19 +99,19 @@ export default function HealthcareAdvantage({
                 <div className={`relative flex min-h-[120px] w-full items-end justify-end self-end xl:w-[40%] ${card.type === 'avatars' ? 'hidden' : ''}`}>
                   {card.type === 'dashboard' && card.image && (
                     <div className="pointer-events-none w-full self-end opacity-92 transition-transform duration-500 group-hover:scale-[1.01]">
-                      <img src={card.image} alt="" className="block h-auto w-full object-contain object-right-bottom" />
+                      <img src={card.image} alt="" className="block h-full w-full object-cover object-right-bottom" />
                     </div>
                   )}
 
                   {card.type === 'website' && card.image && (
                     <div className="pointer-events-none w-full self-end opacity-95 transition-transform duration-500 group-hover:scale-[1.01]">
-                      <img src={card.image} alt="" className="block h-auto w-full object-contain object-right-bottom" />
+                      <img src={card.image} alt="" className="block h-full w-full object-cover object-right-bottom" />
                     </div>
                   )}
 
                   {card.type === 'compliance' && card.image && (
                     <div className="pointer-events-none w-full self-end opacity-95 transition-transform duration-500 group-hover:scale-[1.01]">
-                      <img src={card.image} alt="" className="block h-auto w-full object-contain object-right-bottom" />
+                      <img src={card.image} alt="" className="block h-full w-full object-cover object-right-bottom" />
                     </div>
                   )}
                 </div>

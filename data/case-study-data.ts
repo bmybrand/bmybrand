@@ -586,7 +586,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       ],
       bannerImage: '/bmyb-global-backgroundfh-01.webp'
       ,
-      bannerVideo: '/bmyb-case-vytis-tour-01.mp4'
+      bannerVideo: '/Label%20n%20Learn.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nFHMCAZ TEAM',
@@ -817,7 +817,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { title: 'Responsive execution', desc: 'The site adapts cleanly across desktop and mobile devices.' },
         { title: 'Scalable foundation', desc: 'The platform is set up to support future updates, pages, and campaigns.' }
       ],
-      bannerImage: '/bmyb-global-backgroundfh-01.webp'
+      bannerImage: '/bmyb-global-backgroundfh-01.webp',
+      bannerVideo: '/BHS.mp4'
     },
     reviews: {
       title: 'REVIEWS FROM\nBHS TEAM',
