@@ -16,7 +16,7 @@ export const commerceSolutionsServiceData: ServicePageData = {
     { title: 'Responsive Shopping Experiences' },
     { title: 'eCommerce Growth Solutions' },
   ],
-  bannerImage: '/bmyb-services-service-banner-01.webp',
+  bannerImage: '/bmyb-services-commerce-banner-01.webp',
   bannerAlt: 'Commerce solutions',
   overviewTitle: 'Modern E-Commerce Solutions for Modern Buyers',
   overviewDescription:
@@ -49,7 +49,7 @@ export const commerceSolutionsServiceData: ServicePageData = {
       desc: 'We integrate payment systems, inventory tools, shipping platforms, and automation into your commerce ecosystem.',
     },
   ],
-  overviewImage: '/bmyb-services-ai-aioverview-01.webp',
+  overviewImage: '/bmyb-services-commerce-overview-01.webp',
   overviewImageAlt: 'Commerce platform overview',
   benefitsTitle: 'Why Businesses Invest in E-Commerce Solutions',
   benefitsCards: [
@@ -99,8 +99,8 @@ export const commerceSolutionsServiceData: ServicePageData = {
     'From custom storefronts to advanced commerce platforms, we create eCommerce solutions that improve customer experience, increase conversions, and support long-term growth.',
   faqTitle: 'Frequently Asked Questions',
   faqImages: [
-    { src: '/bmyb-services-servicefaq-01.webp', alt: 'E-commerce store' },
-    { src: '/bmyb-services-servicefaq2-01.webp', alt: 'Online shopping experience' },
+    { src: '/bmyb-services-commerce-faq-01.webp', alt: 'E-commerce store' },
+    { src: '/bmyb-services-commerce-faq-02.webp', alt: 'Online shopping experience' },
   ],
   faqs: [
     {

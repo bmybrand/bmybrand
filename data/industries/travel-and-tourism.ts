@@ -38,7 +38,7 @@ export const travelAndTourismIndustry: IndustryItem = {
       description: 'Digital storytelling systems designed to create stronger emotional connection and action.',
       name: 'Voyage Collective',
       role: 'Brand Team',
-      showcaseImage: '/bmyb-case-vytis-tour-slider-01.webp',
+      showcaseImage: '/bmyb-global-container-04.webp',
       showcaseAlt: 'Vytis Tour travel case study showcase',
       logoSrc: '/bmyb-case-vytis-tour-logo-01.svg',
       logoAlt: 'Vytis Tour',

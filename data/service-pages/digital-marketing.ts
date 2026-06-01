@@ -16,7 +16,7 @@ export const digitalMarketingServiceData: ServicePageData = {
     { title: 'Audience Growth' },
     { title: 'Conversion Focus' },
   ],
-  bannerImage: '/bmyb-services-service-banner-01.webp',
+  bannerImage: '/bmyb-services-digital-banner-01.webp',
   bannerAlt: 'Digital marketing',
   overviewTitle: 'Where Marketing Creates Business Impact',
   overviewDescription:
@@ -49,7 +49,7 @@ export const digitalMarketingServiceData: ServicePageData = {
       desc: 'Execute multi-channel campaigns with tracking, A/B testing, and performance analytics for ongoing optimization.',
     },
   ],
-  overviewImage: '/bmyb-services-ai-aioverview-01.webp',
+  overviewImage: '/bmyb-services-digital-overview-01.webp',
   overviewImageAlt: 'Marketing strategy overview',
   benefitsTitle: 'Core Benefits of Digital Marketing',
   benefitsCards: [
@@ -94,8 +94,8 @@ export const digitalMarketingServiceData: ServicePageData = {
   ],
   faqTitle: 'Frequently Asked Questions',
   faqImages: [
-    { src: '/bmyb-services-servicefaq-01.webp', alt: 'Digital marketing strategy' },
-    { src: '/bmyb-services-servicefaq2-01.webp', alt: 'Marketing campaign planning' },
+    { src: '/bmyb-services-digital-faq-01.webp', alt: 'Digital marketing strategy' },
+    { src: '/bmyb-services-digital-faq-02.webp', alt: 'Marketing campaign planning' },
   ],
   faqs: [
     {

@@ -38,7 +38,7 @@ export const educationIndustry: IndustryItem = {
       description: 'Clearer digital structure that helps users understand offerings and move toward action.',
       name: 'Learning Path',
       role: 'Program Team',
-      showcaseImage: '/bmyb-case-learnandlabel-slider-01.webp',
+      showcaseImage: '/bmyb-global-container-05.webp',
       showcaseAlt: 'Learn and Label education case study showcase',
       logoSrc: '/bmyb-case-learnandlabel-learnandlabellogo-01.svg',
       logoAlt: 'Learn and Label',

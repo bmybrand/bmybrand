@@ -67,7 +67,7 @@ export default function HealthcareStories({
       {stories.map((story, index) => {
         const isReversed = index % 2 === 1
         const showcase = (
-          <div className={`h-full min-h-[320px] overflow-hidden rounded-4xl ${storyBackgrounds[index % storyBackgrounds.length]}`}>
+          <div className={`h-full min-h-[400px] sm:min-h-[460px] lg:min-h-[540px] overflow-hidden rounded-4xl ${storyBackgrounds[index % storyBackgrounds.length]}`}>
             <img
               src={story.showcaseImage ?? '/bmyb-global-container-01.webp'}
               alt={story.showcaseAlt ?? 'Case study showcase'}

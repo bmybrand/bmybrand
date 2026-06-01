@@ -16,7 +16,7 @@ export const aiDrivenServiceData: ServicePageData = {
     { title: 'Scalable AI Systems' },
     { title: 'Data-Driven Intelligence' },
   ],
-  bannerImage: '/bmyb-services-service-banner-01.webp',
+  bannerImage: '/bmyb-services-ai-banner-01.webp',
   bannerAlt: 'AI solutions in action',
   overviewTitle: 'AI Solutions We Build for Modern Businesses',
   overviewDescription:
@@ -49,7 +49,7 @@ export const aiDrivenServiceData: ServicePageData = {
       desc: 'We develop AI-powered support tools that improve response time, customer satisfaction, and service availability.',
     },
   ],
-  overviewImage: '/bmyb-services-ai-aioverview-01.webp',
+  overviewImage: '/bmyb-services-ai-overview-01.webp',
   overviewImageAlt: 'AI smart assistant interface',
   benefitsTitle: 'Core Benefits of AI-Driven Solutions',
   benefitsCards: [
@@ -94,8 +94,8 @@ export const aiDrivenServiceData: ServicePageData = {
   ],
   faqTitle: 'Frequently Asked Questions',
   faqImages: [
-    { src: '/bmyb-services-servicefaq-01.webp', alt: 'AI VR experience' },
-    { src: '/bmyb-services-servicefaq2-01.webp', alt: 'AI business meeting' },
+    { src: '/bmyb-services-ai-faq-01.webp', alt: 'AI VR experience' },
+    { src: '/bmyb-services-ai-faq-02.webp', alt: 'AI business meeting' },
   ],
   faqs: [
     {

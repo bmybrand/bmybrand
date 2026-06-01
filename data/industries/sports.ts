@@ -38,7 +38,7 @@ export const sportsIndustry: IndustryItem = {
       description: 'Clearer digital communication and stronger visual systems for fan-first engagement.',
       name: 'Club Forward',
       role: 'Brand Team',
-      showcaseImage: '/bmyb-case-jersey-slider-01.webp',
+      showcaseImage: '/bmyb-global-container-03.webp',
       showcaseAlt: 'Jersey sports case study showcase',
       logoSrc: '/bmyb-case-jersey-logo-01.svg',
       logoAlt: 'Jersey',

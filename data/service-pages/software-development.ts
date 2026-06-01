@@ -16,7 +16,7 @@ export const softwareDevelopmentServiceData: ServicePageData = {
     { title: 'SaaS Application Development' },
     { title: 'Business-Focused Technology' },
   ],
-  bannerImage: '/bmyb-services-service-banner-01.webp',
+  bannerImage: '/bmyb-services-software-banner-01.webp',
   bannerAlt: 'Software development',
   overviewTitle: 'Modern Development Solutions Built for Scale',
   overviewDescription:
@@ -49,7 +49,7 @@ export const softwareDevelopmentServiceData: ServicePageData = {
       desc: 'We build custom web applications that streamline processes, improve efficiency, and support digital transformation.',
     },
   ],
-  overviewImage: '/bmyb-services-ai-aioverview-01.webp',
+  overviewImage: '/bmyb-services-software-overview-01.webp',
   overviewImageAlt: 'Software architecture and development',
   benefitsTitle: 'Why Businesses Invest in Modern Web Solutions',
   benefitsCards: [
@@ -99,8 +99,8 @@ export const softwareDevelopmentServiceData: ServicePageData = {
     'Custom development solutions designed to improve performance, support operations, and evolve with your business.',
   faqTitle: 'Frequently Asked Questions',
   faqImages: [
-    { src: '/bmyb-services-servicefaq-01.webp', alt: 'Software development team' },
-    { src: '/bmyb-services-servicefaq2-01.webp', alt: 'Custom software systems' },
+    { src: '/bmyb-services-software-faq-01.webp', alt: 'Software development team' },
+    { src: '/bmyb-services-software-faq-02.webp', alt: 'Custom software systems' },
   ],
   faqs: [
     {
