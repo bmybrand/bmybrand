@@ -160,6 +160,7 @@ const resourcesMenuItems = [
 const MegaMenu = ({
   isOpen,
   onClose,
+  onStartNavigate,
   onPreloaderNavigate,
   currentHash,
   currentPathname,
@@ -169,6 +170,7 @@ const MegaMenu = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
+  onStartNavigate?: (href: string) => void;
   onPreloaderNavigate?: (href: string) => (event: MouseEvent<HTMLAnchorElement>) => void;
   currentHash: string;
   currentPathname: string;
@@ -209,8 +211,11 @@ const MegaMenu = ({
       <div className={`flex ${hasTwoColumnLayout ? "flex-col lg:flex-row" : ""}`}>
         {/* Company: Left section with image + View Open Positions */}
         {isCompany && (
-          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4">
-            <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44">
+          <div
+            onClick={onStartNavigate ? () => onStartNavigate("/underconstruction") : undefined}
+            className="group lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 cursor-pointer rounded-l-2xl transition-colors hover:bg-white/5"
+          >
+            <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44 transition-transform duration-300 group-hover:scale-[1.01]">
               <img
                 src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop"
                 alt="Quality mockups"
@@ -218,21 +223,24 @@ const MegaMenu = ({
               />
             </div>
             <div>
-              <Link href="/underconstruction" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
+              <Link href="/underconstruction" className="text-white text-lg font-semibold transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 group-hover:text-[#F45B25]">
                 View Open Positions
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </Link>
-              <p className="text-white/60 text-sm mt-2">Find your place on our team. We&apos;re always looking for talented people to help us create exceptional work.</p>
+              <p className="text-white/60 text-sm mt-2 transition-colors group-hover:text-white/75">Find your place on our team. We&apos;re always looking for talented people to help us create exceptional work.</p>
             </div>
           </div>
         )}
 
         {/* Services: Left section with image + Explore All Services */}
         {isServices && (
-          <div className="lg:w-[45%] p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 overflow-hidden">
-            <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60 shrink-0">
+          <div
+            onClick={onStartNavigate ? () => onStartNavigate("/services") : undefined}
+            className="group lg:w-[45%] p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 overflow-hidden cursor-pointer rounded-l-2xl transition-colors hover:bg-white/5"
+          >
+            <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60 shrink-0 transition-transform duration-300 group-hover:scale-[1.01]">
               <img
                 src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop"
                 alt="Quality mockups"
@@ -240,24 +248,27 @@ const MegaMenu = ({
               />
             </div>
             <div className="min-h-0">
-              <Link href="/services" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
+              <div className="text-white text-lg font-semibold flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 transition-colors group-hover:text-[#F45B25]">
                 Explore All Services
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
-              </Link>
-              <p className="text-white/60 text-sm mt-2">From AI to web apps, discover how we help brands grow with creative and digital solutions.</p>
+              </div>
+              <p className="text-white/60 text-sm mt-2 transition-colors group-hover:text-white/75">From AI to web apps, discover how we help brands grow with creative and digital solutions.</p>
             </div>
           </div>
         )}
 
         {isResources && (
-          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10">
+          <div
+            onClick={onStartNavigate ? () => onStartNavigate("/grow-my-business") : undefined}
+            className="group lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 cursor-pointer rounded-l-2xl transition-colors hover:bg-white/5"
+          >
             <div className="relative rounded-xl overflow-hidden bg-white/5 h-40 lg:h-full lg:min-h-[17.5rem]">
               <img
                 src="/bmyb-navbar-resources-01.svg"
                 alt="Resources and insights"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
               />
               <div className="absolute bottom-2 left-4 inline-flex h-[39px] items-center gap-1 text-[0.8rem] text-white/90">
                 <img alt="" className="w-4 h-4" src="/bmyb-tech-whitelogo-01.svg" />
@@ -268,7 +279,9 @@ const MegaMenu = ({
         )}
 
         {/* Right section - Menu items */}
-        <div className={`${isCompany || isResources ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-[55%]" : "lg:w-1/2"}` : ""}`}>
+        <div
+          className={`${isCompany || isResources ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-[55%]" : "lg:w-1/2"}` : ""}`}
+        >
           <div className={hasTwoColumnLayout ? "flex flex-col justify-between flex-1 min-h-0" : isIndustries ? "flex flex-col gap-1" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
             {(type === "company" ? companyMenuItems : type === "services" ? servicesMenuItems : type === "industries" ? industriesMenuItems : resourcesMenuItems).map(
               (item: { title: string; href: string; desc: string; icon?: React.ReactNode }, idx: number
@@ -276,7 +289,12 @@ const MegaMenu = ({
               <Link
                 key={idx}
                 href={item.href}
-                onClick={(type === "services" || type === "industries") && onPreloaderNavigate ? onPreloaderNavigate(item.href) : undefined}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  if ((type === "services" || type === "industries") && onPreloaderNavigate) {
+                    onPreloaderNavigate(item.href)(event);
+                  }
+                }}
                 className={`flex rounded-xl transition-colors group ${isItemActive(item.href) ? "bg-white/10" : "hover:bg-white/10"} ${hasTwoColumnLayout ? "gap-4 min-w-0 py-1.5 px-3" : isIndustries ? "gap-3 py-2 px-2 min-w-0" : "gap-4 p-4"}`}
               >
                 {"icon" in item && item.icon && (
@@ -346,8 +364,7 @@ const Navbar = () => {
     };
   }, []);
 
-  const navigateWithPreloader = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
+  const startPreloaderNavigation = (href: string) => {
     setOpen(false);
     setMegaMenuOpen(null);
 
@@ -364,6 +381,11 @@ const Navbar = () => {
 
     window.dispatchEvent(new CustomEvent(NAVIGATION_PRELOADER_EVENT));
     router.push(href);
+  };
+
+  const navigateWithPreloader = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    startPreloaderNavigation(href);
   };
 
   const updateDropdownPosition = (type: "services" | "industries" | "company" | "resources") => {
@@ -442,7 +464,7 @@ const Navbar = () => {
             >
               Services
             </span>
-            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="services" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="services" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.industries = el; }}
@@ -459,7 +481,7 @@ const Navbar = () => {
             >
               Industries
             </span>
-            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="industries" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="industries" style={dropdownPosition} />
           </li>
           <li>
             <Link href="/case-studies" className={linkClasses("/case-studies")}>Case Studies</Link>
@@ -471,7 +493,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/about")}`}>Company</span>
-            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="company" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="company" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.resources = el; }}
@@ -480,7 +502,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/contact")}`}>Resources</span>
-            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="resources" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="resources" style={dropdownPosition} />
           </li>
         </ul>
 
