@@ -26,20 +26,20 @@ const SERVICE_LINKS = [
 ]
 
 const REVIEW_PLATFORMS = [
-  { name: 'Clutch', logo: '/bmyb-logo-clutchco-color-01.svg' },
-  { name: 'Yelp', logo: '/bmyb-logo-yelp-color-01.svg' },
+  { name: 'Clutch', logo: '/bmyb-logo-clutchco-color-01.svg', href: 'https://clutch.co/profile/bmybrand' },
+  { name: 'Yelp', logo: '/bmyb-logo-yelp-color-01.svg', href: 'https://www.yelp.com/biz/bmy-brand-allen-3' },
   { name: 'Bark', logo: '/bmyb-global-bark-color-01.svg' },
-  { name: 'Upwork', logo: '/bmyb-logo-upwork-color-01.svg' },
-  { name: 'Trustpilot', logo: '/bmyb-logo-trustpilot-color-01.svg' },
-  { name: 'Google', logo: '/bmyb-logo-google-color-01.svg' },
+  { name: 'Upwork', logo: '/bmyb-logo-google-color-01.svg' },
+  { name: 'Trustpilot', logo: '/bmyb-logo-trustpilot-color-01.svg', href: 'https://www.trustpilot.com/review/bmybrand.com' },
+  { name: 'Google', logo: '/bmyb-logo-upwork-color-01.svg' },
 ]
 
 const SOCIAL_LINKS = [
-  { name: 'Facebook', href: '#', Icon: FaFacebookF },
-  { name: 'Instagram', href: '#', Icon: FaInstagram },
-  { name: 'LinkedIn', href: '#', Icon: FaLinkedinIn },
+  { name: 'Facebook', href: 'https://www.facebook.com/bmybrandofficial/', Icon: FaFacebookF },
+  { name: 'Instagram', href: 'https://www.instagram.com/bmybrandofficial/', Icon: FaInstagram },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/bmy-brand/', Icon: FaLinkedinIn },
   { name: 'Twitter', href: '#', Icon: FaXTwitter },
-  { name: 'YouTube', href: '#', Icon: FaYoutube },
+  { name: 'YouTube', href: 'https://www.youtube.com/@BMyBrandofficial', Icon: FaYoutube },
 ]
 
 const brandText = 'BMYBRAND'
@@ -230,7 +230,17 @@ const Footer: React.FC = () => {
         {/* Middle: Reviewed on platforms */}
         <div className="flex flex-wrap items-center lg:justify-between justify-center gap-6 sm:gap-4 py-8 border-y border-white/10">
           {REVIEW_PLATFORMS.map((platform) => (
-            <div key={platform.name} className="flex flex-col items-center gap-2 min-w-20">
+            <div
+              key={platform.name}
+              onClick={() => {
+                if ('href' in platform) {
+                  window.open(platform.href, '_blank', 'noopener,noreferrer')
+                }
+              }}
+              role={'href' in platform ? 'link' : undefined}
+              tabIndex={'href' in platform ? 0 : undefined}
+              className={`flex flex-col items-center gap-2 min-w-20 ${'href' in platform ? 'cursor-pointer rounded-lg px-2 py-2 transition-colors hover:bg-white/5' : ''}`}
+            >
               <img
                 src={platform.logo}
                 alt={platform.name}
@@ -328,6 +338,8 @@ const Footer: React.FC = () => {
                     <a
                       key={social.name}
                       href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
                       aria-label={social.name}
                       className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-[#F45B25] transition-colors"
                     >
