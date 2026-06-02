@@ -1,4 +1,4 @@
-export type Metric = {
+﻿export type Metric = {
   label: string
   value: string
 }
@@ -94,10 +94,10 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'In short, the challenge was to transform complex healthcare information into a clear, patient-first digital experience that builds trust instantly, reduces stress, and supports fast, confident decision-making across all devices.'
       ],
       whatWeDidItems: [
+        'Brand Identity',
         'UI/UX Design',
         'Website Development',
-        'Responsive Design',
-        'Website Deployment'
+        'Copywriting'
       ],
       galleryImages: [
         '/bmyb-case-fountain-hills-gallery-new-01.webp',
@@ -298,12 +298,12 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
     hero: {
       logo: '/bmyb-case-pink-me-pm-logo-01.svg',
       logoAlt: 'Pink.Me Logo',
-      tags: ['Non-profit', 'UI/UX', 'Development'],
-      title: 'Building a Vibrant Digital Storefront\nfor a Fashion-Forward Brand',
+      tags: ['Nonprofit Branding', 'Web Design', 'Web Development', 'Copywriting'],
+      title: 'Designed a Digital Home for Hope,\nHealing, and Breast Cancer Support',
       metrics: [
-        { label: 'Store Focus', value: 'Direct-to-Consumer' },
-        { label: 'Key Pages Delivered', value: '10+ Pages' },
-        { label: 'Industry', value: 'Non-profit' },
+        { label: 'Organization Type', value: 'Nonprofit' },
+        { label: 'Programs Supported', value: '5+ Programs' },
+        { label: 'Industry', value: 'Healthcare / Nonprofit' },
       ],
       websiteUrl: '#',
       sliderImages: [
@@ -317,21 +317,20 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       ]
     },
     background: {
-      introText: 'BMYBrand partnered with Pink.Me to design and develop a fashion-forward e-commerce experience that captures the brand’s playful identity and makes product discovery and checkout feel effortless.',
+      introText: 'BMYBrand partnered with PINK "ME" to design and develop a compassionate, mission-driven digital platform that connects breast cancer patients, survivors, and families with the financial assistance, food support, and community resources they need, all in one place.',
       backgroundParagraphs: [
-        'Pink.Me is a fashion and retail brand that needed a digital presence capable of translating its vibrant personality into a modern shopping experience. The goal was to create a storefront that feels stylish, energetic, and easy to navigate.',
-        'The site needed to support product discovery, brand storytelling, and smooth conversion while reflecting the bold visual language of the brand across every screen size.'
+        'PINK "ME" is a nonprofit breast cancer organization dedicated to ensuring no woman faces breast cancer alone. Through financial assistance grants, food support, mammogram access, and community connection programs, the organization serves patients in active treatment, survivors rebuilding their lives, and families carrying the weight of a diagnosis.',
+        'The organization needed a digital presence that matched the depth of their mission - one that felt as warm and human as the support they provide every single day.'
       ],
       challengeParagraphs: [
-        'Pink.Me needed a vibrant online presence that would capture their unique brand personality and convert visitors into customers through an engaging shopping experience. The challenge was to create a storefront that felt premium and playful without becoming cluttered.',
-        'Product presentation, navigation, and checkout needed to stay simple so the brand story could shine while still driving purchases efficiently.',
-        'In short, the challenge was to transform a distinctive fashion brand into a digital experience that feels modern, expressive, and ready to convert.'
+        'Nonprofits operate in a uniquely emotional digital space. Every visitor arriving at PINK "ME"\'s website is either seeking help in a vulnerable moment, looking to give, or searching for ways to get involved. The platform had to speak clearly and compassionately to all three audiences simultaneously, without feeling cluttered, cold, or confusing.',
+        'The biggest challenge was translating multiple programs, each with its own audience, eligibility requirements, and emotional weight, into a single, navigable experience that felt unified, trustworthy, and easy to act on.'
       ],
       whatWeDidItems: [
+        'Brand Identity',
         'UI/UX Design',
         'Website Development',
-        'Responsive Design',
-        'Website Deployment'
+        'Copywriting'
       ],
       galleryImages: [
         '/bmyb-case-pink-me-gallery-01.webp',
@@ -343,33 +342,31 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
     },
     solution: {
       introParagraphs: [
-        'Understanding the need for a vibrant, conversion-friendly storefront, we delivered a comprehensive digital solution tailored to Pink.Me’s fashion and retail audience.',
-        'BMYBrand led the full website design and development process, creating a visually striking e-commerce experience built around trust, fast access, and clarity. Through a strong content structure, clear hierarchy, and conversion-focused CTAs, the website now makes it easy to discover products and shop with confidence.'
+        'BMYBrand designed a warm, dignity-centered digital platform built around clarity, empathy, and action. The visual direction used soft, hopeful tones that reflect the organization\'s compassionate identity while maintaining the professionalism donors and partners expect.',
+        'Each program - the Treatment Assistance Grant, Survivor Wellness Grant, PINK "ME" Up Food Project, Mammograms Matter NM, and Connected by Cells, received its own clearly structured content area, making it easy for every visitor to quickly find what was meant for them.',
+        'Donation pathways, volunteer opportunities, and partnership pages were designed with direct, human CTAs that communicate real impact, not just a button to click.'
       ],
       resultsParagraphs: [
-        'The redesigned website successfully elevated Pink.Me’s online presence, giving the brand a stronger digital identity and a clearer shopping experience. Product discovery is easier, the story feels more cohesive, and the experience feels more premium overall.',
-        'As a result, the store is better positioned to convert visitors into customers while supporting future brand growth.'
+        'The new platform gave PINK "ME" a digital presence that truly reflects their heart. Patients and families can now find assistance programs quickly without confusion. Donors can see exactly where their contribution goes. Volunteers and partners have a clear, welcoming entry point into the organization\'s community.',
+        'The website now works as hard for PINK "ME" as their team does, connecting people to help, hope, and each other around the clock.'
       ],
       accomplishments: [
-        { title: 'Bold brand translation', desc: 'The website feels true to Pink.Me’s visual identity while giving the brand a polished digital storefront.' },
-        { title: 'Cleaner shopping flow', desc: 'Browsing and purchase paths were simplified so customers can move from discovery to checkout more easily.' },
-        { title: 'Stronger product storytelling', desc: 'Product imagery, messaging, and layout work together to help items stand out and feel more desirable.' },
-        { title: 'Responsive storefront', desc: 'A mobile-first e-commerce experience designed to look sharp and perform smoothly across devices.' }
+        { title: 'A Platform Built Around People', desc: 'Every page was designed with a specific audience in mind: patients, survivors, donors, and volunteers, so every visitor feels seen and guided.' },
+        { title: 'Programs Made Simple', desc: 'Five distinct support programs are presented clearly and compassionately, making it easy for women in need to understand what help is available and how to apply.' },
+        { title: 'Donor Trust by Design', desc: 'Clean impact messaging, financial transparency, and real program storytelling build the confidence donors need to give, and keep giving.' },
+        { title: 'A Voice That Matches the Mission', desc: 'Every word on the platform was written to feel human, warm, and empowering, reflecting the dignity and hope at the core of everything PINK "ME" does.' }
       ],
       bannerImage: '/bmyb-case-pink-me-pinkmebg-01.svg',
       bannerVideo: '/bmyb-case-pink-me-01.mp4'
     },
     reviews: {
-      title: 'REVIEWS FROM\nPINK.ME TEAM',
-      subtitle: 'We partnered closely with the Pink.Me team to deliver a bold, modern e-commerce experience. Here is their feedback on the final outcome.',
+      title: 'REVIEWS FROM THE\nPINK "ME" TEAM',
+      subtitle: 'We were honored to work alongside the PINK "ME" team on a mission this meaningful. Here is what they shared about the experience.',
       reviewsList: [
-        { id: 1, name: 'Pink.Me Founder', position: 'Brand Lead', image: 'https://i.pravatar.cc/150?img=12', testimonial: 'BMYBrand helped us turn our brand style into a digital experience that feels vibrant, polished, and easy to shop. The site feels much more aligned with who we are.' },
-        { id: 2, name: 'Operations Team', position: 'E-commerce Management', image: 'https://i.pravatar.cc/150?img=5', testimonial: 'The new storefront made the shopping journey much clearer for customers. It is easier to navigate and feels a lot more premium than before.' },
-        { id: 3, name: 'Customer Feedback', position: 'Online Shoppers', image: 'https://i.pravatar.cc/150?img=8', testimonial: 'The website now feels fun, stylish, and easy to use. It is much more enjoyable to browse and buy from the brand online.' }
+        { id: 1, name: 'PINK "ME" Team', position: 'Nonprofit Organization', image: 'https://i.pravatar.cc/150?img=12', testimonial: 'BMYBrand took the time to truly understand who we are and who we serve. The website they built doesn\'t just look beautiful; it feels like us. Our patients, donors, and volunteers can now find exactly what they need, and we finally have a platform we\'re proud to share. They brought our mission to life digitally in a way we never thought possible.' }
       ]
     }
-  },
-  'instinctive-healthcare-solutions': {
+  },  'instinctive-healthcare-solutions': {
     slug: 'instinctive-healthcare-solutions',
     accentColor: '#00ACC8',
     accentColorRgb: '0 172 200',
