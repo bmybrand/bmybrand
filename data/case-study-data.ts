@@ -334,7 +334,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-pink-me-gallery-01.svg',
+        '/bmyb-case-pink-me-gallery-01.webp',
         '/bmyb-case-pink-me-gallery-02.svg',
         '/bmyb-case-pink-me-gallery-03.svg',
       ],
