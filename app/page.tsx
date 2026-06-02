@@ -4,11 +4,11 @@ import Navbar from "@/components/navbar";
 import Addblock from "@/components/addblock";
 import Ourbranding from "@/components/ourbranding";
 import BottomCTA from "@/components/bottomcta";
+import Footer from "@/components/footer";
 const Logobar = dynamic(() => import("@/components/logobar"))
 const Flyingbear = dynamic(() => import("@/components/flyingbear"))
 const StackingCards = dynamic(() => import("@/components/stackingcards"))
 const DesignedGrow = dynamic(() => import("@/components/designedgrow"))
-const Footer = dynamic(() => import("@/components/footer"))
 const Technologies = dynamic(() => import("@/components/technologies"))
 const CreativeProcess = dynamic(() => import("@/components/creativeprocess"))
 const Brandsspec = dynamic(() => import("@/components/brandsspec"))

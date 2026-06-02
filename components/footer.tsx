@@ -193,26 +193,36 @@ const Footer: React.FC = () => {
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <h3 className="text-white font-semibold text-base lg:text-lg mb-4 BenzinSemibold">Office Locations</h3>
             <div className="space-y-4 text-sm lg:text-base text-white/70">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 shrink-0 rounded-full overflow-hidden border border-white/20 bg-white/5">
+              <div className="flex items-start gap-3">
+                <div className="mt-1 w-8 h-8 shrink-0 rounded-full overflow-hidden border border-white/20 bg-white/5">
                   <img
                     src="https://flagcdn.com/w80/us.png"
                     alt="USA"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span>PO BOX 605 Allen, TX 75013</span>
+                <div className="space-y-1">
+                  <div>PO BOX 605 Allen, TX 75013</div>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 shrink-0 rounded-full overflow-hidden border border-white/20 bg-white/5">
+              <div className="flex items-start gap-3">
+                <div className="mt-1 w-8 h-8 shrink-0 rounded-full overflow-hidden border border-white/20 bg-white/5">
                   <img
                     src="https://flagcdn.com/w80/ca.png"
                     alt="Canada"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span>PO BOX 605 Allen, TX 75013</span>
+                <div className="space-y-1">
+                  <div> 845 Adelaide St W, Toronto, ON M6J 3X1, Canada</div>
+                </div>
               </div>
+              <a
+                href="tel:+14695011401"
+                className="flex w-full cursor-pointer items-center justify-center rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] px-6 py-3 text-center font-semibold text-white transition-colors hover:opacity-90 BenzinSemibold"
+              >
+                +1 469 501 1401
+              </a>
             </div>
           </div>
         </div>
@@ -333,11 +343,11 @@ const Footer: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-white/70">
             <p className="order-2 sm:order-1 text-[16px]">Copyright © {currentYear ?? ''} BMYBrand | All Rights Reserved.</p>
             <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2">
-              <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Terms Of Use</a>
+              <Link href="/terms-of-use" className="text-white/70 hover:text-[#F45B25] transition-colors">Terms Of Use</Link>
               <span className="text-white/40">|</span>
-              <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Privacy Policy</a>
+              <Link href="/privacy-policy" className="text-white/70 hover:text-[#F45B25] transition-colors">Privacy Policy</Link>
               <span className="text-white/40">|</span>
-              <a href="#" className="text-white/70 hover:text-[#F45B25] transition-colors">Cookie Policy</a>
+              <Link href="/cookie-policy" className="text-white/70 hover:text-[#F45B25] transition-colors">Cookie Policy</Link>
             </div>
           </div>
         </div>

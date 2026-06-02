@@ -11,6 +11,16 @@
     max-width: 100%;
     overflow-x: clip;
   }
+
+  ::selection {
+    background: #f45b25;
+    color: #ffffff;
+  }
+
+  ::-moz-selection {
+    background: #f45b25;
+    color: #ffffff;
+  }
 }
 
 .BenzinBold {

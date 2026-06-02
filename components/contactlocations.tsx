@@ -7,8 +7,9 @@ const locations = [
   {
     title: 'US Office',
     city: 'Allen',
-    cityDetail: 'Allen, TX',
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d107121.97083197329!2d-96.68034823125!3d33.10378080000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c3c6e4e8b8b8b%3A0x8b8b8b8b8b8b8b8b!2sAllen%2C%20TX%2075013!5e0!3m2!1sen!2sus!4v1234567890123',
+    cityDetail: 'PO BOX 605, Allen, TX',
+    mapUrl: 'https://www.google.com/maps?q=PO%20BOX%20605%20Allen%2C%20TX%2075013&output=embed',
+    mapLink: 'https://www.google.com/maps/search/?api=1&query=PO+BOX+605+Allen%2C+TX+75013',
     email: 'info@bmybrand.com',
     phone: '+1 469 501 1401',
     location: 'PO BOX 605 Allen, TX 75013'
@@ -16,8 +17,9 @@ const locations = [
   {
     title: 'Canada Office',
     city: 'Toronto',
-    cityDetail: 'Adelaide St W, Toronto',
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d184552.57953167734!2d-79.54286773125!3d43.71837550000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b34d68bf33a9b%3A0x15edd8c4de1c7581!2sToronto%2C%20ON%2C%20Canada!5e0!3m2!1sen!2sus!4v1234567890123',
+    cityDetail: '845 Adelaide St W, Toronto',
+    mapUrl: 'https://www.google.com/maps?q=845%20Adelaide%20St%20W%2C%20Toronto%2C%20ON%20M6J%203X1%2C%20Canada&output=embed',
+    mapLink: 'https://www.google.com/maps/search/?api=1&query=845+Adelaide+St+W%2C+Toronto%2C+ON+M6J+3X1%2C+Canada',
     email: 'info@bmybrand.com',
     phone: '+(587) 492-5888',
     location: '845 Adelaide St W, Toronto, ON M6J 3X1, Canada'
@@ -60,8 +62,10 @@ export default function ContactLocations() {
                     <span className="text-sm font-semibold text-[#11122F]">{location.city}</span>
                   </div>
                   <p className="text-xs text-gray-600 mt-1">{location.cityDetail}</p>
-                  <a 
-                    href="#" 
+                  <a
+                    href={location.mapLink}
+                    target="_blank"
+                    rel="noreferrer"
                     className="text-xs text-[#F45B25] hover:underline mt-1 inline-block"
                   >
                     View larger map
