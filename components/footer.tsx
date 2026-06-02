@@ -221,7 +221,7 @@ const Footer: React.FC = () => {
                 href="tel:+14695011401"
                 className="flex w-full cursor-pointer items-center justify-center rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] px-6 py-3 text-center font-semibold text-white transition-colors hover:opacity-90 BenzinSemibold"
               >
-                +1 469 501 1401
+                Call Our Team
               </a>
             </div>
           </div>
