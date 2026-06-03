@@ -40,12 +40,12 @@ export default function BrandFaq() {
   }
 
   const logos = [
-    { default: '/bmyb-logo-client-01.svg', hover: '/bmyb-logo-client-01.svg', alt: 'Client Logo 1' },
-    { default: '/bmyb-logo-client-02.svg', hover: '/bmyb-logo-client-02.svg', alt: 'Client Logo 2' },
-    { default: '/bmyb-logo-client-03.svg', hover: '/bmyb-logo-client-03.svg', alt: 'Client Logo 3' },
-    { default: '/bmyb-logo-client-04.svg', hover: '/bmyb-logo-client-04.svg', alt: 'Client Logo 4' },
-    { default: '/bmyb-logo-client-05.svg', hover: '/bmyb-logo-client-05.svg', alt: 'Client Logo 5' },
-    { default: '/bmyb-logo-client-06.svg', hover: '/bmyb-logo-client-06.svg', alt: 'Client Logo 6' }
+    { default: '/bmyb-logo-abboott-fill-01.svg', hover: '/bmyb-logo-abboott-fill-hover-01.svg', alt: 'Client Logo 1' },
+    { default: '/bmyb-logo-abboott-fill-03.svg', hover: '/bmyb-logo-abboott-fill-hover-03.svg', alt: 'Client Logo 2' },
+    { default: '/bmyb-logo-abboott-fill-04.svg', hover: '/bmyb-logo-abboott-fill-hover-04.svg', alt: 'Client Logo 3' },
+    { default: '/bmyb-logo-abboott-fill-08.svg', hover: '/bmyb-logo-abboott-fill-hover-08.svg', alt: 'Client Logo 4' },
+    { default: '/bmyb-logo-abboott-fill-09.svg', hover: '/bmyb-logo-abboott-fill-hover-09.svg', alt: 'Client Logo 5' },
+    { default: '/bmyb-logo-abboott-fill-10.svg', hover: '/bmyb-logo-abboott-fill-hover-10.svg', alt: 'Client Logo 6' }
   ]
   return (
     <section className="py-20 px-6 ">

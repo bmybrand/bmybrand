@@ -10,12 +10,12 @@ import Brandsspec from '../brandsspec'
 import type { ServicePageData } from '@/data/service-pages/types'
 
 const clientLogos = [
-  { default: '/bmyb-logo-vector-08.svg', hover: '/bmyb-logo-vector-orange-02.svg', alt: 'Abbott' },
-  { default: '/bmyb-logo-vector-09.svg', hover: '/bmyb-logo-vector-orange-04.svg', alt: 'London Real' },
-  { default: '/bmyb-logo-vector-10.svg', hover: '/bmyb-logo-vector-orange-03.svg', alt: 'Decathlon' },
-  { default: '/bmyb-logo-vector-11.svg', hover: '/bmyb-logo-vector-orange-06.svg', alt: 'Targus' },
-  { default: '/bmyb-logo-vector-12.svg', hover: '/bmyb-logo-vector-orange-01.svg', alt: 'Single Grain' },
-  { default: '/bmyb-logo-vector-13.svg', hover: '/bmyb-logo-vector-orange-05.svg', alt: 'York University' },
+  { default: '/bmyb-logo-abboott-fill-01.svg', hover: '/bmyb-logo-abboott-fill-hover-01.svg', alt: 'Client Logo 1' },
+  { default: '/bmyb-logo-abboott-fill-03.svg', hover: '/bmyb-logo-abboott-fill-hover-03.svg', alt: 'Client Logo 2' },
+  { default: '/bmyb-logo-abboott-fill-04.svg', hover: '/bmyb-logo-abboott-fill-hover-04.svg', alt: 'Client Logo 3' },
+  { default: '/bmyb-logo-abboott-fill-08.svg', hover: '/bmyb-logo-abboott-fill-hover-08.svg', alt: 'Client Logo 4' },
+  { default: '/bmyb-logo-abboott-fill-09.svg', hover: '/bmyb-logo-abboott-fill-hover-09.svg', alt: 'Client Logo 5' },
+  { default: '/bmyb-logo-abboott-fill-10.svg', hover: '/bmyb-logo-abboott-fill-hover-10.svg', alt: 'Client Logo 6' },
 ]
 
 type SharedServicePageProps = {

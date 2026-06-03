@@ -4,7 +4,11 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
-const FHFooter = () => {
+type Props = {
+  title?: string
+}
+
+const FHFooter = ({ title = "Let's Talk About\nYour Project" }: Props) => {
   const router = useRouter()
 
   return (
@@ -30,8 +34,12 @@ const FHFooter = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-9xl text-white BenzinSemibold mb-12 leading-tight"
         >
-          Let's Talk About<br />
-          Your Project
+          {title.split('\n').map((line, index) => (
+            <React.Fragment key={index}>
+              {index > 0 ? <br /> : null}
+              {line}
+            </React.Fragment>
+          ))}
         </motion.h2>
 
         {/* CTA Button */}
