@@ -583,15 +583,15 @@ export default function BrandExperienceHero() {
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent)]" />
             </div>
 
-            <div className="relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-4 md:row-span-3 flex items-center justify-center">
+            <div className="group relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] p-5 md:col-span-4 md:row-span-3 flex items-center justify-center">
   
   <img
     src="/bmyb-tech-bentologobox-01.svg"
     alt="Brand workflow icons"
-    className="max-w-full max-h-full object-contain"
+    className="relative z-10 max-w-full max-h-full object-contain transition-all duration-300 ease-out group-hover:scale-[1.04] group-hover:drop-shadow-[0_0_26px_rgba(244,91,37,0.5)]"
   />
 
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_58%)]" />
+  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_58%)]" />
 </div>
           </div>
         </div>
