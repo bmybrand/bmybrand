@@ -217,7 +217,7 @@ const MegaMenu = ({
           >
             <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44 transition-transform duration-300 group-hover:scale-[1.01]">
               <img
-                src="/bmyb-navbar-company-01.svg"
+                src="/bmyb-navbar-company-01.webp"
                 alt="Company menu preview"
                 className="w-full h-full object-cover"
               />
@@ -242,7 +242,7 @@ const MegaMenu = ({
           >
             <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60 shrink-0 transition-transform duration-300 group-hover:scale-[1.01]">
               <img
-                src="/bmyb-navbar-services-01.svg"
+                src="/bmyb-navbar-services-01.webp"
                 alt="Services menu preview"
                 className="w-full h-full object-cover"
               />
