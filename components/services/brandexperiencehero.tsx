@@ -6,6 +6,7 @@ import Gravity, { MatterBody } from '@/components/fancy/physics/gravity'
 
 export default function BrandExperienceHero() {
   const [activePrimaryCard, setActivePrimaryCard] = React.useState<'audit' | 'strategy'>('audit')
+  const [activePaletteColor, setActivePaletteColor] = React.useState('#F45B25')
   const [bentoInView, setBentoInView] = React.useState(false)
   const [physicsReady, setPhysicsReady] = React.useState(false)
   const [heroVideoInView, setHeroVideoInView] = React.useState(false)
@@ -184,7 +185,7 @@ export default function BrandExperienceHero() {
 
             <div className="grid grid-cols-2 gap-6">
               {features.map((feature, index) => (
-                <div key={index} className="rounded-xl border-2 border-white/10 bg-[#191A35] p-7 transition-all duration-300 hover:border-[#F45B25]/50">
+                <div key={index} className="rounded-xl border-2 border-white/10 bg-[#191A35] p-7 transition-all duration-300 hover:border-[#F45B25]">
                   <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#21223F]">
                     <img src={feature.image} alt="" className="h-10 w-10 object-contain" />
                   </div>
@@ -210,7 +211,7 @@ export default function BrandExperienceHero() {
                       type="button"
                       onClick={() => setActivePrimaryCard('audit')}
                       className={`inline-flex h-8 items-center rounded-full px-4 transition-colors BenzinRegular ${
-                        activePrimaryCard === 'audit' ? 'bg-[#FF6A2B] text-white' : 'text-white/78'
+                        activePrimaryCard === 'audit' ? 'bg-[#F45B25] text-white' : 'text-white/78'
                       }`}
                     >
                       Website Audit
@@ -219,7 +220,7 @@ export default function BrandExperienceHero() {
                       type="button"
                       onClick={() => setActivePrimaryCard('strategy')}
                       className={`inline-flex h-8 items-center rounded-full px-4 transition-colors BenzinRegular ${
-                        activePrimaryCard === 'strategy' ? 'bg-[#FF6A2B] text-white' : 'text-white/78'
+                        activePrimaryCard === 'strategy' ? 'bg-[#F45B25] text-white' : 'text-white/78'
                       }`}
                     >
                       Strategy Call
@@ -232,13 +233,13 @@ export default function BrandExperienceHero() {
                     {primaryCardContent.heading}
                     <span className="mt-2 block">
                       {primaryCardContent.emphasisPrefix ?? ''}
-                      <span className="text-[#FF6A2B]">{primaryCardContent.emphasis}</span>
+                      <span className="text-[#F45B25]">{primaryCardContent.emphasis}</span>
                     </span>
                   </h3>
                   <p className="mt-4 text-base leading-relaxed text-white/58">
                     {primaryCardContent.description}
                   </p>
-                  <button className="mt-6 rounded-[0.45rem] bg-[#FF6A2B] px-7 py-4 text-sm text-white BenzinSemibold">
+                  <button className="mt-6 rounded-[0.45rem] bg-[#F45B25] px-7 py-4 text-sm text-white BenzinSemibold">
                     {primaryCardContent.cta}
                   </button>
                 </div>
@@ -494,14 +495,29 @@ export default function BrandExperienceHero() {
                 <div className="text-[24px] leading-none text-white BenzinSemibold">
                   Benzin
                 </div>
-                <div className="text-[24px] leading-none text-white BenzinSemibold tracking-[0.02em]">
-                  #F45B25
+                <div
+                  className="text-[24px] leading-none text-white BenzinSemibold tracking-[0.02em] transition-all duration-300 ease-out"
+                  style={{ color: activePaletteColor }}
+                >
+                  {activePaletteColor}
                 </div>
                 <div className="flex items-center">
-                  <span className="h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#FF843E_0%,#F45B25_100%)] shadow-[0_0_30px_rgba(244,91,37,0.4)]" />
-                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#F45B25_0%,#FF843E_100%)] shadow-[0_0_30px_rgba(255,132,62,0.35)]" />
-                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#FFF8F0_0%,#FFFFFF_58%,#F1E8DE_100%)]" />
-                  <span className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[linear-gradient(180deg,#353777_0%,#27295E_58%,#1E204B_100%)]" />
+                  <span
+                    className="h-[3.3rem] w-[3.3rem] rounded-full bg-[#F45B25] shadow-[0_0_30px_rgba(244,91,37,0.4)]"
+                    onMouseEnter={() => setActivePaletteColor('#F45B25')}
+                  />
+                  <span
+                    className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[#FF843E] shadow-[0_0_30px_rgba(255,132,62,0.35)]"
+                    onMouseEnter={() => setActivePaletteColor('#FF843E')}
+                  />
+                  <span
+                    className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[#FFF8F0]"
+                    onMouseEnter={() => setActivePaletteColor('#FFF8F0')}
+                  />
+                  <span
+                    className="-ml-3 h-[3.3rem] w-[3.3rem] rounded-full bg-[#27295E]"
+                    onMouseEnter={() => setActivePaletteColor('#27295E')}
+                  />
                 </div>
               </div>
             </div>
@@ -536,7 +552,7 @@ export default function BrandExperienceHero() {
                     transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
                     viewport={{ once: true }}
                   >
-                    <div className="flex h-[90px] w-[90px] items-center justify-center rounded-[1.2rem] bg-[linear-gradient(180deg,#FF843E_0%,#F45B25_100%)] shadow-[0_0_30px_rgba(244,91,37,0.24)]">
+                    <div className="flex h-[90px] w-[90px] items-center justify-center rounded-[1.2rem] bg-[#F45B25] shadow-[0_0_30px_rgba(244,91,37,0.24)]">
                       <img
                         src="/bmyb-tech-whitelogo-01.svg"
                         alt="BMYBrand mark"
