@@ -71,6 +71,35 @@ const reviews = [
 
 const calendarDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
+function getMonthStart(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function isSelectableDay(year: number, month: number, day: number) {
+  const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const cellDate = new Date(year, month, day);
+  return cellDate >= todayStart;
+}
+
+function firstSelectableDayInMonth(year: number, month: number) {
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let day = 1; day <= daysInMonth; day++) {
+    if (isSelectableDay(year, month, day)) return day;
+  }
+  return null;
+}
+
+function getInitialCalendarState() {
+  const today = new Date();
+  const monthStart = getMonthStart(today);
+  const firstDay = firstSelectableDayInMonth(today.getFullYear(), today.getMonth());
+  return {
+    calendarDate: monthStart,
+    selectedDate: firstDay ?? today.getDate(),
+  };
+}
+
 function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
   return (
     <article className="review-card flex h-full w-full shrink-0 flex-col rounded-[22px] border border-[#2A2B47] bg-[#191A35] px-6 py-6 sm:px-7 sm:py-7">
@@ -273,8 +302,14 @@ export default function StrategyCallPage() {
     });
   }, [step]);
 
-  const [calendarDate, setCalendarDate] = useState(new Date(2026, 3, 1));
-  const [selectedDate, setSelectedDate] = useState(6);
+  const [calendarDate, setCalendarDate] = useState(() => {
+    const initial = getInitialCalendarState();
+    return initial.calendarDate;
+  });
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const initial = getInitialCalendarState();
+    return initial.selectedDate;
+  });
   const [selectedTime, setSelectedTime] = useState("");
   const [timezoneOpen, setTimezoneOpen] = useState(false);
   const [timezoneQuery, setTimezoneQuery] = useState("");
@@ -358,8 +393,9 @@ export default function StrategyCallPage() {
     callNotes.trim() !== "" &&
     source.trim() !== "";
 
-  const availableDays = [6, 7, 8, 9, 10, 13, 14, 15, 16];
   const baseTimeSlots = ["01:00", "01:30", "02:00", "02:40", "03:00", "03:30"];
+  const canGoToPreviousMonth =
+    getMonthStart(calendarDate).getTime() > getMonthStart(new Date()).getTime();
   const timezoneOptions = [
     { label: "Asia/Mongolia/Ulaanbaatar", time: "6:26 AM" },
     { label: "Asia/Israel/Jerusalem", time: "1:26 AM" },
@@ -435,9 +471,18 @@ export default function StrategyCallPage() {
   };
 
   const changeCalendarMonth = (offset: number) => {
-    setCalendarDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
-    setSelectedDate(availableDays[0]);
-    setSelectedTime("");
+    if (offset < 0 && !canGoToPreviousMonth) return;
+
+    const currentMonthStart = getMonthStart(new Date());
+    setCalendarDate((prev) => {
+      const next = new Date(prev.getFullYear(), prev.getMonth() + offset, 1);
+      if (getMonthStart(next).getTime() < currentMonthStart.getTime()) return prev;
+
+      const firstDay = firstSelectableDayInMonth(next.getFullYear(), next.getMonth());
+      if (firstDay !== null) setSelectedDate(firstDay);
+      setSelectedTime("");
+      return next;
+    });
   };
 
   const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
@@ -922,7 +967,11 @@ export default function StrategyCallPage() {
                               <button
                                 type="button"
                                 onClick={() => changeCalendarMonth(-1)}
-                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                                disabled={!canGoToPreviousMonth}
+                                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] p-2.5 ${canGoToPreviousMonth
+                                  ? "text-white/28 hover:text-white/60"
+                                  : "cursor-not-allowed text-white/10"
+                                  }`}
                                 aria-label="Previous month"
                               >
                                 <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135 brightness-0 invert" />
@@ -930,7 +979,7 @@ export default function StrategyCallPage() {
                               <button
                                 type="button"
                                 onClick={() => changeCalendarMonth(1)}
-                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5 hover:text-white/60"
                                 aria-label="Next month"
                               >
                                 <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45 brightness-0 invert" />
@@ -1048,7 +1097,11 @@ export default function StrategyCallPage() {
                             <button
                               type="button"
                               onClick={() => changeCalendarMonth(-1)}
-                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                              disabled={!canGoToPreviousMonth}
+                              className={`flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] p-2.5 ${canGoToPreviousMonth
+                                ? "text-white/28 hover:text-white/60"
+                                : "cursor-not-allowed text-white/10"
+                                }`}
                               aria-label="Previous month"
                             >
                               <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135 brightness-0 invert" />
@@ -1056,7 +1109,7 @@ export default function StrategyCallPage() {
                             <button
                               type="button"
                               onClick={() => changeCalendarMonth(1)}
-                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5 hover:text-white/60"
                               aria-label="Next month"
                             >
                               <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45 brightness-0 invert" />
@@ -1075,7 +1128,13 @@ export default function StrategyCallPage() {
                             const dayNumber = cell.day;
                             const faded = !cell.inMonth;
                             const active = cell.inMonth && dayNumber === selectedDate;
-                            const selectable = cell.inMonth && availableDays.includes(dayNumber);
+                            const selectable =
+                              cell.inMonth &&
+                              isSelectableDay(
+                                calendarDate.getFullYear(),
+                                calendarDate.getMonth(),
+                                dayNumber
+                              );
 
                             return (
                               <button
