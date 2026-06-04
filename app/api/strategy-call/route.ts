@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { getMysqlErrorDetails } from '@/lib/mysql'
 import { saveStrategyCallBooking } from '@/lib/strategy-call-save'
 
@@ -73,23 +74,44 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid appointment date.' }, { status: 400 })
   }
 
-  try {
-    const { id, mode } = await saveStrategyCallBooking({
-      email: payload.email,
-      name: payload.name,
-      countryCode: payload.countryCode ?? '',
-      phone: payload.phone,
-      companyName: payload.companyName,
-      websiteUrl: payload.websiteUrl,
-      budget: payload.budget,
-      callNotes: payload.callNotes,
-      source: payload.source,
-      appointmentDate: payload.appointmentDate,
-      appointmentTime: payload.appointmentTime,
-      timezone: payload.timezone,
-    })
+  const booking = {
+    email: payload.email,
+    name: payload.name,
+    countryCode: payload.countryCode ?? '',
+    phone: payload.phone,
+    companyName: payload.companyName,
+    websiteUrl: payload.websiteUrl,
+    budget: payload.budget,
+    callNotes: payload.callNotes,
+    source: payload.source,
+    appointmentDate: payload.appointmentDate,
+    appointmentTime: payload.appointmentTime,
+    timezone: payload.timezone,
+  }
 
-    return NextResponse.json({ ok: true, id, mode })
+  try {
+    const { id, mode } = await saveStrategyCallBooking(booking)
+
+    let calendarCreated = false
+    let calendarEventId: string | null = null
+
+    try {
+      const calendar = await createStrategyCallCalendarEvent(booking)
+      calendarCreated = calendar.created
+      if (calendar.created && calendar.eventId) {
+        calendarEventId = calendar.eventId
+      }
+    } catch (calendarError) {
+      console.error('[strategy-call] Google Calendar failed:', calendarError)
+    }
+
+    return NextResponse.json({
+      ok: true,
+      id,
+      mode,
+      calendarCreated,
+      calendarEventId,
+    })
   } catch (error) {
     const details = getMysqlErrorDetails(error)
     console.error('[strategy-call] Database insert failed:', details)
