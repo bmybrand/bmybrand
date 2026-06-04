@@ -102,6 +102,9 @@ export default function WorkTogether({
         <img 
           src="/bmyb-global-cta1-hand-1-01.svg" 
           alt="Left hand"
+          loading="lazy"
+          width={680}
+          height={680}
           className="w-full h-full object-contain"
         />
       </motion.div>
@@ -119,6 +122,9 @@ export default function WorkTogether({
         <img 
           src="/bmyb-global-cta1-hand-2-01.svg" 
           alt="Right hand"
+          loading="lazy"
+          width={680}
+          height={680}
           className="w-full h-full object-contain"
         />
       </motion.div>
