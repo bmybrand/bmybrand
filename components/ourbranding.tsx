@@ -150,9 +150,11 @@ const OurBranding: React.FC = () => {
                 style={positions[index]}
               >
                 <div className="flex items-start gap-4">
-                  <img
+                  <Image
                     src={card.icon}
                     alt=""
+                    width={48}
+                    height={48}
                     className=" h-full object-contain shrink-0"
                   />
                   <div className="flex-1">
@@ -181,9 +183,11 @@ const OurBranding: React.FC = () => {
               className="w-full lg:w-sm bg-[#191A35] border border-[#2A2B47] rounded-xl py-4 px-6 mx-auto"
             >
               <div className="flex items-start gap-4">
-                <img
+                <Image
                   src={card.icon}
                   alt=""
+                  width={48}
+                  height={48}
                   className="h-full object-contain shrink-0"
                 />
                 <div>
