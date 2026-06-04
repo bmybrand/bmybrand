@@ -46,6 +46,11 @@ function getCalendarErrorMessage(error: unknown) {
 }
 
 function toIanaTimezone(label: string) {
+  if (!label) return 'UTC'
+  // Already a standard IANA timezone (e.g. America/New_York, Asia/Karachi)
+  if (/^[A-Za-z_]+\/[A-Za-z_]+(?:\/[A-Za-z_]+)?$/.test(label)) {
+    return label
+  }
   if (TIMEZONE_IANA[label]) return TIMEZONE_IANA[label]
   const parts = label.split('/').filter(Boolean)
   if (parts.length >= 2) {

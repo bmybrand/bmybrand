@@ -1,10 +1,21 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import {
+  dateHasAvailableSlots,
+  detectUserTimeZone,
+  firstSelectableDayInMonthWithSlots,
+  formatAppointmentDateFromSlot,
+  formatTimezoneLabel,
+  getAllTimeZones,
+  getAvailableSlots,
+  getInitialCalendarStateForTimeZone,
+  getMonthStart,
+} from "@/lib/strategy-call-scheduling";
 
 const reviews = [
   {
@@ -70,35 +81,6 @@ const reviews = [
 ];
 
 const calendarDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-function getMonthStart(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth(), 1);
-}
-
-function isSelectableDay(year: number, month: number, day: number) {
-  const today = new Date();
-  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const cellDate = new Date(year, month, day);
-  return cellDate >= todayStart;
-}
-
-function firstSelectableDayInMonth(year: number, month: number) {
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  for (let day = 1; day <= daysInMonth; day++) {
-    if (isSelectableDay(year, month, day)) return day;
-  }
-  return null;
-}
-
-function getInitialCalendarState() {
-  const today = new Date();
-  const monthStart = getMonthStart(today);
-  const firstDay = firstSelectableDayInMonth(today.getFullYear(), today.getMonth());
-  return {
-    calendarDate: monthStart,
-    selectedDate: firstDay ?? today.getDate(),
-  };
-}
 
 function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
   return (
@@ -302,18 +284,19 @@ export default function StrategyCallPage() {
     });
   }, [step]);
 
+  const initialTimeZone = detectUserTimeZone();
   const [calendarDate, setCalendarDate] = useState(() => {
-    const initial = getInitialCalendarState();
+    const initial = getInitialCalendarStateForTimeZone(initialTimeZone);
     return initial.calendarDate;
   });
   const [selectedDate, setSelectedDate] = useState(() => {
-    const initial = getInitialCalendarState();
+    const initial = getInitialCalendarStateForTimeZone(initialTimeZone);
     return initial.selectedDate;
   });
   const [selectedTime, setSelectedTime] = useState("");
   const [timezoneOpen, setTimezoneOpen] = useState(false);
   const [timezoneQuery, setTimezoneQuery] = useState("");
-  const [selectedTimezone, setSelectedTimezone] = useState("Asia/Pakistan/Karachi");
+  const [selectedTimezone, setSelectedTimezone] = useState(initialTimeZone);
   const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h");
   const [hoveredSlot, setHoveredSlot] = useState<string | null>(null);
   const [activeAgenda, setActiveAgenda] = useState(0);
@@ -393,23 +376,39 @@ export default function StrategyCallPage() {
     callNotes.trim() !== "" &&
     source.trim() !== "";
 
-  const baseTimeSlots = ["01:00", "01:30", "02:00", "02:40", "03:00", "03:30"];
+  const baseTimeSlots = useMemo(
+    () =>
+      getAvailableSlots(
+        calendarDate.getFullYear(),
+        calendarDate.getMonth() + 1,
+        selectedDate,
+        selectedTimezone
+      ),
+    [calendarDate, selectedDate, selectedTimezone]
+  );
+
   const canGoToPreviousMonth =
     getMonthStart(calendarDate).getTime() > getMonthStart(new Date()).getTime();
-  const timezoneOptions = [
-    { label: "Asia/Mongolia/Ulaanbaatar", time: "6:26 AM" },
-    { label: "Asia/Israel/Jerusalem", time: "1:26 AM" },
-    { label: "Asia/Afghanistan/Kabul", time: "2:56 AM" },
-    { label: "Asia/Russia/Kamchatka", time: "10:26 AM" },
-    { label: "Asia/Pakistan/Karachi", time: "3:26 AM" },
-    { label: "Asia/Uzbekistan/Tashkent", time: "3:26 AM" },
-    { label: "Asia/Nepal/Kathmandu", time: "4:11 AM" },
-    { label: "Asia/India/Kolkata", time: "3:56 AM" },
-    { label: "Asia/Russia/Krasnoyarsk", time: "5:26 AM" },
-  ];
-  const filteredTimezones = timezoneOptions.filter((option) =>
-    option.label.toLowerCase().includes(timezoneQuery.toLowerCase())
+
+  const timezoneOptions = useMemo(() => {
+    const query = timezoneQuery.trim().toLowerCase();
+    const all = getAllTimeZones();
+    const filtered = query
+      ? all.filter(
+          (tz) =>
+            tz.toLowerCase().includes(query) ||
+            tz.replace(/_/g, " ").toLowerCase().includes(query)
+        )
+      : all;
+
+    return filtered.map((tz) => formatTimezoneLabel(tz));
+  }, [timezoneQuery]);
+
+  const selectedTimezoneLabel = useMemo(
+    () => formatTimezoneLabel(selectedTimezone),
+    [selectedTimezone]
   );
+
   const agendaItems = [
     {
       title: "Discovery Call",
@@ -457,18 +456,8 @@ export default function StrategyCallPage() {
     selectedDate
   ).toLocaleDateString("en-US", { weekday: "short" });
 
-  const formatTimeSlot = (slot: string) => {
-    const [hoursText, minutes] = slot.split(":");
-    const hours = Number(hoursText);
-
-    if (timeFormat === "24h") {
-      return `${hoursText.padStart(2, "0")}:${minutes}`;
-    }
-
-    const suffix = hours >= 12 ? "PM" : "AM";
-    const hour12 = hours % 12 === 0 ? 12 : hours % 12;
-    return `${String(hour12).padStart(2, "0")}:${minutes} ${suffix}`;
-  };
+  const formatTimeSlot = (slot: (typeof baseTimeSlots)[number]) =>
+    timeFormat === "24h" ? slot.label24h : slot.label12h;
 
   const changeCalendarMonth = (offset: number) => {
     if (offset < 0 && !canGoToPreviousMonth) return;
@@ -478,7 +467,11 @@ export default function StrategyCallPage() {
       const next = new Date(prev.getFullYear(), prev.getMonth() + offset, 1);
       if (getMonthStart(next).getTime() < currentMonthStart.getTime()) return prev;
 
-      const firstDay = firstSelectableDayInMonth(next.getFullYear(), next.getMonth());
+      const firstDay = firstSelectableDayInMonthWithSlots(
+        next.getFullYear(),
+        next.getMonth(),
+        selectedTimezone
+      );
       if (firstDay !== null) setSelectedDate(firstDay);
       setSelectedTime("");
       return next;
@@ -525,13 +518,13 @@ export default function StrategyCallPage() {
   const handleFinishBooking = async () => {
     if (!selectedTime || isSubmitting) return;
 
+    const selectedSlot = baseTimeSlots.find((slot) => slot.id === selectedTime);
+    if (!selectedSlot) return;
+
     setIsSubmitting(true);
     setSubmitError("");
 
-    const year = calendarDate.getFullYear();
-    const month = String(calendarDate.getMonth() + 1).padStart(2, "0");
-    const day = String(selectedDate).padStart(2, "0");
-    const appointmentDate = `${year}-${month}-${day}`;
+    const appointmentDate = formatAppointmentDateFromSlot(selectedSlot, selectedTimezone);
 
     try {
       const response = await fetch("/api/strategy-call", {
@@ -548,7 +541,7 @@ export default function StrategyCallPage() {
           callNotes,
           source,
           appointmentDate,
-          appointmentTime: formatTimeSlot(selectedTime),
+          appointmentTime: formatTimeSlot(selectedSlot),
           timezone: selectedTimezone,
         }),
       });
@@ -1041,11 +1034,15 @@ export default function StrategyCallPage() {
                               <clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath>
                             </defs>
                           </svg>
-                          <span>{selectedTimezone}</span>
+                          <span>{selectedTimezoneLabel.label}</span>
+                          <span className="text-white/45">{selectedTimezoneLabel.offset}</span>
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`h-4 w-4 text-white/45 transition-transform ${timezoneOpen ? "rotate-180" : ""}`}>
                             <polyline points="6 9 12 15 18 9"/>
                           </svg>
                         </button>
+                        <p className="text-xs leading-6 text-white/40">
+                          Times shown in your timezone. Karachi office: 9:00 PM – 6:00 AM, Mon – Fri.
+                        </p>
                       </div>
 
                       <div
@@ -1066,22 +1063,26 @@ export default function StrategyCallPage() {
                             </div>
 
                             <div className="mt-3 max-h-[13.5rem] space-y-1 overflow-y-auto pr-1 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
-                              {filteredTimezones.map((option) => {
-                                const active = option.label === selectedTimezone;
+                              {timezoneOptions.map((option) => {
+                                const active = option.id === selectedTimezone;
                                 return (
                                   <button
-                                    key={option.label}
+                                    key={option.id}
                                     type="button"
                                     onClick={() => {
-                                      setSelectedTimezone(option.label);
+                                      setSelectedTimezone(option.id);
+                                      const initial = getInitialCalendarStateForTimeZone(option.id);
+                                      setCalendarDate(initial.calendarDate);
+                                      setSelectedDate(initial.selectedDate);
+                                      setSelectedTime("");
                                       setTimezoneOpen(false);
                                       setTimezoneQuery("");
                                     }}
                                     className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${active ? "bg-[#303258] text-white" : "text-[#B5B9D8] hover:bg-[#262847] hover:text-white"
                                       }`}
                                   >
-                                    <span>{option.label}</span>
-                                    <span>{option.time}</span>
+                                    <span className="truncate pr-3 text-left">{option.label}</span>
+                                    <span className="shrink-0 text-white/45">{option.currentTime}</span>
                                   </button>
                                 );
                               })}
@@ -1130,10 +1131,11 @@ export default function StrategyCallPage() {
                             const active = cell.inMonth && dayNumber === selectedDate;
                             const selectable =
                               cell.inMonth &&
-                              isSelectableDay(
+                              dateHasAvailableSlots(
                                 calendarDate.getFullYear(),
-                                calendarDate.getMonth(),
-                                dayNumber
+                                calendarDate.getMonth() + 1,
+                                dayNumber,
+                                selectedTimezone
                               );
 
                             return (
@@ -1180,31 +1182,36 @@ export default function StrategyCallPage() {
                         </div>
 
                         <div className="mt-4 max-h-[15rem] space-y-3 overflow-x-hidden overflow-y-auto pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                          {baseTimeSlots.length === 0 ? (
+                            <p className="rounded-xl border border-[#343556] px-4 py-3 text-sm text-[#A4A8C9]">
+                              No slots available for this date. Karachi office hours are 9:00 PM – 6:00 AM, Monday – Friday.
+                            </p>
+                          ) : null}
                           {baseTimeSlots.map((slot) => {
                             const slotLabel = formatTimeSlot(slot);
                             return (
                               <div
-                                key={slot}
-                                onMouseEnter={() => setHoveredSlot(slot)}
-                                onMouseLeave={() => setHoveredSlot((current) => (current === slot ? null : current))}
+                                key={slot.id}
+                                onMouseEnter={() => setHoveredSlot(slot.id)}
+                                onMouseLeave={() => setHoveredSlot((current) => (current === slot.id ? null : current))}
                                 className="flex w-full max-w-full items-center gap-3 overflow-hidden"
                               >
                                 <button
                                   type="button"
-                                  className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-all duration-200 ${hoveredSlot === slot
+                                  className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-all duration-200 ${hoveredSlot === slot.id
                                     ? "w-[52%] border-[#343556] bg-transparent text-[#C7CAE2]"
-                                    : selectedTime === slot
+                                    : selectedTime === slot.id
                                       ? "w-full border-[#FF7A36] bg-[#252744] text-white"
                                       : "w-full border-[#343556] bg-transparent text-[#C7CAE2] hover:border-[#4A4D74] hover:text-white"
                                     }`}
-                                  onClick={() => setSelectedTime(slot)}
+                                  onClick={() => setSelectedTime(slot.id)}
                                 >
                                   {slotLabel}
                                 </button>
-                                {hoveredSlot === slot ? (
+                                {hoveredSlot === slot.id ? (
                                   <button
                                     type="button"
-                                    onClick={() => setSelectedTime(slot)}
+                                    onClick={() => setSelectedTime(slot.id)}
                                     className="h-12 w-[48%] rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] text-base text-white transition-all duration-200 BenzinSemibold"
                                   >
                                     Confirm
