@@ -21,15 +21,20 @@ export default function HerobarBrand() {
 
     const enableVideo = () => setAllowVideoLoad(true)
 
-    if ('requestIdleCallback' in window) {
-      idleId = window.requestIdleCallback(enableVideo, { timeout: 2500 })
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number
+      cancelIdleCallback?: (handle: number) => void
+    }
+
+    if (idleWindow.requestIdleCallback) {
+      idleId = idleWindow.requestIdleCallback(enableVideo, { timeout: 2500 })
     } else {
       timeoutId = window.setTimeout(enableVideo, 1800)
     }
 
     return () => {
-      if (idleId !== null && 'cancelIdleCallback' in window) {
-        window.cancelIdleCallback(idleId)
+      if (idleId !== null && idleWindow.cancelIdleCallback) {
+        idleWindow.cancelIdleCallback(idleId)
       }
       if (timeoutId !== null) {
         window.clearTimeout(timeoutId)
