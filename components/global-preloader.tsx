@@ -3,8 +3,8 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-const MIN_PRELOADER_MS = 1200;
-const ROUTE_TRANSITION_MS = 1200;
+const MIN_PRELOADER_MS = 3000;
+const ROUTE_TRANSITION_MS = 3000;
 const NAVIGATION_PRELOADER_EVENT = "bmy:navigation-preloader-start";
 const PRELOADER_FADE_MS = 220;
 
