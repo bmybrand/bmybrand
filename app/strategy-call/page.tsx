@@ -8,13 +8,13 @@ import Footer from "@/components/footer";
 
 const reviews = [
   {
-    text: "The strategy call brought immediate clarity and direction. BMYBrand quickly understood the demands of emergency care and helped us shape a clear strategy for improving patient access and digital experience. We walked away confident, aligned, and ready to move forward.",
+    text: "The strategy call brought immediate clarity and direction. BmyBrand quickly understood the demands of emergency care and helped us shape a clear strategy for improving patient access and digital experience. We walked away confident, aligned, and ready to move forward.",
     name: "Sarah Mitchell",
     title: "Marketing Director",
     img: "https://picsum.photos/120/120?random=31",
   },
   {
-    text: "BMYBrand quickly mapped the gaps in our brand and gave us a realistic action plan. The conversation was practical, focused, and immediately useful to our team.",
+    text: "BmyBrand quickly mapped the gaps in our brand and gave us a realistic action plan. The conversation was practical, focused, and immediately useful to our team.",
     name: "John Carter",
     title: "Product Manager",
     img: "https://picsum.photos/120/120?random=32",
@@ -32,7 +32,7 @@ const reviews = [
     img: "https://picsum.photos/120/120?random=34",
   },
   {
-    text: "BMYBrand understood our business fast. They connected brand, UX, and conversion issues in one conversation and gave us a roadmap we could actually use.",
+    text: "BmyBrand understood our business fast. They connected brand, UX, and conversion issues in one conversation and gave us a roadmap we could actually use.",
     name: "Emily Chen",
     title: "Brand Director",
     img: "https://picsum.photos/120/120?random=35",
@@ -62,7 +62,7 @@ const reviews = [
     img: "https://picsum.photos/120/120?random=39",
   },
   {
-    text: "BMYBrand helped us see where our messaging, design, and customer journey were out of sync. The conversation gave us confidence in the direction ahead.",
+    text: "BmyBrand helped us see where our messaging, design, and customer journey were out of sync. The conversation gave us confidence in the direction ahead.",
     name: "Ryan Foster",
     title: "Managing Partner",
     img: "https://picsum.photos/120/120?random=40",
@@ -653,7 +653,7 @@ export default function StrategyCallPage() {
                 className={`w-full lg:w-[62%] ${step === "time" ? "max-lg:order-2" : ""}`}
               >
                 <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#191A35] px-4 text-[0.8rem] text-white/90">
-                  <img src="/bmyb-logo-logowhite-01.svg" alt="BMYBrand logo" className="h-4 w-auto" />
+                  <img src="/bmyb-logo-logowhite-01.svg" alt="BmyBrand logo" className="h-4 w-auto" />
                   <span>Book a strategy call</span>
                 </div>
 
@@ -757,11 +757,11 @@ export default function StrategyCallPage() {
                   {step === "form" ? (
                     <>
                       <div className="mt-1 flex items-center gap-2">
-                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BmyBrand logo" className="h-8 w-auto" />
                       </div>
 
                       <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
-                        Book A Strategy Call With BMYBrand
+                        Book A Strategy Call With BmyBrand
                       </h2>
 
                       <div className="mt-4 space-y-3 text-[0.96rem] leading-8 text-[#A4A8C9]">
@@ -870,7 +870,7 @@ export default function StrategyCallPage() {
                               </div>
 
                               <div>
-                                <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">How did you find BMYBrand? *</div>
+                                <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">How did you find BmyBrand? *</div>
                                 <div className="space-y-2.5">
                                   {["Google Search", "AI Search", "Social Media", "Case Study", "Other"].map((sourceOption, i) => (
                                     <label key={sourceOption} htmlFor={`source${i}`} className="flex cursor-pointer items-center gap-2.5 text-sm text-[#ADAECC]">
@@ -964,7 +964,7 @@ export default function StrategyCallPage() {
                   ) : (
                     <>
                       <div className="mt-1 flex items-center gap-2">
-                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BmyBrand logo" className="h-8 w-auto" />
                       </div>
 
                       <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">

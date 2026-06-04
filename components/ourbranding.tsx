@@ -115,10 +115,10 @@ const OurBranding: React.FC = () => {
       {/* HEADING */}
       <div ref={headingRef} className="w-full flex flex-col items-center">
         <h2 className="mb-6 w-[90%] 2xl:w-[60%] text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl BenzinSemibold text-center">
-          A Closer Look at the <span className="text-[#F45B25]">BMYBrand</span> Approach
+          A Closer Look at the <span className="text-[#F45B25]">BmyBrand</span> Approach
         </h2>
         <p className="w-[90%] 2xl:w-[60%] text-base text-[#ADAECC] text-center">
-          At BMYBrand, we focus on understanding your business first, then building the right mix of strategy, design, and technology to support real growth. Our approach is simple, practical, and tailored to help your brand move forward with clarity and confidence.
+          At BmyBrand, we focus on understanding your business first, then building the right mix of strategy, design, and technology to support real growth. Our approach is simple, practical, and tailored to help your brand move forward with clarity and confidence.
         </p>
       </div>
 

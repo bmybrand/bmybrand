@@ -36,7 +36,7 @@ const REVIEW_PLATFORMS = [
 
 const SOCIAL_LINKS = [
   { name: 'Facebook', href: 'https://www.facebook.com/bmybrandofficial/', Icon: FaFacebookF },
-  { name: 'Instagram', href: 'https://www.instagram.com/bmybrandofficial/', Icon: FaInstagram },
+  { name: 'Instagram', href: 'https://www.instagram.com/bmybrand_official/', Icon: FaInstagram },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/company/bmy-brand/', Icon: FaLinkedinIn },
   { name: 'Twitter', href: '#', Icon: FaXTwitter },
   { name: 'YouTube', href: 'https://www.youtube.com/@BMyBrandofficial', Icon: FaYoutube },
@@ -181,7 +181,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h3 className="text-white font-semibold text-base lg:text-lg mb-4 BenzinSemibold">Why BMYBrand</h3>
+            <h3 className="text-white font-semibold text-base lg:text-lg mb-4 BenzinSemibold">Why BmyBrand</h3>
             <ul className="space-y-2.5 text-sm lg:text-base text-white/70">
               {['Our Process', 'AI Capabilities', 'Design System Approach', 'Client Testimonials', 'FAQ', 'Get A Quote'].map((label) => (
                 <li key={label}>
@@ -265,7 +265,7 @@ const Footer: React.FC = () => {
             <p className="text-white/70 text-sm lg:text-base mb-4">
               Get Design, AI, And Growth Insights - Plus Updates
               <br />
-              From BMYBrand.
+              From BmyBrand.
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
               <div className="flex flex-col flex-1 min-w-0 relative">
@@ -353,7 +353,7 @@ const Footer: React.FC = () => {
 
           {/* Copyright and policy links on same row */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-white/70">
-            <p className="order-2 sm:order-1 text-[16px]">Copyright © {currentYear ?? ''} BMYBrand | All Rights Reserved.</p>
+            <p className="order-2 sm:order-1 text-[16px]">Copyright © {currentYear ?? ''} BmyBrand | All Rights Reserved.</p>
             <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2">
               <Link href="/terms-of-use" className="text-white/70 hover:text-[#F45B25] transition-colors">Terms Of Use</Link>
               <span className="text-white/40">|</span>

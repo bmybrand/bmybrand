@@ -124,7 +124,7 @@ export default function GrowMyBusinessPage() {
                 </h2>
 
                 <p className="mt-4 w-full text-sm leading-7 text-[#9EA2C5] sm:text-base">
-                  Brandsight is BMYBrand&apos;s AI-powered website audit tool designed to help brands uncover
+                  Brandsight is BmyBrand&apos;s AI-powered website audit tool designed to help brands uncover
                   performance gaps, improve user experience, and drive better results.
                 </p>
 

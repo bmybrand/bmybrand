@@ -27,8 +27,8 @@ const benzinRegular = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "BMYBrand",
-  description: "BMYBrand is a design system and component library built with React and Next.js, providing a collection of reusable UI components and design guidelines for building consistent and visually appealing web applications.",
+  title: "BmyBrand",
+  description: "BmyBrand helps businesses grow with smart digital solutions, from branding and websites to AI, marketing, commerce, and operations built for real-world impact.",
 };
 
 export default function RootLayout({

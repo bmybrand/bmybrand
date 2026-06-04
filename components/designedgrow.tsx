@@ -55,7 +55,7 @@ const defaultHeading = (
 )
 
 const defaultIntro =
-  "At BMYBrand, we combine strategy, design, and technology to create solutions that help businesses grow, scale, and succeed in today's digital world."
+  "At BmyBrand, we combine strategy, design, and technology to create solutions that help businesses grow, scale, and succeed in today's digital world."
 
 const DesignedGrow = ({
   heading = defaultHeading,

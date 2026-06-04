@@ -33,7 +33,7 @@ const Aboutpage = () => {
             <span className="text-[#F45B25]">World Impact</span>
           </>
         }
-        intro="At BMYBrand, we combine 10+ years of experience with strategy, design, and technology to build digital solutions that are clear, functional, and results-driven."
+        intro="At BmyBrand, we combine 10+ years of experience with strategy, design, and technology to build digital solutions that are clear, functional, and results-driven."
         items={[
           {
             title: 'Clear Strategic Planning',

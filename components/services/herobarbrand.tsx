@@ -53,7 +53,7 @@ export default function HerobarBrand() {
         </h1>
         
         <p className="text-[#ADAECC] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed">
-          BMYBrand is a digital branding agency delivering strategic brand identity development services and branding and logo design services that help businesses create a clear, memorable, and consistent brand presence across digital platforms.
+          BmyBrand is a digital branding agency delivering strategic brand identity development services and branding and logo design services that help businesses create a clear, memorable, and consistent brand presence across digital platforms.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-2 BenzinSemibold justify-center items-center">

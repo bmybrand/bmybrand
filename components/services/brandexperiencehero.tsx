@@ -179,7 +179,7 @@ export default function BrandExperienceHero() {
                 We Build Brands That Feel Consistent Everywhere
               </h2>
               <p className="text-white/70 text-base md:text-lg leading-relaxed">
-                At BMYBrand, a leading digital branding agency, we specialize in creating powerful and consistent brand experience systems that help businesses stand out across every platform. Our focus on brand identity development services ensures that your visuals, messaging, and overall presence work together as one unified system. From strategy to execution, we build brands that feel cohesive, recognizable, and memorable at every customer touchpoint, whether digital or physical. This consistency strengthens trust, improves recognition, and positions your business as a professional and reliable brand in competitive markets like the USA and Texas.
+                At BmyBrand, a leading digital branding agency, we specialize in creating powerful and consistent brand experience systems that help businesses stand out across every platform. Our focus on brand identity development services ensures that your visuals, messaging, and overall presence work together as one unified system. From strategy to execution, we build brands that feel cohesive, recognizable, and memorable at every customer touchpoint, whether digital or physical. This consistency strengthens trust, improves recognition, and positions your business as a professional and reliable brand in competitive markets like the USA and Texas.
               </p>
             </div>
 
@@ -203,7 +203,7 @@ export default function BrandExperienceHero() {
                 <div className="flex items-center justify-between gap-3">
                   <img
                     src="/bmyb-services-brand-bmybrand-01-01.svg"
-                    alt="BMYBrand"
+                    alt="BmyBrand"
                     className="h-10 w-auto object-contain"
                   />
                   <div className="inline-flex h-11 items-center rounded-full border border-white/25 bg-transparent px-1.5 text-[0.62rem] text-white/78">
@@ -250,7 +250,7 @@ export default function BrandExperienceHero() {
                   <div className="absolute inset-0 flex items-end justify-center">
                     <img
                       src="/bmyb-services-brand-bento-mark-01.svg"
-                      alt="BMYBrand mark"
+                      alt="BmyBrand mark"
                       className="h-auto w-[35rem] max-w-none object-contain translate-y-[14rem] transition-transform duration-300 ease-out group-hover:translate-y-[13.2rem]"
                     />
                   </div>
@@ -359,7 +359,7 @@ export default function BrandExperienceHero() {
                     <>
                       <img
                         src="/bmyb-logo-group-1597884236-01.svg"
-                        alt="BMYBrand"
+                        alt="BmyBrand"
                         className="h-11 w-auto object-contain"
                       />
                       <div className="text-sm text-white/78">5h ago</div>
@@ -482,7 +482,7 @@ export default function BrandExperienceHero() {
               <div className="relative z-10 flex h-full items-center justify-center p-4">
                 <img
                   src="/bmyb-services-brand-bento-mark-alt-01.svg"
-                  alt="BMYBrand alternate mark"
+                  alt="BmyBrand alternate mark"
                   className="h-auto w-[6rem] object-contain"
                 />
               </div>
@@ -555,7 +555,7 @@ export default function BrandExperienceHero() {
                     <div className="flex h-[90px] w-[90px] items-center justify-center rounded-[1.2rem] bg-[#F45B25] shadow-[0_0_30px_rgba(244,91,37,0.24)]">
                       <img
                         src="/bmyb-tech-whitelogo-01.svg"
-                        alt="BMYBrand mark"
+                        alt="BmyBrand mark"
                         className="h-[48px] w-[48px] object-contain brightness-0 invert"
                       />
                     </div>

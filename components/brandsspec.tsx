@@ -15,7 +15,7 @@ const reviewsRow1: Review[] = [
     name: 'Daniel Reeves',
     title: 'Client',
     testimonial:
-      'BMYBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
+      'BmyBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
   },
   {
     name: 'Hannah Brooks',
@@ -270,7 +270,7 @@ export default function Brandsspec() {
     <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#11122F]">
       <div className="text-center w-[90%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-          What People Say <span className="text-[#F45B25]">About BMYBrand</span>
+          What People Say <span className="text-[#F45B25]">About BmyBrand</span>
         </h1>
         <p className="text-[#ADAECC] text-sm sm:text-base max-w-2xl mx-auto">
           Our clients share their real experiences working with us, highlighting trust, results, and long-term collaboration.

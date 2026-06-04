@@ -117,7 +117,7 @@ const Heropage: React.FC = () => {
             className="text-white text-[14px] sm:text-[15px] md:text-[16px] leading-[1.75] sm:leading-[1.8] tracking-wide max-w-[540px] opacity-0"
             style={{ transform: "translateY(18px)" }}
           >
-            BMYBrand helps businesses grow with simple, smart digital solutions made for real-world
+            BmyBrand helps businesses grow with simple, smart digital solutions made for real-world
             needs. From building strong brands and websites to using AI, marketing, commerce, and
             improving daily operations, we bring everything together to help your business move forward
             and grow with confidence.
@@ -195,7 +195,7 @@ const Heropage: React.FC = () => {
       {/* Bottom promo bar inside hero right div */}
           <div className=" relative  w-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white py-3 px-6 flex flex-col sm:flex-row items-center justify-center gap-2 z-[1000] shadow-xl">
     <span className="text-center sm:text-left text-sm sm:text-base md:text-lg">
-    Get your site reviewed in minutes — request a FREE AI Website Audit from BMYBrand.  
+    Get your site reviewed in minutes — request a FREE AI Website Audit from BmyBrand.  
     </span>
     <a
       href="#"

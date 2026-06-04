@@ -10,7 +10,7 @@ type HealthcareHeroProps = {
 
 export default function HealthcareHero({
   title = 'Full-Service Healthcare Marketing & Digital Solutions Built for Growth-Driven Organizations',
-  description = 'Healthcare marketing requires more than design. It demands trust, clarity, compliance, and performance. Patients make critical decisions online, and your digital presence must communicate credibility instantly. At BMYBrand, we combine brand strategy, UX design, and AI-powered systems to create healthcare platforms that build trust and drive measurable growth.',
+  description = 'Healthcare marketing requires more than design. It demands trust, clarity, compliance, and performance. Patients make critical decisions online, and your digital presence must communicate credibility instantly. At BmyBrand, we combine brand strategy, UX design, and AI-powered systems to create healthcare platforms that build trust and drive measurable growth.',
 }: HealthcareHeroProps) {
   return (
     <div className="mx-auto flex w-[90%] 2xl:w-[75%] flex-col items-center text-center py-16">

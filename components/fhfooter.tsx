@@ -64,12 +64,12 @@ const FHFooter = ({ title = "Let's Talk About\nYour Project" }: Props) => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <img src="/bmyb-logo-bmylogo-01.svg" alt="BMYBrand Logo" className="h-8 brightness-0 invert" />
+              <img src="/bmyb-logo-bmylogo-01.svg" alt="BmyBrand Logo" className="h-8 brightness-0 invert" />
             </div>
 
             {/* Copyright and Links */}
             <div className="flex flex-wrap items-center justify-center gap-1 text-xs text-white">
-              <span>Copyright © 2026 BMYBrand | All Rights Reserved.</span>
+              <span>Copyright © 2026 BmyBrand | All Rights Reserved.</span>
               <a href="#" className="text-white hover:underline"> Terms of Use </a>
               <span> | </span>
               <a href="#" className="text-white hover:underline"> Privacy Policy </a>

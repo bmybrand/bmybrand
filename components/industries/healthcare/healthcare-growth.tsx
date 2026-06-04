@@ -23,7 +23,7 @@ type HealthcareGrowthProps = {
 
 export default function HealthcareGrowth({
   title = 'Turning Digital Complexity into Seamless Patient Experiences',
-  description = 'Healthcare organizations operate in a complex digital environment where trust, compliance, and accessibility are critical. At BMYBrand, we simplify that complexity by building cohesive digital ecosystems tailored specifically for healthcare providers.',
+  description = 'Healthcare organizations operate in a complex digital environment where trust, compliance, and accessibility are critical. At BmyBrand, we simplify that complexity by building cohesive digital ecosystems tailored specifically for healthcare providers.',
   capabilities,
   metricTitle = 'Helping You Turn Healthcare Digital Complexity Into Measurable Growth',
   metricDescription = 'We partner with healthcare providers, clinics, and medical organizations to transform complex digital challenges into seamless, scalable systems designed to build trust, improve patient experience, and drive consistent growth.',

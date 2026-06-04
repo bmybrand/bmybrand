@@ -24,7 +24,7 @@ const AddBlock = () => {
             <div className="bg-white p-4 rounded-lg">
               <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
             </div>
-            <span className="px-2">Try BMYBrand FREE for 14 Days</span>
+            <span className="px-2">Try BmyBrand FREE for 14 Days</span>
           </button>
 
           <p className='text-white/70 text-sm md:text-base w-full lg:w-3/5 text-center lg:text-left'>

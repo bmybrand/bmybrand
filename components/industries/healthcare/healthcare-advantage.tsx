@@ -54,7 +54,7 @@ type HealthcareAdvantageProps = {
 export default function HealthcareAdvantage({
   title = (
     <>
-      Experience the BMYBrand
+      Experience the BmyBrand
       <br />
       Healthcare Advantage
     </>

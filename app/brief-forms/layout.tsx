@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Brief form | BMYBrand",
+  title: "Brief form | BmyBrand",
 };
 
 export default function BriefFormsLayout({

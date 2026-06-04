@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import PolicyPage from '@/components/policy-page'
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy | BMYBrand',
-  description: 'Cookie policy for the BMYBrand website.',
+  title: 'Cookie Policy | BmyBrand',
+  description: 'Cookie policy for the BmyBrand website.',
 }
 
 export default function CookiePolicyPage() {
@@ -21,7 +21,7 @@ export default function CookiePolicyPage() {
         {
           heading: 'How We Use Cookies',
           body: [
-            'BMYBrand may use cookies or similar technologies to support website functionality, understand traffic, and improve the overall browsing experience.',
+            'BmyBrand may use cookies or similar technologies to support website functionality, understand traffic, and improve the overall browsing experience.',
             'These tools may help us see which pages are visited, how visitors move through the site, and where improvements are needed.',
           ],
         },
@@ -40,7 +40,7 @@ export default function CookiePolicyPage() {
         {
           heading: 'Contact',
           body: [
-            'If you have questions about cookie usage on this website, contact BMYBrand at info@bmybrand.com.',
+            'If you have questions about cookie usage on this website, contact BmyBrand at info@bmybrand.com.',
           ],
         },
       ]}

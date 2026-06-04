@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import PolicyPage from '@/components/policy-page'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | BMYBrand',
-  description: 'Privacy policy for BMYBrand website visitors and leads.',
+  title: 'Privacy Policy | BmyBrand',
+  description: 'Privacy policy for BmyBrand website visitors and leads.',
 }
 
 export default function PrivacyPolicyPage() {
@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
         {
           heading: 'Overview',
           body: [
-            'We at BMYBrand, accessible from https://bmybrand.com/, consider the privacy of our visitors one of our main priorities. This Privacy Policy explains the types of information that are collected and recorded by BMYBrand and how we use it.',
+            'We at BmyBrand, accessible from https://bmybrand.com/, consider the privacy of our visitors one of our main priorities. This Privacy Policy explains the types of information that are collected and recorded by BmyBrand and how we use it.',
             'This Privacy Policy applies only to our online activities and is valid for both website visitors and clients with regard to information they share and/or that is collected through the website. It does not apply to information collected offline or through channels other than this website.',
           ],
         },
@@ -44,9 +44,9 @@ export default function PrivacyPolicyPage() {
         {
           heading: 'Log Files, Cookies, And Third Parties',
           body: [
-            'BMYBrand follows a standard procedure of using log files. These files may record IP addresses, browser type, ISP, date and time stamp, referring or exit pages, and click counts. This information is not linked to personally identifiable information and is used for analyzing trends, administering the site, tracking user movement, and gathering demographic information.',
-            'Like many websites, BMYBrand uses cookies and web beacons to store visitor preferences and track visited pages in order to optimize the user experience.',
-            'Google may use DART cookies to serve ads based on visits to this and other websites. Third-party ad servers or networks may also use cookies, JavaScript, or web beacons in their own advertising and links. BMYBrand has no access to or control over cookies used by third-party advertisers. You should review the privacy policies of those third parties directly.',
+            'BmyBrand follows a standard procedure of using log files. These files may record IP addresses, browser type, ISP, date and time stamp, referring or exit pages, and click counts. This information is not linked to personally identifiable information and is used for analyzing trends, administering the site, tracking user movement, and gathering demographic information.',
+            'Like many websites, BmyBrand uses cookies and web beacons to store visitor preferences and track visited pages in order to optimize the user experience.',
+            'Google may use DART cookies to serve ads based on visits to this and other websites. Third-party ad servers or networks may also use cookies, JavaScript, or web beacons in their own advertising and links. BmyBrand has no access to or control over cookies used by third-party advertisers. You should review the privacy policies of those third parties directly.',
           ],
         },
         {
@@ -60,13 +60,13 @@ export default function PrivacyPolicyPage() {
           heading: "Children's Information",
           body: [
             'Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and monitor their children’s online activity.',
-            'BMYBrand does not knowingly collect personally identifiable information from children under the age of 13. If you believe your child has provided this kind of information on our website, contact us immediately and we will use our best efforts to remove it promptly from our records.',
+            'BmyBrand does not knowingly collect personally identifiable information from children under the age of 13. If you believe your child has provided this kind of information on our website, contact us immediately and we will use our best efforts to remove it promptly from our records.',
           ],
         },
         {
           heading: 'Contact',
           body: [
-            'If you have additional questions, would like to exercise your privacy rights, or need more information about this Privacy Policy, contact BMYBrand through info@bmybrand.com.',
+            'If you have additional questions, would like to exercise your privacy rights, or need more information about this Privacy Policy, contact BmyBrand through info@bmybrand.com.',
           ],
         },
       ]}

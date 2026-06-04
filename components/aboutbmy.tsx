@@ -160,7 +160,7 @@ const AboutBmy = () => {
           </h2>
 
           <p className="mt-5 text-base sm:text-lg text-white/70">
-            At BMYBrand, we bring over 10+ years of experience in designing and developing digital solutions that are clear, purposeful, and performance-driven. Every project we take on is shaped by a deep understanding of business needs, user behavior, and long-term goals. Our approach ensures that every solution is not just visually strong but also functional, scalable, and built to deliver measurable results across industries.
+            At BmyBrand, we bring over 10+ years of experience in designing and developing digital solutions that are clear, purposeful, and performance-driven. Every project we take on is shaped by a deep understanding of business needs, user behavior, and long-term goals. Our approach ensures that every solution is not just visually strong but also functional, scalable, and built to deliver measurable results across industries.
           </p>
           <div className="mt-8 border-t border-white/10 pt-6">
             <div className="flex items-center gap-4">
@@ -216,7 +216,7 @@ const AboutBmy = () => {
                 >
                   <img
                     src={services[index]?.image ?? ''}
-                    alt={`About BMYBrand ${index + 1}`}
+                    alt={`About BmyBrand ${index + 1}`}
                     className="h-full w-full object-cover"
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

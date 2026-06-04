@@ -24,7 +24,7 @@ export default function HealthcareStories({
     {
       title: 'Fountain Hills Emergency Room\nPatient-First ER Care',
       description:
-        'BMYBrand delivered exactly what we needed: a fast, professional, and patient-focused website. The new experience makes it easier for patients to find care quickly, and our team has seen a noticeable increase in engagement and inquiries.',
+        'BmyBrand delivered exactly what we needed: a fast, professional, and patient-focused website. The new experience makes it easier for patients to find care quickly, and our team has seen a noticeable increase in engagement and inquiries.',
       name: 'Fountain Hills',
       role: 'Operations Team',
       showcaseImage: '/bmyb-global-container-01.webp',
@@ -36,7 +36,7 @@ export default function HealthcareStories({
     {
       title: 'Instinctive Healthcare Solutions\nScalable Healthcare Growth',
       description:
-        'Working with BMYBrand transformed how we present our services online. The improved structure, clarity, and overall performance have significantly enhanced how clients interact with our brand, making the experience more intuitive, engaging, and effective.',
+        'Working with BmyBrand transformed how we present our services online. The improved structure, clarity, and overall performance have significantly enhanced how clients interact with our brand, making the experience more intuitive, engaging, and effective.',
       name: 'Instinctive Healthcare',
       role: 'Marketing Team',
       showcaseImage: '/bmyb-global-container-02.webp',

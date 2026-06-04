@@ -54,7 +54,7 @@ export default function BrandSolutions() {
               Our Services That Define Your Brand Identity
             </h2>
             <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto ">
-              At BMYBrand, we offer complete brand experience services designed to build strong, consistent,
+              At BmyBrand, we offer complete brand experience services designed to build strong, consistent,
               and memorable brands. From brand identity development services and branding and logo
               design services to strategy, messaging, and digital presence,
             </p>

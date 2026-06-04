@@ -135,7 +135,7 @@ const FullyAnimatedGrid: React.FC = () => {
             Everything Your <span className="text-[#F45B25]">Business Needs</span> Under One Roof
           </h2>
           <p className="text-center text-base text-[#ADAECC]">
-            BMYBrand delivers smart, practical solutions that help businesses grow in the digital world. Our services are built to make your<br /> brand stronger, more visible, and more effective.
+            BmyBrand delivers smart, practical solutions that help businesses grow in the digital world. Our services are built to make your<br /> brand stronger, more visible, and more effective.
           </p>
         </div>
       </div>

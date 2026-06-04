@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import PolicyPage from '@/components/policy-page'
 
 export const metadata: Metadata = {
-  title: 'Terms Of Use | BMYBrand',
-  description: 'Terms of use for BMYBrand website visitors and clients.',
+  title: 'Terms Of Use | BmyBrand',
+  description: 'Terms of use for BmyBrand website visitors and clients.',
 }
 
 export default function TermsOfUsePage() {

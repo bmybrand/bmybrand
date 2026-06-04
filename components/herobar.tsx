@@ -46,7 +46,7 @@ const herobar = () => {
               Get to Know Us
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-              At BMYBrand, we combine strategy, creativity, and technology to build digital experiences that feel purposeful, functional, and future-ready. From startups to established businesses, we work closely with brands to create solutions that support long-term success through thoughtful design, modern development, and result-focused execution.
+              At BmyBrand, we combine strategy, creativity, and technology to build digital experiences that feel purposeful, functional, and future-ready. From startups to established businesses, we work closely with brands to create solutions that support long-term success through thoughtful design, modern development, and result-focused execution.
             </p>
             
         </div>
