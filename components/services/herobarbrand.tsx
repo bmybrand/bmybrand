@@ -5,10 +5,39 @@ import { useRouter } from 'next/navigation'
 
 export default function HerobarBrand() {
   const router = useRouter()
+  const [showVideo, setShowVideo] = React.useState(false)
+
+  React.useEffect(() => {
+    const connection = (navigator as Navigator & {
+      connection?: { saveData?: boolean }
+    }).connection
+
+    if (connection?.saveData) return
+
+    const timer = window.setTimeout(() => {
+      setShowVideo(true)
+    }, 3200)
+
+    return () => {
+      window.clearTimeout(timer)
+    }
+  }, [])
   
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
       <div className="absolute inset-0">
+        {showVideo ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
+          </video>
+        ) : null}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.16),transparent_36%),linear-gradient(180deg,#171832_0%,#11122F_100%)]" />
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>
