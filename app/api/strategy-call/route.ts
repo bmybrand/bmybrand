@@ -94,15 +94,23 @@ export async function POST(request: Request) {
 
     let calendarCreated = false
     let calendarEventId: string | null = null
+    let calendarError: string | null = null
+    let calendarReason: string | null = null
 
     try {
       const calendar = await createStrategyCallCalendarEvent(booking)
-      calendarCreated = calendar.created
-      if (calendar.created && calendar.eventId) {
-        calendarEventId = calendar.eventId
+      if (calendar.created) {
+        calendarCreated = true
+        calendarEventId = calendar.eventId ?? null
+      } else if (calendar.reason === 'not_configured') {
+        calendarReason = 'not_configured'
+        calendarError =
+          'Google Calendar env vars are not set on this server (add them in Vercel if deploying).'
       }
-    } catch (calendarError) {
-      console.error('[strategy-call] Google Calendar failed:', calendarError)
+    } catch (err) {
+      calendarError =
+        err instanceof Error ? err.message : 'Google Calendar request failed'
+      console.error('[strategy-call] Google Calendar failed:', err)
     }
 
     return NextResponse.json({
@@ -111,6 +119,8 @@ export async function POST(request: Request) {
       mode,
       calendarCreated,
       calendarEventId,
+      ...(calendarError ? { calendarError } : {}),
+      ...(calendarReason ? { calendarReason } : {}),
     })
   } catch (error) {
     const details = getMysqlErrorDetails(error)

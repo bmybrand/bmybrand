@@ -24,8 +24,25 @@ export function isGoogleCalendarConfigured() {
 }
 
 function getPrivateKey() {
-  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ?? ''
+  let raw = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ?? ''
+  raw = raw.trim()
+  if (
+    (raw.startsWith('"') && raw.endsWith('"')) ||
+    (raw.startsWith("'") && raw.endsWith("'"))
+  ) {
+    raw = raw.slice(1, -1)
+  }
   return raw.replace(/\\n/g, '\n')
+}
+
+function getCalendarErrorMessage(error: unknown) {
+  if (error && typeof error === 'object' && 'response' in error) {
+    const res = (error as { response?: { data?: { error?: { message?: string } } } })
+      .response?.data?.error?.message
+    if (res) return res
+  }
+  if (error instanceof Error) return error.message
+  return 'Unknown calendar error'
 }
 
 function toIanaTimezone(label: string) {
@@ -100,6 +117,57 @@ function buildEventDescription(booking: StrategyCallRecord) {
   ].join('\n')
 }
 
+function getCalendarClient() {
+  const auth = new google.auth.JWT({
+    email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!.trim(),
+    key: getPrivateKey(),
+    scopes: ['https://www.googleapis.com/auth/calendar'],
+  })
+
+  return google.calendar({ version: 'v3', auth })
+}
+
+/** Verify credentials and that the service account can write to the calendar. */
+export async function testGoogleCalendarAccess() {
+  if (!isGoogleCalendarConfigured()) {
+    return {
+      ok: false as const,
+      error: 'Missing GOOGLE_CALENDAR_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, or GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY',
+    }
+  }
+
+  const calendarId = process.env.GOOGLE_CALENDAR_ID!.trim()
+  const serviceEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!.trim()
+
+  try {
+    const calendar = getCalendarClient()
+    const list = await calendar.calendarList.list({ maxResults: 5 })
+    const hasAccess = (list.data.items ?? []).some(
+      (item) => item.id === calendarId || item.summary?.includes(calendarId)
+    )
+
+    return {
+      ok: true as const,
+      calendarId,
+      serviceEmail,
+      calendarsVisible: (list.data.items ?? []).map((i) => i.id),
+      sharedCalendarFound: hasAccess,
+      hint: hasAccess
+        ? 'Calendar is shared with the service account.'
+        : `Share calendar "${calendarId}" with "${serviceEmail}" (Make changes to events) in Google Calendar settings.`,
+    }
+  } catch (error) {
+    return {
+      ok: false as const,
+      calendarId,
+      serviceEmail,
+      error: getCalendarErrorMessage(error),
+      hint:
+        'Check private key format (no extra quotes), Calendar API enabled, and calendar shared with service account.',
+    }
+  }
+}
+
 export async function createStrategyCallCalendarEvent(booking: StrategyCallRecord) {
   if (!isGoogleCalendarConfigured()) {
     return { created: false as const, reason: 'not_configured' as const }
@@ -112,26 +180,13 @@ export async function createStrategyCallCalendarEvent(booking: StrategyCallRecor
     booking.timezone
   )
 
-  const auth = new google.auth.JWT({
-    email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!.trim(),
-    key: getPrivateKey(),
-    scopes: ['https://www.googleapis.com/auth/calendar'],
-  })
-
-  const calendar = google.calendar({ version: 'v3', auth })
+  const calendar = getCalendarClient()
 
   const requestBody = {
     summary: `Strategy Call — ${booking.name} (${booking.companyName})`,
     description: buildEventDescription(booking),
     start: { dateTime: start, timeZone },
     end: { dateTime: end, timeZone },
-    reminders: {
-      useDefault: false,
-      overrides: [
-        { method: 'email' as const, minutes: 24 * 60 },
-        { method: 'popup' as const, minutes: 30 },
-      ],
-    },
   }
 
   let response
@@ -144,13 +199,16 @@ export async function createStrategyCallCalendarEvent(booking: StrategyCallRecor
         attendees: [{ email: booking.email, displayName: booking.name }],
       },
     })
-  } catch {
-    // Service accounts often cannot add guests without Workspace domain-wide delegation
-    response = await calendar.events.insert({
-      calendarId,
-      sendUpdates: 'none',
-      requestBody,
-    })
+  } catch (firstError) {
+    try {
+      response = await calendar.events.insert({
+        calendarId,
+        sendUpdates: 'none',
+        requestBody,
+      })
+    } catch (secondError) {
+      throw new Error(getCalendarErrorMessage(secondError || firstError))
+    }
   }
 
   return {
