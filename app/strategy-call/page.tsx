@@ -1040,9 +1040,6 @@ export default function StrategyCallPage() {
                             <polyline points="6 9 12 15 18 9"/>
                           </svg>
                         </button>
-                        <p className="text-xs leading-6 text-white/40">
-                          Times shown in your timezone. Karachi office: 9:00 PM – 6:00 AM, Mon – Fri.
-                        </p>
                       </div>
 
                       <div
@@ -1184,7 +1181,7 @@ export default function StrategyCallPage() {
                         <div className="mt-4 max-h-[15rem] space-y-3 overflow-x-hidden overflow-y-auto pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
                           {baseTimeSlots.length === 0 ? (
                             <p className="rounded-xl border border-[#343556] px-4 py-3 text-sm text-[#A4A8C9]">
-                              No slots available for this date. Karachi office hours are 9:00 PM – 6:00 AM, Monday – Friday.
+                              No slots available for this date. Please choose another day.
                             </p>
                           ) : null}
                           {baseTimeSlots.map((slot) => {
