@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import localFont from "next/font/local";
 import GlobalPreloader from "@/components/global-preloader";
 import "./globals.css";
+import ChatWidget from "@/components/chatbot/ChatWidget";
 
 const benzinBold = localFont({
   src: "../public/fonts/benzinbold.ttf",
