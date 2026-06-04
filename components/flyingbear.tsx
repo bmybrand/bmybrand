@@ -203,7 +203,7 @@ const FullyAnimatedGrid: React.FC = () => {
         >
           <div className="flex w-full flex-col items-center lg:hidden">
             <img
-              src="/bmyb-global-character-2-1-01-mobile.png"
+              src="/bmyb-global-character-2-1-01-mobile.webp"
               alt=""
               width="260"
               height="242"

@@ -8,44 +8,44 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Logos = [
   {
-    normal: "/bmyb-logo-abboott-fill-01.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-01.svg",
+    normal: "/bmyb-logo-abboott-fill-01.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-01.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-02.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-02.svg",
+    normal: "/bmyb-logo-abboott-fill-02.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-02.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-03.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-03.svg",
+    normal: "/bmyb-logo-abboott-fill-03.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-03.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-04.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-04.svg",
+    normal: "/bmyb-logo-abboott-fill-04.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-04.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-05.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-05.svg",
+    normal: "/bmyb-logo-abboott-fill-05.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-05.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-06.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-06.svg",
+    normal: "/bmyb-logo-abboott-fill-06.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-06.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-07.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-07.svg",
+    normal: "/bmyb-logo-abboott-fill-07.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-07.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-08.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-08.svg",
+    normal: "/bmyb-logo-abboott-fill-08.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-08.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-09.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-09.svg",
+    normal: "/bmyb-logo-abboott-fill-09.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-09.webp",
   },
   {
-    normal: "/bmyb-logo-abboott-fill-10.svg",
-    hover: "/bmyb-logo-abboott-fill-hover-10.svg",
+    normal: "/bmyb-logo-abboott-fill-10.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-10.webp",
   },
 ];
 

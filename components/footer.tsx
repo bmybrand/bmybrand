@@ -3,9 +3,56 @@
 import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FaCircleCheck, FaTriangleExclamation, FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6'
 
 const subscribe = () => () => {}
+
+type IconProps = {
+  className?: string
+}
+
+const CheckIcon = ({ className = 'h-5 w-5' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" className={className} aria-hidden="true">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+  </svg>
+)
+
+const WarningIcon = ({ className = 'h-5 w-5' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className} aria-hidden="true">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z" />
+  </svg>
+)
+
+const FacebookIcon = ({ className = 'h-5 w-5' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M13.5 21v-7h2.3l.4-3h-2.7V9.1c0-.9.2-1.6 1.6-1.6H16V4.8c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V11H7.5v3h2.4v7h3.6Z" />
+  </svg>
+)
+
+const InstagramIcon = ({ className = 'h-5 w-5' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+    <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+  </svg>
+)
+
+const LinkedInIcon = ({ className = 'h-5 w-5' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M6.94 8.5H3.56V20h3.38V8.5Zm.22-3.56C7.14 3.83 6.3 3 5.27 3S3.38 3.83 3.38 4.94c0 1.1.83 1.94 1.86 1.94h.02c1.05 0 1.9-.84 1.9-1.94ZM20.62 12.87c0-3.48-1.86-5.1-4.33-5.1-2 0-2.9 1.1-3.4 1.88V8.5H9.5c.04.76 0 11.5 0 11.5h3.38v-6.42c0-.34.02-.68.12-.92.27-.68.9-1.39 1.96-1.39 1.38 0 1.93 1.05 1.93 2.58V20H20.6l.02-7.13Z" />
+  </svg>
+)
+
+const XIcon = ({ className = 'h-5 w-5' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M18.9 3H21l-6.4 7.3L22 21h-5.8l-4.5-6-5.2 6H4.4l6.9-7.8L2 3h6l4 5.4L18.9 3Zm-2 16h1.6L6.9 4.9H5.2L16.9 19Z" />
+  </svg>
+)
+
+const YouTubeIcon = ({ className = 'h-5 w-5' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M21.8 7.2a2.95 2.95 0 0 0-2.07-2.09C17.9 4.6 12 4.6 12 4.6s-5.9 0-7.73.5A2.95 2.95 0 0 0 2.2 7.2 30.7 30.7 0 0 0 1.7 12c0 1.63.17 3.23.5 4.8a2.95 2.95 0 0 0 2.07 2.09c1.83.5 7.73.5 7.73.5s5.9 0 7.73-.5a2.95 2.95 0 0 0 2.07-2.09c.33-1.57.5-3.17.5-4.8s-.17-3.23-.5-4.8ZM10 15.5v-7l6 3.5-6 3.5Z" />
+  </svg>
+)
 
 const IMPORTANT_LINKS = [
   { label: 'Home', href: '/' },
@@ -35,11 +82,11 @@ const REVIEW_PLATFORMS = [
 ]
 
 const SOCIAL_LINKS = [
-  { name: 'Facebook', href: 'https://www.facebook.com/bmybrandofficial/', Icon: FaFacebookF },
-  { name: 'Instagram', href: 'https://www.instagram.com/bmybrand_official/', Icon: FaInstagram },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/bmy-brand/', Icon: FaLinkedinIn },
-  { name: 'Twitter', href: '#', Icon: FaXTwitter },
-  { name: 'YouTube', href: 'https://www.youtube.com/@BMyBrandofficial', Icon: FaYoutube },
+  { name: 'Facebook', href: 'https://www.facebook.com/bmybrandofficial/', Icon: FacebookIcon },
+  { name: 'Instagram', href: 'https://www.instagram.com/bmybrand_official/', Icon: InstagramIcon },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/bmy-brand/', Icon: LinkedInIcon },
+  { name: 'Twitter', href: '#', Icon: XIcon },
+  { name: 'YouTube', href: 'https://www.youtube.com/@BMyBrandofficial', Icon: YouTubeIcon },
 ]
 
 const brandText = 'BMYBRAND'
@@ -318,11 +365,11 @@ const Footer: React.FC = () => {
                           }`}
                         >
                           {submitStatus.type === 'success' ? (
-                            <FaCircleCheck className="h-5 w-5" />
+                            <CheckIcon className="h-5 w-5" />
                           ) : submitStatus.type === 'warning' ? (
                             '!'
                           ) : (
-                            <FaTriangleExclamation className="h-5 w-5" />
+                            <WarningIcon className="h-5 w-5" />
                           )}
                         </span>
                         <p className="leading-6">{submitStatus.message}</p>

@@ -148,7 +148,7 @@ function PreloaderScreen({
             playsInline
             preload="auto"
           >
-            <source src="/bmyb-global-preloader-01.mp4" type="video/mp4" />
+            <source src="/bmyb-global-preloader-01.webm" type="video/webm" />
           </video>
         </div>
       ) : null}
