@@ -210,8 +210,8 @@ export default function BrandExperienceHero() {
                     <button
                       type="button"
                       onClick={() => setActivePrimaryCard('audit')}
-                      className={`inline-flex h-8 items-center rounded-full px-4 transition-colors BenzinRegular ${
-                        activePrimaryCard === 'audit' ? 'bg-[#F45B25] text-white' : 'text-white/78'
+                      className={`inline-flex min-h-11 items-center rounded-full px-4 transition-colors BenzinRegular ${
+                        activePrimaryCard === 'audit' ? 'bg-[#F45B25] text-[#11122F]' : 'text-white/78'
                       }`}
                     >
                       Website Audit
@@ -219,8 +219,8 @@ export default function BrandExperienceHero() {
                     <button
                       type="button"
                       onClick={() => setActivePrimaryCard('strategy')}
-                      className={`inline-flex h-8 items-center rounded-full px-4 transition-colors BenzinRegular ${
-                        activePrimaryCard === 'strategy' ? 'bg-[#F45B25] text-white' : 'text-white/78'
+                      className={`inline-flex min-h-11 items-center rounded-full px-4 transition-colors BenzinRegular ${
+                        activePrimaryCard === 'strategy' ? 'bg-[#F45B25] text-[#11122F]' : 'text-white/78'
                       }`}
                     >
                       Strategy Call
@@ -239,7 +239,7 @@ export default function BrandExperienceHero() {
                   <p className="mt-4 text-base leading-relaxed text-white/58">
                     {primaryCardContent.description}
                   </p>
-                  <button className="mt-6 rounded-[0.45rem] bg-[#F45B25] px-7 py-4 text-sm text-white BenzinSemibold">
+                  <button className="mt-6 rounded-[0.45rem] bg-[#F45B25] px-7 py-4 text-sm text-[#11122F] BenzinSemibold">
                     {primaryCardContent.cta}
                   </button>
                 </div>
@@ -310,13 +310,13 @@ export default function BrandExperienceHero() {
               <button
                 type="button"
                 aria-label="Previous story"
-                className="absolute inset-y-0 left-0 z-10 w-1/2"
+                className="absolute inset-y-0 left-0 z-10 min-w-11 w-1/2"
                 onClick={goToPreviousEdgeStory}
               />
               <button
                 type="button"
                 aria-label="Next story"
-                className="absolute inset-y-0 right-0 z-10 w-1/2"
+                className="absolute inset-y-0 right-0 z-10 min-w-11 w-1/2"
                 onClick={goToNextEdgeStory}
               />
               {isImageEdgeStory ? (
@@ -341,17 +341,19 @@ export default function BrandExperienceHero() {
                       key={index}
                       type="button"
                       aria-label={`Go to story ${index + 1}`}
-                      className="h-[3px] overflow-hidden rounded-full bg-white/18"
+                      className="flex min-h-11 items-center overflow-hidden rounded-full bg-transparent"
                       onClick={() => goToEdgeStory(index)}
                     >
-                      {index < activeEdgeStory ? (
-                        <div className="h-full w-full rounded-full bg-white/80" />
-                      ) : index === activeEdgeStory ? (
-                        <div
-                          className="h-full rounded-full bg-white/85"
-                          style={{ width: `${edgeStoryProgress * 100}%` }}
-                        />
-                      ) : null}
+                      <span className="block h-[3px] w-full overflow-hidden rounded-full bg-white/18">
+                        {index < activeEdgeStory ? (
+                          <span className="block h-full w-full rounded-full bg-white/80" />
+                        ) : index === activeEdgeStory ? (
+                          <span
+                            className="block h-full rounded-full bg-white/85"
+                            style={{ width: `${edgeStoryProgress * 100}%` }}
+                          />
+                        ) : null}
+                      </span>
                     </button>
                   ))}
                 </div>

@@ -67,7 +67,7 @@ export default function BrandSolutions() {
                 className=" bg-[#191A35] p-8 rounded-2xl border border-white/10 hover:border-[#F45B25]/50 transition-all duration-300"
               >
                 <div className="w-16 h-16 mb-6 flex items-center justify-center rounded-full bg-[#202141] overflow-hidden p-3">
-                  <img src={solution.icon} alt="" className="w-full h-full object-contain" />
+                  <img src={solution.icon} alt="" width={40} height={40} className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-white text-lg BenzinBold  border-b border-white/10 pb-8">{solution.title}</h3>
                 <p className="mt-8 text-white/70  leading-relaxed">{solution.description}</p>
@@ -111,7 +111,7 @@ export default function BrandSolutions() {
             <div className="text-center w-full flex justify-center">
               <p className="text-white/70 text-sm md:text-base lg:text-lg bg-[#202141] border-2 border-[#2A2B47] rounded-full py-3 px-5 w-fit text-center flex items-center gap-2">
                 Ready to build a brand that stands out?{' '}
-                <button className="text-[#F45B25] hover:text-[#FF843E] hover:-translate-y-0.5 transition-all duration-300 BenzinSemibold inline-flex items-center gap-2">
+                <button className="text-[#F45B25] hover:text-[#FF843E] hover:-translate-y-0.5 transition-all duration-300 BenzinSemibold inline-flex min-h-11 items-center gap-2">
                   → LET'S TALK
                 </button>
               </p>

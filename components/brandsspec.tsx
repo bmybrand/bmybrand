@@ -77,7 +77,7 @@ const reviewsRow2: Review[] = [
 ]
 
 const ITEM_CLASS =
-  'w-[480px] h-[220px] bg-white/10 backdrop-blur-md text-white px-6 py-5 rounded-xl shadow-md flex flex-col gap-3 overflow-hidden'
+  'w-[480px] h-[220px] bg-[#202244] text-white px-6 py-5 rounded-xl shadow-md flex flex-col gap-3 overflow-hidden border border-white/12'
 
 export default function Brandsspec() {
   const row1Ref = useRef<HTMLDivElement | null>(null)
@@ -106,7 +106,7 @@ export default function Brandsspec() {
 
       const avatar = document.createElement('div')
       avatar.className =
-        'h-14 w-14 rounded-full bg-[#F45B25]/20 text-[#F45B25] flex items-center justify-center text-lg font-semibold flex-none'
+        'h-14 w-14 rounded-full bg-[#F45B25] text-[#11122F] flex items-center justify-center text-lg font-semibold flex-none'
       avatar.textContent = initials || 'U'
 
       const meta = document.createElement('div')
@@ -267,7 +267,7 @@ export default function Brandsspec() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#11122F]">
+    <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#0D0E24]">
       <div className="text-center w-[90%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
           What People Say <span className="text-[#F45B25]">About BmyBrand</span>

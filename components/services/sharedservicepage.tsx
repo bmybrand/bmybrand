@@ -63,7 +63,7 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
       </section>
 
       <section>
-        <img src={data.bannerImage} alt={data.bannerAlt} className="h-auto w-full object-cover" />
+        <img src={data.bannerImage} alt={data.bannerAlt} width={1600} height={900} className="h-auto w-full object-cover" />
       </section>
 
       <section className="py-20">
@@ -101,6 +101,8 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
               <img
                 src={data.overviewImage}
                 alt={data.overviewImageAlt}
+                width={1200}
+                height={900}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
@@ -121,7 +123,7 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
                 className="rounded-lg border border-white/10 p-8 transition-all duration-300 hover:border-[#F45B25]/30"
               >
                 <div className="mb-6 text-[#F45B25]">
-                  <img src={card.icon} alt="" className="h-14 w-14 object-contain" />
+                  <img src={card.icon} alt="" width={56} height={56} className="h-14 w-14 object-contain" />
                 </div>
                 <h3 className="BenzinSemibold mb-6 text-lg text-white md:text-xl lg:text-2xl">
                   {card.title}
@@ -186,7 +188,7 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
           <div className="mb-16 flex flex-col gap-6 md:flex-row">
             {data.faqImages.map((image) => (
               <div key={image.alt} className="h-64 flex-1 overflow-hidden rounded-2xl md:h-80">
-                <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
+                <img src={image.src} alt={image.alt} width={900} height={640} className="h-full w-full object-cover" />
               </div>
             ))}
           </div>
@@ -270,6 +272,8 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
                     key={logo.alt}
                     src={hoveredLogo === index ? logo.hover : logo.default}
                     alt={logo.alt}
+                    width={128}
+                    height={64}
                     onMouseEnter={() => setHoveredLogo(index)}
                     onMouseLeave={() => setHoveredLogo(null)}
                     className="h-auto w-24 cursor-pointer transition-all duration-300 hover:opacity-100 md:w-32"
