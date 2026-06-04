@@ -291,6 +291,8 @@ const Footer: React.FC = () => {
               <img
                 src={platform.logo}
                 alt={platform.name}
+                width={96}
+                height={24}
                 className="h-6 w-auto object-contain"
               />
               <div className="flex items-center gap-2">

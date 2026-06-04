@@ -5,79 +5,11 @@ import { useRouter } from 'next/navigation'
 
 export default function HerobarBrand() {
   const router = useRouter()
-  const sectionRef = React.useRef<HTMLElement | null>(null)
-  const [shouldRenderVideo, setShouldRenderVideo] = React.useState(false)
-  const [allowVideoLoad, setAllowVideoLoad] = React.useState(false)
-
-  React.useEffect(() => {
-    const connection = (navigator as Navigator & {
-      connection?: { saveData?: boolean }
-    }).connection
-
-    if (connection?.saveData) return
-
-    let timeoutId: number | null = null
-    let idleId: number | null = null
-
-    const enableVideo = () => setAllowVideoLoad(true)
-
-    const idleWindow = window as Window & {
-      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number
-      cancelIdleCallback?: (handle: number) => void
-    }
-
-    if (idleWindow.requestIdleCallback) {
-      idleId = idleWindow.requestIdleCallback(enableVideo, { timeout: 2500 })
-    } else {
-      timeoutId = window.setTimeout(enableVideo, 1800)
-    }
-
-    return () => {
-      if (idleId !== null && idleWindow.cancelIdleCallback) {
-        idleWindow.cancelIdleCallback(idleId)
-      }
-      if (timeoutId !== null) {
-        window.clearTimeout(timeoutId)
-      }
-    }
-  }, [])
-
-  React.useEffect(() => {
-    const node = sectionRef.current
-    if (!node || !allowVideoLoad) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShouldRenderVideo(entry.isIntersecting)
-      },
-      {
-        root: null,
-        rootMargin: '200px 0px',
-        threshold: 0,
-      }
-    )
-
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [allowVideoLoad])
   
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
+    <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
       <div className="absolute inset-0">
-        {shouldRenderVideo ? (
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 h-full w-full object-cover"
-          >
-            <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
-          </video>
-        ) : (
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.16),transparent_36%),linear-gradient(180deg,#171832_0%,#11122F_100%)]" />
-        )}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.16),transparent_36%),linear-gradient(180deg,#171832_0%,#11122F_100%)]" />
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>
 
