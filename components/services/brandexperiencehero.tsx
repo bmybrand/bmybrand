@@ -204,6 +204,8 @@ export default function BrandExperienceHero() {
                   <img
                     src="/bmyb-services-brand-bmybrand-01-01.svg"
                     alt="BmyBrand"
+                    width={144}
+                    height={40}
                     className="h-10 w-auto object-contain"
                   />
                   <div className="inline-flex h-11 items-center rounded-full border border-white/25 bg-transparent px-1.5 text-[0.62rem] text-white/78">
@@ -251,6 +253,8 @@ export default function BrandExperienceHero() {
                     <img
                       src="/bmyb-services-brand-bento-mark-01.svg"
                       alt="BmyBrand mark"
+                      width={560}
+                      height={560}
                       className="h-auto w-[35rem] max-w-none object-contain translate-y-[14rem] transition-transform duration-300 ease-out group-hover:translate-y-[13.2rem]"
                     />
                   </div>
@@ -362,6 +366,8 @@ export default function BrandExperienceHero() {
                       <img
                         src="/bmyb-logo-group-1597884236-01.svg"
                         alt="BmyBrand"
+                        width={140}
+                        height={44}
                         className="h-11 w-auto object-contain"
                       />
                       <div className="text-sm text-white/78">5h ago</div>
@@ -485,6 +491,8 @@ export default function BrandExperienceHero() {
                 <img
                   src="/bmyb-services-brand-bento-mark-alt-01.svg"
                   alt="BmyBrand alternate mark"
+                  width={96}
+                  height={96}
                   className="h-auto w-[6rem] object-contain"
                 />
               </div>
@@ -590,6 +598,8 @@ export default function BrandExperienceHero() {
   <img
     src="/bmyb-tech-bentologobox-01.svg"
     alt="Brand workflow icons"
+    width={640}
+    height={420}
     className="relative z-10 max-w-full max-h-full object-contain transition-all duration-300 ease-out group-hover:scale-[1.04] group-hover:drop-shadow-[0_0_26px_rgba(244,91,37,0.5)]"
   />
 

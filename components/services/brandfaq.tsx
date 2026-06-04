@@ -40,12 +40,12 @@ export default function BrandFaq() {
   }
 
   const logos = [
-    { default: '/bmyb-logo-abboott-fill-01.svg', hover: '/bmyb-logo-abboott-fill-hover-01.svg', alt: 'Client Logo 1' },
-    { default: '/bmyb-logo-abboott-fill-03.svg', hover: '/bmyb-logo-abboott-fill-hover-03.svg', alt: 'Client Logo 2' },
-    { default: '/bmyb-logo-abboott-fill-04.svg', hover: '/bmyb-logo-abboott-fill-hover-04.svg', alt: 'Client Logo 3' },
-    { default: '/bmyb-logo-abboott-fill-08.svg', hover: '/bmyb-logo-abboott-fill-hover-08.svg', alt: 'Client Logo 4' },
-    { default: '/bmyb-logo-abboott-fill-09.svg', hover: '/bmyb-logo-abboott-fill-hover-09.svg', alt: 'Client Logo 5' },
-    { default: '/bmyb-logo-abboott-fill-10.svg', hover: '/bmyb-logo-abboott-fill-hover-10.svg', alt: 'Client Logo 6' }
+    { default: '/bmyb-logo-abboott-fill-01.webp', hover: '/bmyb-logo-abboott-fill-hover-01.webp', alt: 'Client Logo 1' },
+    { default: '/bmyb-logo-abboott-fill-03.webp', hover: '/bmyb-logo-abboott-fill-hover-03.webp', alt: 'Client Logo 2' },
+    { default: '/bmyb-logo-abboott-fill-04.webp', hover: '/bmyb-logo-abboott-fill-hover-04.webp', alt: 'Client Logo 3' },
+    { default: '/bmyb-logo-abboott-fill-08.webp', hover: '/bmyb-logo-abboott-fill-hover-08.webp', alt: 'Client Logo 4' },
+    { default: '/bmyb-logo-abboott-fill-09.webp', hover: '/bmyb-logo-abboott-fill-hover-09.webp', alt: 'Client Logo 5' },
+    { default: '/bmyb-logo-abboott-fill-10.webp', hover: '/bmyb-logo-abboott-fill-hover-10.webp', alt: 'Client Logo 6' }
   ]
   return (
     <section className="py-20 px-6 ">
@@ -56,6 +56,8 @@ export default function BrandFaq() {
             <img 
               src="/bmyb-services-brand-faq-01.webp" 
               alt="Brand Design" 
+              width={900}
+              height={640}
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
@@ -67,6 +69,8 @@ export default function BrandFaq() {
             <img 
               src="/bmyb-services-brand-faq-02.jpg" 
               alt="Brand Strategy" 
+              width={900}
+              height={640}
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
@@ -161,6 +165,8 @@ export default function BrandFaq() {
                   key={index}
                   src={hoveredLogo === index ? logo.hover : logo.default}
                   alt={logo.alt}
+                  width={128}
+                  height={64}
                   onMouseEnter={() => setHoveredLogo(index)}
                   onMouseLeave={() => setHoveredLogo(null)}
                   className="w-24 md:w-32 h-auto hover:opacity-100 transition-all duration-300 cursor-pointer"

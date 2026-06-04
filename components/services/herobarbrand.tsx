@@ -7,10 +7,39 @@ export default function HerobarBrand() {
   const router = useRouter()
   const sectionRef = React.useRef<HTMLElement | null>(null)
   const [shouldRenderVideo, setShouldRenderVideo] = React.useState(false)
+  const [allowVideoLoad, setAllowVideoLoad] = React.useState(false)
+
+  React.useEffect(() => {
+    const connection = (navigator as Navigator & {
+      connection?: { saveData?: boolean }
+    }).connection
+
+    if (connection?.saveData) return
+
+    let timeoutId: number | null = null
+    let idleId: number | null = null
+
+    const enableVideo = () => setAllowVideoLoad(true)
+
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(enableVideo, { timeout: 2500 })
+    } else {
+      timeoutId = window.setTimeout(enableVideo, 1800)
+    }
+
+    return () => {
+      if (idleId !== null && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleId)
+      }
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId)
+      }
+    }
+  }, [])
 
   React.useEffect(() => {
     const node = sectionRef.current
-    if (!node) return
+    if (!node || !allowVideoLoad) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -25,7 +54,7 @@ export default function HerobarBrand() {
 
     observer.observe(node)
     return () => observer.disconnect()
-  }, [])
+  }, [allowVideoLoad])
   
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
