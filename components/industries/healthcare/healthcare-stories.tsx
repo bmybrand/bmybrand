@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 type HealthcareStoryItem = {
   title: string
   description: string
@@ -68,9 +70,12 @@ export default function HealthcareStories({
         const isReversed = index % 2 === 1
         const showcase = (
           <div className={`h-full min-h-[400px] sm:min-h-[460px] lg:min-h-[540px] overflow-hidden rounded-4xl ${storyBackgrounds[index % storyBackgrounds.length]}`}>
-            <img
+            <Image
               src={story.showcaseImage ?? '/bmyb-global-container-01.webp'}
               alt={story.showcaseAlt ?? 'Case study showcase'}
+              width={872}
+              height={531}
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="block h-full w-full object-cover object-center"
             />
           </div>
@@ -81,6 +86,8 @@ export default function HealthcareStories({
             <img
               src={story.logoSrc ?? '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-02.svg'}
               alt={story.logoAlt ?? story.name ?? 'Case study logo'}
+              width={240}
+              height={48}
               className="block h-12 w-auto object-contain object-left self-start"
             />
             <p className="mt-5 text-[0.85rem] sm:text-sm md:text-base lg:text-lg leading-6 lg:leading-8 text-white/65 ">
@@ -91,6 +98,8 @@ export default function HealthcareStories({
               <img
                 src={story.avatarSrc ?? story.logoSrc ?? '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg'}
                 alt=""
+                width={44}
+                height={44}
                 className="h-11 w-11 object-contain"
               />
               <div>

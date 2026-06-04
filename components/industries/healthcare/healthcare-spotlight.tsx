@@ -207,6 +207,8 @@ export default function HealthcareSpotlight({ title, description, items }: Healt
           <img
             src={activeMedia.logo}
             alt={activeMedia.logoAlt}
+            width={260}
+            height={64}
             className="h-16 w-auto object-contain"
           />
 
@@ -222,6 +224,8 @@ export default function HealthcareSpotlight({ title, description, items }: Healt
             <img
               src={activeMedia.avatar}
               alt={activeContent?.name}
+              width={56}
+              height={56}
               className="h-14 w-14 rounded-full object-contain"
             />
             <div>

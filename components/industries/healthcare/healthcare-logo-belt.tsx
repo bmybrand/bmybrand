@@ -14,6 +14,8 @@ export default function HealthcareLogoBelt() {
             <img
               src={logo}
               alt="trusted brand"
+              width={176}
+              height={64}
               className="h-11 w-auto max-w-[170px] object-contain brightness-0 invert sm:h-13 sm:max-w-[190px] lg:h-16 lg:max-w-[220px]"
             />
           </div>
