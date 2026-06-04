@@ -86,7 +86,8 @@ const Heropage: React.FC = () => {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        draggable={false}
+        className="object-cover object-center pointer-events-none select-none"
       />
       <div
         className="relative flex flex-col lg:flex-row pt-32 sm:pt-36 lg:pt-40 pb-0 lg:min-h-screen h-fit w-[90%] 2xl:w-[85%] mx-auto lg:gap-20 gap-10"
