@@ -153,6 +153,8 @@ const OurBranding: React.FC = () => {
                   <img
                     src={card.icon}
                     alt=""
+                    width={48}
+                    height={48}
                     className=" h-full object-contain shrink-0"
                   />
                   <div className="flex-1">
@@ -184,6 +186,8 @@ const OurBranding: React.FC = () => {
                 <img
                   src={card.icon}
                   alt=""
+                  width={48}
+                  height={48}
                   className="h-full object-contain shrink-0"
                 />
                 <div>
