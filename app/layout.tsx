@@ -23,7 +23,7 @@ const benzinRegular = localFont({
   src: "../public/fonts/benzinregular.ttf",
   variable: "--font-benzin-regular",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 export const metadata: Metadata = {
