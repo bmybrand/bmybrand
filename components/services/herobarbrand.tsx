@@ -53,7 +53,7 @@ export default function HerobarBrand() {
 
         <div className="flex flex-col sm:flex-row gap-4 mt-2 BenzinSemibold justify-center items-center">
           <Link
-            href="/request"
+            href="/contact"
             className="bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 BenzinSemibold"
           >
             <div className="bg-white p-4 rounded-lg">
