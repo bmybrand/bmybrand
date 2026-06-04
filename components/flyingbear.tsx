@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion } from "framer-motion";
@@ -213,9 +214,12 @@ const FullyAnimatedGrid: React.FC = () => {
             <h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
               Our Services Designed for Real Business Growth
             </h2>
-            <button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
+            <Link
+              href="/contact"
+              className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-center text-lg text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold"
+            >
               Get Started Now
-            </button>
+            </Link>
           </div>
 
           <AnimatePresence>
@@ -260,9 +264,12 @@ const FullyAnimatedGrid: React.FC = () => {
                   Our Services Designed for Real Business Growth
                 </motion.h2>
 
-                <motion.button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
+                <Link
+                  href="/contact"
+                  className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-center text-lg text-white transition-all duration-300 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold"
+                >
                   Get Started Now
-                </motion.button>
+                </Link>
               </motion.div>
             )}
           </AnimatePresence>

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import Image from "next/image";
+import Link from "next/link";
 
 const H1_WORDS: { word: string; orange: boolean; noSpace?: boolean }[] = [
   { word: "We", orange: false },
@@ -135,7 +136,7 @@ const Heropage: React.FC = () => {
     <span className="px-2 whitespace-nowrap">Free strategy call</span>
   </a>
 
-  <button className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2 opacity-0 text-sm sm:text-[14px] md:text-[15px] lg:text-[15px] xl:text-[15px] 2xl:text-base whitespace-nowrap" style={{ transform: "translateY(14px)" }}>
+  <Link href="/case-studies" className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2 opacity-0 text-sm sm:text-[14px] md:text-[15px] lg:text-[15px] xl:text-[15px] 2xl:text-base whitespace-nowrap" style={{ transform: "translateY(14px)" }}>
 
      <div className="bg-white p-4 rounded-lg">
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
@@ -143,7 +144,7 @@ const Heropage: React.FC = () => {
     </svg>
     </div>
     <span className="px-2 whitespace-nowrap">Explore Our Work</span>
-  </button>
+  </Link>
 </div>
 
         </div>
@@ -197,12 +198,12 @@ const Heropage: React.FC = () => {
     <span className="text-center sm:text-left text-sm sm:text-base md:text-lg">
     Get your site reviewed in minutes — request a FREE AI Website Audit from BmyBrand.  
     </span>
-    <a
-      href="#"
+    <Link
+      href="/grow-my-business"
       className="text-sm sm:text-base md:text-lg font-semibold underline hover:text-[#11122F] transition-colors duration-300"
     >
       Get My Audit &rarr;
-    </a>
+    </Link>
   </div>
     </div>
   );

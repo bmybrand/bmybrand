@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface BottomCTAProps {
   targetId: string
@@ -118,18 +119,19 @@ const BottomCTA: React.FC<BottomCTAProps> = ({ targetId, footerId }) => {
     {/* Buttons */}
     <div className="flex flex-warp gap-3 BenzinSemibold">
       <a
-        href="tel:+123456789"
+        href="tel:+14695011401"
         className="px-4 py-2 sm:px-5 sm:py-3 rounded-xl border border-white
                    text-white font-medium hover:-translate-y-1 hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-300 text-xs sm:text-sm"
       >
         Call Now
       </a>
-      <button
+      <Link
+        href="/contact"
         className="px-4 py-2 sm:px-5 sm:py-3 rounded-xl bg-[#F45B25]
                    text-white font-medium hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 text-xs sm:text-sm"
       >
         Request a Quote
-      </button>
+      </Link>
     </div>
 
         </div>

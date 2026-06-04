@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const AddBlock = () => {
   return (
@@ -20,12 +21,15 @@ const AddBlock = () => {
             Let’s Take the Next Step Forward.
           </h2>
 
-          <button className="w-fit BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg flex justify-center items-center gap-2 mx-auto lg:mx-0 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300">
+          <Link
+            href="/strategy-call"
+            className="w-fit BenzinSemibold bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg flex justify-center items-center gap-2 mx-auto lg:mx-0 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300"
+          >
             <div className="bg-white p-4 rounded-lg">
               <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
             </div>
-            <span className="px-2">Try BmyBrand FREE for 14 Days</span>
-          </button>
+            <span className="px-2">Schedule Your Free Call</span>
+          </Link>
 
           <p className='text-white/70 text-sm md:text-base w-full lg:w-3/5 text-center lg:text-left'>
             Get solutions tailored to your business needs.
