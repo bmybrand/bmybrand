@@ -37,9 +37,8 @@ export default function HerobarBrand() {
             <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
           </video>
         ) : (
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.16),transparent_36%),linear-gradient(180deg,#171832_0%,#11122F_100%)]" />
+          <div className="absolute inset-0 bg-[#11122F]" />
         )}
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto text-center pt-32 pb-20">

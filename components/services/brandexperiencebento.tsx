@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Gravity, { MatterBody } from '@/components/fancy/physics/gravity'
 
@@ -45,6 +46,7 @@ export default function BrandExperienceBento() {
           emphasis: 'Brand Experience',
           description: 'Uncover gaps in usability, messaging, and conversion.',
           cta: 'Start Website Audit',
+          href: '/grow-my-business',
         }
       : {
           heading: 'Book A Strategy Call',
@@ -52,6 +54,7 @@ export default function BrandExperienceBento() {
           emphasis: 'Your Goals',
           description: 'Schedule a quick strategy call for your brand & growth.',
           cta: 'Book Strategy Call',
+          href: '/strategy-call',
         }
 
   React.useEffect(() => {
@@ -136,8 +139,8 @@ export default function BrandExperienceBento() {
     <div ref={bentoGridRef} className="grid auto-rows-[6.4rem] gap-4 md:grid-cols-12 md:auto-rows-[6.4rem]">
       <div className="group relative overflow-hidden rounded-[0.9rem] border border-white/10 bg-[#1C1D3D] px-7 py-5 md:col-span-5 md:row-span-4">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,132,62,0.34),transparent_46%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(circle_at_bottom,rgba(244,91,37,0.4),transparent_66%)]" />
-        <div className="relative z-10 flex h-full flex-col pb-32">
+        <div className="pointer-events-none absolute inset-x-0 -bottom-4 h-24 bg-[radial-gradient(circle_at_bottom,rgba(244,91,37,0.4),transparent_66%)] sm:-bottom-5 sm:h-32 lg:-bottom-6 lg:h-40" />
+        <div className="relative z-20 flex h-full flex-col pb-32">
           <div className="flex items-center justify-between gap-3">
             <img
               src="/bmyb-services-brand-bmybrand-01-01.svg"
@@ -179,12 +182,15 @@ export default function BrandExperienceBento() {
             <p className="mt-4 text-base leading-relaxed text-white/58">
               {primaryCardContent.description}
             </p>
-            <button className="mt-6 rounded-[0.45rem] bg-[#F45B25] px-7 py-4 text-sm text-white BenzinSemibold">
+            <Link
+              href={primaryCardContent.href}
+              className="mt-6 inline-flex rounded-[0.45rem] bg-[#F45B25] px-7 py-4 text-sm text-white BenzinSemibold transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)]"
+            >
               {primaryCardContent.cta}
-            </button>
+            </Link>
           </div>
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex justify-center">
           <div className="relative h-64 w-[20rem]">
             <div className="absolute inset-0 flex items-end justify-center">
               <img
@@ -269,8 +275,8 @@ export default function BrandExperienceBento() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(244,91,37,0.3),transparent_40%)]" />
           </>
         )}
-        <div className="relative z-20 flex h-full flex-col">
-          <div className="mb-4 grid grid-cols-3 gap-2">
+        <div className="relative z-20 flex h-full flex-col pb-24">
+          <div className="-mt-4 grid grid-cols-3 gap-2">
             {Array.from({ length: edgeStoryCount }).map((_, index) => (
               <button
                 key={index}
@@ -315,7 +321,7 @@ export default function BrandExperienceBento() {
                 </h3>
               </div>
 
-              <div className="relative mt-8 min-h-[13rem] flex-1 overflow-hidden pb-2">
+              <div className="relative mt-8 min-h-[13.5rem] overflow-hidden pb-2">
                 {physicsReady ? (
                   <Gravity gravity={{ x: 0, y: 1 }} draggable={true} className="h-[calc(100%_-_0.35rem)] w-full px-4 py-2">
                     <MatterBody matterBodyOptions={{ friction: 0.5, restitution: 0.2 }} x="12%" y="2%" angle={-70}>
@@ -364,7 +370,7 @@ export default function BrandExperienceBento() {
             </>
           )}
 
-          <div className="mt-auto flex items-center gap-3 pt-2">
+          <div className="absolute -bottom-3 left-0 right-0 flex items-center gap-3 pb-6 pt-2 sm:-bottom-4">
             <input
               type="text"
               placeholder="Send message"
