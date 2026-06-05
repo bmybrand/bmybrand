@@ -9,6 +9,7 @@ import {
   findCountryByDialCode,
   findCountryByIso,
   detectCountryIsoFromIp,
+  filterPhoneCountries,
   formatRestCountries,
   replacePhoneDialCode,
   type PhoneCountry,
@@ -124,9 +125,29 @@ function CustomCountrySelect({
   countries: PhoneCountry[];
 }) {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
+
+  const filteredCountries = useMemo(
+    () => filterPhoneCountries(countries, search),
+    [countries, search]
+  );
+
+  useEffect(() => {
+    if (!open) {
+      setSearch("");
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      searchInputRef.current?.focus();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -148,14 +169,14 @@ function CustomCountrySelect({
       const rect = containerRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
       const spaceAbove = rect.top;
-      const dropdownHeight = 240;
+      const dropdownHeight = 320;
 
       if (spaceBelow >= dropdownHeight || spaceBelow > spaceAbove) {
         setDropdownStyle({
           position: "absolute",
           top: rect.bottom + window.scrollY + 8,
           left: rect.left + window.scrollX,
-          width: Math.max(rect.width, 140),
+          width: Math.max(rect.width, 300),
           maxHeight: `${dropdownHeight}px`,
         });
       } else {
@@ -163,7 +184,7 @@ function CustomCountrySelect({
           position: "absolute",
           bottom: window.innerHeight - rect.top - window.scrollY + 8,
           left: rect.left + window.scrollX,
-          width: Math.max(rect.width, 140),
+          width: Math.max(rect.width, 300),
           maxHeight: `${dropdownHeight}px`,
         });
       }
@@ -219,33 +240,60 @@ function CustomCountrySelect({
           <div
             ref={dropdownRef}
             style={dropdownStyle}
-            className="z-[9999] overflow-y-auto rounded-xl border border-[#343556] bg-[#191A35] shadow-xl [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]"
+            className="z-[9999] flex flex-col overflow-hidden rounded-xl border border-[#343556] bg-[#191A35] shadow-xl"
           >
-            {countries.length > 0 ? (
-              countries.map((c, i) => (
-                <button
-                  key={`${c.code}-${c.dialCode}-${i}`}
-                  type="button"
-                  onClick={() => {
-                    onChange(c.dialCode, c.code);
+            <div className="sticky top-0 border-b border-[#343556] bg-[#191A35] p-2">
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search country..."
+                className="w-full rounded-lg border border-[#343556] bg-[#12132A] px-3 py-2 text-sm text-white placeholder:text-white/35 outline-none transition-colors focus:border-[#F45B25]"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
                     setOpen(false);
-                  }}
-                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${value === c.dialCode ? "bg-[#2A2B47] text-white" : "text-white/70"
+                  }
+                }}
+              />
+            </div>
+
+            <div className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]">
+              {filteredCountries.length > 0 ? (
+                filteredCountries.map((c, i) => (
+                  <button
+                    key={`${c.code}-${c.dialCode}-${i}`}
+                    type="button"
+                    onClick={() => {
+                      onChange(c.dialCode, c.code);
+                      setOpen(false);
+                    }}
+                    className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${
+                      countryIso === c.code && value === c.dialCode
+                        ? "bg-[#2A2B47] text-white"
+                        : "text-white/70"
                     }`}
-                >
-                  {c.code && (
-                    <img
-                      src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
-                      alt={c.code}
-                      className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
-                    />
-                  )}
-                  <span className="whitespace-nowrap">{c.code} {c.dialCode}</span>
-                </button>
-              ))
-            ) : (
-              <div className="px-4 py-2 text-sm text-white/70">PK +92</div>
-            )}
+                  >
+                    {c.code && (
+                      <img
+                        src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
+                        alt={c.code}
+                        className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
+                      />
+                    )}
+                    <span className="min-w-0 flex-1 truncate">{c.name}</span>
+                    <span className="shrink-0 text-white/45">
+                      {c.code} {c.dialCode}
+                    </span>
+                  </button>
+                ))
+              ) : (
+                <div className="px-4 py-6 text-center text-sm text-white/50">
+                  No countries found
+                </div>
+              )}
+            </div>
           </div>,
           document.body
         )}

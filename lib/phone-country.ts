@@ -126,3 +126,23 @@ export function formatRestCountries(data: unknown[]): PhoneCountry[] {
     .filter((country) => country.dialCode && country.code)
     .sort((a, b) => a.name.localeCompare(b.name))
 }
+
+export function filterPhoneCountries(countries: PhoneCountry[], query: string) {
+  const normalized = query.trim().toLowerCase()
+  if (!normalized) return countries
+
+  const dialQuery = normalized.startsWith('+') ? normalized : normalized.replace(/\s/g, '')
+
+  return countries.filter((country) => {
+    const name = country.name.toLowerCase()
+    const code = country.code.toLowerCase()
+    const dial = country.dialCode.toLowerCase()
+
+    return (
+      name.includes(normalized) ||
+      code.includes(normalized) ||
+      dial.includes(dialQuery) ||
+      dial.replace('+', '').includes(dialQuery.replace('+', ''))
+    )
+  })
+}
