@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "BmyBrand",
     images: [
       {
-        url: "/Social preview image 2.png",
+        url: "/social-preview.png",
         width: 1200,
         height: 630,
         alt: "BmyBrand - Crafting Brands. Building Websites. Powering Automation.",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "BmyBrand",
     description: "BmyBrand helps businesses grow with smart digital solutions, from branding and websites to AI, marketing, commerce, and operations built for real-world impact.",
-    images: ["/Social preview image 2.png"],
+    images: ["/social-preview.png"],
   },
 };
 
