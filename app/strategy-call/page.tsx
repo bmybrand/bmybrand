@@ -6,6 +6,19 @@ import gsap from "gsap";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  findCountryByDialCode,
+  findCountryByIso,
+  detectCountryIsoFromIp,
+  getInitialPhoneCountryState,
+  getFlagImageUrl,
+  isoToFlagEmoji,
+  MINIMAL_PHONE_COUNTRIES,
+  FALLBACK_DIAL_CODES,
+  formatRestCountries,
+  replacePhoneDialCode,
+  type PhoneCountry,
+} from "@/lib/phone-country";
+import {
   dateHasAvailableSlots,
   detectUserTimeZone,
   firstSelectableDayInMonthWithSlots,
@@ -104,14 +117,44 @@ function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
   );
 }
 
+function CountryFlag({
+  iso,
+  className,
+}: {
+  iso: string;
+  className?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  const code = (iso || "US").trim().toUpperCase();
+
+  if (failed || !code) {
+    return (
+      <span className={`inline-flex items-center justify-center text-base leading-none ${className ?? ""}`}>
+        {isoToFlagEmoji(code)}
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={getFlagImageUrl(code)}
+      alt=""
+      className={className}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 function CustomCountrySelect({
   value,
+  countryIso,
   onChange,
   countries,
 }: {
   value: string;
-  onChange: (val: string) => void;
-  countries: { name: string; dialCode: string; code: string; flag: string }[];
+  countryIso: string;
+  onChange: (dialCode: string, iso: string) => void;
+  countries: PhoneCountry[];
 }) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -160,31 +203,33 @@ function CustomCountrySelect({
     }
   }, [open]);
 
-  const selectedCountry = countries.find((c) => c.dialCode === value);
-  const displayLabel = selectedCountry ? (
-    <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
-      {selectedCountry.code && (
-        <img
-          src={`https://flagcdn.com/${selectedCountry.code.toLowerCase()}.svg`}
-          alt={selectedCountry.code}
-          className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
-        />
-      )}
-      <span className="whitespace-nowrap overflow-hidden text-ellipsis">{selectedCountry.dialCode}</span>
-    </span>
-  ) : (
-    <span className="flex w-full justify-center whitespace-nowrap overflow-hidden text-ellipsis">{value}</span>
-  );
+  const selectedCountry =
+    countries.find((c) => c.code === countryIso && c.dialCode === value) ??
+    countries.find((c) => c.code === countryIso) ??
+    countries.find((c) => c.dialCode === value);
+
+  const effectiveIso = (selectedCountry?.code || countryIso || "US").toUpperCase();
+  const effectiveDial =
+    selectedCountry?.dialCode ||
+    value ||
+    FALLBACK_DIAL_CODES[effectiveIso] ||
+    "+1";
 
   return (
-    <div className="relative w-[115px] shrink-0 border-r border-[#343556] bg-transparent" ref={containerRef}>
+    <div className="relative w-[128px] shrink-0 border-r border-[#343556] bg-transparent" ref={containerRef}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex h-full w-full items-center gap-1.5 px-3 text-sm text-white/70 outline-none"
+        className="flex h-full w-full items-center justify-between gap-1 px-2.5 text-sm text-white/70 outline-none"
         aria-label="Country calling code"
       >
-        {displayLabel}
+        <span className="flex min-w-0 flex-1 items-center gap-1.5">
+          <CountryFlag
+            iso={effectiveIso}
+            className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
+          />
+          <span className="truncate">{effectiveDial}</span>
+        </span>
         <svg
           className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
@@ -203,31 +248,26 @@ function CustomCountrySelect({
             style={dropdownStyle}
             className="z-[9999] overflow-y-auto rounded-xl border border-[#343556] bg-[#191A35] shadow-xl [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]"
           >
-            {countries.length > 0 ? (
-              countries.map((c, i) => (
-                <button
-                  key={`${c.code}-${c.dialCode}-${i}`}
-                  type="button"
-                  onClick={() => {
-                    onChange(c.dialCode);
-                    setOpen(false);
-                  }}
-                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${value === c.dialCode ? "bg-[#2A2B47] text-white" : "text-white/70"
-                    }`}
-                >
-                  {c.code && (
-                    <img
-                      src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
-                      alt={c.code}
-                      className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
-                    />
-                  )}
-                  <span className="whitespace-nowrap">{c.code} {c.dialCode}</span>
-                </button>
-              ))
-            ) : (
-              <div className="px-4 py-2 text-sm text-white/70">PK +92</div>
-            )}
+            {countries.map((c, i) => (
+              <button
+                key={`${c.code}-${c.dialCode}-${i}`}
+                type="button"
+                onClick={() => {
+                  onChange(c.dialCode, c.code);
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${value === c.dialCode ? "bg-[#2A2B47] text-white" : "text-white/70"
+                  }`}
+              >
+                {c.code && (
+                  <CountryFlag
+                    iso={c.code}
+                    className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
+                  />
+                )}
+                <span className="whitespace-nowrap">{c.code} {c.dialCode}</span>
+              </button>
+            ))}
           </div>,
           document.body
         )}
@@ -238,38 +278,84 @@ function CustomCountrySelect({
 export default function StrategyCallPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [countryCode, setCountryCode] = useState("+92");
+  const initialPhoneCountry = getInitialPhoneCountryState();
+  const [countryCode, setCountryCode] = useState(initialPhoneCountry.countryCode);
+  const [countryIso, setCountryIso] = useState(initialPhoneCountry.countryIso);
   const [phone, setPhone] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [budget, setBudget] = useState("");
   const [callNotes, setCallNotes] = useState("");
   const [source, setSource] = useState("");
-  const [countries, setCountries] = useState<{ name: string, dialCode: string, code: string, flag: string }[]>([]);
+  const [countries, setCountries] = useState<PhoneCountry[]>(MINIMAL_PHONE_COUNTRIES);
   const [step, setStep] = useState<"form" | "time" | "complete">("form");
+  const phoneTouchedRef = useRef(false);
+  const geoAppliedRef = useRef(false);
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all?fields=name,idd,cca2,flags")
       .then((res) => res.json())
       .then((data) => {
-        const formatted = data
-          .map((country: any) => {
-            const root = country.idd?.root || "";
-            const suffixes = country.idd?.suffixes || [];
-            const dialCode = suffixes.length === 1 ? root + suffixes[0] : root;
-            return {
-              name: country.name.common,
-              dialCode: dialCode,
-              code: country.cca2,
-              flag: country.flags?.svg || "",
-            };
-          })
-          .filter((c: any) => c.dialCode)
-          .sort((a: any, b: any) => a.name.localeCompare(b.name));
-        setCountries(formatted);
+        setCountries(formatRestCountries(data));
       })
       .catch((err) => console.error("Error fetching countries:", err));
   }, []);
+
+  const applyCountry = (country: PhoneCountry) => {
+    setCountryCode(country.dialCode);
+    setCountryIso(country.code);
+  };
+
+  useEffect(() => {
+    if (countries.length === 0 || phoneTouchedRef.current) return;
+
+    const current = findCountryByIso(countryIso, countries);
+    if (current && !countryCode) {
+      applyCountry(current);
+    }
+  }, [countries, countryIso, countryCode]);
+
+  useEffect(() => {
+    if (countries.length === 0 || geoAppliedRef.current || phoneTouchedRef.current) {
+      return;
+    }
+
+    detectCountryIsoFromIp()
+      .then((iso) => {
+        if (phoneTouchedRef.current || !iso) return;
+
+        const country = findCountryByIso(iso, countries);
+        if (country) {
+          applyCountry(country);
+          geoAppliedRef.current = true;
+        }
+      })
+      .catch((err) => console.error("Error detecting country from IP:", err));
+  }, [countries]);
+
+  const handlePhoneChange = (value: string) => {
+    phoneTouchedRef.current = true;
+    setPhone(value);
+
+    if (!value.trim().startsWith("+") || countries.length === 0) return;
+
+    const matched = findCountryByDialCode(value, countries);
+    if (matched) {
+      setCountryCode(matched.dialCode);
+      setCountryIso(matched.code);
+    }
+  };
+
+  const handleCountryChange = (dialCode: string, iso: string) => {
+    phoneTouchedRef.current = true;
+    setCountryCode(dialCode);
+    setCountryIso(iso);
+
+    const country = countries.find((c) => c.code === iso && c.dialCode === dialCode);
+    if (country) {
+      setPhone((current) => replacePhoneDialCode(current, countries, country));
+    }
+  };
 
   useEffect(() => {
     if (step !== "time" && step !== "complete") return;
@@ -298,7 +384,6 @@ export default function StrategyCallPage() {
   const [timezoneQuery, setTimezoneQuery] = useState("");
   const [selectedTimezone, setSelectedTimezone] = useState(initialTimeZone);
   const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h");
-  const [hoveredSlot, setHoveredSlot] = useState<string | null>(null);
   const [activeAgenda, setActiveAgenda] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -842,14 +927,15 @@ export default function StrategyCallPage() {
                                 <div className="flex rounded-xl border border-[#343556] bg-transparent text-white transition-colors focus-within:border-[#F45B25]">
                                   <CustomCountrySelect
                                     value={countryCode}
-                                    onChange={setCountryCode}
+                                    countryIso={countryIso}
+                                    onChange={handleCountryChange}
                                     countries={countries}
                                   />
                                   <input
                                     type="tel"
-                                    placeholder={countryCode}
+                                    placeholder="Phone number"
                                     value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    onChange={(e) => handlePhoneChange(e.target.value)}
                                     className="w-full bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none"
                                   />
                                 </div>
@@ -1178,7 +1264,7 @@ export default function StrategyCallPage() {
                           </div>
                         </div>
 
-                        <div className="mt-4 max-h-[15rem] space-y-3 overflow-x-hidden overflow-y-auto pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                        <div className="mt-4 flex max-h-[15rem] flex-col gap-3 overflow-y-auto overscroll-contain pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
                           {baseTimeSlots.length === 0 ? (
                             <p className="rounded-xl border border-[#343556] px-4 py-3 text-sm text-[#A4A8C9]">
                               No slots available for this date. Please choose another day.
@@ -1186,44 +1272,39 @@ export default function StrategyCallPage() {
                           ) : null}
                           {baseTimeSlots.map((slot) => {
                             const slotLabel = formatTimeSlot(slot);
+                            const isSelected = selectedTime === slot.id;
                             return (
                               <div
                                 key={slot.id}
-                                onMouseEnter={() => setHoveredSlot(slot.id)}
-                                onMouseLeave={() => setHoveredSlot((current) => (current === slot.id ? null : current))}
-                                className="flex w-full max-w-full items-center gap-3 overflow-hidden"
+                                className="group grid h-12 w-full shrink-0 grid-cols-[1fr_0fr] gap-3 transition-[grid-template-columns] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:grid-cols-[52fr_48fr]"
                               >
                                 <button
                                   type="button"
-                                  className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-all duration-200 ${hoveredSlot === slot.id
-                                    ? "w-[52%] border-[#343556] bg-transparent text-[#C7CAE2]"
-                                    : selectedTime === slot.id
-                                      ? "w-full border-[#FF7A36] bg-[#252744] text-white"
-                                      : "w-full border-[#343556] bg-transparent text-[#C7CAE2] hover:border-[#4A4D74] hover:text-white"
-                                    }`}
                                   onClick={() => setSelectedTime(slot.id)}
+                                  className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-[border-color,background-color,color] duration-300 ease-out ${isSelected
+                                    ? "border-[#FF7A36] bg-[#252744] text-white"
+                                    : "border-[#343556] bg-transparent text-[#C7CAE2] group-hover:border-[#343556] group-hover:text-[#C7CAE2] hover:border-[#4A4D74] hover:text-white"
+                                    }`}
                                 >
                                   {slotLabel}
                                 </button>
-                                {hoveredSlot === slot.id ? (
-                                  <button
-                                    type="button"
-                                    onClick={() => setSelectedTime(slot.id)}
-                                    className="h-12 w-[48%] rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] text-base text-white transition-all duration-200 BenzinSemibold"
-                                  >
-                                    Confirm
-                                  </button>
-                                ) : null}
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedTime(slot.id)}
+                                  className="flex h-12 min-w-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] text-base text-white opacity-0 pointer-events-none transition-[opacity] duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 BenzinSemibold"
+                                >
+                                  Confirm
+                                </button>
                               </div>
-                            )
+                            );
                           })}
                         </div>
 
                         <div
-                          className={`grid transition-all duration-300 ease-out ${selectedTime ? "mt-5 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                          className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-out ${selectedTime ? "mt-5 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"
                             }`}
                         >
-                          <div className="overflow-hidden">
+                          <div className="min-h-0 overflow-hidden">
                             {submitError ? (
                               <p className="mb-3 text-sm text-red-400">{submitError}</p>
                             ) : null}
@@ -1231,7 +1312,7 @@ export default function StrategyCallPage() {
                               type="button"
                               onClick={() => void handleFinishBooking()}
                               disabled={isSubmitting}
-                              className={`flex w-full items-center justify-center rounded-xl py-3.5 text-[1.05rem] text-white transition-all duration-200 BenzinSemibold ${isSubmitting
+                              className={`flex w-full items-center justify-center rounded-xl py-3.5 text-[1.05rem] text-white transition-colors duration-300 BenzinSemibold ${isSubmitting
                                 ? "cursor-not-allowed bg-[#343556] text-white/45"
                                 : "bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] hover:brightness-110"
                                 }`}
