@@ -51,114 +51,28 @@ export function findCountryByIso(iso: string, countries: PhoneCountry[]) {
   return countries.find((country) => country.code === code) ?? null
 }
 
-export function inferIsoFromTimeZone(timeZone: string) {
-  const tz = timeZone.trim()
-  const exact: Record<string, string> = {
-    'Asia/Karachi': 'PK',
-    'Asia/Kolkata': 'IN',
-    'Asia/Dubai': 'AE',
-    'Asia/Singapore': 'SG',
-    'Asia/Tokyo': 'JP',
-    'Europe/London': 'GB',
-    'Europe/Paris': 'FR',
-    'Europe/Berlin': 'DE',
-    'America/New_York': 'US',
-    'America/Chicago': 'US',
-    'America/Denver': 'US',
-    'America/Los_Angeles': 'US',
-    'America/Toronto': 'CA',
-    'Australia/Sydney': 'AU',
-  }
-
-  if (exact[tz]) return exact[tz]
-  if (tz.startsWith('America/')) return 'US'
-  if (tz.startsWith('Australia/')) return 'AU'
-  if (tz.startsWith('Europe/')) return 'GB'
-  if (tz.includes('Karachi')) return 'PK'
-  if (tz.startsWith('Asia/')) return 'IN'
-  return 'US'
-}
-
-export const FALLBACK_DIAL_CODES: Record<string, string> = {
-  PK: '+92',
-  US: '+1',
-  GB: '+44',
-  CA: '+1',
-  IN: '+91',
-  AE: '+971',
-  AU: '+61',
-  DE: '+49',
-  FR: '+33',
-  SG: '+65',
-  JP: '+81',
-}
-
-export const MINIMAL_PHONE_COUNTRIES: PhoneCountry[] = [
-  { name: 'United States', dialCode: '+1', code: 'US', flag: 'https://flagcdn.com/w40/us.png' },
-  { name: 'Pakistan', dialCode: '+92', code: 'PK', flag: 'https://flagcdn.com/w40/pk.png' },
-  { name: 'United Kingdom', dialCode: '+44', code: 'GB', flag: 'https://flagcdn.com/w40/gb.png' },
-  { name: 'Canada', dialCode: '+1', code: 'CA', flag: 'https://flagcdn.com/w40/ca.png' },
-  { name: 'India', dialCode: '+91', code: 'IN', flag: 'https://flagcdn.com/w40/in.png' },
-  { name: 'United Arab Emirates', dialCode: '+971', code: 'AE', flag: 'https://flagcdn.com/w40/ae.png' },
-  { name: 'Australia', dialCode: '+61', code: 'AU', flag: 'https://flagcdn.com/w40/au.png' },
-  { name: 'Germany', dialCode: '+49', code: 'DE', flag: 'https://flagcdn.com/w40/de.png' },
-  { name: 'France', dialCode: '+33', code: 'FR', flag: 'https://flagcdn.com/w40/fr.png' },
-  { name: 'Singapore', dialCode: '+65', code: 'SG', flag: 'https://flagcdn.com/w40/sg.png' },
-  { name: 'Japan', dialCode: '+81', code: 'JP', flag: 'https://flagcdn.com/w40/jp.png' },
-]
-
-export function isoToFlagEmoji(iso: string) {
-  const code = iso.trim().toUpperCase()
-  if (code.length !== 2) return '🌍'
-  const base = 0x1f1e6
-  return String.fromCodePoint(
-    ...code.split('').map((char) => base + char.charCodeAt(0) - 65)
-  )
-}
-
-export function getFlagImageUrl(iso: string) {
-  return `https://flagcdn.com/w40/${iso.trim().toLowerCase()}.png`
-}
-
-export function getInitialCountryIso() {
-  try {
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    if (timeZone) return inferIsoFromTimeZone(timeZone)
-  } catch {
-    // ignore
-  }
-  return 'US'
-}
-
-export function getInitialPhoneCountryState() {
-  const iso = getInitialCountryIso()
-  return {
-    countryIso: iso,
-    countryCode: FALLBACK_DIAL_CODES[iso] ?? '+1',
-  }
-}
-
 export async function detectCountryIsoFromIp() {
-  try {
-    const response = await fetch('https://ipwho.is/', { cache: 'no-store' })
-    if (response.ok) {
-      const data = (await response.json()) as {
-        success?: boolean
-        country_code?: string
-      }
-      if (data.success && data.country_code) {
-        return data.country_code.toUpperCase()
-      }
-    }
-  } catch {
-    // fall through
-  }
-
   try {
     const response = await fetch('/api/geo', { cache: 'no-store' })
     if (response.ok) {
       const data = (await response.json()) as { countryCode?: string | null }
       if (data.countryCode) return data.countryCode
+    }
+  } catch {
+    // fall through to client lookup
+  }
+
+  try {
+    const response = await fetch('https://ipwho.is/', { cache: 'no-store' })
+    if (!response.ok) return null
+
+    const data = (await response.json()) as {
+      success?: boolean
+      country_code?: string
+    }
+
+    if (data.success && data.country_code) {
+      return data.country_code.toUpperCase()
     }
   } catch {
     return null

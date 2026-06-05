@@ -9,11 +9,6 @@ import {
   findCountryByDialCode,
   findCountryByIso,
   detectCountryIsoFromIp,
-  getInitialPhoneCountryState,
-  getFlagImageUrl,
-  isoToFlagEmoji,
-  MINIMAL_PHONE_COUNTRIES,
-  FALLBACK_DIAL_CODES,
   formatRestCountries,
   replacePhoneDialCode,
   type PhoneCountry,
@@ -117,34 +112,6 @@ function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
   );
 }
 
-function CountryFlag({
-  iso,
-  className,
-}: {
-  iso: string;
-  className?: string;
-}) {
-  const [failed, setFailed] = useState(false);
-  const code = (iso || "US").trim().toUpperCase();
-
-  if (failed || !code) {
-    return (
-      <span className={`inline-flex items-center justify-center text-base leading-none ${className ?? ""}`}>
-        {isoToFlagEmoji(code)}
-      </span>
-    );
-  }
-
-  return (
-    <img
-      src={getFlagImageUrl(code)}
-      alt=""
-      className={className}
-      onError={() => setFailed(true)}
-    />
-  );
-}
-
 function CustomCountrySelect({
   value,
   countryIso,
@@ -207,29 +174,35 @@ function CustomCountrySelect({
     countries.find((c) => c.code === countryIso && c.dialCode === value) ??
     countries.find((c) => c.code === countryIso) ??
     countries.find((c) => c.dialCode === value);
-
-  const effectiveIso = (selectedCountry?.code || countryIso || "US").toUpperCase();
-  const effectiveDial =
-    selectedCountry?.dialCode ||
-    value ||
-    FALLBACK_DIAL_CODES[effectiveIso] ||
-    "+1";
+  const displayLabel = selectedCountry ? (
+    <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
+      {selectedCountry.code && (
+        <img
+          src={`https://flagcdn.com/${selectedCountry.code.toLowerCase()}.svg`}
+          alt={selectedCountry.code}
+          className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
+        />
+      )}
+      <span className="whitespace-nowrap overflow-hidden text-ellipsis">{selectedCountry.dialCode}</span>
+    </span>
+  ) : (
+    <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
+      <span className="h-3.5 w-[21px] shrink-0 rounded-[2px] bg-white/10" />
+      <span className="whitespace-nowrap overflow-hidden text-ellipsis text-white/40">
+        {value || "…"}
+      </span>
+    </span>
+  );
 
   return (
-    <div className="relative w-[128px] shrink-0 border-r border-[#343556] bg-transparent" ref={containerRef}>
+    <div className="relative w-[115px] shrink-0 border-r border-[#343556] bg-transparent" ref={containerRef}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex h-full w-full items-center justify-between gap-1 px-2.5 text-sm text-white/70 outline-none"
+        className="flex h-full w-full items-center gap-1.5 px-3 text-sm text-white/70 outline-none"
         aria-label="Country calling code"
       >
-        <span className="flex min-w-0 flex-1 items-center gap-1.5">
-          <CountryFlag
-            iso={effectiveIso}
-            className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
-          />
-          <span className="truncate">{effectiveDial}</span>
-        </span>
+        {displayLabel}
         <svg
           className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
@@ -248,26 +221,31 @@ function CustomCountrySelect({
             style={dropdownStyle}
             className="z-[9999] overflow-y-auto rounded-xl border border-[#343556] bg-[#191A35] shadow-xl [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]"
           >
-            {countries.map((c, i) => (
-              <button
-                key={`${c.code}-${c.dialCode}-${i}`}
-                type="button"
-                onClick={() => {
-                  onChange(c.dialCode, c.code);
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${value === c.dialCode ? "bg-[#2A2B47] text-white" : "text-white/70"
-                  }`}
-              >
-                {c.code && (
-                  <CountryFlag
-                    iso={c.code}
-                    className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
-                  />
-                )}
-                <span className="whitespace-nowrap">{c.code} {c.dialCode}</span>
-              </button>
-            ))}
+            {countries.length > 0 ? (
+              countries.map((c, i) => (
+                <button
+                  key={`${c.code}-${c.dialCode}-${i}`}
+                  type="button"
+                  onClick={() => {
+                    onChange(c.dialCode, c.code);
+                    setOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${value === c.dialCode ? "bg-[#2A2B47] text-white" : "text-white/70"
+                    }`}
+                >
+                  {c.code && (
+                    <img
+                      src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
+                      alt={c.code}
+                      className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
+                    />
+                  )}
+                  <span className="whitespace-nowrap">{c.code} {c.dialCode}</span>
+                </button>
+              ))
+            ) : (
+              <div className="px-4 py-2 text-sm text-white/70">PK +92</div>
+            )}
           </div>,
           document.body
         )}
@@ -278,16 +256,15 @@ function CustomCountrySelect({
 export default function StrategyCallPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const initialPhoneCountry = getInitialPhoneCountryState();
-  const [countryCode, setCountryCode] = useState(initialPhoneCountry.countryCode);
-  const [countryIso, setCountryIso] = useState(initialPhoneCountry.countryIso);
+  const [countryCode, setCountryCode] = useState("");
+  const [countryIso, setCountryIso] = useState("");
   const [phone, setPhone] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [budget, setBudget] = useState("");
   const [callNotes, setCallNotes] = useState("");
   const [source, setSource] = useState("");
-  const [countries, setCountries] = useState<PhoneCountry[]>(MINIMAL_PHONE_COUNTRIES);
+  const [countries, setCountries] = useState<PhoneCountry[]>([]);
   const [step, setStep] = useState<"form" | "time" | "complete">("form");
   const phoneTouchedRef = useRef(false);
   const geoAppliedRef = useRef(false);
@@ -301,20 +278,6 @@ export default function StrategyCallPage() {
       .catch((err) => console.error("Error fetching countries:", err));
   }, []);
 
-  const applyCountry = (country: PhoneCountry) => {
-    setCountryCode(country.dialCode);
-    setCountryIso(country.code);
-  };
-
-  useEffect(() => {
-    if (countries.length === 0 || phoneTouchedRef.current) return;
-
-    const current = findCountryByIso(countryIso, countries);
-    if (current && !countryCode) {
-      applyCountry(current);
-    }
-  }, [countries, countryIso, countryCode]);
-
   useEffect(() => {
     if (countries.length === 0 || geoAppliedRef.current || phoneTouchedRef.current) {
       return;
@@ -326,7 +289,8 @@ export default function StrategyCallPage() {
 
         const country = findCountryByIso(iso, countries);
         if (country) {
-          applyCountry(country);
+          setCountryCode(country.dialCode);
+          setCountryIso(country.code);
           geoAppliedRef.current = true;
         }
       })
