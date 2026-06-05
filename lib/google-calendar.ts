@@ -112,7 +112,7 @@ function buildEventDescription(booking: StrategyCallRecord) {
     `Email: ${booking.email}`,
     `Phone: ${phone}`,
     `Company: ${booking.companyName}`,
-    `Website: ${booking.websiteUrl}`,
+    `Website: ${booking.websiteUrl || 'Not provided'}`,
     `Budget: ${booking.budget}`,
     `Source: ${booking.source}`,
     `Timezone: ${booking.timezone}`,

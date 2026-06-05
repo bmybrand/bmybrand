@@ -14,6 +14,7 @@ import {
   replacePhoneDialCode,
   type PhoneCountry,
 } from "@/lib/phone-country";
+import { isValidWebsiteUrl, normalizeWebsiteUrl } from "@/lib/website-url";
 import {
   dateHasAvailableSlots,
   detectUserTimeZone,
@@ -468,10 +469,10 @@ export default function StrategyCallPage() {
     formUnlocked &&
     phone.trim() !== "" &&
     companyName.trim() !== "" &&
-    websiteUrl.trim() !== "" &&
     budget.trim() !== "" &&
     callNotes.trim() !== "" &&
-    source.trim() !== "";
+    source.trim() !== "" &&
+    isValidWebsiteUrl(websiteUrl);
 
   const baseTimeSlots = useMemo(
     () =>
@@ -633,7 +634,7 @@ export default function StrategyCallPage() {
           countryCode,
           phone,
           companyName,
-          websiteUrl,
+          websiteUrl: normalizeWebsiteUrl(websiteUrl),
           budget,
           callNotes,
           source,
@@ -964,12 +965,19 @@ export default function StrategyCallPage() {
                               </div>
 
                               <div>
-                                <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Website URL *</div>
+                                <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Website URL</div>
                                 <input
-                                  type="url"
+                                  type="text"
+                                  inputMode="url"
+                                  placeholder="bmybrand.com"
                                   value={websiteUrl}
                                   onChange={(e) => setWebsiteUrl(e.target.value)}
-                                  className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
+                                  onBlur={() => {
+                                    if (websiteUrl.trim()) {
+                                      setWebsiteUrl(normalizeWebsiteUrl(websiteUrl));
+                                    }
+                                  }}
+                                  className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none transition-colors focus:border-[#F45B25]"
                                 />
                               </div>
 

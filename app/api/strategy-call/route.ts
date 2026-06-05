@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { getMysqlErrorDetails } from '@/lib/mysql'
 import { saveStrategyCallBooking } from '@/lib/strategy-call-save'
+import { isValidWebsiteUrl, normalizeWebsiteUrl } from '@/lib/website-url'
 
 type StrategyCallPayload = {
   email: string
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
     countryCode: body.countryCode?.trim(),
     phone: body.phone?.trim(),
     companyName: body.companyName?.trim(),
-    websiteUrl: body.websiteUrl?.trim(),
+    websiteUrl: normalizeWebsiteUrl(body.websiteUrl ?? ''),
     budget: body.budget?.trim(),
     callNotes: body.callNotes?.trim(),
     source: body.source?.trim(),
@@ -55,7 +56,6 @@ export async function POST(request: Request) {
     !payload.name ||
     !payload.phone ||
     !payload.companyName ||
-    !payload.websiteUrl ||
     !payload.budget ||
     !payload.callNotes ||
     !payload.source ||
@@ -64,6 +64,10 @@ export async function POST(request: Request) {
     !payload.timezone
   ) {
     return NextResponse.json({ error: 'All required fields must be provided.' }, { status: 400 })
+  }
+
+  if (!isValidWebsiteUrl(payload.websiteUrl)) {
+    return NextResponse.json({ error: 'Enter a valid website URL.' }, { status: 400 })
   }
 
   if (!isValidEmail(payload.email)) {

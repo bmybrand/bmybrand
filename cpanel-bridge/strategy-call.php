@@ -139,7 +139,7 @@ $payload = [
 ];
 
 $required = [
-    'email', 'name', 'phone', 'companyName', 'websiteUrl',
+    'email', 'name', 'phone', 'companyName',
     'budget', 'callNotes', 'source', 'appointmentDate', 'appointmentTime', 'timezone',
 ];
 
