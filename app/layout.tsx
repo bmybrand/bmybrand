@@ -26,30 +26,39 @@ const benzinRegular = localFont({
   preload: true,
 });
 
+const siteUrl = "https://bmybrand.com";
+const siteDescription =
+  "BmyBrand helps businesses grow with smart digital solutions, from branding and websites to AI, marketing, commerce, and operations built for real-world impact.";
+const socialPreviewUrl = `${siteUrl}/social-preview.png`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bmybrand.com"),
-  title: "BmyBrand",
-  description: "BmyBrand helps businesses grow with smart digital solutions, from branding and websites to AI, marketing, commerce, and operations built for real-world impact.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "BmyBrand",
+    template: "%s | BmyBrand",
+  },
+  description: siteDescription,
+  applicationName: "BmyBrand",
   openGraph: {
-    title: "BmyBrand",
-    description: "BmyBrand helps businesses grow with smart digital solutions, from branding and websites to AI, marketing, commerce, and operations built for real-world impact.",
-    url: "https://bmybrand.com",
+    type: "website",
+    url: siteUrl,
     siteName: "BmyBrand",
+    title: "BmyBrand",
+    description: siteDescription,
     images: [
       {
-        url: "/social-preview.png",
+        url: socialPreviewUrl,
         width: 1200,
         height: 630,
         alt: "BmyBrand - Crafting Brands. Building Websites. Powering Automation.",
       },
     ],
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "BmyBrand",
-    description: "BmyBrand helps businesses grow with smart digital solutions, from branding and websites to AI, marketing, commerce, and operations built for real-world impact.",
-    images: ["/social-preview.png"],
+    description: siteDescription,
+    images: [socialPreviewUrl],
   },
 };
 
