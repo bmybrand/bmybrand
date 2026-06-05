@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useSyncExternalStore, type MouseEvent } from "react";
-import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 
@@ -438,12 +437,10 @@ const Navbar = () => {
       <nav className="mx-auto flex items-center justify-between px-6 md:px-10 py-4">
         {/* Logo */}
         <Link href="/" className="text-white font-bold text-xl">
-          <Image
+          <img
             src="/logo-animation-1.gif"
             alt="Logo"
-            width={2189}
-            height={508}
-            className={`h-9 sm:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto cursor-pointer ${isCaseStudyDetail ? "brightness-0 invert" : ""}`}
+            className={`h-9 sm:h-10 lg:h-[39px] xl:h-[39px] 2xl:h-[43px] w-auto cursor-pointer ${isCaseStudyDetail ? "brightness-0 invert" : ""}`}
           />
         </Link>
 
