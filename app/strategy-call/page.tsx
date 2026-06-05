@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useLayoutEffect, useMemo, useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import Navbar from "@/components/navbar";
@@ -1064,8 +1065,14 @@ export default function StrategyCallPage() {
 
                         <p className="pt-2 text-xs leading-6 text-white/44">
                           By submitting your information, you agree to our{" "}
-                          <a href="#" className="text-white/78 underline underline-offset-2">Terms of Use</a> and{" "}
-                          <a href="#" className="text-white/78 underline underline-offset-2">Privacy Policy</a>.
+                          <Link href="/terms-of-use" className="text-white/78 underline underline-offset-2 hover:text-white">
+                            Terms of Use
+                          </Link>{" "}
+                          and{" "}
+                          <Link href="/privacy-policy" className="text-white/78 underline underline-offset-2 hover:text-white">
+                            Privacy Policy
+                          </Link>
+                          .
                         </p>
 
                         <button
