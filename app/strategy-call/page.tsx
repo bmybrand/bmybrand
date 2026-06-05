@@ -20,12 +20,16 @@ import {
   detectUserTimeZone,
   firstSelectableDayInMonthWithSlots,
   formatAppointmentDateFromSlot,
-  formatTimezoneLabel,
-  getAllTimeZones,
   getAvailableSlots,
   getInitialCalendarStateForTimeZone,
   getMonthStart,
 } from "@/lib/strategy-call-scheduling";
+import {
+  detectTimeZoneFromIp,
+  filterTimezoneOptions,
+  formatTimezoneLabel,
+  getTimezoneOptions,
+} from "@/lib/timezone-labels";
 
 const reviews = [
   {
@@ -396,6 +400,37 @@ export default function StrategyCallPage() {
   const [timezoneOpen, setTimezoneOpen] = useState(false);
   const [timezoneQuery, setTimezoneQuery] = useState("");
   const [selectedTimezone, setSelectedTimezone] = useState(initialTimeZone);
+  const timezoneTouchedRef = useRef(false);
+  const geoTimezoneAppliedRef = useRef(false);
+
+  useEffect(() => {
+    if (geoTimezoneAppliedRef.current || timezoneTouchedRef.current) return;
+
+    detectTimeZoneFromIp()
+      .then((timeZone) => {
+        if (timezoneTouchedRef.current || !timeZone) return;
+
+        geoTimezoneAppliedRef.current = true;
+        setSelectedTimezone(timeZone);
+        const initial = getInitialCalendarStateForTimeZone(timeZone);
+        setCalendarDate(initial.calendarDate);
+        setSelectedDate(initial.selectedDate);
+        setSelectedTime("");
+      })
+      .catch((err) => console.error("Error detecting timezone from IP:", err));
+  }, []);
+
+  const applySelectedTimezone = (timeZone: string) => {
+    timezoneTouchedRef.current = true;
+    setSelectedTimezone(timeZone);
+    const initial = getInitialCalendarStateForTimeZone(timeZone);
+    setCalendarDate(initial.calendarDate);
+    setSelectedDate(initial.selectedDate);
+    setSelectedTime("");
+    setTimezoneOpen(false);
+    setTimezoneQuery("");
+  };
+
   const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h");
   const [activeAgenda, setActiveAgenda] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -489,22 +524,13 @@ export default function StrategyCallPage() {
     getMonthStart(calendarDate).getTime() > getMonthStart(new Date()).getTime();
 
   const timezoneOptions = useMemo(() => {
-    const query = timezoneQuery.trim().toLowerCase();
-    const all = getAllTimeZones();
-    const filtered = query
-      ? all.filter(
-          (tz) =>
-            tz.toLowerCase().includes(query) ||
-            tz.replace(/_/g, " ").toLowerCase().includes(query)
-        )
-      : all;
-
-    return filtered.map((tz) => formatTimezoneLabel(tz));
-  }, [timezoneQuery]);
+    const all = getTimezoneOptions(new Date());
+    return filterTimezoneOptions(all, timezoneQuery);
+  }, [timezoneQuery, timezoneOpen]);
 
   const selectedTimezoneLabel = useMemo(
     () => formatTimezoneLabel(selectedTimezone),
-    [selectedTimezone]
+    [selectedTimezone, timezoneOpen]
   );
 
   const agendaItems = [
@@ -1140,8 +1166,7 @@ export default function StrategyCallPage() {
                               <clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath>
                             </defs>
                           </svg>
-                          <span>{selectedTimezoneLabel.label}</span>
-                          <span className="text-white/45">{selectedTimezoneLabel.offset}</span>
+                          <span className="truncate">{selectedTimezoneLabel.label}</span>
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`h-4 w-4 text-white/45 transition-transform ${timezoneOpen ? "rotate-180" : ""}`}>
                             <polyline points="6 9 12 15 18 9"/>
                           </svg>
@@ -1160,7 +1185,7 @@ export default function StrategyCallPage() {
                                 type="text"
                                 value={timezoneQuery}
                                 onChange={(e) => setTimezoneQuery(e.target.value)}
-                                placeholder="Search by continent, country or city"
+                                placeholder="Search by region, country or UTC offset"
                                 className="w-full bg-transparent text-white placeholder:text-white/34 outline-none"
                               />
                             </div>
@@ -1172,19 +1197,11 @@ export default function StrategyCallPage() {
                                   <button
                                     key={option.id}
                                     type="button"
-                                    onClick={() => {
-                                      setSelectedTimezone(option.id);
-                                      const initial = getInitialCalendarStateForTimeZone(option.id);
-                                      setCalendarDate(initial.calendarDate);
-                                      setSelectedDate(initial.selectedDate);
-                                      setSelectedTime("");
-                                      setTimezoneOpen(false);
-                                      setTimezoneQuery("");
-                                    }}
-                                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${active ? "bg-[#303258] text-white" : "text-[#B5B9D8] hover:bg-[#262847] hover:text-white"
+                                    onClick={() => applySelectedTimezone(option.id)}
+                                    className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${active ? "bg-[#303258] text-white" : "text-[#B5B9D8] hover:bg-[#262847] hover:text-white"
                                       }`}
                                   >
-                                    <span className="truncate pr-3 text-left">{option.label}</span>
+                                    <span className="min-w-0 truncate pr-3 text-left">{option.label}</span>
                                     <span className="shrink-0 text-white/45">{option.currentTime}</span>
                                   </button>
                                 );

@@ -163,27 +163,6 @@ export function formatSlotLabels(instant: Date, timeZone: string) {
   return { label12h, label24h }
 }
 
-export function formatTimezoneLabel(timeZone: string, now = new Date()) {
-  const parts = getZonedParts(now, timeZone)
-  const offsetMinutes = Math.round(getTimezoneOffsetMs(timeZone, now) / 60_000)
-  const sign = offsetMinutes >= 0 ? '+' : '-'
-  const abs = Math.abs(offsetMinutes)
-  const offset = `GMT${sign}${pad2(Math.floor(abs / 60))}:${pad2(abs % 60)}`
-  const currentTime = new Intl.DateTimeFormat('en-US', {
-    timeZone,
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  }).format(now)
-
-  return {
-    id: timeZone,
-    label: timeZone.replace(/_/g, ' '),
-    offset,
-    currentTime,
-  }
-}
-
 export function getAvailableSlots(
   year: number,
   month: number,

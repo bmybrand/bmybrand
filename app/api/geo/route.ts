@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { inferTimeZoneFromCountry } from '@/lib/timezone-labels'
 
 function countryFromHeaders(request: Request) {
   const candidates = [
@@ -16,7 +17,7 @@ function countryFromHeaders(request: Request) {
   return null
 }
 
-async function countryFromIpLookup() {
+async function geoFromIpLookup() {
   try {
     const response = await fetch('https://ipwho.is/', { cache: 'no-store' })
     if (!response.ok) return null
@@ -24,28 +25,40 @@ async function countryFromIpLookup() {
     const data = (await response.json()) as {
       success?: boolean
       country_code?: string
+      timezone?: { id?: string }
     }
 
-    if (data.success && data.country_code) {
-      return data.country_code.toUpperCase()
+    if (!data.success) return null
+
+    return {
+      countryCode: data.country_code?.toUpperCase() ?? null,
+      timeZone: data.timezone?.id ?? null,
     }
   } catch (error) {
     console.error('[geo] IP lookup failed:', error)
+    return null
   }
-
-  return null
 }
 
 export async function GET(request: Request) {
+  const lookup = await geoFromIpLookup()
   const headerCountry = countryFromHeaders(request)
+
+  if (lookup?.countryCode || lookup?.timeZone) {
+    return NextResponse.json({
+      countryCode: lookup.countryCode ?? headerCountry,
+      timeZone: lookup.timeZone ?? (headerCountry ? inferTimeZoneFromCountry(headerCountry) : null),
+      source: 'ip',
+    })
+  }
+
   if (headerCountry) {
-    return NextResponse.json({ countryCode: headerCountry, source: 'header' })
+    return NextResponse.json({
+      countryCode: headerCountry,
+      timeZone: inferTimeZoneFromCountry(headerCountry),
+      source: 'header',
+    })
   }
 
-  const lookupCountry = await countryFromIpLookup()
-  if (lookupCountry) {
-    return NextResponse.json({ countryCode: lookupCountry, source: 'ip' })
-  }
-
-  return NextResponse.json({ countryCode: null, source: null })
+  return NextResponse.json({ countryCode: null, timeZone: null, source: null })
 }
