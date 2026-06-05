@@ -41,7 +41,6 @@ export const metadata: Metadata = {
   applicationName: "BmyBrand",
   openGraph: {
     type: "website",
-    url: siteUrl,
     siteName: "BmyBrand",
     title: "BmyBrand",
     description: siteDescription,
@@ -50,6 +49,7 @@ export const metadata: Metadata = {
         url: socialPreviewUrl,
         width: 1200,
         height: 630,
+        type: "image/png",
         alt: "BmyBrand - Crafting Brands. Building Websites. Powering Automation.",
       },
     ],
