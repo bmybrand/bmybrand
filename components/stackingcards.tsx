@@ -181,7 +181,7 @@ export const Card: React.FC<CardProps> = ({
             <div className="flex flex-col-reverse lg:flex-row h-full w-full">
 
               {/* LEFT CONTENT */}
-              <div className="w-full lg:w-[50%] relative flex flex-col justify-center p-8 lg:px-6 lg:py-7 xl:p-8 h-90% ">
+              <div className="w-full lg:w-[60%] 2xl:w-[50%] relative flex flex-col justify-center p-8 lg:px-6 lg:py-7 xl:p-8 h-90% ">
 
               {/* LOGO */}
               {logo && (
@@ -201,13 +201,13 @@ export const Card: React.FC<CardProps> = ({
                       logo.includes('pink-me') ? 91 :
                       64
                     }
-                    className="h-auto w-auto max-w-[180px] lg:max-w-[150px] xl:max-w-[220px] 2xl:max-w-none object-contain"
+                    className="h-auto w-auto max-w-[180px] lg:max-w-[120px] xl:max-w-[170px] 2xl:max-w-none object-contain"
                   />
                 </div>
               )}
 
               {/* TITLE */}
-              <h2 className="BenzinSemibold text-base sm:text-xl md:text-2xl lg:text-[1.55rem] xl:text-[1.68rem] 2xl:text-4xl font-bold mb-3 lg:mb-2 xl:mb-2 2xl:mb-3 leading-snug lg:leading-[1.12] xl:leading-[1.12] 2xl:leading-[1.3]">
+              <h2 className="BenzinSemibold text-base sm:text-xl md:text-2xl lg:text-[1rem] xl:text-[1.2rem] 2xl:text-4xl font-bold mb-3 lg:mb-2 xl:mb-2 2xl:mb-3 leading-snug lg:leading-[1.02] xl:leading-[1.08] 2xl:leading-[1.3]">
                 {title}
               </h2>
 
@@ -238,7 +238,7 @@ export const Card: React.FC<CardProps> = ({
             </div>
 
             {/* IMAGE RIGHT */}
-            <div className="flex-1 relative rounded-lg overflow-visible">
+            <div className="w-full lg:w-[40%] 2xl:w-[50%] relative rounded-lg overflow-visible">
               <motion.div className="w-full h-full">
                 <Image
                   src={imageSrc.startsWith('/') ? imageSrc : `/${imageSrc}`}

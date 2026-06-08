@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const FullyAnimatedGrid: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const showTimer = useRef<number | null>(null);
   const collapseTimer = useRef<number | null>(null);
@@ -53,8 +54,33 @@ const FullyAnimatedGrid: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      const matches = "matches" in event ? event.matches : mediaQuery.matches;
+      setIsDesktop(matches);
+    };
+
+    handleChange(mediaQuery);
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (showTimer.current) window.clearTimeout(showTimer.current);
+
+    if (!isDesktop) {
+      hasTriggered.current = false;
+      setIsHovered(false);
+      setShowContent(false);
+    }
+  }, [isDesktop]);
+
+  useEffect(() => {
     const element = gridRef.current;
-    if (!element) return;
+    if (!element || !isDesktop) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -69,13 +95,13 @@ const FullyAnimatedGrid: React.FC = () => {
           observer.disconnect();
         }
       },
-      { threshold: 0.7 }
+      { threshold: 0.3 }
     );
 
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [expansionDelay]);
+  }, [expansionDelay, isDesktop]);
 
   const leftItems = [
     {
