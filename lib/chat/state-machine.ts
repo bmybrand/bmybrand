@@ -18,6 +18,12 @@ import {
   isSkip,
   sanitizeInput,
 } from '@/lib/utils/validators'
+import {
+  screenMessage,
+  CRISIS_RESPONSE,
+  PROHIBITED_REFUSAL,
+  CONVERSATION_END,
+} from './safety'
 import type { ChatSession, ConversationState } from '@/types/chat'
 
 export interface StateMachineResult {
@@ -25,6 +31,25 @@ export interface StateMachineResult {
   stream: AsyncIterable<unknown> | null  // non-null for streamed responses
   newState: ConversationState
   sessionUpdates: Partial<ChatSession>
+}
+
+// Current date/time injected into the system prompt (SOP §2.4). Defaults to
+// Texas time (US Central / America/Chicago — the Allen, TX HQ), overridable via
+// CHATBOT_TIMEZONE. UTC is intentionally avoided for client-facing output.
+function currentDateTime(): string {
+  const timeZone = process.env.CHATBOT_TIMEZONE || 'America/Chicago'
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'full',
+      timeStyle: 'short',
+      timeZone,
+    }).format(new Date())
+  } catch {
+    return new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'full',
+      timeStyle: 'short',
+    }).format(new Date())
+  }
 }
 
 // Fetch the last N messages for context
@@ -58,6 +83,43 @@ export async function processMessage(
   rawInput: string
 ): Promise<StateMachineResult> {
   const input = sanitizeInput(rawInput)
+
+  // ─── Safety screen (SOP §5) — runs in every state before normal routing ──
+  const screen = screenMessage(input)
+  if (screen === 'crisis') {
+    return {
+      response: CRISIS_RESPONSE,
+      stream: null,
+      // Crisis is never treated as a violation; keep the visitor in flow.
+      newState: session.state === 'CLOSED' ? 'KNOWLEDGE_QA' : session.state,
+      sessionUpdates: {},
+    }
+  }
+  if (screen === 'prohibited') {
+    const meta = (session.metadata ?? {}) as Record<string, unknown>
+    const count =
+      (typeof meta.violation_count === 'number' ? meta.violation_count : 0) + 1
+    // End the conversation on the 3rd consecutive prohibited request.
+    if (count >= 3) {
+      return {
+        response: CONVERSATION_END,
+        stream: null,
+        newState: 'CLOSED',
+        sessionUpdates: {
+          status: 'closed',
+          metadata: { ...meta, violation_count: count },
+        },
+      }
+    }
+    const response = await maybeTranslate(PROHIBITED_REFUSAL, session.visitor_language)
+    return {
+      response,
+      stream: null,
+      newState: session.state === 'CLOSED' ? 'KNOWLEDGE_QA' : session.state,
+      sessionUpdates: { metadata: { ...meta, violation_count: count } },
+    }
+  }
+
   const { state } = session
 
   switch (state) {
@@ -213,7 +275,12 @@ async function handleRAGResponse(
   const matches = await retrieveContext(input)
   const context = assembleContext(matches)
   const recentMessages = await getRecentMessages(session.id)
-  const systemPrompt = knowledgeQAPrompt(language, context, recentMessages)
+  const systemPrompt = knowledgeQAPrompt(
+    language,
+    context,
+    recentMessages,
+    currentDateTime()
+  )
 
   const stream = await chatCompletionStream(
     [

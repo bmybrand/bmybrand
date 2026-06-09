@@ -2,11 +2,33 @@ import { NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { processMessage } from '@/lib/chat/state-machine'
 import { checkRateLimit } from '@/lib/utils/rate-limiter'
-import { sanitizeInput } from '@/lib/utils/validators'
+import { sanitizeInput, isInjectionAttempt } from '@/lib/utils/validators'
 import type { ChatSession } from '@/types/chat'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
+
+// Wrap a single assistant message as an SSE stream so the client shows a
+// typing indicator first (matches the deterministic response path below).
+function sseMessage(text: string, state: string): Response {
+  const encoder = new TextEncoder()
+  const readable = new ReadableStream({
+    start(controller) {
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`))
+      controller.enqueue(
+        encoder.encode(`data: ${JSON.stringify({ done: true, state })}\n\n`)
+      )
+      controller.close()
+    },
+  })
+  return new Response(readable, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+    },
+  })
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -51,6 +73,23 @@ export async function POST(request: NextRequest) {
         { error: 'Rate limit exceeded. Please wait a moment.' },
         { status: 429, headers: { 'X-RateLimit-Remaining': String(remaining) } }
       )
+    }
+
+    // 2b. Block + log prompt-injection / jailbreak attempts (SOP §3.4).
+    //     Logged with a timestamp and the first 100 chars of the raw input.
+    if (isInjectionAttempt(sanitized)) {
+      console.warn('[SECURITY] Injection attempt blocked', {
+        sessionId,
+        preview: content.slice(0, 100),
+        at: new Date().toISOString(),
+      })
+      const fallback =
+        "I'm not able to process that message. Is there something about BMYBrand's services I can help you with?"
+      await supabaseAdmin.from('chat_messages').insert([
+        { session_id: sessionId, role: 'user', content: sanitized },
+        { session_id: sessionId, role: 'assistant', content: fallback },
+      ])
+      return sseMessage(fallback, session.state)
     }
 
     // 3. Insert user message
