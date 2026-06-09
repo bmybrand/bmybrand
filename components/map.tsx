@@ -214,10 +214,10 @@ export default function Map() {
               <p className="text-sm font-semibold whitespace-nowrap">{hoveredCountry}</p>
               {/* Show additional info for USA and Canada */}
               {(hoveredCountry === 'United States' || hoveredCountry === 'United States of America') && (
-                <p className="text-xs text-gray-600 mt-1">headoffice ustin, Texas</p>
+                <p className="text-xs text-gray-600 mt-1">Head office Allen, Texas</p>
               )}
               {hoveredCountry === 'Canada' && (
-                <p className="text-xs text-gray-600 mt-1">headoffice Toronto, Canada</p>
+                <p className="text-xs text-gray-600 mt-1">Toronto office, Canada</p>
               )}
             </div>
           )}

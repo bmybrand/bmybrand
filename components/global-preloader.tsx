@@ -1,10 +1,12 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const MIN_PRELOADER_MS = 3000;
 const ROUTE_TRANSITION_MS = 3000;
+const NAVIGATION_PRELOADER_EVENT = "bmy:navigation-preloader-start";
+const PRELOADER_FADE_MS = 220;
 
 export default function GlobalPreloader({
   children,
@@ -26,18 +28,49 @@ function PreloaderScreen({
   children: React.ReactNode;
 }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
-  const previousPathnameRef = useRef(pathname);
+  const searchParams = useSearchParams();
+  const [currentHash, setCurrentHash] = useState('');
+  const routeKey = `${pathname ?? ""}?${searchParams?.toString() ?? ""}${currentHash}`;
+  const previousRouteKeyRef = useRef(routeKey);
+  const fadeTimerRef = useRef<number | null>(null);
+
+  const finishLoading = () => {
+    setIsLoading(false);
+
+    if (fadeTimerRef.current) {
+      window.clearTimeout(fadeTimerRef.current);
+    }
+
+    fadeTimerRef.current = window.setTimeout(() => {
+      setIsVisible(false);
+      fadeTimerRef.current = null;
+    }, PRELOADER_FADE_MS);
+  };
+
+  const startLoading = () => {
+    if (fadeTimerRef.current) {
+      window.clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
+
+    setIsVisible(true);
+    setIsLoading(true);
+  };
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      setIsLoading(false);
+      finishLoading();
     }, MIN_PRELOADER_MS);
 
     document.body.style.overflow = "hidden";
 
     return () => {
       window.clearTimeout(timer);
+      if (fadeTimerRef.current) {
+        window.clearTimeout(fadeTimerRef.current);
+      }
       document.body.style.overflow = "";
     };
   }, []);
@@ -50,29 +83,61 @@ function PreloaderScreen({
     };
   }, [isLoading]);
 
-  useLayoutEffect(() => {
-    if (previousPathnameRef.current === pathname) return;
+  useEffect(() => {
+    const syncHash = () => {
+      setCurrentHash(window.location.hash || '');
+    };
 
-    previousPathnameRef.current = pathname;
-    setIsLoading(true);
+    syncHash();
+    window.addEventListener('hashchange', syncHash);
+
+    return () => {
+      window.removeEventListener('hashchange', syncHash);
+    };
+  }, []);
+
+  useEffect(() => {
+    setCurrentHash(window.location.hash || '');
+  }, [pathname, searchParams]);
+
+  useLayoutEffect(() => {
+    if (previousRouteKeyRef.current === routeKey) return;
+
+    previousRouteKeyRef.current = routeKey;
+
+    startLoading();
 
     const timer = window.setTimeout(() => {
-      setIsLoading(false);
+      finishLoading();
     }, ROUTE_TRANSITION_MS);
 
     return () => {
       window.clearTimeout(timer);
     };
-  }, [pathname]);
+  }, [routeKey]);
+
+  useEffect(() => {
+    const handleNavigationPreloader = () => {
+      startLoading();
+    };
+
+    window.addEventListener(NAVIGATION_PRELOADER_EVENT, handleNavigationPreloader);
+
+    return () => {
+      window.removeEventListener(NAVIGATION_PRELOADER_EVENT, handleNavigationPreloader);
+    };
+  }, []);
 
   return (
     <>
-      {!isLoading ? children : null}
+      {children}
 
-      {isLoading ? (
+      {isVisible ? (
         <div
           aria-label="Page loading"
-          className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black"
+          className={`fixed inset-0 z-[2147483647] flex items-center justify-center bg-black transition-opacity duration-300 ${
+            isLoading ? "opacity-100" : "opacity-0"
+          }`}
           role="status"
         >
           <video
@@ -83,7 +148,7 @@ function PreloaderScreen({
             playsInline
             preload="auto"
           >
-            <source src="/bmyb-global-preloader-01.mp4" type="video/mp4" />
+            <source src="/bmyb-global-preloader-01.webm" type="video/webm" />
           </video>
         </div>
       ) : null}

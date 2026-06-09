@@ -25,7 +25,7 @@ export default function HealthcareSpotlight({ title, description, items }: Healt
         logoAlt: 'Fountain Hills Emergency Room and Medical Center',
         title: 'Strengthening Healthcare Brands With Precision, Trust, And Innovation',
         description:
-          'From the beginning, it was clear that BMYBrand understood the urgency and trust required in healthcare. They delivered a fast, patient-focused website that makes it easier for people to find care, access services, and take action when it matters most.',
+          'From the beginning, it was clear that BmyBrand understood the urgency and trust required in healthcare. They delivered a fast, patient-focused website that makes it easier for people to find care, access services, and take action when it matters most.',
         name: 'Fountain Hills',
         role: 'Healthcare Brand',
         avatar: '/bmyb-case-fountain-hills-fh-emergencyroom-logo-erclinic-1-2-01.svg',
@@ -207,6 +207,8 @@ export default function HealthcareSpotlight({ title, description, items }: Healt
           <img
             src={activeMedia.logo}
             alt={activeMedia.logoAlt}
+            width={260}
+            height={64}
             className="h-16 w-auto object-contain"
           />
 
@@ -222,6 +224,8 @@ export default function HealthcareSpotlight({ title, description, items }: Healt
             <img
               src={activeMedia.avatar}
               alt={activeContent?.name}
+              width={56}
+              height={56}
               className="h-14 w-14 rounded-full object-contain"
             />
             <div>

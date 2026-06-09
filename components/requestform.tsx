@@ -26,9 +26,9 @@ type FaqItem = {
 const FAQS: FaqItem[] = [
   {
     number: '01',
-    question: 'What services does BMYBrand offer?',
+    question: 'What services does BmyBrand offer?',
     answer:
-      'BMYBrand provides complete digital solutions, including AI-driven systems, software development, digital marketing, e-commerce solutions, brand experience design, and business operations support.',
+      'BmyBrand provides complete digital solutions, including AI-driven systems, software development, digital marketing, e-commerce solutions, brand experience design, and business operations support.',
   },
   {
     number: '02',
@@ -56,7 +56,7 @@ const FAQS: FaqItem[] = [
   },
   {
     number: '06',
-    question: 'How do I get started with BMYBrand?',
+    question: 'How do I get started with BmyBrand?',
     answer:
       'You can simply contact us through the website, share your idea or requirements, and our team will guide you through the next steps.',
   },

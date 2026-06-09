@@ -10,9 +10,9 @@ export const foodIndustry: IndustryItem = {
   heroDescription:
     'At BMYBrand, we design powerful digital solutions for restaurants, cloud kitchens, cafés, and food chains that want to stand out in a highly competitive market. We combine branding, design, and technology to help food businesses attract customers and increase orders.',
   sliderImages: [
-    { alt: 'Jiggy Jerky Case Study 1', image: '/bmyb-case-jiggy-jerky-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: "Baba's Burgers Case Study 1", image: '/bmyb-case-babas-burgers-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Jiggy Jerky Case Study 2', image: '/bmyb-case-jiggy-jerky-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Jiggy Jerky Case Study 1', image: '/bmyb-case-jiggy-jerky-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: "Baba's Burgers Case Study 1", image: '/bmyb-case-babas-burgers-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Jiggy Jerky Case Study 2', image: '/bmyb-case-jiggy-jerky-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
   growthTitle: 'Digital Solutions That Elevate Modern Food Brands',
   growthDescription:
@@ -47,7 +47,7 @@ export const foodIndustry: IndustryItem = {
       description: 'Our brand finally feels alive online. The website design perfectly matches our fun food concept and attracts much more engagement than before. Since launch, we’ve seen stronger customer interaction, better visibility on mobile devices, and a noticeable increase in repeat online orders.',
       name: 'Jiggy Jerky',
       role: 'Food Brand',
-      showcaseImage: '/bmyb-case-jiggy-jerky-showcase-01.svg',
+      showcaseImage: '/bmyb-case-jiggy-jerky-showcase-01.jpg',
       showcaseAlt: 'Jiggy Jerky food case study showcase',
       logoSrc: '/bmyb-case-jiggy-jerky-jiggylogo-01.svg',
       logoAlt: 'Jiggy Jerky',
@@ -58,7 +58,7 @@ export const foodIndustry: IndustryItem = {
       description: 'They completely transformed our digital presence. Our website now reflects our bold brand and has significantly increased customer orders online. The new platform improved how customers interact with our menu and made online ordering faster, smoother, and more reliable for daily operations.',
       name: "Baba's Burgers",
       role: 'Restaurant Brand',
-      showcaseImage: '/bmyb-case-babas-burgers-slider-02.webp',
+      showcaseImage: '/bmyb-case-babas-burgers-showcase-01.webp',
       showcaseAlt: "Baba's Burgers food case study showcase",
       logoSrc: '/bmyb-case-babas-burgers-logo-01.svg',
       logoAlt: "Baba's Burgers",

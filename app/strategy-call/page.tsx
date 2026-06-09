@@ -1,20 +1,46 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import {
+  findCountryByDialCode,
+  findCountryByIso,
+  detectCountryIsoFromIp,
+  filterPhoneCountries,
+  formatRestCountries,
+  replacePhoneDialCode,
+  type PhoneCountry,
+} from "@/lib/phone-country";
+import { isValidWebsiteUrl, normalizeWebsiteUrl } from "@/lib/website-url";
+import {
+  dateHasAvailableSlots,
+  detectUserTimeZone,
+  firstSelectableDayInMonthWithSlots,
+  formatAppointmentDateFromSlot,
+  getAvailableSlots,
+  getInitialCalendarStateForTimeZone,
+  getMonthStart,
+} from "@/lib/strategy-call-scheduling";
+import {
+  detectTimeZoneFromIp,
+  filterTimezoneOptions,
+  formatTimezoneLabel,
+  getTimezoneOptions,
+} from "@/lib/timezone-labels";
 
 const reviews = [
   {
-    text: "The strategy call brought immediate clarity and direction. BMYBrand quickly understood the demands of emergency care and helped us shape a clear strategy for improving patient access and digital experience. We walked away confident, aligned, and ready to move forward.",
+    text: "The strategy call brought immediate clarity and direction. BmyBrand quickly understood the demands of emergency care and helped us shape a clear strategy for improving patient access and digital experience. We walked away confident, aligned, and ready to move forward.",
     name: "Sarah Mitchell",
     title: "Marketing Director",
     img: "https://picsum.photos/120/120?random=31",
   },
   {
-    text: "BMYBrand quickly mapped the gaps in our brand and gave us a realistic action plan. The conversation was practical, focused, and immediately useful to our team.",
+    text: "BmyBrand quickly mapped the gaps in our brand and gave us a realistic action plan. The conversation was practical, focused, and immediately useful to our team.",
     name: "John Carter",
     title: "Product Manager",
     img: "https://picsum.photos/120/120?random=32",
@@ -32,7 +58,7 @@ const reviews = [
     img: "https://picsum.photos/120/120?random=34",
   },
   {
-    text: "BMYBrand understood our business fast. They connected brand, UX, and conversion issues in one conversation and gave us a roadmap we could actually use.",
+    text: "BmyBrand understood our business fast. They connected brand, UX, and conversion issues in one conversation and gave us a roadmap we could actually use.",
     name: "Emily Chen",
     title: "Brand Director",
     img: "https://picsum.photos/120/120?random=35",
@@ -62,7 +88,7 @@ const reviews = [
     img: "https://picsum.photos/120/120?random=39",
   },
   {
-    text: "BMYBrand helped us see where our messaging, design, and customer journey were out of sync. The conversation gave us confidence in the direction ahead.",
+    text: "BmyBrand helped us see where our messaging, design, and customer journey were out of sync. The conversation gave us confidence in the direction ahead.",
     name: "Ryan Foster",
     title: "Managing Partner",
     img: "https://picsum.photos/120/120?random=40",
@@ -95,17 +121,39 @@ function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
 
 function CustomCountrySelect({
   value,
+  countryIso,
   onChange,
   countries,
 }: {
   value: string;
-  onChange: (val: string) => void;
-  countries: { name: string; dialCode: string; code: string; flag: string }[];
+  countryIso: string;
+  onChange: (dialCode: string, iso: string) => void;
+  countries: PhoneCountry[];
 }) {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
+
+  const filteredCountries = useMemo(
+    () => filterPhoneCountries(countries, search),
+    [countries, search]
+  );
+
+  useEffect(() => {
+    if (!open) {
+      setSearch("");
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      searchInputRef.current?.focus();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -127,14 +175,14 @@ function CustomCountrySelect({
       const rect = containerRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
       const spaceAbove = rect.top;
-      const dropdownHeight = 240;
+      const dropdownHeight = 320;
 
       if (spaceBelow >= dropdownHeight || spaceBelow > spaceAbove) {
         setDropdownStyle({
           position: "absolute",
           top: rect.bottom + window.scrollY + 8,
           left: rect.left + window.scrollX,
-          width: Math.max(rect.width, 140),
+          width: Math.max(rect.width, 300),
           maxHeight: `${dropdownHeight}px`,
         });
       } else {
@@ -142,14 +190,17 @@ function CustomCountrySelect({
           position: "absolute",
           bottom: window.innerHeight - rect.top - window.scrollY + 8,
           left: rect.left + window.scrollX,
-          width: Math.max(rect.width, 140),
+          width: Math.max(rect.width, 300),
           maxHeight: `${dropdownHeight}px`,
         });
       }
     }
   }, [open]);
 
-  const selectedCountry = countries.find((c) => c.dialCode === value);
+  const selectedCountry =
+    countries.find((c) => c.code === countryIso && c.dialCode === value) ??
+    countries.find((c) => c.code === countryIso) ??
+    countries.find((c) => c.dialCode === value);
   const displayLabel = selectedCountry ? (
     <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
       {selectedCountry.code && (
@@ -162,7 +213,12 @@ function CustomCountrySelect({
       <span className="whitespace-nowrap overflow-hidden text-ellipsis">{selectedCountry.dialCode}</span>
     </span>
   ) : (
-    <span className="flex w-full justify-center whitespace-nowrap overflow-hidden text-ellipsis">{value}</span>
+    <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
+      <span className="h-3.5 w-[21px] shrink-0 rounded-[2px] bg-white/10" />
+      <span className="whitespace-nowrap overflow-hidden text-ellipsis text-white/40">
+        {value || "…"}
+      </span>
+    </span>
   );
 
   return (
@@ -190,33 +246,60 @@ function CustomCountrySelect({
           <div
             ref={dropdownRef}
             style={dropdownStyle}
-            className="z-[9999] overflow-y-auto rounded-xl border border-[#343556] bg-[#191A35] shadow-xl [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]"
+            className="z-[9999] flex flex-col overflow-hidden rounded-xl border border-[#343556] bg-[#191A35] shadow-xl"
           >
-            {countries.length > 0 ? (
-              countries.map((c, i) => (
-                <button
-                  key={`${c.code}-${c.dialCode}-${i}`}
-                  type="button"
-                  onClick={() => {
-                    onChange(c.dialCode);
+            <div className="sticky top-0 border-b border-[#343556] bg-[#191A35] p-2">
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search country..."
+                className="w-full rounded-lg border border-[#343556] bg-[#12132A] px-3 py-2 text-sm text-white placeholder:text-white/35 outline-none transition-colors focus:border-[#F45B25]"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
                     setOpen(false);
-                  }}
-                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${value === c.dialCode ? "bg-[#2A2B47] text-white" : "text-white/70"
+                  }
+                }}
+              />
+            </div>
+
+            <div className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]">
+              {filteredCountries.length > 0 ? (
+                filteredCountries.map((c, i) => (
+                  <button
+                    key={`${c.code}-${c.dialCode}-${i}`}
+                    type="button"
+                    onClick={() => {
+                      onChange(c.dialCode, c.code);
+                      setOpen(false);
+                    }}
+                    className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#2A2B47] ${
+                      countryIso === c.code && value === c.dialCode
+                        ? "bg-[#2A2B47] text-white"
+                        : "text-white/70"
                     }`}
-                >
-                  {c.code && (
-                    <img
-                      src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
-                      alt={c.code}
-                      className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
-                    />
-                  )}
-                  <span className="whitespace-nowrap">{c.code} {c.dialCode}</span>
-                </button>
-              ))
-            ) : (
-              <div className="px-4 py-2 text-sm text-white/70">PK +92</div>
-            )}
+                  >
+                    {c.code && (
+                      <img
+                        src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
+                        alt={c.code}
+                        className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
+                      />
+                    )}
+                    <span className="min-w-0 flex-1 truncate">{c.name}</span>
+                    <span className="shrink-0 text-white/45">
+                      {c.code} {c.dialCode}
+                    </span>
+                  </button>
+                ))
+              ) : (
+                <div className="px-4 py-6 text-center text-sm text-white/50">
+                  No countries found
+                </div>
+              )}
+            </div>
           </div>,
           document.body
         )}
@@ -227,38 +310,70 @@ function CustomCountrySelect({
 export default function StrategyCallPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [countryCode, setCountryCode] = useState("+92");
+  const [countryCode, setCountryCode] = useState("");
+  const [countryIso, setCountryIso] = useState("");
   const [phone, setPhone] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [budget, setBudget] = useState("");
   const [callNotes, setCallNotes] = useState("");
   const [source, setSource] = useState("");
-  const [countries, setCountries] = useState<{ name: string, dialCode: string, code: string, flag: string }[]>([]);
+  const [countries, setCountries] = useState<PhoneCountry[]>([]);
   const [step, setStep] = useState<"form" | "time" | "complete">("form");
+  const phoneTouchedRef = useRef(false);
+  const geoAppliedRef = useRef(false);
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all?fields=name,idd,cca2,flags")
       .then((res) => res.json())
       .then((data) => {
-        const formatted = data
-          .map((country: any) => {
-            const root = country.idd?.root || "";
-            const suffixes = country.idd?.suffixes || [];
-            const dialCode = suffixes.length === 1 ? root + suffixes[0] : root;
-            return {
-              name: country.name.common,
-              dialCode: dialCode,
-              code: country.cca2,
-              flag: country.flags?.svg || "",
-            };
-          })
-          .filter((c: any) => c.dialCode)
-          .sort((a: any, b: any) => a.name.localeCompare(b.name));
-        setCountries(formatted);
+        setCountries(formatRestCountries(data));
       })
       .catch((err) => console.error("Error fetching countries:", err));
   }, []);
+
+  useEffect(() => {
+    if (countries.length === 0 || geoAppliedRef.current || phoneTouchedRef.current) {
+      return;
+    }
+
+    detectCountryIsoFromIp()
+      .then((iso) => {
+        if (phoneTouchedRef.current || !iso) return;
+
+        const country = findCountryByIso(iso, countries);
+        if (country) {
+          setCountryCode(country.dialCode);
+          setCountryIso(country.code);
+          geoAppliedRef.current = true;
+        }
+      })
+      .catch((err) => console.error("Error detecting country from IP:", err));
+  }, [countries]);
+
+  const handlePhoneChange = (value: string) => {
+    phoneTouchedRef.current = true;
+    setPhone(value);
+
+    if (!value.trim().startsWith("+") || countries.length === 0) return;
+
+    const matched = findCountryByDialCode(value, countries);
+    if (matched) {
+      setCountryCode(matched.dialCode);
+      setCountryIso(matched.code);
+    }
+  };
+
+  const handleCountryChange = (dialCode: string, iso: string) => {
+    phoneTouchedRef.current = true;
+    setCountryCode(dialCode);
+    setCountryIso(iso);
+
+    const country = countries.find((c) => c.code === iso && c.dialCode === dialCode);
+    if (country) {
+      setPhone((current) => replacePhoneDialCode(current, countries, country));
+    }
+  };
 
   useEffect(() => {
     if (step !== "time" && step !== "complete") return;
@@ -273,14 +388,51 @@ export default function StrategyCallPage() {
     });
   }, [step]);
 
-  const [calendarDate, setCalendarDate] = useState(new Date(2026, 3, 1));
-  const [selectedDate, setSelectedDate] = useState(6);
+  const initialTimeZone = detectUserTimeZone();
+  const [calendarDate, setCalendarDate] = useState(() => {
+    const initial = getInitialCalendarStateForTimeZone(initialTimeZone);
+    return initial.calendarDate;
+  });
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const initial = getInitialCalendarStateForTimeZone(initialTimeZone);
+    return initial.selectedDate;
+  });
   const [selectedTime, setSelectedTime] = useState("");
   const [timezoneOpen, setTimezoneOpen] = useState(false);
   const [timezoneQuery, setTimezoneQuery] = useState("");
-  const [selectedTimezone, setSelectedTimezone] = useState("Asia/Pakistan/Karachi");
+  const [selectedTimezone, setSelectedTimezone] = useState(initialTimeZone);
+  const timezoneTouchedRef = useRef(false);
+  const geoTimezoneAppliedRef = useRef(false);
+
+  useEffect(() => {
+    if (geoTimezoneAppliedRef.current || timezoneTouchedRef.current) return;
+
+    detectTimeZoneFromIp()
+      .then((timeZone) => {
+        if (timezoneTouchedRef.current || !timeZone) return;
+
+        geoTimezoneAppliedRef.current = true;
+        setSelectedTimezone(timeZone);
+        const initial = getInitialCalendarStateForTimeZone(timeZone);
+        setCalendarDate(initial.calendarDate);
+        setSelectedDate(initial.selectedDate);
+        setSelectedTime("");
+      })
+      .catch((err) => console.error("Error detecting timezone from IP:", err));
+  }, []);
+
+  const applySelectedTimezone = (timeZone: string) => {
+    timezoneTouchedRef.current = true;
+    setSelectedTimezone(timeZone);
+    const initial = getInitialCalendarStateForTimeZone(timeZone);
+    setCalendarDate(initial.calendarDate);
+    setSelectedDate(initial.selectedDate);
+    setSelectedTime("");
+    setTimezoneOpen(false);
+    setTimezoneQuery("");
+  };
+
   const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h");
-  const [hoveredSlot, setHoveredSlot] = useState<string | null>(null);
   const [activeAgenda, setActiveAgenda] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -353,27 +505,35 @@ export default function StrategyCallPage() {
     formUnlocked &&
     phone.trim() !== "" &&
     companyName.trim() !== "" &&
-    websiteUrl.trim() !== "" &&
     budget.trim() !== "" &&
     callNotes.trim() !== "" &&
-    source.trim() !== "";
+    source.trim() !== "" &&
+    isValidWebsiteUrl(websiteUrl);
 
-  const availableDays = [6, 7, 8, 9, 10, 13, 14, 15, 16];
-  const baseTimeSlots = ["01:00", "01:30", "02:00", "02:40", "03:00", "03:30"];
-  const timezoneOptions = [
-    { label: "Asia/Mongolia/Ulaanbaatar", time: "6:26 AM" },
-    { label: "Asia/Israel/Jerusalem", time: "1:26 AM" },
-    { label: "Asia/Afghanistan/Kabul", time: "2:56 AM" },
-    { label: "Asia/Russia/Kamchatka", time: "10:26 AM" },
-    { label: "Asia/Pakistan/Karachi", time: "3:26 AM" },
-    { label: "Asia/Uzbekistan/Tashkent", time: "3:26 AM" },
-    { label: "Asia/Nepal/Kathmandu", time: "4:11 AM" },
-    { label: "Asia/India/Kolkata", time: "3:56 AM" },
-    { label: "Asia/Russia/Krasnoyarsk", time: "5:26 AM" },
-  ];
-  const filteredTimezones = timezoneOptions.filter((option) =>
-    option.label.toLowerCase().includes(timezoneQuery.toLowerCase())
+  const baseTimeSlots = useMemo(
+    () =>
+      getAvailableSlots(
+        calendarDate.getFullYear(),
+        calendarDate.getMonth() + 1,
+        selectedDate,
+        selectedTimezone
+      ),
+    [calendarDate, selectedDate, selectedTimezone]
   );
+
+  const canGoToPreviousMonth =
+    getMonthStart(calendarDate).getTime() > getMonthStart(new Date()).getTime();
+
+  const timezoneOptions = useMemo(() => {
+    const all = getTimezoneOptions(new Date());
+    return filterTimezoneOptions(all, timezoneQuery);
+  }, [timezoneQuery, timezoneOpen]);
+
+  const selectedTimezoneLabel = useMemo(
+    () => formatTimezoneLabel(selectedTimezone),
+    [selectedTimezone, timezoneOpen]
+  );
+
   const agendaItems = [
     {
       title: "Discovery Call",
@@ -421,23 +581,26 @@ export default function StrategyCallPage() {
     selectedDate
   ).toLocaleDateString("en-US", { weekday: "short" });
 
-  const formatTimeSlot = (slot: string) => {
-    const [hoursText, minutes] = slot.split(":");
-    const hours = Number(hoursText);
-
-    if (timeFormat === "24h") {
-      return `${hoursText.padStart(2, "0")}:${minutes}`;
-    }
-
-    const suffix = hours >= 12 ? "PM" : "AM";
-    const hour12 = hours % 12 === 0 ? 12 : hours % 12;
-    return `${String(hour12).padStart(2, "0")}:${minutes} ${suffix}`;
-  };
+  const formatTimeSlot = (slot: (typeof baseTimeSlots)[number]) =>
+    timeFormat === "24h" ? slot.label24h : slot.label12h;
 
   const changeCalendarMonth = (offset: number) => {
-    setCalendarDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
-    setSelectedDate(availableDays[0]);
-    setSelectedTime("");
+    if (offset < 0 && !canGoToPreviousMonth) return;
+
+    const currentMonthStart = getMonthStart(new Date());
+    setCalendarDate((prev) => {
+      const next = new Date(prev.getFullYear(), prev.getMonth() + offset, 1);
+      if (getMonthStart(next).getTime() < currentMonthStart.getTime()) return prev;
+
+      const firstDay = firstSelectableDayInMonthWithSlots(
+        next.getFullYear(),
+        next.getMonth(),
+        selectedTimezone
+      );
+      if (firstDay !== null) setSelectedDate(firstDay);
+      setSelectedTime("");
+      return next;
+    });
   };
 
   const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
@@ -480,13 +643,13 @@ export default function StrategyCallPage() {
   const handleFinishBooking = async () => {
     if (!selectedTime || isSubmitting) return;
 
+    const selectedSlot = baseTimeSlots.find((slot) => slot.id === selectedTime);
+    if (!selectedSlot) return;
+
     setIsSubmitting(true);
     setSubmitError("");
 
-    const year = calendarDate.getFullYear();
-    const month = String(calendarDate.getMonth() + 1).padStart(2, "0");
-    const day = String(selectedDate).padStart(2, "0");
-    const appointmentDate = `${year}-${month}-${day}`;
+    const appointmentDate = formatAppointmentDateFromSlot(selectedSlot, selectedTimezone);
 
     try {
       const response = await fetch("/api/strategy-call", {
@@ -498,12 +661,12 @@ export default function StrategyCallPage() {
           countryCode,
           phone,
           companyName,
-          websiteUrl,
+          websiteUrl: normalizeWebsiteUrl(websiteUrl),
           budget,
           callNotes,
           source,
           appointmentDate,
-          appointmentTime: formatTimeSlot(selectedTime),
+          appointmentTime: formatTimeSlot(selectedSlot),
           timezone: selectedTimezone,
         }),
       });
@@ -653,7 +816,7 @@ export default function StrategyCallPage() {
                 className={`w-full lg:w-[62%] ${step === "time" ? "max-lg:order-2" : ""}`}
               >
                 <div className="inline-flex h-[39px] items-center gap-2 rounded-xl border border-[#2A2B47] bg-[#191A35] px-4 text-[0.8rem] text-white/90">
-                  <img src="/bmyb-logo-logowhite-01.svg" alt="BMYBrand logo" className="h-4 w-auto" />
+                  <img src="/bmyb-logo-logowhite-01.svg" alt="BmyBrand logo" className="h-4 w-auto" />
                   <span>Book a strategy call</span>
                 </div>
 
@@ -757,11 +920,11 @@ export default function StrategyCallPage() {
                   {step === "form" ? (
                     <>
                       <div className="mt-1 flex items-center gap-2">
-                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BmyBrand logo" className="h-8 w-auto" />
                       </div>
 
                       <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
-                        Book A Strategy Call With BMYBrand
+                        Book A Strategy Call With BmyBrand
                       </h2>
 
                       <div className="mt-4 space-y-3 text-[0.96rem] leading-8 text-[#A4A8C9]">
@@ -804,14 +967,15 @@ export default function StrategyCallPage() {
                                 <div className="flex rounded-xl border border-[#343556] bg-transparent text-white transition-colors focus-within:border-[#F45B25]">
                                   <CustomCountrySelect
                                     value={countryCode}
-                                    onChange={setCountryCode}
+                                    countryIso={countryIso}
+                                    onChange={handleCountryChange}
                                     countries={countries}
                                   />
                                   <input
                                     type="tel"
-                                    placeholder={countryCode}
+                                    placeholder="Phone number"
                                     value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    onChange={(e) => handlePhoneChange(e.target.value)}
                                     className="w-full bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none"
                                   />
                                 </div>
@@ -828,12 +992,19 @@ export default function StrategyCallPage() {
                               </div>
 
                               <div>
-                                <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Website URL *</div>
+                                <div className="mb-2 text-[0.95rem] text-white BenzinSemibold">Website URL</div>
                                 <input
-                                  type="url"
+                                  type="text"
+                                  inputMode="url"
+                                  placeholder="bmybrand.com"
                                   value={websiteUrl}
                                   onChange={(e) => setWebsiteUrl(e.target.value)}
-                                  className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white outline-none transition-colors focus:border-[#F45B25]"
+                                  onBlur={() => {
+                                    if (websiteUrl.trim()) {
+                                      setWebsiteUrl(normalizeWebsiteUrl(websiteUrl));
+                                    }
+                                  }}
+                                  className="w-full rounded-xl border border-[#343556] bg-transparent px-4 py-3 text-white placeholder:text-white/34 outline-none transition-colors focus:border-[#F45B25]"
                                 />
                               </div>
 
@@ -870,7 +1041,7 @@ export default function StrategyCallPage() {
                               </div>
 
                               <div>
-                                <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">How did you find BMYBrand? *</div>
+                                <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">How did you find BmyBrand? *</div>
                                 <div className="space-y-2.5">
                                   {["Google Search", "AI Search", "Social Media", "Case Study", "Other"].map((sourceOption, i) => (
                                     <label key={sourceOption} htmlFor={`source${i}`} className="flex cursor-pointer items-center gap-2.5 text-sm text-[#ADAECC]">
@@ -894,8 +1065,14 @@ export default function StrategyCallPage() {
 
                         <p className="pt-2 text-xs leading-6 text-white/44">
                           By submitting your information, you agree to our{" "}
-                          <a href="#" className="text-white/78 underline underline-offset-2">Terms of Use</a> and{" "}
-                          <a href="#" className="text-white/78 underline underline-offset-2">Privacy Policy</a>.
+                          <Link href="/terms-of-use" className="text-white/78 underline underline-offset-2 hover:text-white">
+                            Terms of Use
+                          </Link>{" "}
+                          and{" "}
+                          <Link href="/privacy-policy" className="text-white/78 underline underline-offset-2 hover:text-white">
+                            Privacy Policy
+                          </Link>
+                          .
                         </p>
 
                         <button
@@ -922,7 +1099,11 @@ export default function StrategyCallPage() {
                               <button
                                 type="button"
                                 onClick={() => changeCalendarMonth(-1)}
-                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                                disabled={!canGoToPreviousMonth}
+                                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] p-2.5 ${canGoToPreviousMonth
+                                  ? "text-white/28 hover:text-white/60"
+                                  : "cursor-not-allowed text-white/10"
+                                  }`}
                                 aria-label="Previous month"
                               >
                                 <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135 brightness-0 invert" />
@@ -930,7 +1111,7 @@ export default function StrategyCallPage() {
                               <button
                                 type="button"
                                 onClick={() => changeCalendarMonth(1)}
-                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5 hover:text-white/60"
                                 aria-label="Next month"
                               >
                                 <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45 brightness-0 invert" />
@@ -964,7 +1145,7 @@ export default function StrategyCallPage() {
                   ) : (
                     <>
                       <div className="mt-1 flex items-center gap-2">
-                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BMYBrand logo" className="h-8 w-auto" />
+                        <img src="/bmyb-services-brand-bmybrand-01-01.svg" alt="BmyBrand logo" className="h-8 w-auto" />
                       </div>
 
                       <h2 className="mt-5 text-[1.8rem] leading-tight text-white BenzinSemibold">
@@ -992,7 +1173,7 @@ export default function StrategyCallPage() {
                               <clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath>
                             </defs>
                           </svg>
-                          <span>{selectedTimezone}</span>
+                          <span className="truncate">{selectedTimezoneLabel.label}</span>
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`h-4 w-4 text-white/45 transition-transform ${timezoneOpen ? "rotate-180" : ""}`}>
                             <polyline points="6 9 12 15 18 9"/>
                           </svg>
@@ -1011,28 +1192,24 @@ export default function StrategyCallPage() {
                                 type="text"
                                 value={timezoneQuery}
                                 onChange={(e) => setTimezoneQuery(e.target.value)}
-                                placeholder="Search by continent, country or city"
+                                placeholder="Search by region, country or UTC offset"
                                 className="w-full bg-transparent text-white placeholder:text-white/34 outline-none"
                               />
                             </div>
 
                             <div className="mt-3 max-h-[13.5rem] space-y-1 overflow-y-auto pr-1 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
-                              {filteredTimezones.map((option) => {
-                                const active = option.label === selectedTimezone;
+                              {timezoneOptions.map((option) => {
+                                const active = option.id === selectedTimezone;
                                 return (
                                   <button
-                                    key={option.label}
+                                    key={option.id}
                                     type="button"
-                                    onClick={() => {
-                                      setSelectedTimezone(option.label);
-                                      setTimezoneOpen(false);
-                                      setTimezoneQuery("");
-                                    }}
-                                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${active ? "bg-[#303258] text-white" : "text-[#B5B9D8] hover:bg-[#262847] hover:text-white"
+                                    onClick={() => applySelectedTimezone(option.id)}
+                                    className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${active ? "bg-[#303258] text-white" : "text-[#B5B9D8] hover:bg-[#262847] hover:text-white"
                                       }`}
                                   >
-                                    <span>{option.label}</span>
-                                    <span>{option.time}</span>
+                                    <span className="min-w-0 truncate pr-3 text-left">{option.label}</span>
+                                    <span className="shrink-0 text-white/45">{option.currentTime}</span>
                                   </button>
                                 );
                               })}
@@ -1048,7 +1225,11 @@ export default function StrategyCallPage() {
                             <button
                               type="button"
                               onClick={() => changeCalendarMonth(-1)}
-                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                              disabled={!canGoToPreviousMonth}
+                              className={`flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] p-2.5 ${canGoToPreviousMonth
+                                ? "text-white/28 hover:text-white/60"
+                                : "cursor-not-allowed text-white/10"
+                                }`}
                               aria-label="Previous month"
                             >
                               <img src="/bmyb-logo-group119-01.svg" alt="" className="-rotate-135 brightness-0 invert" />
@@ -1056,7 +1237,7 @@ export default function StrategyCallPage() {
                             <button
                               type="button"
                               onClick={() => changeCalendarMonth(1)}
-                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5"
+                              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#343556] text-white/28 p-2.5 hover:text-white/60"
                               aria-label="Next month"
                             >
                               <img src="/bmyb-logo-group119-01.svg" alt="" className="rotate-45 brightness-0 invert" />
@@ -1075,7 +1256,14 @@ export default function StrategyCallPage() {
                             const dayNumber = cell.day;
                             const faded = !cell.inMonth;
                             const active = cell.inMonth && dayNumber === selectedDate;
-                            const selectable = cell.inMonth && availableDays.includes(dayNumber);
+                            const selectable =
+                              cell.inMonth &&
+                              dateHasAvailableSlots(
+                                calendarDate.getFullYear(),
+                                calendarDate.getMonth() + 1,
+                                dayNumber,
+                                selectedTimezone
+                              );
 
                             return (
                               <button
@@ -1120,47 +1308,47 @@ export default function StrategyCallPage() {
                           </div>
                         </div>
 
-                        <div className="mt-4 max-h-[15rem] space-y-3 overflow-x-hidden overflow-y-auto pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                        <div className="mt-4 flex max-h-[15rem] flex-col gap-3 overflow-y-auto overscroll-contain pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                          {baseTimeSlots.length === 0 ? (
+                            <p className="rounded-xl border border-[#343556] px-4 py-3 text-sm text-[#A4A8C9]">
+                              No slots available for this date. Please choose another day.
+                            </p>
+                          ) : null}
                           {baseTimeSlots.map((slot) => {
                             const slotLabel = formatTimeSlot(slot);
+                            const isSelected = selectedTime === slot.id;
                             return (
                               <div
-                                key={slot}
-                                onMouseEnter={() => setHoveredSlot(slot)}
-                                onMouseLeave={() => setHoveredSlot((current) => (current === slot ? null : current))}
-                                className="flex w-full max-w-full items-center gap-3 overflow-hidden"
+                                key={slot.id}
+                                className="group grid h-12 w-full shrink-0 grid-cols-[1fr_0fr] gap-3 transition-[grid-template-columns] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:grid-cols-[52fr_48fr]"
                               >
                                 <button
                                   type="button"
-                                  className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-all duration-200 ${hoveredSlot === slot
-                                    ? "w-[52%] border-[#343556] bg-transparent text-[#C7CAE2]"
-                                    : selectedTime === slot
-                                      ? "w-full border-[#FF7A36] bg-[#252744] text-white"
-                                      : "w-full border-[#343556] bg-transparent text-[#C7CAE2] hover:border-[#4A4D74] hover:text-white"
+                                  onClick={() => setSelectedTime(slot.id)}
+                                  className={`flex h-12 min-w-0 items-center justify-center rounded-xl border text-sm transition-[border-color,background-color,color] duration-300 ease-out ${isSelected
+                                    ? "border-[#FF7A36] bg-[#252744] text-white"
+                                    : "border-[#343556] bg-transparent text-[#C7CAE2] group-hover:border-[#343556] group-hover:text-[#C7CAE2] hover:border-[#4A4D74] hover:text-white"
                                     }`}
-                                  onClick={() => setSelectedTime(slot)}
                                 >
                                   {slotLabel}
                                 </button>
-                                {hoveredSlot === slot ? (
-                                  <button
-                                    type="button"
-                                    onClick={() => setSelectedTime(slot)}
-                                    className="h-12 w-[48%] rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] text-base text-white transition-all duration-200 BenzinSemibold"
-                                  >
-                                    Confirm
-                                  </button>
-                                ) : null}
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedTime(slot.id)}
+                                  className="flex h-12 min-w-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] text-base text-white opacity-0 pointer-events-none transition-[opacity] duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 BenzinSemibold"
+                                >
+                                  Confirm
+                                </button>
                               </div>
-                            )
+                            );
                           })}
                         </div>
 
                         <div
-                          className={`grid transition-all duration-300 ease-out ${selectedTime ? "mt-5 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                          className={`grid transition-[grid-template-rows,opacity,margin] duration-300 ease-out ${selectedTime ? "mt-5 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"
                             }`}
                         >
-                          <div className="overflow-hidden">
+                          <div className="min-h-0 overflow-hidden">
                             {submitError ? (
                               <p className="mb-3 text-sm text-red-400">{submitError}</p>
                             ) : null}
@@ -1168,7 +1356,7 @@ export default function StrategyCallPage() {
                               type="button"
                               onClick={() => void handleFinishBooking()}
                               disabled={isSubmitting}
-                              className={`flex w-full items-center justify-center rounded-xl py-3.5 text-[1.05rem] text-white transition-all duration-200 BenzinSemibold ${isSubmitting
+                              className={`flex w-full items-center justify-center rounded-xl py-3.5 text-[1.05rem] text-white transition-colors duration-300 BenzinSemibold ${isSubmitting
                                 ? "cursor-not-allowed bg-[#343556] text-white/45"
                                 : "bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] hover:brightness-110"
                                 }`}

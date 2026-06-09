@@ -46,7 +46,7 @@ const projectCards: ProjectCard[] = [
     image: '/bmyb-industries-healthcare-project-03.svg',
     tag: 'AI / Healthcare',
     href: '#',
-    imageClassName: 'object-contain object-center bg-[#f1f5fb]',
+    imageClassName: 'object-cover object-center bg-[#f1f5fb]',
   },
 ]
 
@@ -98,7 +98,7 @@ export default function HealthcareProjects({
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0E1026] via-[#0E1026]/82 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between px-5 pb-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <span className="text-white text-[1.3rem] leading-none BenzinRegular">View Website</span>
-                <img src="/bmyb-logo-group119-01.svg" alt="" className="h-4 w-4 object-contain brightness-0 invert" />
+                <img src="/bmyb-logo-group119-01.svg" alt="" width={16} height={16} className="h-4 w-4 object-contain brightness-0 invert" />
               </div>
 
               <div className="flex items-start justify-between gap-4">
@@ -107,6 +107,8 @@ export default function HealthcareProjects({
                     <img
                       src={card.brandLogo}
                       alt={card.brandTitle}
+                      width={240}
+                      height={48}
                       className={`h-12 w-auto object-contain ${card.logoClassName ?? 'brightness-0 invert'}`}
                     />
                   ) : card.brandSubtitle ? (
@@ -127,7 +129,7 @@ export default function HealthcareProjects({
                 <div
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#6A3542] transition-all duration-300 group-hover:bg-[#FF843E]"
                 >
-                  <img src="/bmyb-logo-group119-01.svg" alt="" className="h-4 w-4 object-contain brightness-0 invert" />
+                  <img src="/bmyb-logo-group119-01.svg" alt="" width={16} height={16} className="h-4 w-4 object-contain brightness-0 invert" />
                 </div>
               </div>
 
@@ -141,6 +143,8 @@ export default function HealthcareProjects({
                 <img
                   src={card.image}
                   alt={card.title}
+                  width={829}
+                  height={510}
                   className={`h-[210px] w-full ${card.imageClassName}`}
                 />
               </div>

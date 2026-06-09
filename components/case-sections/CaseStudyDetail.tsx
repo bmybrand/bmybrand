@@ -38,7 +38,7 @@ const CaseStudyDetail = ({ slug }: Props) => {
       <CaseStudyBackground data={data.background} />
       <CaseStudySolution data={data.solution} />
       <CaseStudyReviews data={data.reviews} />
-      <FHFooter />
+      <FHFooter title={data.footer?.title} />
     </div>
   )
 }

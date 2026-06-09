@@ -71,7 +71,7 @@ export default function UnderConstructionPage() {
             <Link href="/" className="text-xl font-bold text-white">
               <img
                 src="/bmyb-services-brand-bmybrand-01-01.svg"
-                alt="BMYBrand"
+                alt="BmyBrand"
                 className="h-8 w-auto sm:h-10 lg:h-11 xl:h-12 2xl:h-14"
               />
             </Link>

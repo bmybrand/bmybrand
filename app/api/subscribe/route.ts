@@ -26,6 +26,7 @@ export async function POST(request: Request) {
   const from = process.env.RESEND_FROM_EMAIL
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
@@ -102,15 +103,15 @@ export async function POST(request: Request) {
   }
 
 
-  const subject = 'Thanks for subscribing to BMYBrand'
+  const subject = 'Thanks for subscribing to BmyBrand'
   const text = [
     'Hi,',
     '',
-    'Thanks for subscribing to BMYBrand.',
+    'Thanks for subscribing to BmyBrand.',
     'You will now receive design, AI, and growth insights plus future updates from our team.',
     '',
     'Regards,',
-    'BMYBrand',
+    'BmyBrand',
   ].join('\n')
 
   const html = `
@@ -138,7 +139,7 @@ export async function POST(request: Request) {
                               <div style="width:44px; height:44px; background:linear-gradient(135deg, #f45b25 0%, #ff843e 100%); border-radius:10px; color:#ffffff; font-size:28px; line-height:44px; font-weight:700; text-align:center;">B</div>
                             </td>
                             <td style="vertical-align:middle; text-align:left;">
-                              <div style="font-size:24px; line-height:1; font-weight:700; color:#11122f; letter-spacing:0.2px;">BMYBrand</div>
+                              <div style="font-size:24px; line-height:1; font-weight:700; color:#11122f; letter-spacing:0.2px;">BmyBrand</div>
                               <div style="margin-top:6px; font-size:12px; line-height:1; color:#6b7280;">Design. Build. Grow.</div>
                             </td>
                           </tr>
@@ -156,7 +157,7 @@ export async function POST(request: Request) {
               <tr>
                 <td style="padding:20px 32px 0; font-family:Arial,sans-serif; color:#11122f; font-size:18px; line-height:1.8;">
                   <p style="margin:0 0 22px;">Hi,</p>
-                  <p style="margin:0 0 22px;">Thanks for subscribing to BMYBrand.</p>
+                  <p style="margin:0 0 22px;">Thanks for subscribing to BmyBrand.</p>
                   <p style="margin:0 0 22px;">You will now receive design, AI, and growth insights plus future updates from our team.</p>
                   <p style="margin:0 0 22px;">We will keep the emails useful, relevant, and easy to read.</p>
                 </td>
@@ -164,12 +165,12 @@ export async function POST(request: Request) {
               <tr>
                 <td style="padding:0 32px 36px; font-family:Arial,sans-serif; color:#11122f; font-size:18px; line-height:1.8;">
                   <p style="margin:0 0 18px;">Kind regards,</p>
-                  <p style="margin:0;"><strong>BMYBrand Team</strong><br />Design. Build. Grow.</p>
+                  <p style="margin:0;"><strong>BmyBrand Team</strong><br />Design. Build. Grow.</p>
                 </td>
               </tr>
               <tr>
                 <td style="background-color:#111111; border-top:6px solid #f45b25; padding:20px 32px; text-align:center; font-family:Arial,sans-serif;">
-                  <div style="margin:0 0 10px; font-size:14px; color:#ffffff; font-weight:700;">BMYBrand</div>
+                  <div style="margin:0 0 10px; font-size:14px; color:#ffffff; font-weight:700;">BmyBrand</div>
                   <div style="font-size:13px; line-height:1.8;">
                     <a href="https://www.instagram.com/" style="color:#ffffff; text-decoration:none; margin:0 8px;">Instagram</a>
                     <a href="https://www.linkedin.com/" style="color:#ffffff; text-decoration:none; margin:0 8px;">LinkedIn</a>

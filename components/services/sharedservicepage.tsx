@@ -10,12 +10,12 @@ import Brandsspec from '../brandsspec'
 import type { ServicePageData } from '@/data/service-pages/types'
 
 const clientLogos = [
-  { default: '/bmyb-logo-vector-08.svg', hover: '/bmyb-logo-vector-orange-02.svg', alt: 'Abbott' },
-  { default: '/bmyb-logo-vector-09.svg', hover: '/bmyb-logo-vector-orange-04.svg', alt: 'London Real' },
-  { default: '/bmyb-logo-vector-10.svg', hover: '/bmyb-logo-vector-orange-03.svg', alt: 'Decathlon' },
-  { default: '/bmyb-logo-vector-11.svg', hover: '/bmyb-logo-vector-orange-06.svg', alt: 'Targus' },
-  { default: '/bmyb-logo-vector-12.svg', hover: '/bmyb-logo-vector-orange-01.svg', alt: 'Single Grain' },
-  { default: '/bmyb-logo-vector-13.svg', hover: '/bmyb-logo-vector-orange-05.svg', alt: 'York University' },
+  { default: '/bmyb-logo-abboott-fill-01.svg', hover: '/bmyb-logo-abboott-fill-hover-01.svg', alt: 'Client Logo 1' },
+  { default: '/bmyb-logo-abboott-fill-03.svg', hover: '/bmyb-logo-abboott-fill-hover-03.svg', alt: 'Client Logo 2' },
+  { default: '/bmyb-logo-abboott-fill-04.svg', hover: '/bmyb-logo-abboott-fill-hover-04.svg', alt: 'Client Logo 3' },
+  { default: '/bmyb-logo-abboott-fill-08.svg', hover: '/bmyb-logo-abboott-fill-hover-08.svg', alt: 'Client Logo 4' },
+  { default: '/bmyb-logo-abboott-fill-09.svg', hover: '/bmyb-logo-abboott-fill-hover-09.svg', alt: 'Client Logo 5' },
+  { default: '/bmyb-logo-abboott-fill-10.svg', hover: '/bmyb-logo-abboott-fill-hover-10.svg', alt: 'Client Logo 6' },
 ]
 
 type SharedServicePageProps = {
@@ -63,12 +63,12 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
       </section>
 
       <section>
-        <img src={data.bannerImage} alt={data.bannerAlt} className="h-auto w-full object-cover" />
+        <img src={data.bannerImage} alt={data.bannerAlt} width={1600} height={900} className="h-auto w-full object-cover" />
       </section>
 
       <section className="py-20">
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
-          <h2 className="BenzinSemibold mb-8 text-2xl text-white md:text-3xl lg:text-4xl xl:text-5xl">
+          <h2 className="BenzinSemibold mb-12 md:mb-14 lg:mb-16 text-2xl text-white md:text-3xl lg:text-4xl xl:text-5xl">
             {data.overviewTitle}
           </h2>
 
@@ -101,6 +101,8 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
               <img
                 src={data.overviewImage}
                 alt={data.overviewImageAlt}
+                width={1200}
+                height={900}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
@@ -121,7 +123,7 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
                 className="rounded-lg border border-white/10 p-8 transition-all duration-300 hover:border-[#F45B25]/30"
               >
                 <div className="mb-6 text-[#F45B25]">
-                  <img src={card.icon} alt="" className="h-14 w-14 object-contain" />
+                  <img src={card.icon} alt="" width={56} height={56} className="h-14 w-14 object-contain" />
                 </div>
                 <h3 className="BenzinSemibold mb-6 text-lg text-white md:text-xl lg:text-2xl">
                   {card.title}
@@ -186,7 +188,7 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
           <div className="mb-16 flex flex-col gap-6 md:flex-row">
             {data.faqImages.map((image) => (
               <div key={image.alt} className="h-64 flex-1 overflow-hidden rounded-2xl md:h-80">
-                <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
+                <img src={image.src} alt={image.alt} width={900} height={640} className="h-full w-full object-cover" />
               </div>
             ))}
           </div>
@@ -270,6 +272,8 @@ export default function SharedServicePage({ data }: SharedServicePageProps) {
                     key={logo.alt}
                     src={hoveredLogo === index ? logo.hover : logo.default}
                     alt={logo.alt}
+                    width={128}
+                    height={64}
                     onMouseEnter={() => setHoveredLogo(index)}
                     onMouseLeave={() => setHoveredLogo(null)}
                     className="h-auto w-24 cursor-pointer transition-all duration-300 hover:opacity-100 md:w-32"

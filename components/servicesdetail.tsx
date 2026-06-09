@@ -17,7 +17,7 @@ const services: Service[] = [
     id: 'ai-driven',
     title: 'AI-Driven Solutions',
     iconSrc: '/bmyb-services-ai-driven-01.svg',
-    description: 'At BMYBrand, a leading AI automation agency in the USA, we design intelligent systems that help businesses work smarter and faster. From AI-driven automation solutions to custom AI software development solutions and company services, we build scalable tools that improve efficiency, reduce manual work, and enhance decision-making.',
+    description: 'At BmyBrand, a leading AI automation agency in the USA, we design intelligent systems that help businesses work smarter and faster. From AI-driven automation solutions to custom AI software development solutions and company services, we build scalable tools that improve efficiency, reduce manual work, and enhance decision-making.',
     items: [
       'AI Automation Solutions',
       'Custom AI Development',

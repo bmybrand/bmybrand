@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect, useSyncExternalStore } from "react";
-import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useRef, useEffect, useSyncExternalStore, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 
 const subscribe = () => () => {};
+const NAVIGATION_PRELOADER_EVENT = "bmy:navigation-preloader-start";
 
 const companyMenuItems = [
   {
@@ -56,7 +56,7 @@ const servicesMenuItems = [
   },
   {
     title: "Website Development",
-    href: "/services/software-development",
+    href: "/services/software-development#website-development",
     desc: "Custom websites built for performance and conversion.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +66,7 @@ const servicesMenuItems = [
   },
   {
     title: "Mobile App Development",
-    href: "/services/software-development",
+    href: "/services/software-development#mobile-app-development",
     desc: "Native and cross-platform apps that users love.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,12 +159,20 @@ const resourcesMenuItems = [
 const MegaMenu = ({
   isOpen,
   onClose,
+  onStartNavigate,
+  onPreloaderNavigate,
+  currentHash,
+  currentPathname,
   portalReady,
   type,
   style,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  onStartNavigate?: (href: string) => void;
+  onPreloaderNavigate?: (href: string) => (event: MouseEvent<HTMLAnchorElement>) => void;
+  currentHash: string;
+  currentPathname: string;
   portalReady: boolean;
   type: "services" | "industries" | "company" | "resources";
   style?: React.CSSProperties;
@@ -176,6 +184,19 @@ const MegaMenu = ({
   const isResources = type === "resources";
   const isIndustries = type === "industries";
   const hasTwoColumnLayout = isCompany || isServices || isResources;
+  const isItemActive = (href: string) => {
+    if (typeof window === "undefined") return false;
+
+    const targetUrl = new URL(href, window.location.origin);
+    const targetHash = targetUrl.hash.replace(/^#/, "");
+    const currentHashValue = currentHash.replace(/^#/, "");
+
+    if (type === "services" && targetHash) {
+      return currentPathname === targetUrl.pathname && currentHashValue === targetHash;
+    }
+
+    return currentPathname === targetUrl.pathname;
+  };
 
   const menuContent = (
     <motion.div
@@ -189,55 +210,64 @@ const MegaMenu = ({
       <div className={`flex ${hasTwoColumnLayout ? "flex-col lg:flex-row" : ""}`}>
         {/* Company: Left section with image + View Open Positions */}
         {isCompany && (
-          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4">
-            <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44">
+          <div
+            onClick={onStartNavigate ? () => onStartNavigate("/underconstruction") : undefined}
+            className="group lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 cursor-pointer rounded-l-2xl transition-colors hover:bg-white/5"
+          >
+            <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44 transition-transform duration-300 group-hover:scale-[1.01]">
               <img
-                src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop"
-                alt="Quality mockups"
+                src="/bmyb-navbar-company-01.webp"
+                alt="Company menu preview"
                 className="w-full h-full object-cover"
               />
             </div>
             <div>
-              <Link href="/underconstruction" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
+              <Link href="/underconstruction" className="text-white text-lg font-semibold transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 group-hover:text-[#F45B25]">
                 View Open Positions
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </Link>
-              <p className="text-white/60 text-sm mt-2">Find your place on our team. We&apos;re always looking for talented people to help us create exceptional work.</p>
+              <p className="text-white/60 text-sm mt-2 transition-colors group-hover:text-white/75">Find your place on our team. We&apos;re always looking for talented people to help us create exceptional work.</p>
             </div>
           </div>
         )}
 
         {/* Services: Left section with image + Explore All Services */}
         {isServices && (
-          <div className="lg:w-[45%] p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 overflow-hidden">
-            <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60 shrink-0">
+          <div
+            onClick={onStartNavigate ? () => onStartNavigate("/services") : undefined}
+            className="group lg:w-[45%] p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 overflow-hidden cursor-pointer rounded-l-2xl transition-colors hover:bg-white/5"
+          >
+            <div className="rounded-xl overflow-hidden bg-white/5 h-56 lg:h-60 shrink-0 transition-transform duration-300 group-hover:scale-[1.01]">
               <img
-                src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop"
-                alt="Quality mockups"
+                src="/bmyb-navbar-services-01.webp"
+                alt="Services menu preview"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="min-h-0">
-              <Link href="/services" className="text-white text-lg font-semibold hover:text-[#F45B25] hover:bg-white/10 transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2">
+              <div className="text-white text-lg font-semibold flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 transition-colors group-hover:text-[#F45B25]">
                 Explore All Services
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
-              </Link>
-              <p className="text-white/60 text-sm mt-2">From AI to web apps, discover how we help brands grow with creative and digital solutions.</p>
+              </div>
+              <p className="text-white/60 text-sm mt-2 transition-colors group-hover:text-white/75">From AI to web apps, discover how we help brands grow with creative and digital solutions.</p>
             </div>
           </div>
         )}
 
         {isResources && (
-          <div className="lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10">
+          <div
+            onClick={onStartNavigate ? () => onStartNavigate("/grow-my-business") : undefined}
+            className="group lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 cursor-pointer rounded-l-2xl transition-colors hover:bg-white/5"
+          >
             <div className="relative rounded-xl overflow-hidden bg-white/5 h-40 lg:h-full lg:min-h-[17.5rem]">
               <img
                 src="/bmyb-navbar-resources-01.svg"
                 alt="Resources and insights"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
               />
               <div className="absolute bottom-2 left-4 inline-flex h-[39px] items-center gap-1 text-[0.8rem] text-white/90">
                 <img alt="" className="w-4 h-4" src="/bmyb-tech-whitelogo-01.svg" />
@@ -248,7 +278,9 @@ const MegaMenu = ({
         )}
 
         {/* Right section - Menu items */}
-        <div className={`${isCompany || isResources ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-[55%]" : "lg:w-1/2"}` : ""}`}>
+        <div
+          className={`${isCompany || isResources ? "p-5" : isIndustries ? "p-4" : "p-6"} ${hasTwoColumnLayout ? `flex flex-col min-h-0 ${isServices ? "lg:w-[55%]" : "lg:w-1/2"}` : ""}`}
+        >
           <div className={hasTwoColumnLayout ? "flex flex-col justify-between flex-1 min-h-0" : isIndustries ? "flex flex-col gap-1" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
             {(type === "company" ? companyMenuItems : type === "services" ? servicesMenuItems : type === "industries" ? industriesMenuItems : resourcesMenuItems).map(
               (item: { title: string; href: string; desc: string; icon?: React.ReactNode }, idx: number
@@ -256,15 +288,21 @@ const MegaMenu = ({
               <Link
                 key={idx}
                 href={item.href}
-                className={`flex rounded-xl transition-colors group hover:bg-white/10 ${hasTwoColumnLayout ? "gap-4 min-w-0 py-1.5 px-3" : isIndustries ? "gap-3 py-2 px-2 min-w-0" : "gap-4 p-4"}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  if ((type === "services" || type === "industries") && onPreloaderNavigate) {
+                    onPreloaderNavigate(item.href)(event);
+                  }
+                }}
+                className={`flex rounded-xl transition-colors group ${isItemActive(item.href) ? "bg-white/10" : "hover:bg-white/10"} ${hasTwoColumnLayout ? "gap-4 min-w-0 py-1.5 px-3" : isIndustries ? "gap-3 py-2 px-2 min-w-0" : "gap-4 p-4"}`}
               >
                 {"icon" in item && item.icon && (
-                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white shrink-0 group-hover:text-[#F45B25] transition-colors">
+                  <div className={`w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 transition-colors ${isItemActive(item.href) ? "text-[#F45B25]" : "text-white group-hover:text-[#F45B25]"}`}>
                     {item.icon}
                   </div>
                 )}
                 <div>
-                  <span className="text-white font-semibold group-hover:text-[#F45B25] transition-colors BenzinSemibold">{item.title}</span>
+                  <span className={`font-semibold transition-colors BenzinSemibold ${isItemActive(item.href) ? "text-[#F45B25]" : "text-white group-hover:text-[#F45B25]"}`}>{item.title}</span>
                   <p className="text-white/60 text-sm mt-0.5">{item.desc}</p>
                 </div>
               </Link>
@@ -295,8 +333,10 @@ const MegaMenu = ({
 };
 
 const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState("");
   const [mobileExpanded, setMobileExpanded] = useState<"services" | "industries" | "company" | "resources" | null>(null);
   const [megaMenuOpen, setMegaMenuOpen] = useState<"services" | "industries" | "company" | "resources" | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: "5.5rem", left: "50%", transform: "translateX(-50%)" });
@@ -309,7 +349,43 @@ const Navbar = () => {
     resources: null,
   });
   const isCaseStudyDetail = pathname.startsWith("/case-studies/") && pathname !== "/case-studies";
+  const isServicesPage = pathname.startsWith("/services");
   const isIndustriesPage = pathname.startsWith("/industries");
+
+  useEffect(() => {
+    const updateHash = () => setCurrentHash(window.location.hash);
+
+    updateHash();
+    window.addEventListener("hashchange", updateHash);
+
+    return () => {
+      window.removeEventListener("hashchange", updateHash);
+    };
+  }, []);
+
+  const startPreloaderNavigation = (href: string) => {
+    setOpen(false);
+    setMegaMenuOpen(null);
+
+    if (typeof window === "undefined") return;
+
+    const currentUrl = new URL(window.location.href);
+    const targetUrl = new URL(href, window.location.origin);
+    const isSameUrl =
+      currentUrl.pathname === targetUrl.pathname &&
+      currentUrl.search === targetUrl.search &&
+      currentUrl.hash === targetUrl.hash;
+
+    if (isSameUrl) return;
+
+    window.dispatchEvent(new CustomEvent(NAVIGATION_PRELOADER_EVENT));
+    router.push(href);
+  };
+
+  const navigateWithPreloader = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    startPreloaderNavigation(href);
+  };
 
   const updateDropdownPosition = (type: "services" | "industries" | "company" | "resources") => {
     const el = tabRefs.current[type];
@@ -361,12 +437,10 @@ const Navbar = () => {
       <nav className="mx-auto flex items-center justify-between px-6 md:px-10 py-4">
         {/* Logo */}
         <Link href="/" className="text-white font-bold text-xl">
-          <Image
-            src="/bmyb-services-brand-bmybrand-01-01.svg"
+          <img
+            src="/logo-animation-1.gif"
             alt="Logo"
-            width={2189}
-            height={508}
-            className={`h-9 sm:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto cursor-pointer ${isCaseStudyDetail ? "brightness-0 invert" : ""}`}
+            className={`h-9 sm:h-10 lg:h-[39px] xl:h-[39px] 2xl:h-[43px] w-auto cursor-pointer ${isCaseStudyDetail ? "brightness-0 invert" : ""}`}
           />
         </Link>
 
@@ -378,8 +452,16 @@ const Navbar = () => {
             onMouseEnter={handleMegaMenuEnter("services")}
             onMouseLeave={handleMegaMenuLeave}
           >
-            <span className={`cursor-pointer ${linkClasses("/services")}`}>Services</span>
-            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="services" style={dropdownPosition} />
+            <span
+              className={`cursor-pointer block relative py-2 transition ${
+                isServicesPage ? "text-[#F45B25]" : "text-white/80 hover:text-[#F45B25]"
+              } after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full after:bg-[#F45B25] after:origin-left after:transition ${
+                isServicesPage ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100"
+              }`}
+            >
+              Services
+            </span>
+            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="services" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.industries = el; }}
@@ -396,7 +478,7 @@ const Navbar = () => {
             >
               Industries
             </span>
-            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="industries" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="industries" style={dropdownPosition} />
           </li>
           <li>
             <Link href="/case-studies" className={linkClasses("/case-studies")}>Case Studies</Link>
@@ -408,7 +490,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/about")}`}>Company</span>
-            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="company" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="company" style={dropdownPosition} />
           </li>
           <li
             ref={(el) => { tabRefs.current.resources = el; }}
@@ -417,7 +499,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/contact")}`}>Resources</span>
-            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} portalReady={portalReady} type="resources" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="resources" style={dropdownPosition} />
           </li>
         </ul>
 
@@ -464,7 +546,7 @@ const Navbar = () => {
                 </li>
                 {servicesMenuItems.map((item, idx) => (
                   <li key={idx} onClick={() => setOpen(false)}>
-                    <Link href={item.href} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
+                    <Link href={item.href} onClick={navigateWithPreloader(item.href)} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
                   </li>
                 ))}
               </ul>
@@ -496,7 +578,7 @@ const Navbar = () => {
               <ul className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-white/20 ml-1">
                 {industriesMenuItems.map((item, idx) => (
                   <li key={idx} onClick={() => setOpen(false)}>
-                    <Link href={item.href} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
+                    <Link href={item.href} onClick={navigateWithPreloader(item.href)} className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>{item.title}</Link>
                   </li>
                 ))}
               </ul>

@@ -18,7 +18,7 @@ const reviews: Review[] = [
     id: 1,
     name: 'Daniel Reeves',
     role: 'Client',
-    review: 'BMYBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
+    review: 'BmyBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
     initials: 'DR',
     rating: 5,
     logo: '/bmyb-logo-trustpilot-1-01.svg'

@@ -6,64 +6,65 @@ export const travelAndTourismIndustry: IndustryItem = {
   href: '/industries/travel-and-tourism',
   description:
     'Experience-led websites and booking-ready platforms that help travel brands attract, convert, and retain customers.',
-  heroTitle: 'Travel and Tourism Experiences Designed to Inspire Action',
+  heroTitle: 'We Create Inspiring Travel Experiences That Transform Tourism Brands into Memorable Journeys',
   heroDescription:
-    'We help travel brands create digital experiences that capture attention, build trust, and guide visitors from inspiration to booking with greater clarity.',
+    'At BMYBrand, we design powerful digital solutions for travel agencies, tour operators, and tourism brands that want to inspire exploration and increase bookings. We combine storytelling, design, and technology to create immersive travel experiences that capture attention and build trust.',
   sliderImages: [
-    { alt: 'Vytis Tour Case Study 1', image: '/bmyb-case-vytis-tour-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Vytis Tour Case Study 2', image: '/bmyb-case-vytis-tour-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
-    { alt: 'Vytis Tour Case Study 3', image: '/bmyb-case-vytis-tour-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-contain' },
+    { alt: 'Vytis Tour Case Study 1', image: '/bmyb-case-vytis-tour-slider-01.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Vytis Tour Case Study 2', image: '/bmyb-case-vytis-tour-slider-02.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
+    { alt: 'Vytis Tour Case Study 3', image: '/bmyb-case-vytis-tour-slider-03.webp', className: 'bg-[#1A1B2E]', imageClassName: 'object-center object-cover' },
   ],
-  growthTitle: 'Helping Travel Brands Turn Interest into Bookings',
+  growthTitle: 'Our Digital Solutions That Elevate Modern Travel & Tourism Brands',
   growthDescription:
-    'From destination storytelling to smoother booking journeys, we build digital systems that help travel and tourism brands engage, convert, and grow.',
+    'We help travel companies build strong digital presence through immersive experiences, booking systems, and storytelling-driven platforms that increase engagement and travel inquiries.',
   capabilities: [
-    { title: 'Experience-Led Websites', description: 'Visually engaging digital platforms that turn destinations, services, and offers into compelling experiences.' },
-    { title: 'Booking Journey Optimization', description: 'Clearer user flows that reduce friction and help more visitors move toward inquiry or booking.' },
-    { title: 'Brand Storytelling', description: 'Digital communication systems that make travel brands more memorable and easier to trust.' },
+    { title: 'Immersive Travel Experiences', description: 'We design visually rich platforms that showcase destinations, tours, and experiences in a way that inspires travelers to explore more and book confidently.' },
+    { title: 'Booking & Reservation Systems', description: 'We build seamless booking platforms that simplify reservations, payments, and itinerary management for travel agencies and tour operators.' },
+    { title: 'Tourism Brand Visibility', description: 'We create strong digital identities that help travel brands stand out, attract global audiences, and increase online visibility across markets.' },
   ],
-  metricTitle: 'Built to Support Discovery, Trust, and Conversion',
+  metricTitle: "Travel Industry Solutions We've Designed to Inspire Exploration and Increase Bookings",
   metricDescription:
-    'We design digital systems that help travel and tourism brands attract more interest and turn that interest into meaningful action.',
+    'We create scalable digital systems that help tourism brands improve engagement, simplify bookings, and deliver seamless travel planning experiences. Our solutions are designed to turn curiosity into confirmed travel experiences.',
   metrics: [
-    { number: '01', title: 'Visual Clarity', description: 'We present offers and experiences in a way that makes decision-making simpler.' },
-    { number: '02', title: 'Stronger Journeys', description: 'We improve how users move from browsing to inquiry or booking.' },
-    { number: '03', title: 'Brand Credibility', description: 'We build digital trust through structure, consistency, and polished experience design.' },
-    { number: '04', title: 'Scalable Platforms', description: 'Your digital foundation stays flexible as campaigns, locations, or services expand.' },
+    { number: '01', title: 'Travel Website Development', description: 'We build responsive travel websites that showcase destinations, packages, and experiences with engaging visuals and smooth navigation. Each website is optimized to inspire exploration and increase booking inquiries.' },
+    { number: '02', title: 'Tour Package Platforms', description: 'We design systems that allow users to explore, compare, and book travel packages easily and efficiently. These platforms are built to simplify decision-making and enhance user confidence.' },
+    { number: '03', title: 'Destination Marketing Systems', description: 'We create platforms that highlight destinations and attractions to increase traveler interest and engagement. These systems help tourism brands reach wider audiences and boost visibility.' },
+    { number: '04', title: 'Customer Experience Optimization', description: 'We improve user journeys to make travel planning, booking, and inquiry processes simple and enjoyable. Every interaction is designed to reduce friction and improve satisfaction.' },
   ],
-  storiesTitle: 'Travel and Tourism Digital Work Built for Real Conversion',
+  storiesTitle: 'How Our Travel Projects Helped Vytis Tours Transform Their Digital Travel Experience',
   stories: [
     {
-      title: 'Destination Storytelling',
-      description: 'Digital storytelling systems designed to create stronger emotional connection and action.',
-      name: 'Voyage Collective',
-      role: 'Brand Team',
-      showcaseImage: '/bmyb-case-vytis-tour-slider-01.webp',
+      title: 'Vytis Tour',
+      description: 'The website beautifully showcases our tours and destinations. It feels modern, engaging, and highly professional for international travelers. It significantly improved our booking inquiries and helped us attract more global customers through a better digital presence.',
+      name: 'Vytis Tour',
+      role: 'Travel Brand',
+      showcaseImage: '/bmyb-global-container-04.webp',
       showcaseAlt: 'Vytis Tour travel case study showcase',
       logoSrc: '/bmyb-case-vytis-tour-logo-01.svg',
       logoAlt: 'Vytis Tour',
       avatarSrc: '/bmyb-case-vytis-tour-logo-01.svg',
     },
   ],
-  processTitle: 'A Clear Process for Travel Brand Growth',
+  processTitle: 'Our Travel & Tourism Digital Development Process',
   processDescription:
-    'We move from strategy to execution with a travel-focused process designed around visibility, experience, and conversion.',
+    'We follow a structured, experience-driven process to help travel brands create engaging digital platforms that inspire exploration, simplify bookings, and increase global reach.',
   processSteps: [
-    { title: 'Audience Discovery', description: 'We identify traveler needs, market context, and key booking behaviors.' },
-    { title: 'Journey Mapping', description: 'We structure content and digital pathways around how users explore and decide.' },
-    { title: 'Design & Build', description: 'We create inspiring, booking-ready digital experiences supported by scalable systems.' },
-    { title: 'Performance Refinement', description: 'We optimize visibility, speed, and usability to improve outcomes over time.' },
+    { title: 'Destination & Audience Discovery', description: 'We analyze your travel brand, target audience, destinations, and offerings to build a strategy that drives engagement and bookings.' },
+    { title: 'Experience & Journey Planning', description: 'We design user journeys that highlight destinations, simplify navigation, and create an emotional connection with travelers.' },
+    { title: 'Platform Development & Integration', description: 'We build responsive travel platforms with booking systems, package listings, and seamless inquiry management features.' },
+    { title: 'Testing & Conversion Optimization', description: 'We test usability, performance, and booking flows to ensure a smooth experience and continuously improve conversion rates.' },
   ],
-  advantageTitle: 'Experience the BMYBrand Travel & Tourism Advantage',
+  processCtaTitle: 'Make Travelers Choose You Before They Even Pack.',
+  advantageTitle: 'Why Travel Brands Trust BMYBrand to Build High-Converting Digital Experiences',
   advantageCards: [
-    { eyebrow: 'Experience Focus', title: 'Built To Inspire Action', description: 'We shape digital systems that make destinations, offers, and experiences more compelling and easier to act on.' },
-    { eyebrow: 'Strategic Process', title: 'Structured Delivery For Better Conversion', description: 'We align travel brand strategy, user flow, and execution to create smoother and more effective digital journeys.' },
-    { eyebrow: 'End-to-End Support', title: 'Everything Your Travel Brand Needs', description: 'From storytelling to booking pathways, we create connected systems that support stronger digital growth.' },
-    { eyebrow: 'Scalable Execution', title: 'Built For Growth Over Time', description: 'We build digital foundations that support expanding services, campaigns, and customer expectations.' },
+    { eyebrow: 'Story-Driven Design', title: 'Story-Driven Design', description: 'We create immersive experiences that highlight destinations and inspire travelers to explore with engaging visuals, narratives, and intuitive layouts that capture attention and build excitement.' },
+    { eyebrow: 'Conversion-Focused Systems', title: 'Conversion-Focused Systems', description: 'We design platforms that turn visitors into confirmed bookings through optimized user journeys, clear calls-to-action, and simplified booking flows that reduce drop-offs.' },
+    { eyebrow: 'Fast & Mobile-Friendly Platforms', title: 'Fast & Mobile-Friendly Platforms', description: 'We ensure seamless performance across devices for on-the-go travel planning, delivering fast-loading pages and responsive designs that enhance user satisfaction everywhere.' },
+    { eyebrow: 'Scalable Travel Solutions', title: 'Scalable Travel Solutions', description: 'We build systems that grow with travel agencies and expanding tour offerings, supporting new destinations, increased traffic, and evolving business requirements without performance issues.' },
   ],
-  projectTitle: 'Travel Projects Designed for Experience and Growth',
+  projectTitle: 'Real Travel Projects Designed to Inspire Wanderlust and Engagement',
   projectDescription:
-    'Our travel and tourism work is built around inspiration, usability, and digital systems that support stronger conversion.',
+    'Our portfolio includes travel websites, tour booking platforms, and destination marketing systems designed to inspire travelers and increase bookings for tourism brands worldwide.',
   projects: [
     {
       brand: 'VYTIS TOUR',
@@ -75,24 +76,61 @@ export const travelAndTourismIndustry: IndustryItem = {
       imageClassName: 'object-cover object-center',
     },
   ],
-  servicesTitle: 'Digital Services for Travel and Tourism Brands',
+  servicesTitle: 'Our Complete Digital Solutions for Every Industry',
   servicesDescription:
-    'We support travel businesses with strategy, design, and performance-focused systems that improve both brand perception and conversion.',
+    'We help businesses grow through strategy, technology, branding, and performance-focused digital systems tailored to each stage of growth.',
   services: [
-    { title: 'Travel Website Design', description: 'Immersive, conversion-aware digital experiences for destinations and offers.', items: ['Destination Pages', 'Offer Layouts', 'Inspiration UX', 'Mobile Performance'] },
-    { title: 'Booking Experience Strategy', description: 'Simplified pathways that help users take action more confidently.', items: ['Inquiry Flow', 'Booking Paths', 'Decision Support', 'Conversion UX'] },
-    { title: 'Brand Growth Support', description: 'Digital systems that improve visibility, trust, and long-term customer connection.', items: ['Campaign Support', 'Search Visibility', 'Trust Signals', 'Experience Branding'] },
+    {
+      title: 'AI-Driven Solutions',
+      description:
+        'We build intelligent AI systems that help businesses automate processes, improve decision-making, and scale operations efficiently. As a leading AI automation agency in the USA, we develop practical, real-world solutions that drive measurable business impact.',
+      items: ['AI automation solutions', 'Custom AI development', 'AI integration services', 'Enterprise AI systems', 'AI customer service tools', 'Workflow automation', 'Data intelligence systems', 'Business AI solutions'],
+    },
+    {
+      title: 'Brand Experience',
+      description:
+        'We create powerful brand identities that define how your business looks, feels, and communicates across every touchpoint. As a digital branding agency, we build strategic and visual systems that help businesses stand out, stay consistent, and grow with confidence.',
+      items: ['Brand strategy', 'Logo design', 'Visual identity', 'Brand messaging', 'Brand guidelines', 'Brand positioning', 'Brand experience design', 'Rebranding solutions'],
+    },
+    {
+      title: 'Software Development',
+      description:
+        'We build custom software solutions that help businesses streamline operations, improve efficiency, and scale digitally. From web applications to enterprise systems, we develop secure, high-performance software tailored to your business needs and long-term growth.',
+      items: ['Custom software development', 'Web applications', 'Mobile app development', 'API development', 'System architecture', 'Cloud-based solutions', 'Enterprise software', 'Software maintenance & support'],
+    },
+    {
+      title: 'Commerce Solutions',
+      description:
+        'We build end-to-end commerce solutions that help businesses sell smarter, scale faster, and deliver seamless customer experiences. From online stores to integrated commerce systems, we create platforms designed to increase conversions, streamline operations, and support long-term growth.',
+      items: ['E-commerce website development', 'Online store design', 'Payment gateway integration', 'Product catalog management', 'Shopping cart systems', 'Order management solutions', 'Conversion optimization', 'Multi-platform commerce integration'],
+    },
+    {
+      title: 'Digital Marketing',
+      description:
+        'We help brands grow online through strategic and performance-driven marketing. Our focus is on visibility, engagement, and conversions across all digital channels. We use data-backed strategies to ensure measurable results and consistent growth. Every campaign is designed to strengthen your brand presence and maximize ROI across platforms.',
+      items: ['SEO optimization', 'Content strategy', 'Social media marketing', 'Paid advertising', 'Email marketing', 'Brand awareness campaigns', 'Lead generation', 'Performance tracking'],
+    },
+    {
+      title: 'Business Operations',
+      description:
+        'We help businesses improve internal operations through structured systems, automation, and digital tools. Our solutions are designed to reduce inefficiencies, improve productivity, and support smooth day-to-day business management. We focus on creating scalable operational frameworks that align teams and processes. This ensures businesses run more efficiently with less friction and better control over performance.',
+      items: ['Operational consulting', 'Workflow management', 'Process optimization', 'Resource planning', 'Performance tracking', 'Business automation', 'Internal systems setup', 'Efficiency improvement'],
+    },
   ],
+  spotlightTitle: 'Hear From Industry Leaders Who Trust Our Digital Solutions',
+  spotlightDescription:
+    'We showcase real feedback from businesses and organizations across different industries who have experienced improved performance, operational efficiency, and digital transformation through our solutions. Their success stories reflect the impact of our work in delivering scalable, reliable, and results-driven digital systems.',
   spotlightItems: [
     { title: 'Designing Travel Experiences That Convert Interest Into Action', description: 'We build destination-focused digital systems that inspire users and guide them toward booking or inquiry with more confidence.', name: 'Voyage Collective', role: 'Travel Brand' },
     { title: 'Helping Tourism Brands Communicate More Clearly Online', description: 'We improve digital storytelling, structure, and usability so travel offers feel more compelling and easier to understand.', name: 'Skyline Tours', role: 'Tourism Experience' },
     { title: 'Improving Booking Readiness Through Better UX And Messaging', description: 'A stronger digital journey can reduce hesitation and help more visitors move toward conversion.', name: 'Escape Route', role: 'Booking Experience' },
     { title: 'Building Flexible Systems For Growing Travel Brands', description: 'We create digital foundations that scale with campaigns, routes, offers, and customer expectations.', name: 'Northbound Travel', role: 'Digital Growth' },
   ],
-  faqTitle: 'Questions Travel Brands Commonly Ask',
+  industriesHeroTitle: 'We Offer Digital Solutions for High-Impact Industries',
+  faqTitle: 'Frequently Asked Questions',
   faqs: [
-    { question: 'Can you help improve our booking experience?', answer: 'Yes. We can simplify user flow, clarify messaging, and improve the journey from discovery to action.' },
-    { question: 'Do you work with travel and tourism brands of different sizes?', answer: 'Yes. We support a range of travel businesses with scalable digital strategy, design, and development.' },
-    { question: 'Can you help us present our brand more professionally online?', answer: 'We help travel brands strengthen digital storytelling, visual consistency, and trust across the user experience.' },
+    { question: 'Do you build websites for travel agencies?', answer: 'Yes, we create travel websites and booking platforms for tour operators and tourism brands. Our websites are designed to inspire travelers and increase booking inquiries.' },
+    { question: 'Can you build tour booking systems?', answer: 'Yes, we develop booking systems that allow users to explore and reserve travel packages easily. These systems ensure smooth navigation and hassle-free travel planning experiences.' },
+    { question: 'Do you help improve tourism brand visibility?', answer: 'Yes, we create digital strategies and platforms that increase destination visibility and traveler engagement. Our solutions help travel brands reach a wider global audience effectively.' },
   ],
 }

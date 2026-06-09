@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const FullyAnimatedGrid: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const showTimer = useRef<number | null>(null);
   const collapseTimer = useRef<number | null>(null);
@@ -52,8 +54,33 @@ const FullyAnimatedGrid: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      const matches = "matches" in event ? event.matches : mediaQuery.matches;
+      setIsDesktop(matches);
+    };
+
+    handleChange(mediaQuery);
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (showTimer.current) window.clearTimeout(showTimer.current);
+
+    if (!isDesktop) {
+      hasTriggered.current = false;
+      setIsHovered(false);
+      setShowContent(false);
+    }
+  }, [isDesktop]);
+
+  useEffect(() => {
     const element = gridRef.current;
-    if (!element) return;
+    if (!element || !isDesktop) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -68,13 +95,13 @@ const FullyAnimatedGrid: React.FC = () => {
           observer.disconnect();
         }
       },
-      { threshold: 0.7 }
+      { threshold: 0.3 }
     );
 
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [expansionDelay]);
+  }, [expansionDelay, isDesktop]);
 
   const leftItems = [
     {
@@ -135,7 +162,7 @@ const FullyAnimatedGrid: React.FC = () => {
             Everything Your <span className="text-[#F45B25]">Business Needs</span> Under One Roof
           </h2>
           <p className="text-center text-base text-[#ADAECC]">
-            BMYBrand delivers smart, practical solutions that help businesses grow in the digital world. Our services are built to make your<br /> brand stronger, more visible, and more effective.
+            BmyBrand delivers smart, practical solutions that help businesses grow in the digital world. Our services are built to make your<br /> brand stronger, more visible, and more effective.
           </p>
         </div>
       </div>
@@ -202,7 +229,7 @@ const FullyAnimatedGrid: React.FC = () => {
         >
           <div className="flex w-full flex-col items-center lg:hidden">
             <img
-              src="/bmyb-global-character-2-1-01-mobile.png"
+              src="/bmyb-global-character-2-1-01-mobile.webp"
               alt=""
               width="260"
               height="242"
@@ -213,9 +240,12 @@ const FullyAnimatedGrid: React.FC = () => {
             <h2 className="mb-4 text-center text-sm md:text-lg lg:text-lg 2xl:text-2xl BenzinSemibold leading-relaxed">
               Our Services Designed for Real Business Growth
             </h2>
-            <button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
+            <Link
+              href="/contact"
+              className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-center text-lg text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold"
+            >
               Get Started Now
-            </button>
+            </Link>
           </div>
 
           <AnimatePresence>
@@ -260,9 +290,12 @@ const FullyAnimatedGrid: React.FC = () => {
                   Our Services Designed for Real Business Growth
                 </motion.h2>
 
-                <motion.button className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-lg text-white transition-all duration-300 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold">
+                <Link
+                  href="/contact"
+                  className="w-full rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-4 text-center text-lg text-white transition-all duration-300 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] BenzinSemibold"
+                >
                   Get Started Now
-                </motion.button>
+                </Link>
               </motion.div>
             )}
           </AnimatePresence>

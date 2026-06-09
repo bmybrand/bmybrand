@@ -50,6 +50,9 @@ const BrandStats = () => {
         <img
           src="/bmyb-global-flybearbg-01.svg"
           alt=""
+          loading="lazy"
+          width={1600}
+          height={900}
           className="absolute inset-0 h-full w-full scale-125 object-cover transition-transform duration-1400 ease-out"
           style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
         />
@@ -78,6 +81,9 @@ const BrandStats = () => {
           <img
             src="/bmyb-global-superherobearsky-01.svg"
             alt="BMY Brand character"
+            loading="lazy"
+            width={720}
+            height={720}
             className={`relative z-50 lg:-bottom-8 lg:w-2/5 lg:scale-140 ${bearIn ? 'animate-bearFlyIn' : 'opacity-0 -translate-x-12 translate-y-10'}`}
           />
         </div>

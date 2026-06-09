@@ -76,7 +76,7 @@ export default function ContactCTA({ compact = false }: { compact?: boolean }) {
             >
               <img 
                 src="/bmyb-global-cta-character-1-01.webp" 
-                alt="BMYBrand Bear Superhero" 
+                alt="BmyBrand Bear Superhero" 
                 className="w-64 md:w-80 lg:w-96 h-auto object-contain relative z-20"
               />
 

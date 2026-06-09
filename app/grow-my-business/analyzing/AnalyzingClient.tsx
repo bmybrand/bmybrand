@@ -175,7 +175,7 @@ export default function AnalyzingClient({ site }: { site?: string }) {
                 <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
                   <img
                     src="/bmyb-logo-bmylogo-01.svg"
-                    alt="BMYBrand Logo"
+                    alt="BmyBrand Logo"
                     className="w-32 h-32 opacity-60"
                     style={
                       !logoHidden

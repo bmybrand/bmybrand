@@ -8,44 +8,44 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Logos = [
   {
-    normal: "/bmyb-logo-abboott-01.svg",
-    hover: "/bmyb-logo-abboott-svg-01.svg",
+    normal: "/bmyb-logo-abboott-fill-01.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-01.webp",
   },
   {
-    normal: "/bmyb-logo-mask-group-03.svg",
-    hover: "/bmyb-logo-mask-group-02.svg",
+    normal: "/bmyb-logo-abboott-fill-02.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-02.webp",
   },
   {
-    normal: "/bmyb-logo-client-logo3-01.svg",
-    hover: "/bmyb-logo-client-logo3-01.svg",
+    normal: "/bmyb-logo-abboott-fill-03.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-03.webp",
   },
   {
-    normal: "/bmyb-logo-vector-14.svg",
-    hover: "/bmyb-logo-vector-06.webp",
+    normal: "/bmyb-logo-abboott-fill-04.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-04.webp",
   },
   {
-    normal: "/bmyb-logo-client-logo5-01.svg",
-    hover: "/bmyb-logo-client-logo5-svg-01.webp",
+    normal: "/bmyb-logo-abboott-fill-05.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-05.webp",
   },
   {
-    normal: "/bmyb-logo-client-logo6-01.svg",
-    hover: "/bmyb-logo-client-logo6-svg-01.webp",
+    normal: "/bmyb-logo-abboott-fill-06.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-06.webp",
   },
   {
-    normal: "/bmyb-logo-vector-03.svg",
-    hover: "/bmyb-logo-vector-07.webp",
+    normal: "/bmyb-logo-abboott-fill-07.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-07.webp",
   },
   {
-    normal: "/bmyb-logo-universal-02.svg",
-    hover: "/bmyb-logo-universal-01.webp",
+    normal: "/bmyb-logo-abboott-fill-08.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-08.webp",
   },
   {
-    normal: "/bmyb-logo-client-logo9-svg-fill-02.svg",
-    hover: "/bmyb-logo-client-logo9-svg-fill-01.webp",
+    normal: "/bmyb-logo-abboott-fill-09.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-09.webp",
   },
   {
-    normal: "/bmyb-logo-mask-group-01.svg",
-    hover: "/bmyb-logo-mask-group-04.svg",
+    normal: "/bmyb-logo-abboott-fill-10.webp",
+    hover: "/bmyb-logo-abboott-fill-hover-10.webp",
   },
 ];
 

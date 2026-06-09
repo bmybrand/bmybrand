@@ -1,18 +1,18 @@
 import dynamic from 'next/dynamic'
 import Heropage from "@/components/heropage";
 import Navbar from "@/components/navbar";
-import Addblock from "@/components/addblock";
-import Ourbranding from "@/components/ourbranding";
-import BottomCTA from "@/components/bottomcta";
 const Logobar = dynamic(() => import("@/components/logobar"))
 const Flyingbear = dynamic(() => import("@/components/flyingbear"))
+const Addblock = dynamic(() => import("@/components/addblock"))
+const Ourbranding = dynamic(() => import("@/components/ourbranding"))
 const StackingCards = dynamic(() => import("@/components/stackingcards"))
 const DesignedGrow = dynamic(() => import("@/components/designedgrow"))
-const Footer = dynamic(() => import("@/components/footer"))
+const BottomCTA = dynamic(() => import("@/components/bottomcta"))
 const Technologies = dynamic(() => import("@/components/technologies"))
 const CreativeProcess = dynamic(() => import("@/components/creativeprocess"))
 const Brandsspec = dynamic(() => import("@/components/brandsspec"))
 const RequestForm = dynamic(() => import("@/components/requestform"))
+const Footer = dynamic(() => import("@/components/footer"))
 const Map = dynamic(() => import("@/components/map"))
 
 // Map component temporarily disabled to avoid conflicts with horizontal scroll

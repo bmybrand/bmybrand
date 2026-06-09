@@ -160,7 +160,7 @@ const AboutBmy = () => {
           </h2>
 
           <p className="mt-5 text-base sm:text-lg text-white/70">
-            At BMYBrand, we bring over 10+ years of experience in designing and developing digital solutions that are clear, purposeful, and performance-driven. Every project we take on is shaped by a deep understanding of business needs, user behavior, and long-term goals. Our approach ensures that every solution is not just visually strong but also functional, scalable, and built to deliver measurable results across industries.
+            At BmyBrand, we bring over 10+ years of experience in designing and developing digital solutions that are clear, purposeful, and performance-driven. Every project we take on is shaped by a deep understanding of business needs, user behavior, and long-term goals. Our approach ensures that every solution is not just visually strong but also functional, scalable, and built to deliver measurable results across industries.
           </p>
           <div className="mt-8 border-t border-white/10 pt-6">
             <div className="flex items-center gap-4">
@@ -168,9 +168,11 @@ const AboutBmy = () => {
                 {[0, 1, 2, 3].map((i) => (
                   <img
                     key={i}
-                    src={`https://picsum.photos/seed/avatar${i}/44/44`}
+                    src={services[i]?.image ?? ''}
                     alt={`avatar ${i + 1}`}
                     loading="lazy"
+                    width={44}
+                    height={44}
                     className="h-11 w-11 rounded-full border-2 border-white object-cover"
                   />
                 ))}
@@ -216,7 +218,10 @@ const AboutBmy = () => {
                 >
                   <img
                     src={services[index]?.image ?? ''}
-                    alt={`About BMYBrand ${index + 1}`}
+                    alt={`About BmyBrand ${index + 1}`}
+                    loading="lazy"
+                    width={560}
+                    height={920}
                     className="h-full w-full object-cover"
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -269,8 +274,11 @@ const AboutBmy = () => {
               className="group relative overflow-hidden rounded-2xl bg-[#1A1B3C] shadow-[0_18px_35px_rgba(0,0,0,0.35)]"
             >
               <img
-                src={`https://picsum.photos/520/550?random=${index + 11}`}
+                src={service.image}
                 alt={service.title}
+                loading="lazy"
+                width={520}
+                height={550}
                 className="h-80 w-full object-cover transition-transform duration-500 group-hover:scale-105 lg:h-[460px]"
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

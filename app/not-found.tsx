@@ -106,7 +106,7 @@ export default function NotFound() {
             <Link href="/" className="text-white font-bold text-xl">
               <img
                 src="/bmyb-services-brand-bmybrand-01-01.svg"
-                alt="BMYBrand"
+                alt="BmyBrand"
                 className="h-8 sm:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto"
               />
             </Link>

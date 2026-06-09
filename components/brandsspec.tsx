@@ -15,7 +15,7 @@ const reviewsRow1: Review[] = [
     name: 'Daniel Reeves',
     title: 'Client',
     testimonial:
-      'BMYBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
+      'BmyBrand built our website perfectly, with a smooth experience, great design, and everything works exactly how our business needed it.',
   },
   {
     name: 'Hannah Brooks',
@@ -128,6 +128,8 @@ export default function Brandsspec() {
       const icon = document.createElement('img')
       icon.src = '/bmyb-global-quote-01.svg'
       icon.alt = ''
+      icon.width = 48
+      icon.height = 48
       icon.className = 'ml-auto w-12'
       header.appendChild(icon)
 
@@ -270,7 +272,7 @@ export default function Brandsspec() {
     <div className="min-h-screen flex flex-col justify-center gap-8 py-20 bg-[#11122F]">
       <div className="text-center w-[90%] mx-auto px-6">
         <h1 className="text-white text-2xl lg:text-3xl xl:text-4xl 2xl:text-[42px] BenzinSemibold mb-6">
-          What People Say <span className="text-[#F45B25]">About BMYBrand</span>
+          What People Say <span className="text-[#F45B25]">About BmyBrand</span>
         </h1>
         <p className="text-[#ADAECC] text-sm sm:text-base max-w-2xl mx-auto">
           Our clients share their real experiences working with us, highlighting trust, results, and long-term collaboration.
@@ -278,10 +280,14 @@ export default function Brandsspec() {
       </div>
 
       <div className="relative overflow-hidden w-full">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
         <div ref={row1Ref} className="flex gap-4 md:gap-5" />
       </div>
 
       <div className="relative overflow-hidden w-full">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#11122F] via-[#11122F]/90 to-transparent sm:w-14 md:w-20" />
         <div ref={row2Ref} className="flex gap-4 md:gap-5" />
       </div>
     </div>

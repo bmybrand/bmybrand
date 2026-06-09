@@ -1,36 +1,31 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function HerobarBrand() {
-  const router = useRouter()
-  const sectionRef = React.useRef<HTMLElement | null>(null)
-  const [shouldRenderVideo, setShouldRenderVideo] = React.useState(false)
+  const [showVideo, setShowVideo] = React.useState(false)
 
   React.useEffect(() => {
-    const node = sectionRef.current
-    if (!node) return
+    const connection = (navigator as Navigator & {
+      connection?: { saveData?: boolean }
+    }).connection
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShouldRenderVideo(entry.isIntersecting)
-      },
-      {
-        root: null,
-        rootMargin: '200px 0px',
-        threshold: 0,
-      }
-    )
+    if (connection?.saveData) return
 
-    observer.observe(node)
-    return () => observer.disconnect()
+    const timer = window.setTimeout(() => {
+      setShowVideo(true)
+    }, 3200)
+
+    return () => {
+      window.clearTimeout(timer)
+    }
   }, [])
   
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
+    <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#11122F]">
       <div className="absolute inset-0">
-        {shouldRenderVideo ? (
+        {showVideo ? (
           <video
             autoPlay
             muted
@@ -42,9 +37,8 @@ export default function HerobarBrand() {
             <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
           </video>
         ) : (
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,91,37,0.16),transparent_36%),linear-gradient(180deg,#171832_0%,#11122F_100%)]" />
+          <div className="absolute inset-0 bg-[#11122F]" />
         )}
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#11122F]/50 to-[#11122F]" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto text-center pt-32 pb-20">
@@ -53,21 +47,21 @@ export default function HerobarBrand() {
         </h1>
         
         <p className="text-[#ADAECC] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed">
-          BMYBrand is a digital branding agency delivering strategic brand identity development services and branding and logo design services that help businesses create a clear, memorable, and consistent brand presence across digital platforms.
+          BmyBrand is a digital branding agency delivering strategic brand identity development services and branding and logo design services that help businesses create a clear, memorable, and consistent brand presence across digital platforms.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-2 BenzinSemibold justify-center items-center">
-          <button
-            onClick={() => router.push('/request')}
+          <Link
+            href="/contact"
             className="bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 flex justify-center items-center gap-2 BenzinSemibold"
           >
             <div className="bg-white p-4 rounded-lg">
               <img src="/bmyb-logo-group1190-01.svg" alt="" className="w-4 h-4" />
             </div>
             <span className="px-2">Start Your Project</span>
-          </button>
-          <button
-            onClick={() => router.push('/case-studies')}
+          </Link>
+          <Link
+            href="/case-studies"
             className="border border-white text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 flex justify-center items-center gap-2 BenzinSemibold"
           >
             <div className="bg-white p-4 rounded-lg">
@@ -76,7 +70,7 @@ export default function HerobarBrand() {
               </svg>
             </div>
             <span className="px-2">View Our Work</span>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

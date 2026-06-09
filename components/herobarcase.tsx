@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Image from 'next/image'
 
 const herobar = () => {
@@ -8,16 +8,6 @@ const herobar = () => {
   const overlayRef = useRef<HTMLDivElement | null>(null)
   const bearRef = useRef<HTMLDivElement | null>(null)
   const frameRef = useRef<number | null>(null)
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    setLoaded(true)
-    return () => {
-      if (frameRef.current !== null) {
-        cancelAnimationFrame(frameRef.current)
-      }
-    }
-  }, [])
 
   const handleMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const container = containerRef.current
@@ -53,25 +43,11 @@ const herobar = () => {
     >
         <div
           ref={overlayRef}
-          className="absolute inset-0 h-full w-full scale-125 opacity-20 transition-transform duration-700 ease-out"
-        >
-          <Image
-            src="/bmyb-global-spaceoverlay-01.svg"
-            alt=""
-            fill
-            priority
-            fetchPriority="high"
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
+          className="pointer-events-none absolute inset-0 h-full w-full scale-125 bg-[url('/bmyb-global-spaceoverlay-01.svg')] bg-cover bg-center opacity-20 transition-transform duration-700 ease-out"
+        />
 
         <div className="relative flex flex-col lg:flex-row w-[90%] 2xl:w-[85%] h-full pt-30  items-center">
-        <div
-          className={`relative z-10 flex flex-col  gap-4 py-10 lg:py-0 lg:w-1/2 transition-all duration-700 ease-out ${
-            loaded ? 'translate-x-0 opacity-100' : 'translate-x-24 opacity-0'
-          }`}
-        >
+        <div className="relative z-10 flex flex-col gap-4 py-10 lg:w-1/2 lg:py-0">
             <h1 className="BenzinSemibold text-4xl sm:text-5xl lg:text-6xl text-white">
               Our Case Studies
             </h1>
@@ -81,9 +57,7 @@ const herobar = () => {
         </div>
         <div
           ref={bearRef}
-          className={`relative z-10 flex justify-end items-end lg:absolute lg:bottom-0 lg:right-0 lg:h-full lg:w-1/2 transition-all duration-1000 ease-out ${
-            loaded ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
-          }`}
+          className="relative z-10 flex items-end justify-end lg:absolute lg:bottom-0 lg:right-0 lg:h-full lg:w-1/2"
         >
             <Image
               src="/bmyb-case-studies-hero-01.webp"

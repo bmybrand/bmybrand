@@ -76,7 +76,7 @@ const herobarserv = () => {
             What We Offer
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-            BMYBrand helps businesses grow through a powerful mix of branding, design, development, and AI-driven solutions. As a full-service digital branding agency, we create everything from strong brand identities and websites to intelligent automation systems.
+            BmyBrand helps businesses grow through a powerful mix of branding, design, development, and AI-driven solutions. As a full-service digital branding agency, we create everything from strong brand identities and websites to intelligent automation systems.
             </p>
             
         </div>

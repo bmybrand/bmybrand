@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 
 const herobar = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -30,11 +31,14 @@ const herobar = () => {
       onMouseMove={handleMove}
     >
         <img
-  src="/bmyb-global-spaceoverlay-01.svg"
-  alt=""
-  className="absolute scale-125 inset-0 h-full w-full object-cover opacity-20 transition-transform duration-700 ease-out"
-  style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
-/>
+          src="/bmyb-global-spaceoverlay-01.svg"
+          alt=""
+          loading="eager"
+          width={1600}
+          height={900}
+          className="absolute inset-0 h-full w-full scale-125 object-cover opacity-20 transition-transform duration-700 ease-out"
+          style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
+        />
 
         <div className="relative flex flex-col lg:flex-row w-[90%] 2xl:w-[85%] h-full pt-30  items-center">
         <div
@@ -46,7 +50,7 @@ const herobar = () => {
               Get to Know Us
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-2xl">
-              At BMYBrand, we combine strategy, creativity, and technology to build digital experiences that feel purposeful, functional, and future-ready. From startups to established businesses, we work closely with brands to create solutions that support long-term success through thoughtful design, modern development, and result-focused execution.
+              At BmyBrand, we combine strategy, creativity, and technology to build digital experiences that feel purposeful, functional, and future-ready. From startups to established businesses, we work closely with brands to create solutions that support long-term success through thoughtful design, modern development, and result-focused execution.
             </p>
             
         </div>
@@ -56,7 +60,16 @@ const herobar = () => {
           }`}
           style={{ transform: `translate3d(${-offset.x}px, ${-offset.y}px, 0)` }}
         >
-            <img src="/bmyb-global-about-hero-01.webp" alt="About us" className="h-auto max-h-full w-full object-contain lg:pt-30 pt-10" />
+            <Image
+              src="/bmyb-global-about-hero-01.webp"
+              alt="About us"
+              width={528}
+              height={492}
+              priority
+              fetchPriority="high"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="h-auto max-h-full w-full object-contain pt-10 lg:pt-30"
+            />
         </div>
         </div>
     </div> 

@@ -16,7 +16,7 @@ export const businessOperationsServiceData: ServicePageData = {
     { title: 'Scalable Business Systems' },
     { title: 'E-commerce Operations Management' },
   ],
-  bannerImage: '/bmyb-services-service-banner-01.webp',
+  bannerImage: '/bmyb-services-business-banner-01.webp',
   bannerAlt: 'Business operations',
   overviewTitle: 'Smarter Operations for Better Business Performance',
   overviewDescription:
@@ -49,7 +49,7 @@ export const businessOperationsServiceData: ServicePageData = {
       desc: 'We optimize ecommerce business operation management services for inventory, orders, and customer workflows.',
     },
   ],
-  overviewImage: '/bmyb-services-ai-aioverview-01.webp',
+  overviewImage: '/bmyb-services-business-overview-01.webp',
   overviewImageAlt: 'Business operations systems',
   benefitsTitle: 'Why Strong Business Operations Matter',
   benefitsCards: [
@@ -99,8 +99,8 @@ export const businessOperationsServiceData: ServicePageData = {
     'Transform your workflows with structured, scalable, and efficient digital business operations services designed to improve performance and reduce operational complexity.',
   faqTitle: 'Frequently Asked Questions',
   faqImages: [
-    { src: '/bmyb-services-servicefaq-01.webp', alt: 'Business operations planning' },
-    { src: '/bmyb-services-servicefaq2-01.webp', alt: 'Process automation systems' },
+    { src: '/bmyb-services-business-faq-01.webp', alt: 'Business operations planning' },
+    { src: '/bmyb-services-business-faq-02.webp', alt: 'Process automation systems' },
   ],
   faqs: [
     {

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
+import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { getMysqlErrorDetails } from '@/lib/mysql'
 import { saveStrategyCallBooking } from '@/lib/strategy-call-save'
+import { isValidWebsiteUrl, normalizeWebsiteUrl } from '@/lib/website-url'
 
 type StrategyCallPayload = {
   email: string
@@ -40,7 +42,7 @@ export async function POST(request: Request) {
     countryCode: body.countryCode?.trim(),
     phone: body.phone?.trim(),
     companyName: body.companyName?.trim(),
-    websiteUrl: body.websiteUrl?.trim(),
+    websiteUrl: normalizeWebsiteUrl(body.websiteUrl ?? ''),
     budget: body.budget?.trim(),
     callNotes: body.callNotes?.trim(),
     source: body.source?.trim(),
@@ -54,7 +56,6 @@ export async function POST(request: Request) {
     !payload.name ||
     !payload.phone ||
     !payload.companyName ||
-    !payload.websiteUrl ||
     !payload.budget ||
     !payload.callNotes ||
     !payload.source ||
@@ -65,6 +66,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'All required fields must be provided.' }, { status: 400 })
   }
 
+  if (!isValidWebsiteUrl(payload.websiteUrl)) {
+    return NextResponse.json({ error: 'Enter a valid website URL.' }, { status: 400 })
+  }
+
   if (!isValidEmail(payload.email)) {
     return NextResponse.json({ error: 'Enter a valid email address.' }, { status: 400 })
   }
@@ -73,23 +78,54 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid appointment date.' }, { status: 400 })
   }
 
-  try {
-    const { id, mode } = await saveStrategyCallBooking({
-      email: payload.email,
-      name: payload.name,
-      countryCode: payload.countryCode ?? '',
-      phone: payload.phone,
-      companyName: payload.companyName,
-      websiteUrl: payload.websiteUrl,
-      budget: payload.budget,
-      callNotes: payload.callNotes,
-      source: payload.source,
-      appointmentDate: payload.appointmentDate,
-      appointmentTime: payload.appointmentTime,
-      timezone: payload.timezone,
-    })
+  const booking = {
+    email: payload.email,
+    name: payload.name,
+    countryCode: payload.countryCode ?? '',
+    phone: payload.phone,
+    companyName: payload.companyName,
+    websiteUrl: payload.websiteUrl,
+    budget: payload.budget,
+    callNotes: payload.callNotes,
+    source: payload.source,
+    appointmentDate: payload.appointmentDate,
+    appointmentTime: payload.appointmentTime,
+    timezone: payload.timezone,
+  }
 
-    return NextResponse.json({ ok: true, id, mode })
+  try {
+    const { id, mode } = await saveStrategyCallBooking(booking)
+
+    let calendarCreated = false
+    let calendarEventId: string | null = null
+    let calendarError: string | null = null
+    let calendarReason: string | null = null
+
+    try {
+      const calendar = await createStrategyCallCalendarEvent(booking)
+      if (calendar.created) {
+        calendarCreated = true
+        calendarEventId = calendar.eventId ?? null
+      } else if (calendar.reason === 'not_configured') {
+        calendarReason = 'not_configured'
+        calendarError =
+          'Google Calendar env vars are not set on this server (add them in Vercel if deploying).'
+      }
+    } catch (err) {
+      calendarError =
+        err instanceof Error ? err.message : 'Google Calendar request failed'
+      console.error('[strategy-call] Google Calendar failed:', err)
+    }
+
+    return NextResponse.json({
+      ok: true,
+      id,
+      mode,
+      calendarCreated,
+      calendarEventId,
+      ...(calendarError ? { calendarError } : {}),
+      ...(calendarReason ? { calendarReason } : {}),
+    })
   } catch (error) {
     const details = getMysqlErrorDetails(error)
     console.error('[strategy-call] Database insert failed:', details)
