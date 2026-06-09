@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { subscribeToSession, unsubscribeChannel } from '@/lib/supabase/realtime'
 import { useChatSession } from './useChatSession'
 import { useChatMessages } from './useChatMessages'
@@ -27,25 +27,37 @@ export function useChatState() {
     }
   }, [session.sessionId, messages.messages.length, messages.loadHistory])
 
+  // Guards against duplicate/concurrent sends — e.g. double-clicking a preset
+  // or the send button before the first message has flipped the UI to a
+  // streaming/loading state. Held across the whole send (session creation +
+  // streaming) and released in finally.
+  const sendingRef = useRef(false)
+
   // Send message with state sync — auto-creates session on first message
   const sendMessage = async (content: string) => {
-    let activeSessionId = session.sessionId
+    if (sendingRef.current) return { error: 'A message is already being sent' }
+    sendingRef.current = true
+    try {
+      let activeSessionId = session.sessionId
 
-    // Create session on the fly if none exists yet
-    if (!activeSessionId) {
-      const created = await session.createSession()
-      if (!created) return { error: 'Failed to create session' }
-      activeSessionId = created.sessionId
+      // Create session on the fly if none exists yet
+      if (!activeSessionId) {
+        const created = await session.createSession()
+        if (!created) return { error: 'Failed to create session' }
+        activeSessionId = created.sessionId
+      }
+
+      messages.addLocalMessage('user', content)
+      const result = await messages.sendMessage(content, activeSessionId)
+
+      if (result.state) {
+        session.updateState(result.state)
+      }
+
+      return result
+    } finally {
+      sendingRef.current = false
     }
-
-    messages.addLocalMessage('user', content)
-    const result = await messages.sendMessage(content, activeSessionId)
-
-    if (result.state) {
-      session.updateState(result.state)
-    }
-
-    return result
   }
 
   return {

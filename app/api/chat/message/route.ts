@@ -118,48 +118,81 @@ export async function POST(request: NextRequest) {
       const encoder = new TextEncoder()
       let fullResponse = ''
 
+      // Strip control markers ([HANDOFF_REQUESTED]/[BOOKING_REQUESTED]) from the
+      // streamed text so visitors never see them, while still detecting them for
+      // state routing. A carry buffer holds back any tail that could be the start
+      // of a marker split across token chunks, so partial markers never leak.
+      const MARKER_RE = /\[(?:HANDOFF_REQUESTED|BOOKING_REQUESTED)\]/g
+      const isMarkerPrefix = (s: string) =>
+        '[HANDOFF_REQUESTED]'.startsWith(s) || '[BOOKING_REQUESTED]'.startsWith(s)
+      let carry = ''
+      let sawHandoff = false
+      let sawBooking = false
+
+      const pump = (incoming: string, isFinal: boolean): string => {
+        carry = (carry + incoming).replace(MARKER_RE, (m) => {
+          if (m.includes('HANDOFF')) sawHandoff = true
+          else sawBooking = true
+          return ''
+        })
+        if (isFinal) {
+          const out = carry
+          carry = ''
+          return out
+        }
+        const idx = carry.lastIndexOf('[')
+        if (idx !== -1 && isMarkerPrefix(carry.slice(idx))) {
+          const out = carry.slice(0, idx)
+          carry = carry.slice(idx)
+          return out
+        }
+        const out = carry
+        carry = ''
+        return out
+      }
+
       const readable = new ReadableStream({
         async start(controller) {
           try {
             for await (const chunk of stream) {
               const text = chunk.choices[0]?.delta?.content || ''
-              if (text) {
-                fullResponse += text
+              if (!text) continue
+              const emit = pump(text, false)
+              if (emit) {
+                fullResponse += emit
                 controller.enqueue(
-                  encoder.encode(`data: ${JSON.stringify({ text })}\n\n`)
+                  encoder.encode(`data: ${JSON.stringify({ text: emit })}\n\n`)
                 )
               }
             }
+            const tail = pump('', true)
+            if (tail) {
+              fullResponse += tail
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: tail })}\n\n`))
+            }
 
-            // Send done event
+            // Route based on any markers the model emitted (rare now that the
+            // prompt forbids them; detectIntent already handles escalation).
+            let finalState = result.newState
+            const sessionPatch: Record<string, unknown> = {}
+            if (sawHandoff) {
+              finalState = 'HANDOFF_REQUESTED'
+              sessionPatch.status = 'handoff_pending'
+            } else if (sawBooking) {
+              finalState = 'BOOKING'
+            }
+
             controller.enqueue(
-              encoder.encode(
-                `data: ${JSON.stringify({ done: true, state: result.newState })}\n\n`
-              )
+              encoder.encode(`data: ${JSON.stringify({ done: true, state: finalState })}\n\n`)
             )
             controller.close()
 
-            // Save complete response to DB after stream finishes
             if (fullResponse.trim()) {
-              // Check for special markers in the response
-              let finalState = result.newState
-              const sessionPatch: Record<string, unknown> = {}
-
-              if (fullResponse.includes('[HANDOFF_REQUESTED]')) {
-                finalState = 'HANDOFF_REQUESTED'
-                sessionPatch.status = 'handoff_pending'
-                fullResponse = fullResponse.replace('[HANDOFF_REQUESTED]', '').trim()
-              } else if (fullResponse.includes('[BOOKING_REQUESTED]')) {
-                finalState = 'BOOKING'
-                fullResponse = fullResponse.replace('[BOOKING_REQUESTED]', '').trim()
-              }
-
               await supabaseAdmin.from('chat_messages').insert({
                 session_id: sessionId,
                 role: 'assistant',
-                content: fullResponse,
+                content: fullResponse.trim(),
               })
-
               if (Object.keys(sessionPatch).length > 0 || finalState !== result.newState) {
                 await supabaseAdmin
                   .from('chat_sessions')

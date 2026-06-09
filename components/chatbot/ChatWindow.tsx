@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
 import type { ChatMessage as ChatMessageType } from '@/types/chat'
@@ -30,11 +30,21 @@ export default function ChatWindow({
   onSend,
 }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null)
+  // Locks the preset buttons the moment one is tapped, so a fast double-click
+  // can't fire two sends during the brief session-creation gap.
+  const [presetSent, setPresetSent] = useState(false)
 
   // Auto-scroll to bottom on new messages or streaming updates
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages.length, streamingText, agentTyping])
+
+  const handlePreset = (msg: string) => {
+    if (presetSent) return
+    setPresetSent(true)
+    // Re-enable if the send fails and the welcome screen is still showing.
+    Promise.resolve(onSend(msg)).finally(() => setPresetSent(false))
+  }
 
   const showWelcome = messages.length === 0 && !isStreaming && !botThinking
 
@@ -56,8 +66,9 @@ export default function ChatWindow({
             {PRESET_MESSAGES.map((msg) => (
               <button
                 key={msg}
-                onClick={() => onSend(msg)}
-                className="text-sm text-white/80 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 hover:bg-white/10 hover:border-white/20 transition-colors cursor-pointer"
+                onClick={() => handlePreset(msg)}
+                disabled={presetSent}
+                className="text-sm text-white/80 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 hover:bg-white/10 hover:border-white/20 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {msg}
               </button>
