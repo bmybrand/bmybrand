@@ -1,31 +1,43 @@
 User-agent: *
+Allow: /
 
-Disallow: /*?
-Disallow: /?s=
-Disallow: /index.php
-Disallow: /cgi-bin/
-Disallow: /wp-admin/
-Disallow: /wp-includes/
-Disallow: /wp-content/
-Disallow: /trackback/
-Disallow: /xmlrpc.com
-Disallow: /wp-login.php
-Disallow: /wp-content/plugins/
-Disallow: /comments/feed/
+# Google
+User-agent: Googlebot
+Allow: /
 
-Disallow: /administrator/
-Disallow: /bin/
-Disallow: /cache/
-Disallow: /cli/
-Disallow: /components/
-Disallow: /includes/
-Disallow: /installation/
-Disallow: /language/
-Disallow: /layouts/
-Disallow: /libraries/
-Disallow: /logs/
-Disallow: /modules/
-Disallow: /plugins/
-Disallow: /tmp/
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# OpenAI
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Common AI Crawlers
+User-agent: Bytespider
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
 
 Sitemap: https://bmybrand.com/sitemap.xml
