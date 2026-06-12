@@ -60,6 +60,12 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [socialPreviewUrl],
   },
+  verification: {
+    google: "OOOMkcjhmDlUlRjdJW8tRj0skY1iReSP9ikpae1KIJ0",
+    other: {
+      "msvalidate.01": "E3EEC0899DE7E782C6CB3434BBEDBB4E",
+    },
+  },
 };
 
 export default function RootLayout({
