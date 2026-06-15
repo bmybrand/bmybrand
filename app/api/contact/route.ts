@@ -116,6 +116,47 @@ export async function POST(request: Request) {
     )
   }
 
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json(
+      { error: 'Lead database is not configured.' },
+      { status: 500 }
+    )
+  }
+
+  const existingLeadResponse = await fetch(
+    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}?select=id&email=eq.${encodeURIComponent(payload.email)}&form_type=eq.${encodeURIComponent(formType)}&limit=1`,
+    {
+      method: 'GET',
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+      },
+    }
+  )
+
+  if (!existingLeadResponse.ok) {
+    const errorText = await existingLeadResponse.text()
+
+    return NextResponse.json(
+      { error: 'Failed to check existing lead.', details: errorText },
+      { status: 502 }
+    )
+  }
+
+  const existingLead = (await existingLeadResponse.json()) as Array<{ id: number }>
+
+  if (existingLead.length > 0) {
+    const message =
+      formType === 'custom_quote_request'
+        ? 'This email has already requested a quote.'
+        : 'This email has already submitted the contact form.'
+
+    return NextResponse.json(
+      { error: message },
+      { status: 409 }
+    )
+  }
+
   const service = payload.service || 'General Inquiry'
   const clientIp = getClientIp(request)
   const ipLimit = await rateLimit({
@@ -265,13 +306,6 @@ export async function POST(request: Request) {
       </table>
     </div>
   `
-
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json(
-      { error: 'Lead database is not configured.' },
-      { status: 500 }
-    )
-  }
 
   const leadInsertResponse = await fetch(
     `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}`,
