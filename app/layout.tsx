@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { Suspense } from "react";
 import localFont from "next/font/local";
 import GlobalPreloader from "@/components/global-preloader";
+import GoogleAnalytics from "@/components/google-analytics";
 import "./globals.css";
 
 const benzinBold = localFont({
@@ -60,6 +61,12 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [socialPreviewUrl],
   },
+  verification: {
+    google: "OOOMkcjhmDlUlRjdJW8tRj0skY1iReSP9ikpae1KIJ0",
+    other: {
+      "msvalidate.01": "E3EEC0899DE7E782C6CB3434BBEDBB4E",
+    },
+  },
 };
 
 export default function RootLayout({
@@ -79,6 +86,7 @@ export default function RootLayout({
           } as CSSProperties
         }
       >
+        <GoogleAnalytics />
         <Suspense fallback={children}>
           <GlobalPreloader>{children}</GlobalPreloader>
         </Suspense>
