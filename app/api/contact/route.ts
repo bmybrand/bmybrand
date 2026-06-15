@@ -33,6 +33,10 @@ function escapeHtml(value: string) {
     .replace(/'/g, '&#39;')
 }
 
+function containsUnsafeMarkup(value: string) {
+  return /<[^>]*>|javascript:|data:text\/html/i.test(value)
+}
+
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY
   const from = process.env.RESEND_FROM_EMAIL
@@ -92,6 +96,22 @@ export async function POST(request: Request) {
   if (!isValidEmail(payload.email)) {
     return NextResponse.json(
       { error: 'Enter a valid email address.' },
+      { status: 400 }
+    )
+  }
+
+  const submittedTextValues = [
+    payload.firstName,
+    payload.lastName,
+    payload.phone,
+    payload.service,
+    payload.message,
+    payload.accessPage,
+  ].filter((value): value is string => Boolean(value))
+
+  if (submittedTextValues.some(containsUnsafeMarkup)) {
+    return NextResponse.json(
+      { error: 'HTML or script content is not allowed in this form.' },
       { status: 400 }
     )
   }
