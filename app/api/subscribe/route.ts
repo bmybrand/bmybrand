@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server'
+import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const DEFAULT_SUPABASE_TABLE = 'leads'
+const SUBSCRIBE_RATE_LIMIT = {
+  limit: 1,
+  windowMs: 24 * 60 * 60 * 1000,
+}
 
 type SubscribePayload = {
   email: string
@@ -10,15 +15,6 @@ type SubscribePayload = {
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
 }
 
 export async function POST(request: Request) {
@@ -69,6 +65,31 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: 'Enter a valid email address.' },
       { status: 400 }
+    )
+  }
+
+  const clientIp = getClientIp(request)
+  const ipLimit = await rateLimit({
+    key: `subscribe:ip:${clientIp}`,
+    ...SUBSCRIBE_RATE_LIMIT,
+  })
+
+  if (!ipLimit.success) {
+    return NextResponse.json(
+      { error: 'You can submit this form once per day. Please try again tomorrow.' },
+      { status: 429, headers: rateLimitHeaders(ipLimit) }
+    )
+  }
+
+  const emailLimit = await rateLimit({
+    key: `subscribe:email:${payload.email.toLowerCase()}`,
+    ...SUBSCRIBE_RATE_LIMIT,
+  })
+
+  if (!emailLimit.success) {
+    return NextResponse.json(
+      { error: 'This email has already been submitted today. Please try again tomorrow.' },
+      { status: 429, headers: rateLimitHeaders(emailLimit) }
     )
   }
 

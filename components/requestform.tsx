@@ -70,6 +70,7 @@ export default function RequestForm({ title }: RequestFormProps) {
   const pathname = usePathname();
   const [openFaq, setOpenFaq] = useState<string | null>('01');
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState('');
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const formColRef = useRef<HTMLDivElement>(null);
@@ -119,6 +120,7 @@ export default function RequestForm({ title }: RequestFormProps) {
 
   const onSubmit = async (data: FormValues) => {
     setSubmitStatus('loading');
+    setSubmitError('');
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -133,10 +135,10 @@ export default function RequestForm({ title }: RequestFormProps) {
         }),
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        console.error('[RequestForm] Email route error:', result);
+        setSubmitError(result.error || 'Something went wrong. Please try again.');
         setSubmitStatus('error');
         return;
       }
@@ -144,7 +146,7 @@ export default function RequestForm({ title }: RequestFormProps) {
       setSubmitStatus('success');
       reset();
     } catch (err) {
-      console.error('[RequestForm] Submit failed:', err);
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       setSubmitStatus('error');
     }
   };
@@ -244,7 +246,9 @@ export default function RequestForm({ title }: RequestFormProps) {
               {/* Submit Button */}
               <div className="w-full">
                 {submitStatus === 'error' && (
-                  <p className="text-center text-sm text-[#F45B25] mb-2">Something went wrong. Please try again.</p>
+                  <p className="text-center text-sm text-[#F45B25] mb-2">
+                    {submitError || 'Something went wrong. Please try again.'}
+                  </p>
                 )}
                 {submitStatus === 'success' && (
                   <p className="text-center text-sm text-[#22c55e] mb-2">Request sent! We&apos;ll get back to you soon.</p>

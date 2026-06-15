@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server'
+import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const DEFAULT_TO_EMAIL = 'info@bmybrand.com'
 const DEFAULT_SUPABASE_TABLE = 'leads'
+const CONTACT_RATE_LIMIT = {
+  limit: 1,
+  windowMs: 24 * 60 * 60 * 1000,
+}
 
 type ContactPayload = {
   formType?: 'contact' | 'custom_quote_request'
@@ -92,6 +97,31 @@ export async function POST(request: Request) {
   }
 
   const service = payload.service || 'General Inquiry'
+  const clientIp = getClientIp(request)
+  const ipLimit = await rateLimit({
+    key: `contact:${formType}:ip:${clientIp}`,
+    ...CONTACT_RATE_LIMIT,
+  })
+
+  if (!ipLimit.success) {
+    return NextResponse.json(
+      { error: 'You can send one message per day. Please try again tomorrow.' },
+      { status: 429, headers: rateLimitHeaders(ipLimit) }
+    )
+  }
+
+  const emailLimit = await rateLimit({
+    key: `contact:${formType}:email:${payload.email.toLowerCase()}`,
+    ...CONTACT_RATE_LIMIT,
+  })
+
+  if (!emailLimit.success) {
+    return NextResponse.json(
+      { error: 'This email has already sent a message today. Please try again tomorrow.' },
+      { status: 429, headers: rateLimitHeaders(emailLimit) }
+    )
+  }
+
   const subject = `New contact form inquiry: ${service}`
   const text = [
     'New contact form submission',
