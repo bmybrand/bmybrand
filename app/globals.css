@@ -206,3 +206,12 @@
   object-fit: cover;
   pointer-events: none;
 }
+
+/* Hide scrollbar in chatbot while keeping scroll functional */
+.chat-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.chat-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}
