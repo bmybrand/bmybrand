@@ -76,11 +76,11 @@ export default function WorkTogether({
   const rightHandY = useTransform(scrollYProgress, [0, 0.5], [handStartY2, '10vh'])
   
   const socialLinks = [
-    { name: 'Facebook', url: 'https://facebook.com', icon: FaFacebook },
-    { name: 'Instagram', url: 'https://instagram.com', icon: FaInstagram },
-    { name: 'Twitter', url: 'https://twitter.com', icon: FaTwitter },
-    { name: 'LinkedIn', url: 'https://linkedin.com', icon: FaLinkedin },
-    { name: 'YouTube', url: 'https://youtube.com', icon: FaYoutube },
+    { name: 'Facebook', url: 'https://www.facebook.com/bmybrandofficial/', icon: FaFacebook },
+    { name: 'Instagram', url: 'https://www.instagram.com/bmybrand_official/', icon: FaInstagram },
+    { name: 'Twitter', url: '#', icon: FaTwitter },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/company/bmy-brand/', icon: FaLinkedin },
+    { name: 'YouTube', url: 'https://www.youtube.com/@BMyBrandofficial', icon: FaYoutube },
   ]
 
   return (

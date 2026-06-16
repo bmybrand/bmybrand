@@ -39,6 +39,7 @@ export default function HerobarBrand() {
         ) : (
           <div className="absolute inset-0 bg-[#11122F]" />
         )}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(17,18,47,0.72)_0%,rgba(17,18,47,0.38)_38%,rgba(17,18,47,0.78)_72%,#11122F_100%)]" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto text-center pt-32 pb-20">
