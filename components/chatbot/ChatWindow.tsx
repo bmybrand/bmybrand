@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
 import type { ChatMessage as ChatMessageType } from '@/types/chat'
@@ -53,8 +54,15 @@ export default function ChatWindow({
       {/* Welcome screen — shown before the first message */}
       {showWelcome && (
         <div className="flex flex-col items-center justify-center h-full text-center px-2">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] flex items-center justify-center mb-3">
-            <span className="text-white text-xl font-bold">B</span>
+          <div className="w-14 h-14 rounded-full overflow-hidden mb-3 ring-2 ring-white/70 shadow-[0_0_18px_rgba(255,255,255,0.15)]">
+            <Image
+              src="/bmybrand-mark.png"
+              alt="Mr. B"
+              width={56}
+              height={56}
+              className="h-full w-full object-cover"
+              priority
+            />
           </div>
           <h3 className="text-white text-lg font-semibold">Mr. B</h3>
           <p className="text-[#ADAECC] text-sm mt-0.5">AI Specialist at BMYBrand</p>

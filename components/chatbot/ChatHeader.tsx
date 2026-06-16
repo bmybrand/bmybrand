@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { X, Minus, RotateCcw } from "lucide-react";
 
 interface ChatHeaderProps {
@@ -12,8 +13,14 @@ export default function ChatHeader({ onMinimize, onClose, onNewChat }: ChatHeade
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#F45B25] to-[#FF843E] rounded-t-2xl">
       <div className="flex items-center gap-2">
-        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-          <span className="text-white text-base font-bold">B</span>
+        <div className="w-9 h-9 rounded-full overflow-hidden bg-white/20 shrink-0">
+          <Image
+            src="/bmybrand-mark.png"
+            alt="BMYBrand"
+            width={36}
+            height={36}
+            className="h-full w-full object-cover"
+          />
         </div>
         <div>
           <h3 className="text-white text-base font-semibold leading-tight">

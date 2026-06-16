@@ -50,7 +50,7 @@ export default function ChatWidget() {
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             onWheel={(e) => e.stopPropagation()}
             onTouchMove={(e) => e.stopPropagation()}
-            className="absolute bottom-16 right-0 w-[380px] h-[550px] max-md:fixed max-md:inset-0 max-md:w-full max-md:h-full max-md:bottom-0 max-md:right-0 bg-[#11122F] rounded-2xl max-md:rounded-none shadow-2xl shadow-black/40 border border-white/10 flex flex-col overflow-hidden"
+            className="absolute bottom-16 right-0 w-[380px] h-[550px] max-md:fixed max-md:inset-0 max-md:w-full max-md:h-full max-md:bottom-0 max-md:right-0 bg-[#11122F] rounded-2xl max-md:rounded-none shadow-[0_12px_48px_-8px_rgba(226,232,240,0.18)] border border-white/10 flex flex-col overflow-hidden"
           >
             <ChatHeader
               onMinimize={handleMinimize}
