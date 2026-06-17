@@ -1,4 +1,4 @@
-import { getMysqlErrorDetails, getMysqlPool } from '@/lib/mysql'
+import { getMysqlErrorDetails, getMysqlPool, getMysqlConfig } from '@/lib/mysql'
 
 export type StrategyCallRecord = {
   email: string
@@ -49,6 +49,16 @@ export async function saveStrategyCallBooking(payload: StrategyCallRecord) {
 
   if (bridge.url && bridge.secret) {
     return saveViaBridge(bridge.url, bridge.secret, payload)
+  }
+
+  const mysqlConfig = getMysqlConfig()
+  if (!mysqlConfig.isConfigured) {
+    throw Object.assign(
+      new Error(
+        'Booking storage is not configured. Set MYSQL_BRIDGE_URL + MYSQL_BRIDGE_SECRET or MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE.'
+      ),
+      { details: { code: 'STORAGE_NOT_CONFIGURED' } }
+    )
   }
 
   return saveViaDirectMysql(payload)

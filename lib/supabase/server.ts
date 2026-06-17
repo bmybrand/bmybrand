@@ -1,13 +1,34 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { getSupabasePublicConfig, getSupabaseServiceKey } from './env'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL!
-const supabaseServiceKey = process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY!
+let adminClient: SupabaseClient | null = null
 
-// Server-side Supabase client (uses service role key, bypasses RLS)
-// Only use in API routes / server components — never expose to the browser
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
+function getSupabaseAdminClient() {
+  if (adminClient) return adminClient
+
+  const { url, isConfigured } = getSupabasePublicConfig()
+  const serviceKey = getSupabaseServiceKey()
+
+  if (!isConfigured || !serviceKey) {
+    throw new Error(
+      'Supabase admin is not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.'
+    )
+  }
+
+  adminClient = createClient(url, serviceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  })
+
+  return adminClient
+}
+
+export const supabaseAdmin = new Proxy({} as SupabaseClient, {
+  get(_target, prop, receiver) {
+    const client = getSupabaseAdminClient()
+    const value = Reflect.get(client, prop, receiver)
+    return typeof value === 'function' ? value.bind(client) : value
   },
 })

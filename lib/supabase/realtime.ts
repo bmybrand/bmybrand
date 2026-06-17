@@ -2,12 +2,19 @@ import { supabase } from './client'
 import type { ChatMessage, ChatSession } from '@/types/chat'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
+function requireSupabase() {
+  if (!supabase) {
+    throw new Error('Supabase is not configured')
+  }
+  return supabase
+}
+
 // Subscribe to new messages for a specific chat session
 export function subscribeToMessages(
   sessionId: string,
   onMessage: (message: ChatMessage) => void
 ): RealtimeChannel {
-  return supabase
+  return requireSupabase()
     .channel(`chat-messages:${sessionId}`)
     .on(
       'postgres_changes',
@@ -29,7 +36,7 @@ export function subscribeToSession(
   sessionId: string,
   onUpdate: (session: ChatSession) => void
 ): RealtimeChannel {
-  return supabase
+  return requireSupabase()
     .channel(`chat-session:${sessionId}`)
     .on(
       'postgres_changes',
@@ -51,7 +58,7 @@ export function subscribeToTyping(
   sessionId: string,
   onTyping: (isTyping: boolean) => void
 ): RealtimeChannel {
-  return supabase
+  return requireSupabase()
     .channel(`typing:${sessionId}`)
     .on('broadcast', { event: 'typing' }, (payload) => {
       onTyping(!!payload.payload?.isTyping)
@@ -64,7 +71,7 @@ export function broadcastTyping(
   sessionId: string,
   isTyping: boolean
 ): RealtimeChannel {
-  const channel = supabase.channel(`typing:${sessionId}`)
+  const channel = requireSupabase().channel(`typing:${sessionId}`)
   channel.subscribe((status) => {
     if (status === 'SUBSCRIBED') {
       channel.send({
@@ -79,5 +86,5 @@ export function broadcastTyping(
 
 // Unsubscribe and remove a realtime channel
 export function unsubscribeChannel(channel: RealtimeChannel) {
-  supabase.removeChannel(channel)
+  requireSupabase().removeChannel(channel)
 }

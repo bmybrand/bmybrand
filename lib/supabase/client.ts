@@ -1,7 +1,10 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { getSupabasePublicConfig } from './env'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_BMYB_SUPABASE_ANON_KEY!
+const config = getSupabasePublicConfig()
 
-// Browser-side Supabase client (uses anon key, respects RLS)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const isSupabaseConfigured = config.isConfigured
+
+export const supabase: SupabaseClient | null = config.isConfigured
+  ? createClient(config.url, config.anonKey)
+  : null

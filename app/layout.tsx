@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import GlobalPreloader from "@/components/global-preloader";
 import GoogleAnalytics from "@/components/google-analytics";
 import "./globals.css";
-import ChatWidget from "@/components/chatbot/ChatWidget";
+import ChatWidgetGate from "@/components/chatbot/ChatWidgetGate";
 
 const benzinBold = localFont({
   src: "../public/fonts/benzinbold.ttf",
@@ -91,7 +91,7 @@ export default function RootLayout({
         <Suspense fallback={children}>
           <GlobalPreloader>{children}</GlobalPreloader>
         </Suspense>
-        <ChatWidget />
+        <ChatWidgetGate />
       </body>
     </html>
   );
