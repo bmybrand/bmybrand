@@ -1033,7 +1033,7 @@ export default function StrategyCallPage() {
                               <div>
                                 <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">Budget *</div>
                                 <div className="space-y-2.5">
-                                  {["Below $1K", "$1k-$3k", "$3k-$5k", "$5k-$10k", "$10k-$20k", "Above $20k"].map((option, i) => (
+                                  {["Below $1K", "$1K-$3K", "$3K-$5K", "$5K-$10K", "$10K-$20K", "Above $20K"].map((option, i) => (
                                     <label key={option} htmlFor={`budget${i}`} className="flex cursor-pointer items-center gap-2.5 text-sm text-[#ADAECC]">
                                       <input
                                         type="radio"
