@@ -20,6 +20,7 @@ import {
   type PhoneCountry,
 } from "@/lib/phone-country";
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from "@/lib/website-url";
+import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from "@/lib/strategy-call-ip";
 import {
   dateHasAvailableSlots,
   detectUserTimeZone,
@@ -964,7 +965,7 @@ export default function StrategyCallPage() {
 
                       {ipBlocked ? (
                         <div className="mt-4 rounded-xl border border-[#F45B25]/40 bg-[#F45B25]/10 px-4 py-3 text-sm leading-6 text-[#FFB89A]">
-                          A strategy call booking has already been submitted from your network. Only one submission is allowed per IP address.
+                          {STRATEGY_CALL_IP_LIMIT_MESSAGE}
                         </div>
                       ) : null}
 
@@ -1397,7 +1398,7 @@ export default function StrategyCallPage() {
                             ) : null}
                             {ipBlocked ? (
                               <p className="mb-3 text-sm text-red-400">
-                                A strategy call booking has already been submitted from your network.
+                                {STRATEGY_CALL_IP_LIMIT_MESSAGE}
                               </p>
                             ) : null}
                             <button

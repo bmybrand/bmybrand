@@ -1,6 +1,11 @@
 import { getBridgeConfig } from '@/lib/strategy-call-save'
 import { getMysqlPool } from '@/lib/mysql'
 
+export const STRATEGY_CALL_IP_COOLDOWN_HOURS = 24
+
+export const STRATEGY_CALL_IP_LIMIT_MESSAGE =
+  'A strategy call booking was already submitted from your network in the last 24 hours. Please try again tomorrow.'
+
 function bridgeHeaders(secret: string) {
   return {
     'Content-Type': 'application/json',
@@ -19,7 +24,10 @@ function buildBridgeUrl(baseUrl: string, secret: string, params: Record<string, 
 
 async function bookingExistsForIpViaBridge(url: string, secret: string, ipAddress: string) {
   const response = await fetch(
-    buildBridgeUrl(url, secret, { checkIp: ipAddress }),
+    buildBridgeUrl(url, secret, {
+      checkIp: ipAddress,
+      hours: String(STRATEGY_CALL_IP_COOLDOWN_HOURS),
+    }),
     {
       method: 'GET',
       headers: bridgeHeaders(secret),
@@ -44,8 +52,11 @@ export async function strategyCallBookingExistsForIp(ipAddress: string) {
 
   const pool = getMysqlPool()
   const [rows] = await pool.execute(
-    'SELECT id FROM strategy_call_bookings WHERE ip_address = ? LIMIT 1',
-    [ipAddress]
+    `SELECT id FROM strategy_call_bookings
+     WHERE ip_address = ?
+       AND created_at >= DATE_SUB(NOW(), INTERVAL ? HOUR)
+     LIMIT 1`,
+    [ipAddress, STRATEGY_CALL_IP_COOLDOWN_HOURS]
   )
 
   return Array.isArray(rows) && rows.length > 0

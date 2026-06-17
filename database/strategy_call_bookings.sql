@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS strategy_call_bookings (
   PRIMARY KEY (id),
   INDEX idx_strategy_call_email (email),
   INDEX idx_strategy_call_created_at (created_at),
-  UNIQUE INDEX idx_strategy_call_ip (ip_address)
+  INDEX idx_strategy_call_ip_created (ip_address, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

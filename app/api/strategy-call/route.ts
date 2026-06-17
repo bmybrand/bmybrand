@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getClientIp } from '@/lib/client-ip'
 import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { getMysqlErrorDetails } from '@/lib/mysql'
-import { strategyCallBookingExistsForIp } from '@/lib/strategy-call-ip'
+import { strategyCallBookingExistsForIp, STRATEGY_CALL_IP_LIMIT_MESSAGE } from '@/lib/strategy-call-ip'
 import { saveStrategyCallBooking } from '@/lib/strategy-call-save'
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from '@/lib/website-url'
 
@@ -86,13 +86,7 @@ export async function POST(request: Request) {
     try {
       const alreadySubmitted = await strategyCallBookingExistsForIp(ipAddress)
       if (alreadySubmitted) {
-        return NextResponse.json(
-          {
-            error:
-              'A strategy call booking has already been submitted from your network. Only one submission is allowed per IP address.',
-          },
-          { status: 429 }
-        )
+        return NextResponse.json({ error: STRATEGY_CALL_IP_LIMIT_MESSAGE }, { status: 429 })
       }
     } catch (error) {
       console.error('[strategy-call] IP check failed:', error)
@@ -153,13 +147,7 @@ export async function POST(request: Request) {
     console.error('[strategy-call] Database insert failed:', details)
 
     if (details.code === 'ER_DUP_ENTRY' || details.code === 'IP_ALREADY_SUBMITTED') {
-      return NextResponse.json(
-        {
-          error:
-            'A strategy call booking has already been submitted from your network. Only one submission is allowed per IP address.',
-        },
-        { status: 429 }
-      )
+      return NextResponse.json({ error: STRATEGY_CALL_IP_LIMIT_MESSAGE }, { status: 429 })
     }
 
     const status =

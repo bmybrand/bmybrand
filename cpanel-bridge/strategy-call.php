@@ -97,6 +97,7 @@ if (!isAuthorized()) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['checkIp'])) {
     $ipAddress = trim((string) ($_GET['checkIp'] ?? ''));
+    $hours = max(1, min(168, (int) ($_GET['hours'] ?? 24)));
     if ($ipAddress === '') {
         http_response_code(400);
         echo json_encode(['error' => 'Missing checkIp parameter']);
@@ -111,8 +112,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['checkIp'])) {
     }
     $mysqli->set_charset('utf8mb4');
 
-    $stmt = $mysqli->prepare('SELECT id FROM strategy_call_bookings WHERE ip_address = ? LIMIT 1');
-    $stmt->bind_param('s', $ipAddress);
+    $stmt = $mysqli->prepare(
+        'SELECT id FROM strategy_call_bookings WHERE ip_address = ? AND created_at >= DATE_SUB(NOW(), INTERVAL ? HOUR) LIMIT 1'
+    );
+    $stmt->bind_param('si', $ipAddress, $hours);
     $stmt->execute();
     $result = $stmt->get_result();
     $exists = $result && $result->num_rows > 0;
@@ -190,14 +193,17 @@ $mysqli->set_charset('utf8mb4');
 
 $ipAddress = $payload['ipAddress'];
 if ($ipAddress !== '') {
-    $check = $mysqli->prepare('SELECT id FROM strategy_call_bookings WHERE ip_address = ? LIMIT 1');
-    $check->bind_param('s', $ipAddress);
+    $hours = 24;
+    $check = $mysqli->prepare(
+        'SELECT id FROM strategy_call_bookings WHERE ip_address = ? AND created_at >= DATE_SUB(NOW(), INTERVAL ? HOUR) LIMIT 1'
+    );
+    $check->bind_param('si', $ipAddress, $hours);
     $check->execute();
     $existing = $check->get_result();
     if ($existing && $existing->num_rows > 0) {
         http_response_code(429);
         echo json_encode([
-            'error' => 'A strategy call booking has already been submitted from this network.',
+            'error' => 'A strategy call booking was already submitted from this network in the last 24 hours.',
         ]);
         $check->close();
         $mysqli->close();
