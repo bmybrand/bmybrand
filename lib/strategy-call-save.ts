@@ -87,14 +87,21 @@ async function saveViaBridge(
   const result = await response.json().catch(() => ({}))
 
   if (!response.ok) {
-    throw Object.assign(
-      new Error(
-        typeof result.error === 'string'
-          ? result.error
-          : 'Bridge rejected the booking.'
-      ),
-      { details: { code: response.status === 429 ? 'IP_ALREADY_SUBMITTED' : 'BRIDGE_HTTP_ERROR', status: response.status } }
-    )
+    const bridgeError =
+      typeof result.error === 'string' ? result.error : 'Bridge rejected the booking.'
+
+    throw Object.assign(new Error(bridgeError), {
+      details: {
+        code:
+          response.status === 401
+            ? 'BRIDGE_UNAUTHORIZED'
+            : response.status === 429
+              ? 'IP_ALREADY_SUBMITTED'
+              : 'BRIDGE_HTTP_ERROR',
+        status: response.status,
+        message: bridgeError,
+      },
+    })
   }
 
   return {
@@ -158,12 +165,21 @@ export async function checkStrategyCallStorage() {
     }
 
     const result = await response.json().catch(() => ({}))
+    const unauthorized = response.status === 401
+
     return {
       ok: response.ok && result.ok === true,
       mode: 'bridge' as const,
       url: bridge.url,
       tableExists: result.tableExists === true,
-      ...(response.ok ? {} : { message: result.error ?? 'Bridge health check failed' }),
+      ...(unauthorized
+        ? {
+            message:
+              'Bridge unauthorized. MYSQL_BRIDGE_SECRET on Vercel must exactly match BRIDGE_SECRET in cpanel strategy-call.php.',
+          }
+        : response.ok
+          ? {}
+          : { message: result.error ?? 'Bridge health check failed' }),
     }
   }
 

@@ -81,11 +81,16 @@ export function getMysqlErrorDetails(error: unknown) {
     return { message: 'Unknown database error' }
   }
 
-  const err = error as Error & { code?: string; errno?: number }
+  const err = error as Error & {
+    code?: string
+    errno?: number
+    details?: { code?: string; status?: number; message?: string }
+  }
 
   return {
-    message: err.message,
-    code: err.code,
+    message: err.details?.message ?? err.message,
+    code: err.details?.code ?? err.code,
     errno: err.errno,
+    status: err.details?.status,
   }
 }

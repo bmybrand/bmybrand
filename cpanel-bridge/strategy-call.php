@@ -215,7 +215,7 @@ $stmt = $mysqli->prepare(
 
 if (!$stmt) {
     http_response_code(500);
-    echo json_encode(['error' => 'Prepare failed']);
+    echo json_encode(['error' => 'Prepare failed', 'details' => $mysqli->error]);
     exit;
 }
 
@@ -240,7 +240,7 @@ $stmt->bind_param(
 
 if (!$stmt->execute()) {
     http_response_code(500);
-    echo json_encode(['error' => 'Insert failed']);
+    echo json_encode(['error' => 'Insert failed', 'details' => $stmt->error]);
     $stmt->close();
     $mysqli->close();
     exit;

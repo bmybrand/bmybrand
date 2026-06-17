@@ -709,7 +709,7 @@ export default function StrategyCallPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        const message = [result.error, result.hint, result.details?.message]
+        const message = [result.error, result.hint, result.details?.message, result.details]
           .filter(Boolean)
           .join(" — ");
         throw new Error(message || "Failed to save your booking.");

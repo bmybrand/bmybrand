@@ -152,7 +152,7 @@ export async function POST(request: Request) {
     const details = getMysqlErrorDetails(error)
     console.error('[strategy-call] Database insert failed:', details)
 
-    if (details.code === 'ER_DUP_ENTRY') {
+    if (details.code === 'ER_DUP_ENTRY' || details.code === 'IP_ALREADY_SUBMITTED') {
       return NextResponse.json(
         {
           error:
@@ -162,33 +162,57 @@ export async function POST(request: Request) {
       )
     }
 
-    if (details.code === 'IP_ALREADY_SUBMITTED') {
-      return NextResponse.json(
-        {
-          error:
-            'A strategy call booking has already been submitted from your network. Only one submission is allowed per IP address.',
-        },
-        { status: 429 }
-      )
-    }
+    const status =
+      typeof details.status === 'number' && details.status >= 400 && details.status < 600
+        ? details.status
+        : 500
 
-    const showDetails =
-      process.env.NODE_ENV !== 'production' ||
-      process.env.MYSQL_DEBUG === 'true'
-
-    const hint = getMysqlHint(details.code)
+    const hint = getMysqlHint(details.code, details.status)
+    const errorMessage = getPublicBookingError(error, details)
 
     return NextResponse.json(
       {
-        error: 'Failed to save booking. Check database configuration and table schema.',
-        ...(showDetails ? { details, hint } : {}),
+        error: errorMessage,
+        ...(hint ? { hint } : {}),
+        ...(process.env.MYSQL_DEBUG === 'true' ? { details } : {}),
       },
-      { status: 500 }
+      { status }
     )
   }
 }
 
-function getMysqlHint(code?: string) {
+function getPublicBookingError(
+  error: unknown,
+  details: ReturnType<typeof getMysqlErrorDetails>
+) {
+  if (details.code === 'BRIDGE_UNAUTHORIZED' || details.status === 401) {
+    return 'Database bridge unauthorized. Check that MYSQL_BRIDGE_SECRET in Vercel matches BRIDGE_SECRET in strategy-call.php on cPanel.'
+  }
+
+  if (details.code === 'STORAGE_NOT_CONFIGURED') {
+    return 'Booking storage is not configured on the server.'
+  }
+
+  if (details.message === 'Insert failed') {
+    return 'Database insert failed. Re-upload the latest strategy-call.php to cPanel and confirm the table includes the ip_address column.'
+  }
+
+  if (details.message === 'Database connection failed') {
+    return 'Database connection failed on cPanel. Check DB credentials in strategy-call.php.'
+  }
+
+  if (details.message && details.message !== 'Bridge request failed') {
+    return details.message
+  }
+
+  return 'Failed to save booking. Check database configuration and table schema.'
+}
+
+function getMysqlHint(code?: string, status?: number) {
+  if (code === 'BRIDGE_UNAUTHORIZED' || status === 401) {
+    return 'Open strategy-call.php on cPanel and set BRIDGE_SECRET to the same value as MYSQL_BRIDGE_SECRET in Vercel, then redeploy if needed.'
+  }
+
   switch (code) {
     case 'ECONNREFUSED':
     case 'ETIMEDOUT':
