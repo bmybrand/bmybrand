@@ -13,6 +13,7 @@ export type StrategyCallRecord = {
   appointmentDate: string
   appointmentTime: string
   timezone: string
+  ipAddress?: string
 }
 
 export function getBridgeConfig() {
@@ -92,7 +93,7 @@ async function saveViaBridge(
           ? result.error
           : 'Bridge rejected the booking.'
       ),
-      { details: { code: 'BRIDGE_HTTP_ERROR', status: response.status } }
+      { details: { code: response.status === 429 ? 'IP_ALREADY_SUBMITTED' : 'BRIDGE_HTTP_ERROR', status: response.status } }
     )
   }
 
@@ -108,8 +109,8 @@ async function saveViaDirectMysql(payload: StrategyCallRecord) {
   const [result] = await pool.execute(
     `INSERT INTO strategy_call_bookings (
       email, name, country_code, phone, company_name, website_url,
-      budget, call_notes, source, appointment_date, appointment_time, timezone
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      budget, call_notes, source, appointment_date, appointment_time, timezone, ip_address
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       payload.email,
       payload.name,
@@ -123,6 +124,7 @@ async function saveViaDirectMysql(payload: StrategyCallRecord) {
       payload.appointmentDate,
       payload.appointmentTime,
       payload.timezone,
+      payload.ipAddress || null,
     ]
   )
 

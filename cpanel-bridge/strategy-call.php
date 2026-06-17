@@ -95,6 +95,34 @@ if (!isAuthorized()) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['checkIp'])) {
+    $ipAddress = trim((string) ($_GET['checkIp'] ?? ''));
+    if ($ipAddress === '') {
+        http_response_code(400);
+        echo json_encode(['error' => 'Missing checkIp parameter']);
+        exit;
+    }
+
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    if ($mysqli->connect_error) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Database connection failed']);
+        exit;
+    }
+    $mysqli->set_charset('utf8mb4');
+
+    $stmt = $mysqli->prepare('SELECT id FROM strategy_call_bookings WHERE ip_address = ? LIMIT 1');
+    $stmt->bind_param('s', $ipAddress);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $exists = $result && $result->num_rows > 0;
+    $stmt->close();
+    $mysqli->close();
+
+    echo json_encode(['exists' => $exists]);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['health'])) {
     $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     if ($mysqli->connect_error) {
@@ -136,6 +164,7 @@ $payload = [
     'appointmentDate' => trim((string) ($data['appointmentDate'] ?? '')),
     'appointmentTime' => trim((string) ($data['appointmentTime'] ?? '')),
     'timezone' => trim((string) ($data['timezone'] ?? '')),
+    'ipAddress' => trim((string) ($data['ipAddress'] ?? '')),
 ];
 
 $required = [
@@ -159,11 +188,29 @@ if ($mysqli->connect_error) {
 }
 $mysqli->set_charset('utf8mb4');
 
+$ipAddress = $payload['ipAddress'];
+if ($ipAddress !== '') {
+    $check = $mysqli->prepare('SELECT id FROM strategy_call_bookings WHERE ip_address = ? LIMIT 1');
+    $check->bind_param('s', $ipAddress);
+    $check->execute();
+    $existing = $check->get_result();
+    if ($existing && $existing->num_rows > 0) {
+        http_response_code(429);
+        echo json_encode([
+            'error' => 'A strategy call booking has already been submitted from this network.',
+        ]);
+        $check->close();
+        $mysqli->close();
+        exit;
+    }
+    $check->close();
+}
+
 $stmt = $mysqli->prepare(
     'INSERT INTO strategy_call_bookings (
         email, name, country_code, phone, company_name, website_url,
-        budget, call_notes, source, appointment_date, appointment_time, timezone
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        budget, call_notes, source, appointment_date, appointment_time, timezone, ip_address
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 );
 
 if (!$stmt) {
@@ -175,7 +222,7 @@ if (!$stmt) {
 $countryCode = $payload['countryCode'];
 
 $stmt->bind_param(
-    'ssssssssssss',
+    'sssssssssssss',
     $payload['email'],
     $payload['name'],
     $countryCode,
@@ -187,7 +234,8 @@ $stmt->bind_param(
     $payload['source'],
     $payload['appointmentDate'],
     $payload['appointmentTime'],
-    $payload['timezone']
+    $payload['timezone'],
+    $ipAddress
 );
 
 if (!$stmt->execute()) {

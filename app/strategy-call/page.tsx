@@ -346,6 +346,17 @@ export default function StrategyCallPage() {
   const geoAppliedRef = useRef(false);
 
   useEffect(() => {
+    fetch("/api/strategy-call/eligibility", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data: { allowed?: boolean }) => {
+        if (data.allowed === false) {
+          setIpBlocked(true);
+        }
+      })
+      .catch((err) => console.error("Strategy call eligibility check failed:", err));
+  }, []);
+
+  useEffect(() => {
     fetch("https://restcountries.com/v3.1/all?fields=name,idd,cca2,flags")
       .then((res) => res.json())
       .then((data) => {
@@ -458,6 +469,7 @@ export default function StrategyCallPage() {
   const [activeAgenda, setActiveAgenda] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [ipBlocked, setIpBlocked] = useState(false);
   const [completionVideoPaused, setCompletionVideoPaused] = useState(false);
   const [completionVideoMuted, setCompletionVideoMuted] = useState(true);
   const [reviewCardWidth, setReviewCardWidth] = useState(0);
@@ -524,6 +536,7 @@ export default function StrategyCallPage() {
   const formUnlocked = email.trim() !== "" && name.trim() !== "";
 
   const canContinue =
+    !ipBlocked &&
     formUnlocked &&
     phone.trim() !== "" &&
     companyName.trim() !== "" &&
@@ -627,7 +640,7 @@ export default function StrategyCallPage() {
 
   const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!canContinue) return;
+    if (!canContinue || ipBlocked) return;
     setStep("time");
   };
 
@@ -636,7 +649,7 @@ export default function StrategyCallPage() {
   };
 
   const goToTimeStep = () => {
-    if (!canContinue) return;
+    if (!canContinue || ipBlocked) return;
     setStep("time");
   };
 
@@ -663,7 +676,7 @@ export default function StrategyCallPage() {
   };
 
   const handleFinishBooking = async () => {
-    if (!selectedTime || isSubmitting) return;
+    if (!selectedTime || isSubmitting || ipBlocked) return;
 
     const selectedSlot = baseTimeSlots.find((slot) => slot.id === selectedTime);
     if (!selectedSlot) return;
@@ -949,6 +962,12 @@ export default function StrategyCallPage() {
                         Book A Strategy Call With BmyBrand
                       </h2>
 
+                      {ipBlocked ? (
+                        <div className="mt-4 rounded-xl border border-[#F45B25]/40 bg-[#F45B25]/10 px-4 py-3 text-sm leading-6 text-[#FFB89A]">
+                          A strategy call booking has already been submitted from your network. Only one submission is allowed per IP address.
+                        </div>
+                      ) : null}
+
                       <div className="mt-4 space-y-3 text-[0.96rem] leading-8 text-[#A4A8C9]">
                         <p>
                           Book a 30-minute strategy call with our team to discuss your goals, challenges, and
@@ -961,6 +980,7 @@ export default function StrategyCallPage() {
                       </div>
 
                       <form className="mt-6 space-y-4" onSubmit={handleContinue}>
+                        <fieldset disabled={ipBlocked} className="space-y-4 disabled:opacity-60">
                         <input
                           type="email"
                           placeholder="Email *"
@@ -1108,6 +1128,7 @@ export default function StrategyCallPage() {
                           Continue
                           <span className="text-lg">→</span>
                         </button>
+                        </fieldset>
                       </form>
 
                       <div
@@ -1374,10 +1395,15 @@ export default function StrategyCallPage() {
                             {submitError ? (
                               <p className="mb-3 text-sm text-red-400">{submitError}</p>
                             ) : null}
+                            {ipBlocked ? (
+                              <p className="mb-3 text-sm text-red-400">
+                                A strategy call booking has already been submitted from your network.
+                              </p>
+                            ) : null}
                             <button
                               type="button"
                               onClick={() => void handleFinishBooking()}
-                              disabled={isSubmitting}
+                              disabled={isSubmitting || ipBlocked}
                               className={`flex w-full items-center justify-center rounded-xl py-3.5 text-[1.05rem] text-white transition-colors duration-300 BenzinSemibold ${isSubmitting
                                 ? "cursor-not-allowed bg-[#343556] text-white/45"
                                 : "bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] hover:brightness-110"
