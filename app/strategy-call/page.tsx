@@ -20,7 +20,7 @@ import {
   type PhoneCountry,
 } from "@/lib/phone-country";
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from "@/lib/website-url";
-import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from "@/lib/strategy-call-ip";
+import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from "@/lib/strategy-call-ip-config";
 import {
   dateHasAvailableSlots,
   detectUserTimeZone,
