@@ -216,6 +216,9 @@ export async function createStrategyCallCalendarEvent(booking: StrategyCallRecor
     }
   }
 
+  return { created: true as const, eventId: response.data.id ?? null }
+}
+
 export async function deleteStrategyCallCalendarEvent(eventId: string) {
   if (!isGoogleCalendarConfigured()) {
     return { deleted: false as const, reason: 'not_configured' as const }
