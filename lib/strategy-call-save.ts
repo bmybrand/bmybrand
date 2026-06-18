@@ -143,6 +143,44 @@ async function saveViaDirectMysql(payload: StrategyCallRecord) {
   return { id: insertId, mode: 'mysql' as const }
 }
 
+export async function updateStrategyCallCalendarEventId(
+  bookingId: number,
+  calendarEventId: string
+) {
+  const bridge = getBridgeConfig()
+
+  if (bridge.url && bridge.secret) {
+    const response = await fetch(buildBridgeUrl(bridge.url, bridge.secret), {
+      method: 'POST',
+      headers: bridgeHeaders(bridge.secret),
+      body: JSON.stringify({
+        action: 'updateCalendarEventId',
+        id: bookingId,
+        calendarEventId,
+      }),
+      cache: 'no-store',
+    })
+
+    const result = await response.json().catch(() => ({}))
+    if (!response.ok) {
+      throw Object.assign(new Error('Failed to store calendar event id.'), { details: result })
+    }
+
+    return
+  }
+
+  const mysqlConfig = getMysqlConfig()
+  if (!mysqlConfig.isConfigured) {
+    return
+  }
+
+  const pool = getMysqlPool()
+  await pool.execute(
+    'UPDATE strategy_call_bookings SET calendar_event_id = ? WHERE id = ? LIMIT 1',
+    [calendarEventId, bookingId]
+  )
+}
+
 export async function checkStrategyCallStorage() {
   const bridge = getBridgeConfig()
 

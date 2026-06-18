@@ -77,7 +77,7 @@ if ($origin && in_array($origin, $allowedOrigins, true)) {
     header('Access-Control-Allow-Origin: ' . $origin);
     header('Vary: Origin');
 }
-header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -140,6 +140,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['health'])) {
     exit;
 }
 
+function connectDatabase(): mysqli
+{
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    if ($mysqli->connect_error) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Database connection failed']);
+        exit;
+    }
+    $mysqli->set_charset('utf8mb4');
+    return $mysqli;
+}
+
+function mapBookingRow(array $row): array
+{
+    return [
+        'id' => (int) ($row['id'] ?? 0),
+        'email' => (string) ($row['email'] ?? ''),
+        'name' => (string) ($row['name'] ?? ''),
+        'countryCode' => (string) ($row['country_code'] ?? ''),
+        'phone' => (string) ($row['phone'] ?? ''),
+        'companyName' => (string) ($row['company_name'] ?? ''),
+        'websiteUrl' => (string) ($row['website_url'] ?? ''),
+        'budget' => (string) ($row['budget'] ?? ''),
+        'callNotes' => (string) ($row['call_notes'] ?? ''),
+        'source' => (string) ($row['source'] ?? ''),
+        'appointmentDate' => (string) ($row['appointment_date'] ?? ''),
+        'appointmentTime' => (string) ($row['appointment_time'] ?? ''),
+        'timezone' => (string) ($row['timezone'] ?? ''),
+        'calendarEventId' => (string) ($row['calendar_event_id'] ?? ''),
+        'createdAt' => (string) ($row['created_at'] ?? ''),
+    ];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+    $bookingId = (int) ($_GET['id'] ?? 0);
+    if ($bookingId < 1) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid booking id']);
+        exit;
+    }
+
+    $mysqli = connectDatabase();
+    $stmt = $mysqli->prepare(
+        'SELECT id, email, name, country_code, phone, company_name, website_url,
+                budget, call_notes, source, appointment_date, appointment_time, timezone,
+                calendar_event_id, created_at
+         FROM strategy_call_bookings WHERE id = ? LIMIT 1'
+    );
+    $stmt->bind_param('i', $bookingId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result ? $result->fetch_assoc() : null;
+    $stmt->close();
+    $mysqli->close();
+
+    if (!is_array($row)) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Booking not found']);
+        exit;
+    }
+
+    echo json_encode(['booking' => mapBookingRow($row)]);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['list'])) {
+    $from = trim((string) ($_GET['from'] ?? ''));
+    $to = trim((string) ($_GET['to'] ?? ''));
+    $mysqli = connectDatabase();
+
+    $sql = 'SELECT id, email, name, country_code, phone, company_name, website_url,
+                   budget, call_notes, source, appointment_date, appointment_time, timezone,
+                   calendar_event_id, created_at
+            FROM strategy_call_bookings
+            WHERE appointment_date IS NOT NULL';
+    $types = '';
+    $params = [];
+
+    if ($from !== '') {
+        $sql .= ' AND appointment_date >= ?';
+        $types .= 's';
+        $params[] = $from;
+    }
+    if ($to !== '') {
+        $sql .= ' AND appointment_date <= ?';
+        $types .= 's';
+        $params[] = $to;
+    }
+
+    $sql .= ' ORDER BY appointment_date ASC, appointment_time ASC, id ASC';
+
+    $stmt = $mysqli->prepare($sql);
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Prepare failed', 'details' => $mysqli->error]);
+        $mysqli->close();
+        exit;
+    }
+
+    if ($types !== '') {
+        $stmt->bind_param($types, ...$params);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $bookings = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            if (is_array($row)) {
+                $bookings[] = mapBookingRow($row);
+            }
+        }
+    }
+    $stmt->close();
+    $mysqli->close();
+
+    echo json_encode(['bookings' => $bookings]);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed']);
@@ -151,6 +271,75 @@ $data = json_decode($raw ?: '', true);
 if (!is_array($data)) {
     http_response_code(400);
     echo json_encode(['error' => 'Invalid JSON body']);
+    exit;
+}
+
+if (($data['action'] ?? '') === 'delete') {
+    $deleteId = (int) ($data['id'] ?? 0);
+    if ($deleteId < 1) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid booking id']);
+        exit;
+    }
+
+    $mysqli = connectDatabase();
+    $stmt = $mysqli->prepare('DELETE FROM strategy_call_bookings WHERE id = ? LIMIT 1');
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Prepare failed', 'details' => $mysqli->error]);
+        $mysqli->close();
+        exit;
+    }
+
+    $stmt->bind_param('i', $deleteId);
+    $stmt->execute();
+    $deleted = $stmt->affected_rows > 0;
+    $stmt->close();
+    $mysqli->close();
+
+    if (!$deleted) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Booking not found']);
+        exit;
+    }
+
+    echo json_encode(['ok' => true, 'id' => $deleteId]);
+    exit;
+}
+
+if (($data['action'] ?? '') === 'updateCalendarEventId') {
+    $updateId = (int) ($data['id'] ?? 0);
+    $calendarEventId = trim((string) ($data['calendarEventId'] ?? ''));
+    if ($updateId < 1 || $calendarEventId === '') {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid booking id or calendar event id']);
+        exit;
+    }
+
+    $mysqli = connectDatabase();
+    $stmt = $mysqli->prepare(
+        'UPDATE strategy_call_bookings SET calendar_event_id = ? WHERE id = ? LIMIT 1'
+    );
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Prepare failed', 'details' => $mysqli->error]);
+        $mysqli->close();
+        exit;
+    }
+
+    $stmt->bind_param('si', $calendarEventId, $updateId);
+    $stmt->execute();
+    $updated = $stmt->affected_rows > 0;
+    $stmt->close();
+    $mysqli->close();
+
+    if (!$updated) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Booking not found']);
+        exit;
+    }
+
+    echo json_encode(['ok' => true, 'id' => $updateId, 'calendarEventId' => $calendarEventId]);
     exit;
 }
 
@@ -183,14 +372,7 @@ foreach ($required as $key) {
     }
 }
 
-$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($mysqli->connect_error) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Database connection failed']);
-    exit;
-}
-$mysqli->set_charset('utf8mb4');
-
+$mysqli = connectDatabase();
 $ipAddress = $payload['ipAddress'];
 if ($ipAddress !== '') {
     $hours = 24;

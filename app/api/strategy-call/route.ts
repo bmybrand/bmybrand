@@ -4,7 +4,7 @@ import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { getMysqlErrorDetails } from '@/lib/mysql'
 import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from '@/lib/strategy-call-ip-config'
 import { strategyCallBookingExistsForIp } from '@/lib/strategy-call-ip'
-import { saveStrategyCallBooking } from '@/lib/strategy-call-save'
+import { saveStrategyCallBooking, updateStrategyCallCalendarEventId } from '@/lib/strategy-call-save'
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from '@/lib/website-url'
 
 type StrategyCallPayload = {
@@ -123,6 +123,13 @@ export async function POST(request: Request) {
       if (calendar.created) {
         calendarCreated = true
         calendarEventId = calendar.eventId ?? null
+        if (id && calendarEventId) {
+          try {
+            await updateStrategyCallCalendarEventId(id, calendarEventId)
+          } catch (updateError) {
+            console.error('[strategy-call] Failed to store calendar event id:', updateError)
+          }
+        }
       } else if (calendar.reason === 'not_configured') {
         calendarReason = 'not_configured'
         calendarError =

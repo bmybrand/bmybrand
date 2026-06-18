@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS strategy_call_bookings (
   appointment_time VARCHAR(32) DEFAULT NULL,
   timezone VARCHAR(191) DEFAULT NULL,
   ip_address VARCHAR(45) DEFAULT NULL,
+  calendar_event_id VARCHAR(255) DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   INDEX idx_strategy_call_email (email),
