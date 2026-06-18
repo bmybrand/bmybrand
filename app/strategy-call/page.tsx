@@ -760,13 +760,15 @@ export default function StrategyCallPage() {
                   <div className="relative overflow-hidden rounded-[14px]">
                     <video
                       ref={completionVideoRef}
-                      src="/bmyb-global-rickroll-01.mp4"
                       className="h-[40rem] w-full object-cover"
                       autoPlay
                       muted={completionVideoMuted}
                       loop
                       playsInline
-                    />
+                    >
+                      <source src="/bmyb-global-preloader-01.webm" type="video/webm" />
+                      <source src="/bmyb-global-preloader-01.mp4" type="video/mp4" />
+                    </video>
                     <button
                       type="button"
                       onClick={toggleCompletionVideoMuted}
