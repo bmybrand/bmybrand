@@ -198,6 +198,7 @@ export async function POST(request: Request) {
   ].join('\n')
 
   const fullName = `${escapeHtml(payload.firstName)} ${escapeHtml(payload.lastName)}`
+  const logoUrl = process.env.BMYBRAND_EMAIL_LOGO_URL?.trim() || 'http://bmybrand.com/bmyb-services-brand-bmybrand-01-01.svg?dpl=dpl_E3BqAnZ5brZJwUG3yvtPpDntgK2e'
   const html = `
     <div style="margin:0; padding:0; background-color:#f3f4f6;">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse; background-color:#f3f4f6;">
@@ -208,32 +209,25 @@ export async function POST(request: Request) {
                 <td style="padding:0;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
                     <tr>
-                      <td width="58%" align="center" style="background-color:#231f20; padding:28px 28px 26px; color:#ffffff; font-family:Arial,sans-serif; vertical-align:middle; text-align:center;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin:0 auto;">
+                      <td width="50%" align="left" style="background-color:#11122F; padding:28px 28px 26px; color:#ffffff; font-family:Arial,sans-serif; vertical-align:middle; text-align:left;">
+                        <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin:0;">
                           <tr>
-                            <td style="padding-right:12px; vertical-align:middle;">
-                              <div style="width:44px; height:44px; background:linear-gradient(135deg, #f45b25 0%, #ff843e 100%); border-radius:10px; color:#ffffff; font-size:28px; line-height:44px; font-weight:700; text-align:center;">B</div>
-                            </td>
-                            <td style="vertical-align:middle; text-align:left;">
-                              <div style="font-size:24px; line-height:1; font-weight:700; color:#ffffff; letter-spacing:0.2px;">BmyBrand</div>
-                              <div style="margin-top:6px; font-size:12px; line-height:1; color:#ffffff;">Design. Build. Grow.</div>
+                            <td style="vertical-align:middle;">
+                              <img src="${escapeHtml(logoUrl)}" alt="BmyBrand" width="170" style="display:block; width:170px; max-height:150px; height:auto; border-radius:12px; object-fit:contain;" />
                             </td>
                           </tr>
                         </table>
                       </td>
-                      <td width="10%" style="background:linear-gradient(60deg, #231f20 0%, #231f20 36%, #f45b25 36%, #ff843e 58%, #11122f 58%, #11122f 74%, #ffffff 74%, #ffffff 100%); font-size:0; line-height:0;">
-                        &nbsp;
-                      </td>
-                      <td width="32%" style="background-color:#ffffff; padding:18px 20px 10px; font-family:Arial,sans-serif; vertical-align:middle;">
-                        <div style="font-size:15px; line-height:1.9;">
-                          <div style="color:#11122f;">PO BOX 605 Allen, TX 75013</div>
-                          <div><a href="mailto:info@bmybrand.com" style="color:#11122f; text-decoration:none;">info@bmybrand.com</a></div>
-                          <div style="color:#11122f;">+1 469 501 1401</div>
+                      <td width="50%" align="right" style="background-color:#11122f; padding:18px 28px 10px; font-family:Arial,sans-serif; vertical-align:middle; text-align:right;">
+                        <div style="font-size:15px; line-height:1.9; text-align:right;">
+                          <div style="color:#ffffff;">PO BOX 605 Allen, TX 75013</div>
+                          <div><a href="mailto:info@bmybrand.com" style="color:#ffffff; text-decoration:none;">info@bmybrand.com</a></div>
+                          <div style="color:#ffffff;">+1 469 501 1401</div>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="3" style="background:linear-gradient(90deg, #11122f 0%, #1a1d4a 40%, #f45b25 100%); padding:9px 24px; text-align:right; font-family:Arial,sans-serif; font-size:14px; color:#ffffff;">
+                      <td colspan="2" style="background-color:#f45b25; padding:9px 24px; text-align:right; font-family:Arial,sans-serif; font-size:14px; color:#ffffff;">
                         <a href="https://bmybrand.com" style="color:#ffffff; text-decoration:none;">bmybrand.com</a>
                       </td>
                     </tr>
@@ -290,12 +284,13 @@ export async function POST(request: Request) {
                 </td>
               </tr>
               <tr>
-                <td style="background-color:#111111; border-top:6px solid #f45b25; padding:20px 32px; text-align:center; font-family:Arial,sans-serif;">
+                <td style="background-color:#11122F; border-top:6px solid #f45b25; padding:20px 32px; text-align:center; font-family:Arial,sans-serif;">
                   <div style="margin:0 0 10px; font-size:14px; color:#ffffff; font-weight:700;">BmyBrand</div>
                   <div style="font-size:13px; line-height:1.8;">
-                    <a href="https://www.instagram.com/" style="color:#ffffff; text-decoration:none; margin:0 8px;">Instagram</a>
-                    <a href="https://www.linkedin.com/" style="color:#ffffff; text-decoration:none; margin:0 8px;">LinkedIn</a>
-                    <a href="https://www.youtube.com/" style="color:#ffffff; text-decoration:none; margin:0 8px;">YouTube</a>
+                    <a href="https://www.instagram.com/bmybrand_official/" style="color:#ffffff; text-decoration:none; margin:0 8px;">Instagram</a>
+                    <a href="https://www.linkedin.com/company/bmy-brand/" style="color:#ffffff; text-decoration:none; margin:0 8px;">LinkedIn</a>
+                    <a href="https://www.facebook.com/bmybrandofficial/" style="color:#ffffff; text-decoration:none; margin:0 8px;">Facebook</a>
+                    <a href="https://www.youtube.com/@BMyBrandofficial" style="color:#ffffff; text-decoration:none; margin:0 8px;">YouTube</a>
                     <a href="mailto:${escapeHtml(payload.email)}" style="color:#ffffff; text-decoration:none; margin:0 8px;">Reply</a>
                   </div>
                 </td>
