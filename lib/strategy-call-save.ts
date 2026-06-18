@@ -1,4 +1,4 @@
-import { getMysqlErrorDetails, getMysqlPool } from '@/lib/mysql'
+import { getMysqlErrorDetails, getMysqlPool, getMysqlConfig } from '@/lib/mysql'
 
 export type StrategyCallRecord = {
   email: string
@@ -13,6 +13,7 @@ export type StrategyCallRecord = {
   appointmentDate: string
   appointmentTime: string
   timezone: string
+  ipAddress?: string
 }
 
 export function getBridgeConfig() {
@@ -51,6 +52,16 @@ export async function saveStrategyCallBooking(payload: StrategyCallRecord) {
     return saveViaBridge(bridge.url, bridge.secret, payload)
   }
 
+  const mysqlConfig = getMysqlConfig()
+  if (!mysqlConfig.isConfigured) {
+    throw Object.assign(
+      new Error(
+        'Booking storage is not configured. Set MYSQL_BRIDGE_URL + MYSQL_BRIDGE_SECRET or MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE.'
+      ),
+      { details: { code: 'STORAGE_NOT_CONFIGURED' } }
+    )
+  }
+
   return saveViaDirectMysql(payload)
 }
 
@@ -76,14 +87,21 @@ async function saveViaBridge(
   const result = await response.json().catch(() => ({}))
 
   if (!response.ok) {
-    throw Object.assign(
-      new Error(
-        typeof result.error === 'string'
-          ? result.error
-          : 'Bridge rejected the booking.'
-      ),
-      { details: { code: 'BRIDGE_HTTP_ERROR', status: response.status } }
-    )
+    const bridgeError =
+      typeof result.error === 'string' ? result.error : 'Bridge rejected the booking.'
+
+    throw Object.assign(new Error(bridgeError), {
+      details: {
+        code:
+          response.status === 401
+            ? 'BRIDGE_UNAUTHORIZED'
+            : response.status === 429
+              ? 'IP_ALREADY_SUBMITTED'
+              : 'BRIDGE_HTTP_ERROR',
+        status: response.status,
+        message: bridgeError,
+      },
+    })
   }
 
   return {
@@ -98,8 +116,8 @@ async function saveViaDirectMysql(payload: StrategyCallRecord) {
   const [result] = await pool.execute(
     `INSERT INTO strategy_call_bookings (
       email, name, country_code, phone, company_name, website_url,
-      budget, call_notes, source, appointment_date, appointment_time, timezone
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      budget, call_notes, source, appointment_date, appointment_time, timezone, ip_address
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       payload.email,
       payload.name,
@@ -113,6 +131,7 @@ async function saveViaDirectMysql(payload: StrategyCallRecord) {
       payload.appointmentDate,
       payload.appointmentTime,
       payload.timezone,
+      payload.ipAddress || null,
     ]
   )
 
@@ -122,6 +141,44 @@ async function saveViaDirectMysql(payload: StrategyCallRecord) {
       : null
 
   return { id: insertId, mode: 'mysql' as const }
+}
+
+export async function updateStrategyCallCalendarEventId(
+  bookingId: number,
+  calendarEventId: string
+) {
+  const bridge = getBridgeConfig()
+
+  if (bridge.url && bridge.secret) {
+    const response = await fetch(buildBridgeUrl(bridge.url, bridge.secret), {
+      method: 'POST',
+      headers: bridgeHeaders(bridge.secret),
+      body: JSON.stringify({
+        action: 'updateCalendarEventId',
+        id: bookingId,
+        calendarEventId,
+      }),
+      cache: 'no-store',
+    })
+
+    const result = await response.json().catch(() => ({}))
+    if (!response.ok) {
+      throw Object.assign(new Error('Failed to store calendar event id.'), { details: result })
+    }
+
+    return
+  }
+
+  const mysqlConfig = getMysqlConfig()
+  if (!mysqlConfig.isConfigured) {
+    return
+  }
+
+  const pool = getMysqlPool()
+  await pool.execute(
+    'UPDATE strategy_call_bookings SET calendar_event_id = ? WHERE id = ? LIMIT 1',
+    [calendarEventId, bookingId]
+  )
 }
 
 export async function checkStrategyCallStorage() {
@@ -146,12 +203,21 @@ export async function checkStrategyCallStorage() {
     }
 
     const result = await response.json().catch(() => ({}))
+    const unauthorized = response.status === 401
+
     return {
       ok: response.ok && result.ok === true,
       mode: 'bridge' as const,
       url: bridge.url,
       tableExists: result.tableExists === true,
-      ...(response.ok ? {} : { message: result.error ?? 'Bridge health check failed' }),
+      ...(unauthorized
+        ? {
+            message:
+              'Bridge unauthorized. MYSQL_BRIDGE_SECRET on Vercel must exactly match BRIDGE_SECRET in cpanel strategy-call.php.',
+          }
+        : response.ok
+          ? {}
+          : { message: result.error ?? 'Bridge health check failed' }),
     }
   }
 

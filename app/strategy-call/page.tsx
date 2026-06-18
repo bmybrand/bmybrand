@@ -12,10 +12,15 @@ import {
   detectCountryIsoFromIp,
   filterPhoneCountries,
   formatRestCountries,
+  getFlagImageUrl,
+  getInitialPhoneCountryState,
+  FALLBACK_DIAL_CODES,
+  MINIMAL_PHONE_COUNTRIES,
   replacePhoneDialCode,
   type PhoneCountry,
 } from "@/lib/phone-country";
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from "@/lib/website-url";
+import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from "@/lib/strategy-call-ip-config";
 import {
   dateHasAvailableSlots,
   detectUserTimeZone,
@@ -119,6 +124,30 @@ function ReviewCard({ review }: { review: (typeof reviews)[number] }) {
   );
 }
 
+function CountryFlag({
+  iso,
+  className,
+}: {
+  iso: string;
+  className?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  const code = (iso || "US").trim().toUpperCase();
+
+  if (failed || !code) {
+    return <span className={`text-base leading-none ${className ?? ""}`}>{code}</span>;
+  }
+
+  return (
+    <img
+      src={getFlagImageUrl(code)}
+      alt=""
+      className={className}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 function CustomCountrySelect({
   value,
   countryIso,
@@ -201,35 +230,29 @@ function CustomCountrySelect({
     countries.find((c) => c.code === countryIso && c.dialCode === value) ??
     countries.find((c) => c.code === countryIso) ??
     countries.find((c) => c.dialCode === value);
-  const displayLabel = selectedCountry ? (
-    <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
-      {selectedCountry.code && (
-        <img
-          src={`https://flagcdn.com/${selectedCountry.code.toLowerCase()}.svg`}
-          alt={selectedCountry.code}
-          className="h-3.5 w-[21px] shrink-0 object-cover rounded-[2px]"
-        />
-      )}
-      <span className="whitespace-nowrap overflow-hidden text-ellipsis">{selectedCountry.dialCode}</span>
-    </span>
-  ) : (
-    <span className="flex w-full items-center justify-center gap-2 overflow-hidden">
-      <span className="h-3.5 w-[21px] shrink-0 rounded-[2px] bg-white/10" />
-      <span className="whitespace-nowrap overflow-hidden text-ellipsis text-white/40">
-        {value || "…"}
-      </span>
-    </span>
-  );
+
+  const effectiveIso = (selectedCountry?.code || countryIso || "US").toUpperCase();
+  const effectiveDial =
+    selectedCountry?.dialCode ||
+    value ||
+    FALLBACK_DIAL_CODES[effectiveIso] ||
+    "+1";
 
   return (
-    <div className="relative w-[115px] shrink-0 border-r border-[#343556] bg-transparent" ref={containerRef}>
+    <div className="relative w-[128px] shrink-0 border-r border-[#343556] bg-transparent" ref={containerRef}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex h-full w-full items-center gap-1.5 px-3 text-sm text-white/70 outline-none"
+        className="flex h-full w-full items-center justify-between gap-1 px-2.5 text-sm text-white/70 outline-none"
         aria-label="Country calling code"
       >
-        {displayLabel}
+        <span className="flex min-w-0 flex-1 items-center gap-1.5">
+          <CountryFlag
+            iso={effectiveIso}
+            className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
+          />
+          <span className="truncate">{effectiveDial}</span>
+        </span>
         <svg
           className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
@@ -282,9 +305,8 @@ function CustomCountrySelect({
                     }`}
                   >
                     {c.code && (
-                      <img
-                        src={`https://flagcdn.com/${c.code.toLowerCase()}.svg`}
-                        alt={c.code}
+                      <CountryFlag
+                        iso={c.code}
                         className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover"
                       />
                     )}
@@ -308,20 +330,32 @@ function CustomCountrySelect({
 }
 
 export default function StrategyCallPage() {
+  const initialPhoneCountry = getInitialPhoneCountryState();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [countryCode, setCountryCode] = useState("");
-  const [countryIso, setCountryIso] = useState("");
+  const [countryCode, setCountryCode] = useState(initialPhoneCountry.countryCode);
+  const [countryIso, setCountryIso] = useState(initialPhoneCountry.countryIso);
   const [phone, setPhone] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [budget, setBudget] = useState("");
   const [callNotes, setCallNotes] = useState("");
   const [source, setSource] = useState("");
-  const [countries, setCountries] = useState<PhoneCountry[]>([]);
+  const [countries, setCountries] = useState<PhoneCountry[]>(MINIMAL_PHONE_COUNTRIES);
   const [step, setStep] = useState<"form" | "time" | "complete">("form");
   const phoneTouchedRef = useRef(false);
   const geoAppliedRef = useRef(false);
+
+  useEffect(() => {
+    fetch("/api/strategy-call/eligibility", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data: { allowed?: boolean }) => {
+        if (data.allowed === false) {
+          setIpBlocked(true);
+        }
+      })
+      .catch((err) => console.error("Strategy call eligibility check failed:", err));
+  }, []);
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all?fields=name,idd,cca2,flags")
@@ -436,6 +470,7 @@ export default function StrategyCallPage() {
   const [activeAgenda, setActiveAgenda] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [ipBlocked, setIpBlocked] = useState(false);
   const [completionVideoPaused, setCompletionVideoPaused] = useState(false);
   const [completionVideoMuted, setCompletionVideoMuted] = useState(true);
   const [reviewCardWidth, setReviewCardWidth] = useState(0);
@@ -502,6 +537,7 @@ export default function StrategyCallPage() {
   const formUnlocked = email.trim() !== "" && name.trim() !== "";
 
   const canContinue =
+    !ipBlocked &&
     formUnlocked &&
     phone.trim() !== "" &&
     companyName.trim() !== "" &&
@@ -605,7 +641,7 @@ export default function StrategyCallPage() {
 
   const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!canContinue) return;
+    if (!canContinue || ipBlocked) return;
     setStep("time");
   };
 
@@ -614,7 +650,7 @@ export default function StrategyCallPage() {
   };
 
   const goToTimeStep = () => {
-    if (!canContinue) return;
+    if (!canContinue || ipBlocked) return;
     setStep("time");
   };
 
@@ -641,7 +677,7 @@ export default function StrategyCallPage() {
   };
 
   const handleFinishBooking = async () => {
-    if (!selectedTime || isSubmitting) return;
+    if (!selectedTime || isSubmitting || ipBlocked) return;
 
     const selectedSlot = baseTimeSlots.find((slot) => slot.id === selectedTime);
     if (!selectedSlot) return;
@@ -674,7 +710,7 @@ export default function StrategyCallPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        const message = [result.error, result.hint, result.details?.message]
+        const message = [result.error, result.hint, result.details?.message, result.details]
           .filter(Boolean)
           .join(" — ");
         throw new Error(message || "Failed to save your booking.");
@@ -929,6 +965,12 @@ export default function StrategyCallPage() {
                         Book A Strategy Call With BmyBrand
                       </h2>
 
+                      {ipBlocked ? (
+                        <div className="mt-4 rounded-xl border border-[#F45B25]/40 bg-[#F45B25]/10 px-4 py-3 text-sm leading-6 text-[#FFB89A]">
+                          {STRATEGY_CALL_IP_LIMIT_MESSAGE}
+                        </div>
+                      ) : null}
+
                       <div className="mt-4 space-y-3 text-[0.96rem] leading-8 text-[#A4A8C9]">
                         <p>
                           Book a 30-minute strategy call with our team to discuss your goals, challenges, and
@@ -941,6 +983,7 @@ export default function StrategyCallPage() {
                       </div>
 
                       <form className="mt-6 space-y-4" onSubmit={handleContinue}>
+                        <fieldset disabled={ipBlocked} className="space-y-4 disabled:opacity-60">
                         <input
                           type="email"
                           placeholder="Email *"
@@ -1013,7 +1056,7 @@ export default function StrategyCallPage() {
                               <div>
                                 <div className="mb-2 text-[0.95rem] text-[#ADAECC] BenzinSemibold">Budget *</div>
                                 <div className="space-y-2.5">
-                                  {["$5k-$10k", "$10k-$20k", "$20k-$35k", "$35k-$50k", "$50k+"].map((option, i) => (
+                                  {["Below $1K", "$1K-$3K", "$3K-$5K", "$5K-$10K", "$10K-$20K", "Above $20K"].map((option, i) => (
                                     <label key={option} htmlFor={`budget${i}`} className="flex cursor-pointer items-center gap-2.5 text-sm text-[#ADAECC]">
                                       <input
                                         type="radio"
@@ -1088,6 +1131,7 @@ export default function StrategyCallPage() {
                           Continue
                           <span className="text-lg">→</span>
                         </button>
+                        </fieldset>
                       </form>
 
                       <div
@@ -1354,10 +1398,15 @@ export default function StrategyCallPage() {
                             {submitError ? (
                               <p className="mb-3 text-sm text-red-400">{submitError}</p>
                             ) : null}
+                            {ipBlocked ? (
+                              <p className="mb-3 text-sm text-red-400">
+                                {STRATEGY_CALL_IP_LIMIT_MESSAGE}
+                              </p>
+                            ) : null}
                             <button
                               type="button"
                               onClick={() => void handleFinishBooking()}
-                              disabled={isSubmitting}
+                              disabled={isSubmitting || ipBlocked}
                               className={`flex w-full items-center justify-center rounded-xl py-3.5 text-[1.05rem] text-white transition-colors duration-300 BenzinSemibold ${isSubmitting
                                 ? "cursor-not-allowed bg-[#343556] text-white/45"
                                 : "bg-gradient-to-r from-[#FF6A2B] to-[#FF8A3D] hover:brightness-110"

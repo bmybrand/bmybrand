@@ -15,8 +15,11 @@ CREATE TABLE IF NOT EXISTS strategy_call_bookings (
   appointment_date DATE DEFAULT NULL,
   appointment_time VARCHAR(32) DEFAULT NULL,
   timezone VARCHAR(191) DEFAULT NULL,
+  ip_address VARCHAR(45) DEFAULT NULL,
+  calendar_event_id VARCHAR(255) DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   INDEX idx_strategy_call_email (email),
-  INDEX idx_strategy_call_created_at (created_at)
+  INDEX idx_strategy_call_created_at (created_at),
+  INDEX idx_strategy_call_ip_created (ip_address, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
