@@ -145,26 +145,26 @@ export async function POST(request: Request) {
                 <td style="padding:0;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
                     <tr>
-                      <td width="58%" style="background-color:#231f20; padding:28px 28px 26px; color:#ffffff; font-family:Arial,sans-serif; vertical-align:top;">
-                        <div style="font-size:15px; line-height:1.9;">
-                          <div>PO BOX 605 Allen, TX 75013</div>
-                          <div><a href="mailto:info@bmybrand.com" style="color:#ffffff; text-decoration:none;">info@bmybrand.com</a></div>
-                          <div>+1 469 501 1401</div>
-                        </div>
-                      </td>
-                      <td width="10%" style="background:linear-gradient(60deg, #231f20 0%, #231f20 36%, #f45b25 36%, #ff843e 58%, #11122f 58%, #11122f 74%, #ffffff 74%, #ffffff 100%); font-size:0; line-height:0;">&nbsp;</td>
-                      <td width="32%" align="center" style="background-color:#ffffff; padding:18px 20px 10px; font-family:Arial,sans-serif; vertical-align:middle; text-align:center;">
+                      <td width="58%" align="center" style="background-color:#231f20; padding:28px 28px 26px; color:#ffffff; font-family:Arial,sans-serif; vertical-align:middle; text-align:center;">
                         <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin:0 auto;">
                           <tr>
                             <td style="padding-right:12px; vertical-align:middle;">
                               <div style="width:44px; height:44px; background:linear-gradient(135deg, #f45b25 0%, #ff843e 100%); border-radius:10px; color:#ffffff; font-size:28px; line-height:44px; font-weight:700; text-align:center;">B</div>
                             </td>
                             <td style="vertical-align:middle; text-align:left;">
-                              <div style="font-size:24px; line-height:1; font-weight:700; color:#11122f; letter-spacing:0.2px;">BmyBrand</div>
-                              <div style="margin-top:6px; font-size:12px; line-height:1; color:#6b7280;">Design. Build. Grow.</div>
+                              <div style="font-size:24px; line-height:1; font-weight:700; color:#ffffff; letter-spacing:0.2px;">BmyBrand</div>
+                              <div style="margin-top:6px; font-size:12px; line-height:1; color:#ffffff;">Design. Build. Grow.</div>
                             </td>
                           </tr>
                         </table>
+                      </td>
+                      <td width="10%" style="background:linear-gradient(60deg, #231f20 0%, #231f20 36%, #f45b25 36%, #ff843e 58%, #11122f 58%, #11122f 74%, #ffffff 74%, #ffffff 100%); font-size:0; line-height:0;">&nbsp;</td>
+                      <td width="32%" style="background-color:#ffffff; padding:18px 20px 10px; font-family:Arial,sans-serif; vertical-align:middle;">
+                        <div style="font-size:15px; line-height:1.9;">
+                          <div style="color:#11122f;">PO BOX 605 Allen, TX 75013</div>
+                          <div><a href="mailto:info@bmybrand.com" style="color:#11122f; text-decoration:none;">info@bmybrand.com</a></div>
+                          <div style="color:#11122f;">+1 469 501 1401</div>
+                        </div>
                       </td>
                     </tr>
                     <tr>
