@@ -7,8 +7,17 @@ import ChatHeader from './ChatHeader'
 import ChatWindow from './ChatWindow'
 import ChatInput from './ChatInput'
 import { useChatState } from '@/hooks/useChatState'
+import { isSupabaseBrowserConfigured } from '@/lib/supabase/client'
 
 export default function ChatWidget() {
+  if (!isSupabaseBrowserConfigured()) {
+    return null
+  }
+
+  return <ChatWidgetInner />
+}
+
+function ChatWidgetInner() {
   const [isOpen, setIsOpen] = useState(false)
 
   const {

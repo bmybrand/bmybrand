@@ -1,34 +1,32 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
-import { getSupabasePublicConfig, getSupabaseServiceKey } from './env'
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-let adminClient: SupabaseClient | null = null
+let adminClient: SupabaseClient | null = null;
 
-function getSupabaseAdminClient() {
-  if (adminClient) return adminClient
+function getSupabaseAdmin(): SupabaseClient {
+  if (!adminClient) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL;
+    const supabaseServiceKey = process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY;
 
-  const { url, isConfigured } = getSupabasePublicConfig()
-  const serviceKey = getSupabaseServiceKey()
+    if (!supabaseUrl || !supabaseServiceKey) {
+      throw new Error(
+        "Supabase is not configured. Add NEXT_PUBLIC_BMYB_SUPABASE_URL and BMYB_SUPABASE_SERVICE_ROLE_KEY to .env.local.",
+      );
+    }
 
-  if (!isConfigured || !serviceKey) {
-    throw new Error(
-      'Supabase admin is not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.'
-    )
+    adminClient = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
   }
 
-  adminClient = createClient(url, serviceKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  })
-
-  return adminClient
+  return adminClient;
 }
 
 export const supabaseAdmin = new Proxy({} as SupabaseClient, {
   get(_target, prop, receiver) {
-    const client = getSupabaseAdminClient()
-    const value = Reflect.get(client, prop, receiver)
-    return typeof value === 'function' ? value.bind(client) : value
+    const value = Reflect.get(getSupabaseAdmin(), prop, receiver);
+    return typeof value === "function" ? value.bind(getSupabaseAdmin()) : value;
   },
-})
+});

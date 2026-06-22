@@ -3,15 +3,13 @@
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 
 import AuditNavbar from "@/components/AuditNavbar";
-
-function normalizeSiteLabel(site: string) {
-  if (!site) return "https://www.bakertilly.com/";
-  if (/^https?:\/\//i.test(site)) return site;
-  return `https://${site}`;
-}
+import { AuditPracticeList, SectionScore } from "@/components/audit/AuditPracticeList";
+import { AuditIssueCount, AuditScoreGauge } from "@/components/audit/AuditScoreGauge";
+import { useAuditReport } from "@/lib/audit/use-audit-report";
+import { getAuditIdForSite } from "@/lib/audit/session";
 
 function getHostname(site: string) {
   try {
@@ -21,31 +19,23 @@ function getHostname(site: string) {
   }
 }
 
-function LaunchIcon() {
-  return (
-    <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <path d="M4 12 12 4M6 4h6v6" />
-    </svg>
-  );
-}
-
-function SectionScore({ score }: { score: number }) {
-  return (
-    <div className="inline-flex items-center rounded-[10px] bg-[#4A4B68] px-4 py-2 text-[16px] font-semibold leading-none text-white/90">
-      <span>Score: {score}</span>
-    </div>
-  );
-}
-
 function ReportUnlockModal({
   open,
   onClose,
   onUnlock,
+  submitting,
+  error,
 }: {
   open: boolean;
   onClose: () => void;
-  onUnlock: () => void;
+  onUnlock: (values: { name: string; email: string; company: string }) => void;
+  submitting: boolean;
+  error: string | null;
 }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+
   if (!open) return null;
 
   const highlights = [
@@ -71,6 +61,11 @@ function ReportUnlockModal({
     },
   ];
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onUnlock({ name: name.trim(), email: email.trim(), company: company.trim() });
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B0D21]/82 px-3 py-5 backdrop-blur-md">
       <div className="relative w-full max-w-[1160px] overflow-hidden rounded-[14px] border border-[#24274A] bg-[#232448] shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
@@ -95,12 +90,15 @@ function ReportUnlockModal({
               and actionable growth insights.
             </p>
 
-            <form className="mt-4 space-y-3.5">
+            <form className="mt-4 space-y-3.5" onSubmit={handleSubmit}>
               <div>
                 <label className="mb-2 block text-[20px] text-white BenzinRegular">Full Name *</label>
                 <input
                   type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
                   placeholder="Alex Carter"
+                  required
                   className="h-10 w-full rounded-[6px] border border-[#34375E] bg-[#25274B] px-4 text-[12px] text-white outline-none transition-colors placeholder:text-white/42 focus:border-[#F45B25]"
                 />
               </div>
@@ -108,7 +106,10 @@ function ReportUnlockModal({
                 <label className="mb-2 block text-[20px] text-white BenzinRegular">Email *</label>
                 <input
                   type="email"
-                  placeholder="Alex Carter"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="alex@company.com"
+                  required
                   className="h-10 w-full rounded-[6px] border border-[#34375E] bg-[#25274B] px-4 text-[12px] text-white outline-none transition-colors placeholder:text-white/42 focus:border-[#F45B25]"
                 />
               </div>
@@ -116,16 +117,22 @@ function ReportUnlockModal({
                 <label className="mb-2 block text-[20px] text-white BenzinRegular">Company Name*</label>
                 <input
                   type="text"
-                  placeholder="Alex Carter"
+                  value={company}
+                  onChange={(event) => setCompany(event.target.value)}
+                  placeholder="Company Inc."
+                  required
                   className="h-10 w-full rounded-[6px] border border-[#34375E] bg-[#25274B] px-4 text-[12px] text-white outline-none transition-colors placeholder:text-white/42 focus:border-[#F45B25]"
                 />
               </div>
+              {error ? (
+                <p className="text-sm text-[#F45B25]">{error}</p>
+              ) : null}
               <button
-                type="button"
-                onClick={onUnlock}
-                className="mt-3 inline-flex h-[54px] w-full items-center justify-center rounded-[6px] bg-[#FF7A37] px-5 text-[20px] text-white BenzinSemibold transition-all duration-300 hover:brightness-105"
+                type="submit"
+                disabled={submitting}
+                className="mt-3 inline-flex h-[54px] w-full items-center justify-center rounded-[6px] bg-[#FF7A37] px-5 text-[20px] text-white BenzinSemibold transition-all duration-300 hover:brightness-105 disabled:opacity-60"
               >
-                Unlock Full Report
+                {submitting ? "Unlocking..." : "Unlock Full Report"}
               </button>
             </form>
           </div>
@@ -153,14 +160,52 @@ function ReportUnlockModal({
   );
 }
 
-export default function ReportClient({ site }: { site?: string }) {
+export default function ReportClient({
+  auditId: auditIdProp,
+  site,
+}: {
+  auditId?: string;
+  site?: string;
+}) {
   const router = useRouter();
+  const [resolvedAuditId, setResolvedAuditId] = useState<string | undefined>(auditIdProp);
+  const [resolvedIdReady, setResolvedIdReady] = useState(Boolean(auditIdProp));
+
+  useEffect(() => {
+    if (auditIdProp) {
+      setResolvedAuditId(auditIdProp);
+      setResolvedIdReady(true);
+      return;
+    }
+
+    if (site) {
+      const stored = getAuditIdForSite(site);
+      if (stored) {
+        setResolvedAuditId(stored);
+        router.replace(`/grow-my-business/report?auditId=${encodeURIComponent(stored)}`);
+      }
+    }
+
+    setResolvedIdReady(true);
+  }, [auditIdProp, router, site]);
+
+  const { data, loading, error } = useAuditReport(resolvedAuditId);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
-  const siteLabel = useMemo(() => normalizeSiteLabel(site ?? ""), [site]);
+  const [unlockError, setUnlockError] = useState<string | null>(null);
+  const [unlocking, setUnlocking] = useState(false);
+
+  const siteLabel = data?.siteUrl ?? "";
   const hostname = useMemo(() => getHostname(siteLabel), [siteLabel]);
   const previewSrc = useMemo(
-    () => `/api/screenshot?site=${encodeURIComponent(siteLabel)}`,
-    [siteLabel]
+    () => (siteLabel ? `/api/screenshot?site=${encodeURIComponent(siteLabel)}` : ""),
+    [siteLabel],
+  );
+
+  const positioningSection = data?.report.sections.find(
+    (section) => section.id === "brand-positioning",
+  );
+  const differentiationSection = data?.report.sections.find(
+    (section) => section.id === "competitive-differentiation",
   );
 
   useEffect(() => {
@@ -182,17 +227,117 @@ export default function ReportClient({ site }: { site?: string }) {
     };
   }, [isReportModalOpen]);
 
+  const handleUnlock = async (values: {
+    name: string;
+    email: string;
+    company: string;
+  }) => {
+    if (!resolvedAuditId) return;
+
+    setUnlocking(true);
+    setUnlockError(null);
+
+    try {
+      const response = await fetch(`/api/audit/${resolvedAuditId}/unlock`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(payload.error ?? "Failed to unlock report.");
+      }
+
+      router.push(`/grow-my-business/report/complete?auditId=${encodeURIComponent(resolvedAuditId)}`);
+    } catch (unlockFailure) {
+      setUnlockError(
+        unlockFailure instanceof Error
+          ? unlockFailure.message
+          : "Failed to unlock report.",
+      );
+    } finally {
+      setUnlocking(false);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.unlocked && resolvedAuditId) {
+      router.replace(`/grow-my-business/report/complete?auditId=${encodeURIComponent(resolvedAuditId)}`);
+    }
+  }, [resolvedAuditId, data?.unlocked, router]);
+
+  if (!resolvedIdReady || (resolvedAuditId && loading)) {
+    return (
+      <div className="min-h-screen bg-[#11122F] text-white">
+        <div className="flex min-h-screen items-center justify-center">
+          <p className="text-[20px] text-[#A6ABCC]">Loading your audit report...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!resolvedAuditId) {
+    return (
+      <div className="min-h-screen bg-[#11122F] text-white">
+        <main className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 text-center">
+          <h1 className="text-[32px] BenzinSemibold">No audit report found</h1>
+          <p className="mt-4 text-[18px] leading-8 text-[#A6ABCC]">
+            Start a new audit from the grow-my-business page to generate a dynamic AI report.
+          </p>
+          <Link
+            href="/grow-my-business"
+            className="mt-8 inline-flex h-[52px] items-center rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-8 text-white BenzinSemibold"
+          >
+            Start a new audit
+          </Link>
+        </main>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="min-h-screen bg-[#11122F] text-white">
+        <main className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 text-center">
+          <h1 className="text-[32px] BenzinSemibold">Report unavailable</h1>
+          <p className="mt-4 text-[18px] leading-8 text-[#A6ABCC]">
+            {error ?? "We could not load this audit report."}
+          </p>
+          <Link
+            href="/grow-my-business"
+            className="mt-8 inline-flex h-[52px] items-center rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-8 text-white BenzinSemibold"
+          >
+            Start a new audit
+          </Link>
+        </main>
+      </div>
+    );
+  }
+
+  if (data.unlocked) {
+    return (
+      <div className="min-h-screen bg-[#11122F] text-white">
+        <div className="flex min-h-screen items-center justify-center">
+          <p className="text-[20px] text-[#A6ABCC]">Redirecting to full report...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#11122F] text-white">
       <ReportUnlockModal
         open={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
-        onUnlock={() => router.push(`/grow-my-business/report/complete?site=${encodeURIComponent(siteLabel)}`)}
+        onUnlock={handleUnlock}
+        submitting={unlocking}
+        error={unlockError}
       />
       <div className="px-2">
         <AuditNavbar siteLabel={siteLabel} resultsBy="Bmybrand" />
         <div className="relative bg-[#11122F] mx-auto w-[90%] xl:w-[75%]">
-
           <main className="pt-44 lg:pt-52">
             <section className="grid gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(290px,0.72fr)] lg:items-start">
               <div className="max-w-[45rem] pt-1">
@@ -201,32 +346,8 @@ export default function ReportClient({ site }: { site?: string }) {
                 </h1>
 
                 <p className="mt-3 max-w-[31rem] text-[16px] leading-6 text-[#A6ABCC] sm:text-[16px]">
-                  Your website has a solid foundation, but clarity, structure, and user flow can be
-                  improved to unlock better results.
+                  {data.summary}
                 </p>
-
-                <div className="mt-5 space-y-3 text-[11px] text-white/86 sm:text-[11.5px]">
-                  <div className="flex items-start gap-2.5">
-                    <span className="mt-[0.12rem] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#F45B25]">
-                      <img
-                        src="/bmyb-logo-group119-01.svg"
-                        alt=""
-                        className="h-2.5 w-2.5 object-contain brightness-0 invert"
-                      />
-                    </span>
-                    <span>View A Detailed Breakdown With Category-Based Scoring</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <span className="mt-[0.12rem] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#F45B25]">
-                      <img
-                        src="/bmyb-logo-group119-01.svg"
-                        alt=""
-                        className="h-2.5 w-2.5 object-contain brightness-0 invert"
-                      />
-                    </span>
-                    <span>Get A Clear Action Plan To Improve Performance And Conversions</span>
-                  </div>
-                </div>
 
                 <div className="mt-6 mb-8 flex flex-col gap-4 BenzinSemibold sm:flex-row">
                   <button
@@ -254,73 +375,47 @@ export default function ReportClient({ site }: { site?: string }) {
               </div>
 
               <div className="grid max-w-[380px] gap-5 sm:grid-cols-2 lg:max-w-[420px]">
-                  <div className="rounded-[14px] bg-[#191A35] px-3 py-6">
+                <div className="rounded-[14px] bg-[#191A35] px-3 py-6">
                   <div className="text-[16px] leading-none text-white BenzinSemibold text-center w-full">Your Site Score</div>
                   <div className="mt-4 flex justify-center">
-                    <div className="relative h-[128px] w-[190px]">
-                      <svg
-                        viewBox="0 0 190 128"
-                        className="absolute inset-0 h-full w-full"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M 15 113 A 78 78 0 0 1 175 113"
-                          fill="none"
-                          stroke="#2E315F"
-                          strokeWidth="26"
-                          strokeLinecap="round"
-                        />
-                        <path
-                          d="M 15 113 A 78 78 0 0 1 175 113"
-                          fill="none"
-                          stroke="#FF7A37"
-                          strokeWidth="26"
-                          strokeLinecap="round"
-                          pathLength="100"
-                          strokeDasharray="64 36"
-                        />
-                      </svg>
-                      <div className="absolute inset-x-0 bottom-[18px] text-center text-[20px] leading-none text-[#FF7A37] BenzinSemibold">
-                        27/100
-                      </div>
-                    </div>
+                    <AuditScoreGauge score={data.overallScore} className="h-[128px] w-[190px]" />
                   </div>
                 </div>
 
-
                 <div className="rounded-[14px] bg-[#191A35] px-0 py-0 flex flex-col items-center overflow-hidden">
                   <div className="text-[16px] leading-none text-white BenzinSemibold text-center w-full mt-5">Current Status</div>
-                  <div className="relative mt-3 w-full h-full  flex flex-col items-center justify-center overflow-hidden" >
+                  <div className="relative mt-3 w-full h-full flex flex-col items-center justify-center overflow-hidden">
                     <img
                       src="/bmyb-grow-report-bottom-accent-01.svg"
                       alt="Caution triangle"
                       className="absolute left-1/2 top-0 min-w-[120%] min-h-[120%] -translate-x-1/2 object-cover"
-                      style={{zIndex: 1, objectPosition: 'top'}}
+                      style={{ zIndex: 1, objectPosition: "top" }}
                     />
-                    <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
-                      <div className="text-[32px] leading-none text-[#FF7A37] BenzinSemibold">9+</div>
-                      <div className="mt-2 text-center text-[13px] leading-none text-[#FF7A37] font-normal">issues found</div>
+                    <div className="relative z-10 flex flex-col items-center justify-center w-full h-full py-8">
+                      <AuditIssueCount count={data.issueCount} />
                     </div>
                   </div>
                 </div>
 
-                <div className="sm:col-span-2">
-                  <div className="relative overflow-hidden rounded-[12px] border border-[#3D447B] bg-[#1B1D44]">
-                    <img
-                      src={previewSrc}
-                      alt={`${hostname} preview`}
-                      className="h-[180px] w-full object-cover sm:h-[200px]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,28,0.04),rgba(10,12,28,0.4))]" />
-                    <div className="absolute inset-x-0 top-1/2 h-[46px] -translate-y-1/2 bg-[rgba(11,13,33,0.62)] backdrop-blur-[1.5px]" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex items-center gap-2.5 text-[18px] text-white BenzinSemibold">
-                        <img src="/bmyb-tech-whitelogo-01.svg" alt="" className="h-6 w-6 object-contain brightness-0 invert" />
-                        <span>{hostname}</span>
+                {previewSrc ? (
+                  <div className="sm:col-span-2">
+                    <div className="relative overflow-hidden rounded-[12px] border border-[#3D447B] bg-[#1B1D44]">
+                      <img
+                        src={previewSrc}
+                        alt={`${hostname} preview`}
+                        className="h-[180px] w-full object-cover sm:h-[200px]"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,12,28,0.04),rgba(10,12,28,0.4))]" />
+                      <div className="absolute inset-x-0 top-1/2 h-[46px] -translate-y-1/2 bg-[rgba(11,13,33,0.62)] backdrop-blur-[1.5px]" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="flex items-center gap-2.5 text-[18px] text-white BenzinSemibold">
+                          <img src="/bmyb-tech-whitelogo-01.svg" alt="" className="h-6 w-6 object-contain brightness-0 invert" />
+                          <span>{hostname}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : null}
               </div>
             </section>
 
@@ -341,133 +436,80 @@ export default function ReportClient({ site }: { site?: string }) {
                     </button>{" "}
                     and complete a short form.
                   </p>
-                  <p className="mt-5 text-[16px]">
-                    This audit provides insights into key areas such as structure, messaging, usability,
-                    and performance, along with actionable recommendations to improve your overall score.
-                  </p>
-                </div>
-                <div className="mt-15 flex items-center justify-between gap-4">
-                  <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
-                    Positioning
-                  </h2>
-                  <SectionScore score={9} />
-                </div>
-                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                  {/* Pill badge in normal flow */}
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
-                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
-                      <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
-                    </span>
-                    Effective Practices
-                  </div>
-                  <p className="flex items-start gap-2 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    The homepage communicates that the company provides advisory, tax, and assurance services focused on finance-related industries.
-                  </p>
                 </div>
 
-                {/* Improvement Opportunities Section */}
-                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
-                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
-                      <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
-                    </span>
-                    Improvement Opportunities
-                  </div>
-                  <ul className="pl-0">
-                    <li className="flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]">
-                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                      Introduce a clearer and more concise headline that highlights the company’s core value proposition.
-                    </li>
-                    <li className="flex items-start gap-2 border-b border-white/10 py-5 text-[16px]">
-                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                      Ensure messaging quickly explains who the service is for and what makes it valuable.
-                    </li>
-                    <li className="flex items-start gap-2 pt-5 text-[16px]">
-                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                      Strengthen above-the-fold content to improve clarity and engagement.
-                    </li>
-                  </ul>
-                </div>
+                {positioningSection ? (
+                  <>
+                    <div className="mt-15 flex items-center justify-between gap-4">
+                      <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
+                        Positioning
+                      </h2>
+                      <SectionScore score={positioningSection.score} />
+                    </div>
+                    <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                      <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
+                        <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                          <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
+                        </span>
+                        Effective Practices
+                      </div>
+                      <AuditPracticeList items={positioningSection.effectivePractices} variant="positive" />
+                    </div>
+                    {positioningSection.improvementOpportunities.length > 0 ? (
+                      <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                        <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
+                          <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                            <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
+                          </span>
+                          Improvement Opportunities
+                        </div>
+                        <AuditPracticeList
+                          items={positioningSection.improvementOpportunities}
+                          variant="improvement"
+                        />
+                      </div>
+                    ) : null}
+                  </>
+                ) : null}
 
-                
-                <div className="mt-15 flex items-center justify-between gap-4">
-                  <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
-                    Differentiation
-                  </h2>
-                  <SectionScore score={0} />
-                </div>
-                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                  {/* Pill badge in normal flow */}
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
-                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
-                      <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
-                    </span>
-                    Observations
-                  </div>
-                  <p className="flex items-start gap-2 text-[16px]">
-                    <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                        <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#22C55E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    The current messaging lacks strong differentiation and does not clearly communicate what sets the company apart from competitors.
-                  </p>
-                </div>
+                {differentiationSection ? (
+                  <>
+                    <div className="mt-15 flex items-center justify-between gap-4">
+                      <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
+                        Differentiation
+                      </h2>
+                      <SectionScore score={differentiationSection.score} />
+                    </div>
+                    <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                      <div className="mt-1 mb-7 flex items-center rounded-full border border-[#22C55E] px-3 py-0.5 text-[#22C55E] bg-[#11122F] text-[17px] font-semibold w-max">
+                        <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                          <span className="block h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
+                        </span>
+                        Observations
+                      </div>
+                      <AuditPracticeList
+                        items={differentiationSection.effectivePractices}
+                        variant="positive"
+                      />
+                    </div>
+                    {differentiationSection.improvementOpportunities.length > 0 ? (
+                      <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
+                        <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
+                          <span className="mr-2 flex h-2 w-2 items-center justify-center">
+                            <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
+                          </span>
+                          Improvement Opportunities
+                        </div>
+                        <AuditPracticeList
+                          items={differentiationSection.improvementOpportunities}
+                          variant="improvement"
+                        />
+                      </div>
+                    ) : null}
+                  </>
+                ) : null}
 
-                {/* Improvement Opportunities Section */}
-                <div className="mt-6 rounded-[16px] border border-[#1B1D44] p-6 text-sm leading-7 text-[#A6ABCC]">
-                  <div className="mt-1 mb-7 flex items-center rounded-full border border-[#F45B25] px-3 py-0.5 text-[#F45B25] bg-[#11122F] text-[17px] font-semibold w-max">
-                    <span className="mr-2 flex h-2 w-2 items-center justify-center">
-                      <span className="block h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
-                    </span>
-                    Improvement Opportunities
-                  </div>
-                  <ul className="pl-0">
-                    <li className="flex items-start gap-2 border-b border-white/10 pb-5 text-[16px]">
-                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                        Clearly define unique strengths or specialized expertise within the target industry.
-                    </li>
-                    <li className="flex items-start gap-2 border-b border-white/10 py-5 text-[16px]">
-                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                      Add specific value points that highlight why clients should choose this company over alternatives.
-                    </li>
-                    <li className="flex items-start gap-2 pt-5 text-[16px]">
-                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center">
-                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                          <path d="M2.5 8.5L6.5 12L13.5 5" stroke="#F45B25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                      Use proof elements such as results, experience, or niche focus to strengthen positioning.
-                    </li>
-                  </ul>
-                </div>
-
-<div className="mt-6 mb-6 overflow-hidden rounded-[16px] bg-[#191A35] ">
+                <div className="mt-6 mb-6 overflow-hidden rounded-[16px] bg-[#191A35]">
                   <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between">
                     <div className="w-full p-6 py-7 xl:w-[55%] xl:pl-6">
                       <h3 className="text-[18px] leading-[1.15] text-white BenzinSemibold sm:text-[24px]">
@@ -476,7 +518,6 @@ export default function ReportClient({ site }: { site?: string }) {
                       <p className="mt-4 text-[16px] leading-8 text-[#A6ABCC]">
                         Unlock a detailed audit report with category scores, performance insights, UX findings, and actionable next steps tailored to your website.
                       </p>
-
                       <button
                         type="button"
                         onClick={() => setIsReportModalOpen(true)}
@@ -488,7 +529,6 @@ export default function ReportClient({ site }: { site?: string }) {
                         <span className="px-3">Access Full Report</span>
                       </button>
                     </div>
-
                     <div className="relative hidden h-[220px] w-full shrink-0 self-end overflow-hidden xl:block xl:w-[45%]">
                       <img
                         src="/bmyb-grow-report-cta-visual-01.svg"
@@ -500,32 +540,24 @@ export default function ReportClient({ site }: { site?: string }) {
                 </div>
               </div>
 
-              
-
               <aside className="h-fit w-full lg:sticky lg:top-32 lg:w-[35%] lg:self-start">
                 <div className="rounded-[16px] bg-gradient-to-r from-[#F45B25] to-[#FF843E] p-5 text-white shadow-[0_20px_40px_rgba(244,91,37,0.24)]">
-                <div className="flex -space-x-2">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#1B1D44] text-xs">A</span>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#2D356B] text-xs">B</span>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#F45B25] bg-[#6A321E] text-xs">C</span>
-                </div>
-                <h3 className="mt-5 text-[24px] leading-[1.08] BenzinSemibold">
-                  Improve What&apos;s Holding Your Website Back
-                </h3>
-                <p className="mt-4 text-[14px] leading-6 text-white/88">
-                  Book a free consultation to review your audit and get expert recommendations tailored to your website.
-                </p>
-                <Link
-                  href="/strategy-call"
-                  className="mt-6 inline-flex h-[54px] items-center rounded-lg bg-white px-6 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
-                >
-                  Talk To Our Team
-                </Link>
+                  <h3 className="mt-2 text-[24px] leading-[1.08] BenzinSemibold">
+                    Improve What&apos;s Holding Your Website Back
+                  </h3>
+                  <p className="mt-4 text-[14px] leading-6 text-white/88">
+                    Book a free consultation to review your audit and get expert recommendations tailored to your website.
+                  </p>
+                  <Link
+                    href="/strategy-call"
+                    className="mt-6 inline-flex h-[54px] items-center rounded-lg bg-white px-6 text-sm text-[#F45B25] transition-transform duration-200 hover:-translate-y-0.5 BenzinSemibold"
+                  >
+                    Talk To Our Team
+                  </Link>
                 </div>
               </aside>
             </section>
           </main>
-
         </div>
       </div>
       <Footer />
