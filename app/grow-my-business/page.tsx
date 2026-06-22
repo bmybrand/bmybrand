@@ -50,7 +50,12 @@ export default function GrowMyBusinessPage() {
     setSubmitted(true);
     setAuditModalOpen(false);
     const resolvedSite = resolveAuditSiteInput(website);
-    router.push(`/grow-my-business/analyzing?site=${encodeURIComponent(resolvedSite)}`);
+    const params = new URLSearchParams({
+      site: resolvedSite,
+      industry,
+      goal: websiteGoal,
+    });
+    router.push(`/grow-my-business/analyzing?${params.toString()}`);
   };
 
   useEffect(() => {
@@ -128,14 +133,14 @@ export default function GrowMyBusinessPage() {
                   performance gaps, improve user experience, and drive better results.
                 </p>
 
-                <div className="mt-7 rounded-xl border border-[#2A2B47] bg-[#1B1C3A] px-5 py-4">
+                {/* <div className="mt-7 rounded-xl border border-[#2A2B47] bg-[#1B1C3A] px-5 py-4">
                   <p className="text-[15px] text-white BenzinSemibold">Under Construction</p>
                   <p className="mt-2 text-sm leading-6 text-[#9EA2C5]">
                     This audit experience is being updated and will be available here soon.
                   </p>
-                </div>
+                </div> */}
 
-                <div className="hidden">
+                <div className="show">
                   <form onSubmit={handleSubmit} className="mt-7">
                     <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
                       <input
