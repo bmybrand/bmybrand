@@ -1,9 +1,9 @@
 import type { ServicePageData } from './types'
 
 export const softwareDevelopmentServiceData: ServicePageData = {
-  slug: 'software-development',
-  eyebrow: 'Software Development',
-  heroTitle: 'We Build Websites, PWAs, and SaaS Platforms for Modern Businesses',
+  slug: 'web-development',
+  eyebrow: 'Web Development',
+  heroTitle: 'We Build High-Performing Websites and Web Platforms',
   heroDescription:
     'At BMYBrand, we deliver high-performance web platforms tailored for growth, scalability, and seamless user experience. As a top progressive web app development company and trusted website development company in Texas, we create everything from responsive business websites to advanced SaaS platforms and enterprise-grade digital systems. Whether you need custom SaaS development services or a reliable progressive web application development service, we build solutions designed for long-term performance.',
   heroList: [
@@ -17,11 +17,11 @@ export const softwareDevelopmentServiceData: ServicePageData = {
     { title: 'Business-Focused Technology' },
   ],
   bannerImage: '/bmyb-services-software-banner-01.webp',
-  bannerAlt: 'Software development',
-  overviewTitle: 'Modern Development Solutions Built for Scale',
+  bannerAlt: 'Web development',
+  overviewTitle: 'Modern Web Development Solutions Built for Scale',
   overviewDescription:
     'We help businesses launch smarter digital products through advanced development strategies and scalable technologies. As a progressive web app development company in the USA and provider of custom SaaS application development services, we focus on building fast, secure, and user-focused platforms. From startups to enterprise organizations, our solutions are designed to improve operations, enhance customer experience, and support long-term business growth.',
-  overviewAccentTitle: 'Development Services We Offer',
+  overviewAccentTitle: 'Web Development Services We Offer',
   overviewItems: [
     {
       number: '1',

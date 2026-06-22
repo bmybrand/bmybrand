@@ -70,6 +70,28 @@ export const metadata: Metadata = {
   },
 };
 
+function PreloaderFallback() {
+  return (
+    <div
+      aria-label="Page loading"
+      className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black"
+      role="status"
+    >
+      <video
+        autoPlay
+        className="h-full w-full object-cover"
+        loop
+        muted
+        playsInline
+        preload="auto"
+      >
+        <source src="/bmyb-global-preloader-01.webm" type="video/webm" />
+        <source src="/bmyb-global-preloader-01.mp4" type="video/mp4" />
+      </video>
+    </div>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -88,7 +110,7 @@ export default function RootLayout({
         }
       >
         <GoogleAnalytics />
-        <Suspense fallback={children}>
+        <Suspense fallback={<PreloaderFallback />}>
           <GlobalPreloader>{children}</GlobalPreloader>
         </Suspense>
         <ChatWidgetGate />

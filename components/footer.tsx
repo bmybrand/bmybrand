@@ -64,12 +64,16 @@ const IMPORTANT_LINKS = [
 ]
 
 const SERVICE_LINKS = [
-  { label: 'UI/UX Design', href: '/services/software-development' },
-  { label: 'Website Development', href: '/services/software-development' },
-  { label: 'Branding & Identity', href: '/services/brand-experience' },
-  { label: 'AI Solutions', href: '/services/ai-driven' },
-  { label: 'Digital Marketing', href: '/services/digital-marketing' },
+  { label: 'AI-Driven Solutions', href: '/services/ai-driven' },
+  { label: 'Website Development', href: '/services/web-development' },
+  { label: 'Mobile App Development', href: '/services/mobile-app-development' },
+  { label: 'MVP Development', href: '/services/mvp-development' },
   { label: 'E-Commerce Solutions', href: '/services/commerce-solutions' },
+  { label: 'Cloud Solutions', href: '/services/cloud-solutions' },
+  { label: 'SEO & AEO/GEO', href: '/services/seo-aeo-geo' },
+  { label: 'Digital Marketing', href: '/services/digital-marketing' },
+  { label: 'Brand Experience', href: '/services/brand-experience' },
+  { label: 'Animation & Video Editing', href: '/services/animation-video-editing' },
 ]
 
 const REVIEW_PLATFORMS = [

@@ -1,5 +1,5 @@
-import SoftwareDevelopmentPage from '@/components/services/softwaredevelopmentpage'
+import { redirect } from 'next/navigation'
 
 export default function Page() {
-  return <SoftwareDevelopmentPage />
+  redirect('/services/web-development')
 }

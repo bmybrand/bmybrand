@@ -10,7 +10,9 @@ gsap.registerPlugin(ScrollTrigger);
 const FullyAnimatedGrid: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showContent, setShowContent] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches
+  );
 
   const showTimer = useRef<number | null>(null);
   const collapseTimer = useRef<number | null>(null);
@@ -59,24 +61,18 @@ const FullyAnimatedGrid: React.FC = () => {
     const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
       const matches = "matches" in event ? event.matches : mediaQuery.matches;
       setIsDesktop(matches);
-    };
 
-    handleChange(mediaQuery);
+      if (!matches) {
+        hasTriggered.current = false;
+        setIsHovered(false);
+        setShowContent(false);
+      }
+    };
 
     mediaQuery.addEventListener("change", handleChange);
 
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
-
-  useEffect(() => {
-    if (showTimer.current) window.clearTimeout(showTimer.current);
-
-    if (!isDesktop) {
-      hasTriggered.current = false;
-      setIsHovered(false);
-      setShowContent(false);
-    }
-  }, [isDesktop]);
 
   useEffect(() => {
     const element = gridRef.current;
@@ -112,9 +108,9 @@ const FullyAnimatedGrid: React.FC = () => {
       delay: 0.1,
     },
     {
-      title: "Software Development",
+      title: "Web Development",
       text:
-        "We create custom software, websites, and applications tailored to your business needs, focusing on performance and user experience.",
+        "We create custom websites and web platforms tailored to your business needs, focusing on performance and user experience.",
       img: "/bmyb-services-software-software-development-01.svg",
       delay: 0.3,
     },

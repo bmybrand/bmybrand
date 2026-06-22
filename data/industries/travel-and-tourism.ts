@@ -93,10 +93,10 @@ export const travelAndTourismIndustry: IndustryItem = {
       items: ['Brand strategy', 'Logo design', 'Visual identity', 'Brand messaging', 'Brand guidelines', 'Brand positioning', 'Brand experience design', 'Rebranding solutions'],
     },
     {
-      title: 'Software Development',
+      title: 'Web Development',
       description:
         'We build custom software solutions that help businesses streamline operations, improve efficiency, and scale digitally. From web applications to enterprise systems, we develop secure, high-performance software tailored to your business needs and long-term growth.',
-      items: ['Custom software development', 'Web applications', 'Mobile app development', 'API development', 'System architecture', 'Cloud-based solutions', 'Enterprise software', 'Software maintenance & support'],
+      items: ['Custom Web Development', 'Web applications', 'Mobile app development', 'API development', 'System architecture', 'Cloud-based solutions', 'Enterprise software', 'Software maintenance & support'],
     },
     {
       title: 'Commerce Solutions',
@@ -134,3 +134,4 @@ export const travelAndTourismIndustry: IndustryItem = {
     { question: 'Do you help improve tourism brand visibility?', answer: 'Yes, we create digital strategies and platforms that increase destination visibility and traveler engagement. Our solutions help travel brands reach a wider global audience effectively.' },
   ],
 }
+

@@ -11,7 +11,7 @@
 Everything your business needs to grow in the digital world:
 
 - **AI-Driven Solutions** — Smart automation and AI-powered systems
-- **Software Development** — Custom websites, apps, and digital products
+- **Web Development** — Custom websites, apps, and digital products
 - **Digital Marketing** — SEO, social media, paid ads, and content strategy
 - **Brand Experience** — Identity, design, and memorable user experiences
 - **E-Commerce Solutions** — Online stores built for conversion

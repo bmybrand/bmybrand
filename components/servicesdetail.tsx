@@ -34,7 +34,7 @@ const services: Service[] = [
     id: 'website-development',
     title: 'Website Development',
     iconSrc: '/bmyb-services-software-development-01.svg',
-    href: '/services/software-development',
+    href: '/services/web-development',
     description: 'We design and develop high-performing websites that help businesses build trust, generate leads, and scale online. From custom marketing sites to conversion-focused platforms, we create responsive, secure, and easy-to-manage web experiences built around your brand and business goals.',
     items: [
       'Custom websites',
@@ -51,7 +51,7 @@ const services: Service[] = [
     id: 'mobile-app-development',
     title: 'Mobile App Development',
     iconSrc: '/bmyb-services-software-development-01.svg',
-    href: '/services/software-development',
+    href: '/services/mobile-app-development',
     description: 'We build mobile applications that deliver smooth, intuitive experiences across iOS and Android. From customer-facing apps to internal business tools, we plan, design, and develop scalable mobile products that support real users, real workflows, and long-term growth.',
     items: [
       'iOS apps',
@@ -68,7 +68,7 @@ const services: Service[] = [
     id: 'mvp-development',
     title: 'MVP Development',
     iconSrc: '/bmyb-services-software-development-01.svg',
-    href: '/services/software-development',
+    href: '/services/mvp-development',
     description: 'We help founders and teams launch lean, validated products with no-code, low-code, and custom development approaches. From early product strategy to clickable prototypes and working MVPs, we move ideas into market quickly while keeping the foundation ready for future scale.',
     items: [
       'No-code MVPs',
@@ -101,7 +101,7 @@ const services: Service[] = [
     id: 'cloud-solutions',
     title: 'Cloud Solutions',
     iconSrc: '/bmyb-services-software-development-01.svg',
-    href: '/services/software-development',
+    href: '/services/cloud-solutions',
     description: 'We create cloud-based systems that help businesses run faster, safer, and more reliably. From cloud infrastructure and database planning to deployment pipelines and scalable backends, we build modern environments that support digital products, operations, and growth.',
     items: [
       'Cloud architecture',
@@ -118,7 +118,7 @@ const services: Service[] = [
     id: 'seo-aeo-geo',
     title: 'SEO & AEO/GEO',
     iconSrc: '/bmyb-services-digital-marketing-01.svg',
-    href: '/services/digital-marketing',
+    href: '/services/seo-aeo-geo',
     description: 'We optimize brands for search engines, answer engines, and generative AI discovery. From technical SEO and content strategy to structured data and AI-ready visibility systems, we help businesses get found where customers search, ask, compare, and decide.',
     items: [
       'Technical SEO',
@@ -167,7 +167,7 @@ const services: Service[] = [
     id: 'animation-video-editing',
     title: 'Animation & Video Editing',
     iconSrc: '/bmyb-services-brand-experience-01.svg',
-    href: '/services/brand-experience',
+    href: '/services/animation-video-editing',
     description: 'We produce motion graphics, animations, and edited video assets that make brands easier to understand and harder to ignore. From social content and product explainers to branded video systems, we turn ideas, campaigns, and stories into polished visual content.',
     items: [
       'Motion graphics',

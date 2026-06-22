@@ -22,7 +22,7 @@ const services = [
     image: '/bmyb-about-bmybrand-03.webp',
   },
   {
-    title: 'Software Development',
+    title: 'Web Development',
     desc: 'Custom-built software designed for performance and scalability.',
     image: '/bmyb-about-bmybrand-04.webp',
   },
@@ -295,3 +295,4 @@ const AboutBmy = () => {
 }
 
 export default AboutBmy
+
