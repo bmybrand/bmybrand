@@ -79,6 +79,23 @@ CREATE TABLE canned_responses (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
+-- Website audit reports (Brandsight / grow-my-business)
+CREATE TABLE audit_reports (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  site_url TEXT NOT NULL,
+  industry TEXT,
+  website_goal TEXT,
+  overall_score INT NOT NULL DEFAULT 0,
+  issue_count INT NOT NULL DEFAULT 0,
+  summary TEXT,
+  report JSONB NOT NULL DEFAULT '{}',
+  unlocked BOOLEAN NOT NULL DEFAULT false,
+  lead_name TEXT,
+  lead_email TEXT,
+  lead_company TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
 -- ─── 3. Indexes ───────────────────────────────────────────────────────────
 
 CREATE INDEX idx_chat_messages_session ON chat_messages(session_id, created_at);
@@ -87,6 +104,8 @@ CREATE INDEX idx_chat_sessions_agent ON chat_sessions(assigned_agent_id);
 CREATE INDEX idx_knowledge_embedding ON knowledge_documents
   USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
 CREATE INDEX idx_knowledge_source ON knowledge_documents(source_filename);
+CREATE INDEX idx_audit_reports_created_at ON audit_reports(created_at DESC);
+CREATE INDEX idx_audit_reports_site_url ON audit_reports(site_url);
 
 -- ─── 4. Vector Search RPC ─────────────────────────────────────────────────
 

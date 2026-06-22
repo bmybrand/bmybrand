@@ -3,9 +3,9 @@ import CompleteReportClient from "./CompleteReportClient";
 export default async function CompleteAuditReportPage({
   searchParams,
 }: {
-  searchParams: Promise<{ site?: string }>;
+  searchParams: Promise<{ auditId?: string }>;
 }) {
   const params = await searchParams;
 
-  return <CompleteReportClient site={params.site} />;
+  return <CompleteReportClient auditId={params.auditId} />;
 }

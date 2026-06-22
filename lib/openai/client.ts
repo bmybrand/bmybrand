@@ -12,7 +12,7 @@ let client: OpenAI | null = null
 
 function getClient(): OpenAI {
   if (!client) {
-    const apiKey = process.env.OPENAI_API_KEY
+    const apiKey = process.env.OPENAI_API_KEY?.trim()
     if (!apiKey) {
       throw new Error(
         'OPENAI_API_KEY is not set. Add it to the environment (e.g. Vercel Project → Settings → Environment Variables).'
