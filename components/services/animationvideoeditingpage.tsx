@@ -390,8 +390,11 @@ export default function AnimationVideoEditingPage() {
           </h2>
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {productionSteps.map((step) => (
-              <div key={step.number} className="relative rounded-lg border border-white/10 bg-[#11122F] p-7">
-                <span className="BenzinSemibold text-5xl text-[#F45B25]/30">{step.number}</span>
+              <div
+                key={step.number}
+                className="group relative rounded-lg border border-white/10 bg-[#11122F] p-7 transition duration-300 hover:-translate-y-2 hover:border-[#F45B25]/45 hover:bg-[#202141] hover:shadow-2xl hover:shadow-black/25"
+              >
+                <span className="BenzinSemibold text-5xl text-[#F45B25]/30 transition duration-300 group-hover:text-[#F45B25]/70">{step.number}</span>
                 <h3 className="BenzinSemibold mt-8 text-xl text-white">{step.title}</h3>
                 <p className="mt-4 text-sm leading-7 text-white/60">{step.desc}</p>
               </div>
