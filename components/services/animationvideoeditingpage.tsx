@@ -93,6 +93,8 @@ const reelShowcase = [
   },
 ]
 
+const reelLoop = [...reelShowcase, ...reelShowcase]
+
 const youtubeEditingShowcase = [
   {
     title: 'YouTube Intro Editing',
@@ -122,13 +124,15 @@ export default function AnimationVideoEditingPage() {
             }
 
             to {
-              transform: translateX(-50%);
+              transform: translateX(calc(-50% - 0.875rem));
             }
           }
 
           .reel-auto-track {
+            --reel-gap: 1.75rem;
             width: max-content;
             animation: reelAutoScroll 30s linear infinite;
+            gap: var(--reel-gap);
           }
 
           .reel-auto-track:hover {
@@ -220,44 +224,48 @@ export default function AnimationVideoEditingPage() {
             </p>
           </div>
 
-          <div className="relative overflow-hidden py-3 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-            <div className="reel-auto-track flex gap-7">
-              {[...reelShowcase, ...reelShowcase].map((reel, index) => (
-                <Link
-                  key={`${reel.platform}-${reel.title}-${index}`}
-                  href={reel.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group w-[252px] shrink-0 sm:w-[292px]"
-                  aria-label={`View ${reel.title} on ${reel.platform}`}
-                >
-                  <div className="rounded-[2rem] border border-white/12 bg-[#202141] p-2 shadow-2xl shadow-black/25 transition duration-500 group-hover:-translate-y-2 group-hover:border-[#F45B25]/40">
-                    <div className="relative aspect-[9/16] overflow-hidden rounded-[1.55rem] border border-white/10 bg-[#11122F]">
-                      <video
-                        className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                      >
-                        <source src={reel.video} type="video/mp4" />
-                      </video>
-                      <div className="absolute left-1/2 top-3 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-black/75 shadow-lg shadow-black/30" />
-                      <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-[#11122F]/18 to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 translate-y-0 p-5 opacity-100 transition duration-500 lg:translate-y-6 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
-                        <span className="mb-3 inline-flex rounded-full bg-[#F45B25] px-3 py-1 text-xs font-semibold text-white">
-                          {reel.platform}
-                        </span>
-                        <div>
-                          <h3 className="BenzinSemibold text-xl text-white">{reel.title}</h3>
-                          <p className="mt-3 text-sm leading-6 text-white/70">{reel.desc}</p>
+          <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-3 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+            <div className="reel-auto-track flex">
+              {[0, 1].map((groupIndex) => (
+                <div key={groupIndex} className="flex shrink-0 gap-7">
+                  {reelLoop.map((reel, index) => (
+                    <Link
+                      key={`${groupIndex}-${reel.platform}-${reel.title}-${index}`}
+                      href={reel.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group w-[252px] shrink-0 sm:w-[292px]"
+                      aria-label={`View ${reel.title} on ${reel.platform}`}
+                    >
+                      <div className="rounded-[2rem] border border-white/12 bg-[#202141] p-2 shadow-2xl shadow-black/25 transition duration-500 group-hover:-translate-y-2 group-hover:border-[#F45B25]/40">
+                        <div className="relative aspect-[9/16] overflow-hidden rounded-[1.55rem] border border-white/10 bg-[#11122F]">
+                          <video
+                            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="auto"
+                          >
+                            <source src={reel.video} type="video/mp4" />
+                          </video>
+                          <div className="absolute left-1/2 top-3 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-black/75 shadow-lg shadow-black/30" />
+                          <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-[#11122F]/18 to-transparent" />
+                          <div className="absolute inset-x-0 bottom-0 translate-y-0 p-5 opacity-100 transition duration-500 lg:translate-y-6 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+                            <span className="mb-3 inline-flex rounded-full bg-[#F45B25] px-3 py-1 text-xs font-semibold text-white">
+                              {reel.platform}
+                            </span>
+                            <div>
+                              <h3 className="BenzinSemibold text-xl text-white">{reel.title}</h3>
+                              <p className="mt-3 text-sm leading-6 text-white/70">{reel.desc}</p>
+                            </div>
+                          </div>
+                          <div className="absolute bottom-2 left-1/2 h-1 w-16 -translate-x-1/2 rounded-full bg-white/45" />
                         </div>
                       </div>
-                      <div className="absolute bottom-2 left-1/2 h-1 w-16 -translate-x-1/2 rounded-full bg-white/45" />
-                    </div>
-                  </div>
-                </Link>
+                    </Link>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
