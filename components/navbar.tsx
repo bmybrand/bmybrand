@@ -44,7 +44,7 @@ const companyMenuItems = [
 
 const servicesMenuItems = [
   {
-    title: "AI & Automation",
+    title: "AI-Driven Solutions",
     href: "/services/ai-driven",
     desc: "Intelligent solutions that streamline operations and drive growth.",
     icon: (
@@ -56,7 +56,7 @@ const servicesMenuItems = [
   },
   {
     title: "Website Development",
-    href: "/services/software-development#website-development",
+    href: "/services/web-development",
     desc: "Custom websites built for performance and conversion.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +66,7 @@ const servicesMenuItems = [
   },
   {
     title: "Mobile App Development",
-    href: "/services/software-development#mobile-app-development",
+    href: "/services/mobile-app-development",
     desc: "Native and cross-platform apps that users love.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,9 +75,9 @@ const servicesMenuItems = [
     ),
   },
   {
-    title: "SEO & AEO",
-    href: "/services/digital-marketing",
-    desc: "Rank higher and get discovered by the right audience.",
+    title: "SEO & AEO/GEO",
+    href: "/services/seo-aeo-geo",
+    desc: "Search, answer, and AI discovery optimization.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

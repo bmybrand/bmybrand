@@ -127,6 +127,84 @@ export function formatRestCountries(data: unknown[]): PhoneCountry[] {
     .sort((a, b) => a.name.localeCompare(b.name))
 }
 
+export function inferIsoFromTimeZone(timeZone: string) {
+  const tz = timeZone.trim()
+  const exact: Record<string, string> = {
+    'Asia/Karachi': 'PK',
+    'Asia/Kolkata': 'IN',
+    'Asia/Dubai': 'AE',
+    'Asia/Singapore': 'SG',
+    'Asia/Tokyo': 'JP',
+    'Europe/London': 'GB',
+    'Europe/Paris': 'FR',
+    'Europe/Berlin': 'DE',
+    'America/New_York': 'US',
+    'America/Chicago': 'US',
+    'America/Denver': 'US',
+    'America/Los_Angeles': 'US',
+    'America/Toronto': 'CA',
+    'Australia/Sydney': 'AU',
+  }
+
+  if (exact[tz]) return exact[tz]
+  if (tz.startsWith('America/')) return 'US'
+  if (tz.startsWith('Australia/')) return 'AU'
+  if (tz.startsWith('Europe/')) return 'GB'
+  if (tz.includes('Karachi')) return 'PK'
+  if (tz.startsWith('Asia/')) return 'IN'
+  return 'US'
+}
+
+export const FALLBACK_DIAL_CODES: Record<string, string> = {
+  PK: '+92',
+  US: '+1',
+  GB: '+44',
+  CA: '+1',
+  IN: '+91',
+  AE: '+971',
+  AU: '+61',
+  DE: '+49',
+  FR: '+33',
+  SG: '+65',
+  JP: '+81',
+}
+
+export const MINIMAL_PHONE_COUNTRIES: PhoneCountry[] = [
+  { name: 'United States', dialCode: '+1', code: 'US', flag: 'https://flagcdn.com/w40/us.png' },
+  { name: 'Pakistan', dialCode: '+92', code: 'PK', flag: 'https://flagcdn.com/w40/pk.png' },
+  { name: 'United Kingdom', dialCode: '+44', code: 'GB', flag: 'https://flagcdn.com/w40/gb.png' },
+  { name: 'Canada', dialCode: '+1', code: 'CA', flag: 'https://flagcdn.com/w40/ca.png' },
+  { name: 'India', dialCode: '+91', code: 'IN', flag: 'https://flagcdn.com/w40/in.png' },
+  { name: 'United Arab Emirates', dialCode: '+971', code: 'AE', flag: 'https://flagcdn.com/w40/ae.png' },
+  { name: 'Australia', dialCode: '+61', code: 'AU', flag: 'https://flagcdn.com/w40/au.png' },
+  { name: 'Germany', dialCode: '+49', code: 'DE', flag: 'https://flagcdn.com/w40/de.png' },
+  { name: 'France', dialCode: '+33', code: 'FR', flag: 'https://flagcdn.com/w40/fr.png' },
+  { name: 'Singapore', dialCode: '+65', code: 'SG', flag: 'https://flagcdn.com/w40/sg.png' },
+  { name: 'Japan', dialCode: '+81', code: 'JP', flag: 'https://flagcdn.com/w40/jp.png' },
+]
+
+export function getInitialCountryIso() {
+  try {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    if (timeZone) return inferIsoFromTimeZone(timeZone)
+  } catch {
+    // ignore
+  }
+  return 'US'
+}
+
+export function getInitialPhoneCountryState() {
+  const iso = getInitialCountryIso()
+  return {
+    countryIso: iso,
+    countryCode: FALLBACK_DIAL_CODES[iso] ?? '+1',
+  }
+}
+
+export function getFlagImageUrl(iso: string) {
+  return `https://flagcdn.com/w40/${iso.trim().toLowerCase()}.png`
+}
+
 export function filterPhoneCountries(countries: PhoneCountry[], query: string) {
   const normalized = query.trim().toLowerCase()
   if (!normalized) return countries

@@ -37,11 +37,11 @@ export const sharedIndustryServices: IndustryService[] = [
     ],
   },
   {
-    title: 'Software Development',
+    title: 'Web Development',
     description:
       'We build custom software solutions that help businesses streamline operations, improve efficiency, and scale digitally. From web applications to enterprise systems, we develop secure, high-performance software tailored to your business needs and long-term growth.',
     items: [
-      'Custom software development',
+      'Custom Web Development',
       'Web applications',
       'Mobile app development',
       'API development',
@@ -97,3 +97,4 @@ export const sharedIndustryServices: IndustryService[] = [
     ],
   },
 ]
+

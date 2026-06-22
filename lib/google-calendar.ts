@@ -216,9 +216,81 @@ export async function createStrategyCallCalendarEvent(booking: StrategyCallRecor
     }
   }
 
-  return {
-    created: true as const,
-    eventId: response.data.id ?? null,
-    htmlLink: response.data.htmlLink ?? null,
+  return { created: true as const, eventId: response.data.id ?? null }
+}
+
+export async function deleteStrategyCallCalendarEvent(eventId: string) {
+  if (!isGoogleCalendarConfigured()) {
+    return { deleted: false as const, reason: 'not_configured' as const }
+  }
+
+  const calendarId = process.env.GOOGLE_CALENDAR_ID!.trim()
+  const calendar = getCalendarClient()
+
+  try {
+    await calendar.events.delete({
+      calendarId,
+      eventId,
+      sendUpdates: 'none',
+    })
+    return { deleted: true as const, eventId }
+  } catch (error) {
+    const message = getCalendarErrorMessage(error)
+    if (/not found/i.test(message)) {
+      return { deleted: false as const, reason: 'not_found' as const, eventId }
+    }
+    throw new Error(message)
+  }
+}
+
+export async function deleteStrategyCallCalendarEventForBooking(input: {
+  calendarEventId?: string | null
+  name: string
+  companyName: string
+  appointmentDate: string
+  appointmentTime: string
+  timezone: string
+}) {
+  const eventId = input.calendarEventId?.trim()
+  if (eventId) {
+    return deleteStrategyCallCalendarEvent(eventId)
+  }
+
+  if (!isGoogleCalendarConfigured()) {
+    return { deleted: false as const, reason: 'not_configured' as const }
+  }
+
+  const calendarId = process.env.GOOGLE_CALENDAR_ID!.trim()
+  const { timeZone, start } = buildDateTimeParts(
+    input.appointmentDate,
+    input.appointmentTime,
+    input.timezone
+  )
+  const calendar = getCalendarClient()
+  const summaryNeedle = `Strategy Call — ${input.name} (${input.companyName})`
+
+  try {
+    const list = await calendar.events.list({
+      calendarId,
+      timeMin: `${start.slice(0, 10)}T00:00:00Z`,
+      timeMax: `${start.slice(0, 10)}T23:59:59Z`,
+      singleEvents: true,
+      maxResults: 50,
+    })
+
+    const match = (list.data.items ?? []).find((item) => item.summary === summaryNeedle)
+    if (!match?.id) {
+      return { deleted: false as const, reason: 'not_found' as const }
+    }
+
+    await calendar.events.delete({
+      calendarId,
+      eventId: match.id,
+      sendUpdates: 'none',
+    })
+
+    return { deleted: true as const, eventId: match.id }
+  } catch (error) {
+    throw new Error(getCalendarErrorMessage(error))
   }
 }

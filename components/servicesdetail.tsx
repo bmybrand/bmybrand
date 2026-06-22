@@ -8,6 +8,7 @@ type Service = {
   id: string
   title: string
   iconSrc: string
+  href?: string
   description: string
   items: string[]
 }
@@ -19,14 +20,131 @@ const services: Service[] = [
     iconSrc: '/bmyb-services-ai-driven-01.svg',
     description: 'At BmyBrand, a leading AI automation agency in the USA, we design intelligent systems that help businesses work smarter and faster. From AI-driven automation solutions to custom AI software development solutions and company services, we build scalable tools that improve efficiency, reduce manual work, and enhance decision-making.',
     items: [
-      'AI Automation Solutions',
-      'Custom AI Development',
-      'Smart Business Systems',
-      'Workflow Automation',
-      'Enterprise AI Solutions',
-      'AI Integration Services',
-      'Scalable AI Systems',
-      'Data-Driven Intelligence',
+      'Generative AI',
+      'AI Chatbots',
+      'AI Voice Agents',
+      'RAG Systems',
+      'n8n Automation',
+      'GHL Automation',
+      'AI & API Integrations',
+      'Custom AI Agents',
+    ],
+  },
+  {
+    id: 'website-development',
+    title: 'Website Development',
+    iconSrc: '/bmyb-services-software-development-01.svg',
+    href: '/services/web-development',
+    description: 'We design and develop high-performing websites that help businesses build trust, generate leads, and scale online. From custom marketing sites to conversion-focused platforms, we create responsive, secure, and easy-to-manage web experiences built around your brand and business goals.',
+    items: [
+      'Custom websites',
+      'Landing pages',
+      'CMS development',
+      'Web applications',
+      'Responsive design',
+      'Performance optimization',
+      'Website maintenance',
+      'Conversion-focused UX',
+    ],
+  },
+  {
+    id: 'mobile-app-development',
+    title: 'Mobile App Development',
+    iconSrc: '/bmyb-services-software-development-01.svg',
+    href: '/services/mobile-app-development',
+    description: 'We build mobile applications that deliver smooth, intuitive experiences across iOS and Android. From customer-facing apps to internal business tools, we plan, design, and develop scalable mobile products that support real users, real workflows, and long-term growth.',
+    items: [
+      'iOS apps',
+      'Android apps',
+      'Cross-platform apps',
+      'App UI/UX design',
+      'API integrations',
+      'Push notifications',
+      'App testing',
+      'Store deployment',
+    ],
+  },
+  {
+    id: 'mvp-development',
+    title: 'MVP Development',
+    iconSrc: '/bmyb-services-software-development-01.svg',
+    href: '/services/mvp-development',
+    description: 'We help founders and teams launch lean, validated products with no-code, low-code, and custom development approaches. From early product strategy to clickable prototypes and working MVPs, we move ideas into market quickly while keeping the foundation ready for future scale.',
+    items: [
+      'No-code MVPs',
+      'Low-code builds',
+      'Product strategy',
+      'Prototype design',
+      'User flows',
+      'Database setup',
+      'Automation logic',
+      'Launch support',
+    ],
+  },
+  {
+    id: 'commerce-solutions',
+    title: 'E-Commerce Solutions',
+    iconSrc: '/bmyb-services-commerce-solutions-01.svg',
+    description: 'We build end-to-end e-commerce solutions that help businesses sell smarter, scale faster, and deliver seamless customer experiences. From online stores to integrated commerce systems, we create platforms designed to increase conversions, streamline operations, and support long-term growth.',
+    items: [
+      'Custom Stores',
+      'Shopify',
+      'WooCommerce',
+      'Magento',
+      'Payments',
+      'Automation',
+      'Marketplaces',
+      'CRO',
+    ],
+  },
+  {
+    id: 'cloud-solutions',
+    title: 'Cloud Solutions',
+    iconSrc: '/bmyb-services-software-development-01.svg',
+    href: '/services/cloud-solutions',
+    description: 'We create cloud-based systems that help businesses run faster, safer, and more reliably. From cloud infrastructure and database planning to deployment pipelines and scalable backends, we build modern environments that support digital products, operations, and growth.',
+    items: [
+      'Cloud architecture',
+      'Server setup',
+      'Database solutions',
+      'API hosting',
+      'DevOps pipelines',
+      'Backup systems',
+      'Security setup',
+      'Scalable infrastructure',
+    ],
+  },
+  {
+    id: 'seo-aeo-geo',
+    title: 'SEO & AEO/GEO',
+    iconSrc: '/bmyb-services-digital-marketing-01.svg',
+    href: '/services/seo-aeo-geo',
+    description: 'We optimize brands for search engines, answer engines, and generative AI discovery. From technical SEO and content strategy to structured data and AI-ready visibility systems, we help businesses get found where customers search, ask, compare, and decide.',
+    items: [
+      'Technical SEO',
+      'On-page SEO',
+      'Content SEO',
+      'AEO',
+      'GEO',
+      'Schema markup',
+      'Local SEO',
+      'Reporting',
+    ],
+  },
+  {
+    id: 'digital-marketing',
+    title: 'Digital Marketing',
+    iconSrc: '/bmyb-services-digital-marketing-01.svg',
+    description: 'We help brands grow online through strategic and performance-driven marketing. Our focus is on visibility, engagement, and conversions across all digital channels. We use data-backed strategies to ensure measurable results and consistent growth. Every campaign is designed to strengthen your brand presence and maximize ROI across platforms.',
+    items: [
+      'SEO optimization',
+      'Content strategy',
+      'Social media marketing',
+      'Paid advertising',
+      'Email marketing',
+      'Brand awareness campaigns',
+      'Lead generation',
+      'Performance tracking',
     ],
   },
   {
@@ -46,51 +164,20 @@ const services: Service[] = [
     ],
   },
   {
-    id: 'software-development',
-    title: 'Software Development',
-    iconSrc: '/bmyb-services-software-development-01.svg',
-    description: 'We build custom software solutions that help businesses streamline operations, improve efficiency, and scale digitally. From web applications to enterprise systems, we develop secure, high-performance software tailored to your business needs and long-term growth.',
+    id: 'animation-video-editing',
+    title: 'Animation & Video Editing',
+    iconSrc: '/bmyb-services-brand-experience-01.svg',
+    href: '/services/animation-video-editing',
+    description: 'We produce motion graphics, animations, and edited video assets that make brands easier to understand and harder to ignore. From social content and product explainers to branded video systems, we turn ideas, campaigns, and stories into polished visual content.',
     items: [
-      'Custom software development',
-      'Web applications',
-      'Mobile app development',
-      'API development',
-      'System architecture',
-      'Cloud-based solutions',
-      'Enterprise software',
-      'Software maintenance & support',
-    ],
-  },
-  {
-    id: 'commerce-solutions',
-    title: 'E-Commerce Solutions',
-    iconSrc: '/bmyb-services-commerce-solutions-01.svg',
-    description: 'We build end-to-end e-commerce solutions that help businesses sell smarter, scale faster, and deliver seamless customer experiences. From online stores to integrated commerce systems, we create platforms designed to increase conversions, streamline operations, and support long-term growth.',
-    items: [
-      'E-commerce website development',
-      'Online store design',
-      'Payment gateway integration',
-      'Product catalog management',
-      'Shopping cart systems',
-      'Order management solutions',
-      'Conversion optimization',
-      'Multi-platform commerce integration',
-    ],
-  },
-  {
-    id: 'digital-marketing',
-    title: 'Digital Marketing',
-    iconSrc: '/bmyb-services-digital-marketing-01.svg',
-    description: 'We help brands grow online through strategic and performance-driven marketing. Our focus is on visibility, engagement, and conversions across all digital channels. We use data-backed strategies to ensure measurable results and consistent growth. Every campaign is designed to strengthen your brand presence and maximize ROI across platforms.',
-    items: [
-      'SEO optimization',
-      'Content strategy',
-      'Social media marketing',
-      'Paid advertising',
-      'Email marketing',
-      'Brand awareness campaigns',
-      'Lead generation',
-      'Performance tracking',
+      'Motion graphics',
+      'Explainer videos',
+      'Social video edits',
+      'Brand animations',
+      'Product videos',
+      'Reels and shorts',
+      'Video cleanup',
+      'Post-production',
     ],
   },
   {
@@ -201,8 +288,8 @@ export default function ServicesDetail() {
               >
                 {/* Service Icon & Title */}
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-20 h-20 bg-[#21223F] rounded-full flex items-center justify-center shrink-0 overflow-hidden p-5">
-                    <img src={service.iconSrc} alt={service.title} className="w-full h-full object-contain" />
+                  <div className="w-20 h-20 flex items-center justify-center shrink-0 overflow-hidden">
+                    <img src={service.iconSrc} alt={service.title} className="h-14 w-14 object-contain" />
                   </div>
                   <h2 className="text-[0.9rem] sm:text-[1.0rem] md:text-[1.1rem] lg:text-[1.25rem] xl:text-[1.5rem] 2xl:text-[1.75rem] text-white BenzinSemibold">
                     {service.title}
@@ -243,7 +330,7 @@ export default function ServicesDetail() {
 
                 {/* CTA Button */}
                 <Link
-                  href={`/services/${service.id}`}
+                  href={service.href ?? `/services/${service.id}`}
                   className="inline-flex bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white px-2 py-2 rounded-lg hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold items-center gap-3 text-lg"
                 >
                   <div className="bg-white p-4 rounded-lg">

@@ -31,8 +31,8 @@ const servicesTemplate: Service[] = [
     items: ['Brand Identity', 'Brand Strategy', 'UI/UX Design', 'Logo Design', 'Visual Design', 'Typography', 'Marketing Kit', 'User Research'],
   },
   {
-    id: 'software-development',
-    title: 'Software Development',
+    id: 'web-development',
+    title: 'Web Development',
     iconSrc: '/bmyb-services-software-development-01.svg',
     description:
       'We build custom software that fits your business like a glove and scales as you grow. From idea to launch, we carefully plan every step, design intuitive interfaces, and rigorously test all functionality so that your product not only meets expectations but exceeds them.',
@@ -207,3 +207,4 @@ export default function HealthcareServices({
     </section>
   )
 }
+

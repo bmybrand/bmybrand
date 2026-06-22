@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
+import { getClientIp } from '@/lib/client-ip'
 import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { getMysqlErrorDetails } from '@/lib/mysql'
-import { saveStrategyCallBooking } from '@/lib/strategy-call-save'
+import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from '@/lib/strategy-call-ip-config'
+import { strategyCallBookingExistsForIp } from '@/lib/strategy-call-ip'
+import { saveStrategyCallBooking, updateStrategyCallCalendarEventId } from '@/lib/strategy-call-save'
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from '@/lib/website-url'
 
 type StrategyCallPayload = {
@@ -78,6 +81,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid appointment date.' }, { status: 400 })
   }
 
+  const ipAddress = getClientIp(request)
+
+  if (ipAddress) {
+    try {
+      const alreadySubmitted = await strategyCallBookingExistsForIp(ipAddress)
+      if (alreadySubmitted) {
+        return NextResponse.json({ error: STRATEGY_CALL_IP_LIMIT_MESSAGE }, { status: 429 })
+      }
+    } catch (error) {
+      console.error('[strategy-call] IP check failed:', error)
+    }
+  }
+
   const booking = {
     email: payload.email,
     name: payload.name,
@@ -91,6 +107,7 @@ export async function POST(request: Request) {
     appointmentDate: payload.appointmentDate,
     appointmentTime: payload.appointmentTime,
     timezone: payload.timezone,
+    ipAddress: ipAddress ?? undefined,
   }
 
   try {
@@ -106,6 +123,13 @@ export async function POST(request: Request) {
       if (calendar.created) {
         calendarCreated = true
         calendarEventId = calendar.eventId ?? null
+        if (id && calendarEventId) {
+          try {
+            await updateStrategyCallCalendarEventId(id, calendarEventId)
+          } catch (updateError) {
+            console.error('[strategy-call] Failed to store calendar event id:', updateError)
+          }
+        }
       } else if (calendar.reason === 'not_configured') {
         calendarReason = 'not_configured'
         calendarError =
@@ -130,23 +154,61 @@ export async function POST(request: Request) {
     const details = getMysqlErrorDetails(error)
     console.error('[strategy-call] Database insert failed:', details)
 
-    const showDetails =
-      process.env.NODE_ENV !== 'production' ||
-      process.env.MYSQL_DEBUG === 'true'
+    if (details.code === 'ER_DUP_ENTRY' || details.code === 'IP_ALREADY_SUBMITTED') {
+      return NextResponse.json({ error: STRATEGY_CALL_IP_LIMIT_MESSAGE }, { status: 429 })
+    }
 
-    const hint = getMysqlHint(details.code)
+    const status =
+      typeof details.status === 'number' && details.status >= 400 && details.status < 600
+        ? details.status
+        : 500
+
+    const hint = getMysqlHint(details.code, details.status)
+    const errorMessage = getPublicBookingError(error, details)
 
     return NextResponse.json(
       {
-        error: 'Failed to save booking. Check database configuration and table schema.',
-        ...(showDetails ? { details, hint } : {}),
+        error: errorMessage,
+        ...(hint ? { hint } : {}),
+        ...(process.env.MYSQL_DEBUG === 'true' ? { details } : {}),
       },
-      { status: 500 }
+      { status }
     )
   }
 }
 
-function getMysqlHint(code?: string) {
+function getPublicBookingError(
+  error: unknown,
+  details: ReturnType<typeof getMysqlErrorDetails>
+) {
+  if (details.code === 'BRIDGE_UNAUTHORIZED' || details.status === 401) {
+    return 'Database bridge unauthorized. Check that MYSQL_BRIDGE_SECRET in Vercel matches BRIDGE_SECRET in strategy-call.php on cPanel.'
+  }
+
+  if (details.code === 'STORAGE_NOT_CONFIGURED') {
+    return 'Booking storage is not configured on the server.'
+  }
+
+  if (details.message === 'Insert failed') {
+    return 'Database insert failed. Re-upload the latest strategy-call.php to cPanel and confirm the table includes the ip_address column.'
+  }
+
+  if (details.message === 'Database connection failed') {
+    return 'Database connection failed on cPanel. Check DB credentials in strategy-call.php.'
+  }
+
+  if (details.message && details.message !== 'Bridge request failed') {
+    return details.message
+  }
+
+  return 'Failed to save booking. Check database configuration and table schema.'
+}
+
+function getMysqlHint(code?: string, status?: number) {
+  if (code === 'BRIDGE_UNAUTHORIZED' || status === 401) {
+    return 'Open strategy-call.php on cPanel and set BRIDGE_SECRET to the same value as MYSQL_BRIDGE_SECRET in Vercel, then redeploy if needed.'
+  }
+
   switch (code) {
     case 'ECONNREFUSED':
     case 'ETIMEDOUT':
