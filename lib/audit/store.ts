@@ -97,10 +97,7 @@ export async function createAuditReport(
     .single();
 
   if (error || !data) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn("Supabase insert failed — falling back to in-memory audit store.", error?.message);
-      return createMemoryAuditRecord(input);
-    }
+    console.error("Failed to save audit report to Supabase:", error?.message);
     throw new Error(error?.message ?? "Failed to save audit report.");
   }
 
@@ -122,16 +119,12 @@ export async function getAuditReport(
     .maybeSingle();
 
   if (error) {
-    if (process.env.NODE_ENV !== "production") {
-      const row = getMemoryAuditRecord(id);
-      return row ? formatResponse(row) : null;
-    }
+    console.error("Failed to load audit report from Supabase:", error.message);
     throw new Error(error.message);
   }
 
   if (!data) {
-    const row = getMemoryAuditRecord(id);
-    return row ? formatResponse(row) : null;
+    return null;
   }
 
   return formatResponse(data as AuditReportRow);
@@ -159,16 +152,12 @@ export async function unlockAuditReport(
     .maybeSingle();
 
   if (error) {
-    if (process.env.NODE_ENV !== "production") {
-      const row = unlockMemoryAuditRecord(id, lead);
-      return row ? formatResponse(row) : null;
-    }
+    console.error("Failed to unlock audit report in Supabase:", error.message);
     throw new Error(error.message);
   }
 
   if (!data) {
-    const row = unlockMemoryAuditRecord(id, lead);
-    return row ? formatResponse(row) : null;
+    return null;
   }
 
   return formatResponse(data as AuditReportRow);

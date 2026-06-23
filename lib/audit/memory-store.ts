@@ -11,10 +11,14 @@ const audits =
 memoryStore.__bmybrandAuditMemoryStore = audits;
 
 export function isSupabaseConfigured() {
-  return Boolean(
-    process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL &&
-      process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey =
+    process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  return Boolean(supabaseUrl && serviceRoleKey);
 }
 
 export function createMemoryAuditRecord(input: {
