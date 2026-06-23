@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
+import { supabaseAdmin } from '@/lib/supabase/server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const DEFAULT_SUPABASE_TABLE = 'leads'
@@ -29,30 +30,6 @@ function isValidEmail(value: string) {
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY
   const from = process.env.RESEND_FROM_EMAIL
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey =
-    process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_BMYB_SUPABASE_ANON_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
-
-  if (!apiKey || !from) {
-    return NextResponse.json(
-      { error: 'Email service is not configured.' },
-      { status: 500 }
-    )
-  }
-
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json(
-      { error: 'Lead database is not configured.' },
-      { status: 500 }
-    )
-  }
 
   let body: SubscribePayload
 
@@ -106,29 +83,24 @@ export async function POST(request: Request) {
     )
   }
 
-  const existingLeadResponse = await fetch(
-    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}?select=id&email=eq.${encodeURIComponent(payload.email)}&form_type=eq.${encodeURIComponent('newsletter_subscription')}&limit=1`,
-    {
-      method: 'GET',
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-      },
-    }
-  )
+  const { data: existingLead, error: existingLeadError } = await supabaseAdmin
+    .from(DEFAULT_SUPABASE_TABLE)
+    .select('id')
+    .eq('email', payload.email)
+    .eq('form_type', 'newsletter_subscription')
+    .limit(1)
 
-  if (!existingLeadResponse.ok) {
-    const errorText = await existingLeadResponse.text()
-
+  if (existingLeadError) {
     return NextResponse.json(
-      { error: 'Failed to check existing subscription.', details: errorText },
+      {
+        error: 'Failed to check existing subscription.',
+        details: existingLeadError.message,
+      },
       { status: 502 }
     )
   }
 
-  const existingLead = (await existingLeadResponse.json()) as Array<{ id: number }>
-
-  if (existingLead.length > 0) {
+  if (existingLead && existingLead.length > 0) {
     return NextResponse.json({
       ok: true,
       alreadySubscribed: true,
@@ -136,6 +108,31 @@ export async function POST(request: Request) {
     })
   }
 
+  const { error: leadInsertError } = await supabaseAdmin
+    .from(DEFAULT_SUPABASE_TABLE)
+    .insert({
+      form_type: 'newsletter_subscription',
+      access_page: payload.accessPage,
+      email: payload.email,
+    })
+
+  if (leadInsertError) {
+    return NextResponse.json(
+      {
+        error: 'Failed to save subscription.',
+        details: leadInsertError.message,
+      },
+      { status: 502 }
+    )
+  }
+
+  if (!apiKey || !from) {
+    return NextResponse.json({
+      ok: true,
+      emailSkipped: true,
+      message: 'Subscribed successfully.',
+    })
+  }
 
   const subject = 'Thanks for subscribing to BmyBrand'
   const logoUrl = process.env.BMYBRAND_EMAIL_LOGO_URL?.trim() || 'http://bmybrand.com/bmyb-services-brand-bmybrand-01-01.svg?dpl=dpl_E3BqAnZ5brZJwUG3yvtPpDntgK2e'
@@ -235,41 +232,11 @@ export async function POST(request: Request) {
   if (!resendResponse.ok) {
     const errorText = await resendResponse.text()
 
-    return NextResponse.json(
-      { error: 'Failed to send thank-you email.', details: errorText },
-      { status: 502 }
-    )
-  }
-
-  // Only insert the lead after the thank-you email was sent successfully.
-  const leadInsertResponse = await fetch(
-    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}`,
-    {
-      method: 'POST',
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({
-        form_type: 'newsletter_subscription',
-        access_page: payload.accessPage,
-        email: payload.email,
-      }),
-    }
-  )
-
-  if (!leadInsertResponse.ok) {
-    const errorText = await leadInsertResponse.text()
-
-    return NextResponse.json(
-      {
-        error: 'Failed to save lead after sending email.',
-        details: errorText,
-      },
-      { status: 502 }
-    )
+    return NextResponse.json({
+      ok: true,
+      emailWarning: errorText,
+      message: 'Subscribed successfully.',
+    })
   }
 
   return NextResponse.json({ ok: true, message: 'Subscribed successfully.' })

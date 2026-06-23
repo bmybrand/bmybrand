@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
+import { supabaseAdmin } from '@/lib/supabase/server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const DEFAULT_TO_EMAIL = 'info@bmybrand.com'
@@ -41,23 +42,6 @@ export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY
   const from = process.env.RESEND_FROM_EMAIL
   const to = process.env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey =
-    process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_BMYB_SUPABASE_ANON_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
-
-  if (!apiKey || !from) {
-    return NextResponse.json(
-      { error: 'Email service is not configured.' },
-      { status: 500 }
-    )
-  }
 
   let body: ContactPayload
 
@@ -120,36 +104,21 @@ export async function POST(request: Request) {
     )
   }
 
-  if (!supabaseUrl || !supabaseKey) {
+  const { data: existingLead, error: existingLeadError } = await supabaseAdmin
+    .from(DEFAULT_SUPABASE_TABLE)
+    .select('id')
+    .eq('email', payload.email)
+    .eq('form_type', formType)
+    .limit(1)
+
+  if (existingLeadError) {
     return NextResponse.json(
-      { error: 'Lead database is not configured.' },
-      { status: 500 }
-    )
-  }
-
-  const existingLeadResponse = await fetch(
-    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}?select=id&email=eq.${encodeURIComponent(payload.email)}&form_type=eq.${encodeURIComponent(formType)}&limit=1`,
-    {
-      method: 'GET',
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-      },
-    }
-  )
-
-  if (!existingLeadResponse.ok) {
-    const errorText = await existingLeadResponse.text()
-
-    return NextResponse.json(
-      { error: 'Failed to check existing lead.', details: errorText },
+      { error: 'Failed to check existing lead.', details: existingLeadError.message },
       { status: 502 }
     )
   }
 
-  const existingLead = (await existingLeadResponse.json()) as Array<{ id: number }>
-
-  if (existingLead.length > 0) {
+  if (existingLead && existingLead.length > 0) {
     const message =
       formType === 'custom_quote_request'
         ? 'This email has already requested a quote.'
@@ -306,36 +275,28 @@ export async function POST(request: Request) {
     </div>
   `
 
-  const leadInsertResponse = await fetch(
-    `${supabaseUrl}/rest/v1/${DEFAULT_SUPABASE_TABLE}`,
-    {
-      method: 'POST',
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({
-        form_type: formType,
-        access_page: payload.accessPage,
-        first_name: payload.firstName,
-        last_name: payload.lastName,
-        email: payload.email,
-        phone: payload.phone,
-        service,
-        message: payload.message,
-      }),
-    }
-  )
+  const { error: leadInsertError } = await supabaseAdmin
+    .from(DEFAULT_SUPABASE_TABLE)
+    .insert({
+      form_type: formType,
+      access_page: payload.accessPage,
+      first_name: payload.firstName,
+      last_name: payload.lastName,
+      email: payload.email,
+      phone: payload.phone,
+      service,
+      message: payload.message,
+    })
 
-  if (!leadInsertResponse.ok) {
-    const errorText = await leadInsertResponse.text()
-
+  if (leadInsertError) {
     return NextResponse.json(
-      { error: 'Failed to save lead.', details: errorText },
+      { error: 'Failed to save lead.', details: leadInsertError.message },
       { status: 502 }
     )
+  }
+
+  if (!apiKey || !from) {
+    return NextResponse.json({ ok: true, emailSkipped: true })
   }
 
   let resendResponse: Response
@@ -357,19 +318,13 @@ export async function POST(request: Request) {
       }),
     })
   } catch {
-    return NextResponse.json(
-      { error: 'Could not reach the email service.' },
-      { status: 502 }
-    )
+    return NextResponse.json({ ok: true, emailWarning: 'Could not reach the email service.' })
   }
 
   if (!resendResponse.ok) {
     const errorText = await resendResponse.text()
 
-    return NextResponse.json(
-      { error: 'Failed to send email.', details: errorText },
-      { status: 502 }
-    )
+    return NextResponse.json({ ok: true, emailWarning: errorText })
   }
 
   return NextResponse.json({ ok: true })
