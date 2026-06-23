@@ -1,24 +1,41 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 let adminClient: SupabaseClient | null = null;
+let adminClientKey = "";
+
+function getSupabaseConfig() {
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL?.trim() ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const supabaseServiceKey =
+    process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY?.trim() ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    return null;
+  }
+
+  return { supabaseUrl, supabaseServiceKey };
+}
 
 function getSupabaseAdmin(): SupabaseClient {
-  if (!adminClient) {
-    const supabaseUrl = process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL;
-    const supabaseServiceKey = process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY;
+  const config = getSupabaseConfig();
 
-    if (!supabaseUrl || !supabaseServiceKey) {
-      throw new Error(
-        "Supabase is not configured. Add NEXT_PUBLIC_BMYB_SUPABASE_URL and BMYB_SUPABASE_SERVICE_ROLE_KEY to .env.local.",
-      );
-    }
+  if (!config) {
+    throw new Error(
+      "Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to .env.local.",
+    );
+  }
 
-    adminClient = createClient(supabaseUrl, supabaseServiceKey, {
+  const cacheKey = `${config.supabaseUrl}:${config.supabaseServiceKey}`;
+  if (!adminClient || adminClientKey !== cacheKey) {
+    adminClient = createClient(config.supabaseUrl, config.supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
       },
     });
+    adminClientKey = cacheKey;
   }
 
   return adminClient;
