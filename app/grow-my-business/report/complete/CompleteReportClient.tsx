@@ -43,10 +43,41 @@ const aiInterpretationLabels: Record<string, string> = {
   "seo-aeo-optimization": "How AI interprets your SEO & AEO?",
 };
 
+const shareSocialLinks = [
+  {
+    label: "Share on Facebook",
+    href: "https://www.facebook.com/sharer/sharer.php?u=",
+    Icon: FaFacebookF,
+    active: true,
+  },
+  {
+    label: "Share on Instagram",
+    href: "https://www.instagram.com/bmybrand_official/",
+    Icon: FaInstagram,
+  },
+  {
+    label: "Share on LinkedIn",
+    href: "https://www.linkedin.com/sharing/share-offsite/?url=",
+    Icon: FaLinkedinIn,
+  },
+  {
+    label: "Share on X",
+    href: "https://twitter.com/intent/tweet?url=",
+    Icon: FaXTwitter,
+  },
+  {
+    label: "Share on YouTube",
+    href: "https://www.youtube.com/@BMyBrandofficial",
+    Icon: FaYoutube,
+  },
+] as const;
+
 export default function CompleteReportClient({ auditId }: { auditId?: string }) {
   const { data, loading, error } = useAuditReport(auditId);
   const [activeJumpHref, setActiveJumpHref] = useState(jumpLinks[0]?.href ?? "");
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+
+  const [shareUrl, setShareUrl] = useState("");
 
   const siteLabel = data?.siteUrl ?? "";
   const hostname = useMemo(() => getHostname(siteLabel), [siteLabel]);
@@ -54,6 +85,10 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
     () => (siteLabel ? `/api/screenshot?site=${encodeURIComponent(siteLabel)}` : ""),
     [siteLabel],
   );
+
+  useEffect(() => {
+    setShareUrl(encodeURIComponent(window.location.href));
+  }, []);
 
   useEffect(() => {
     const sections = jumpLinks
@@ -262,22 +297,29 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
               <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[28px]">
                 Share Audit Results
               </h2>
-              <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-6 pb-6">
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#F45B25] text-white" aria-label="Share on Facebook">
-                  <FaFacebookF className="h-4 w-4" />
-                </a>
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on Instagram">
-                  <FaInstagram className="h-4 w-4" />
-                </a>
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on LinkedIn">
-                  <FaLinkedinIn className="h-4 w-4" />
-                </a>
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on X">
-                  <FaXTwitter className="h-4 w-4" />
-                </a>
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white" aria-label="Share on YouTube">
-                  <FaYoutube className="h-4 w-4" />
-                </a>
+              <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-white/10 pt-6 pb-6">
+                {shareSocialLinks.map(({ label, href, Icon, ...rest }) => {
+                  const active = "active" in rest && rest.active === true;
+                  const shareHref =
+                    href.endsWith("=") && shareUrl ? `${href}${shareUrl}` : href;
+
+                  return (
+                    <a
+                      key={label}
+                      href={shareHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={label}
+                      className={`group flex h-10 w-10 items-center justify-center rounded-[6px] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#F45B25] hover:shadow-[0_10px_24px_rgba(244,91,37,0.35)] ${
+                        active
+                          ? "bg-[#F45B25] hover:brightness-110"
+                          : "bg-[#2A2C52] hover:border-[#F45B25]/40"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
