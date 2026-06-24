@@ -48,7 +48,6 @@ const shareSocialLinks = [
     label: "Share on Facebook",
     href: "https://www.facebook.com/sharer/sharer.php?u=",
     Icon: FaFacebookF,
-    active: true,
   },
   {
     label: "Share on Instagram",
@@ -298,8 +297,7 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
                 Share Audit Results
               </h2>
               <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-white/10 pt-6 pb-6">
-                {shareSocialLinks.map(({ label, href, Icon, ...rest }) => {
-                  const active = "active" in rest && rest.active === true;
+                {shareSocialLinks.map(({ label, href, Icon }) => {
                   const shareHref =
                     href.endsWith("=") && shareUrl ? `${href}${shareUrl}` : href;
 
@@ -310,13 +308,9 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
                       target="_blank"
                       rel="noreferrer"
                       aria-label={label}
-                      className={`group flex h-10 w-10 items-center justify-center rounded-[6px] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#F45B25] hover:shadow-[0_10px_24px_rgba(244,91,37,0.35)] ${
-                        active
-                          ? "bg-[#F45B25] hover:brightness-110"
-                          : "bg-[#2A2C52] hover:border-[#F45B25]/40"
-                      }`}
+                      className="group flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#2A2C52] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#F45B25] hover:shadow-[0_10px_24px_rgba(244,91,37,0.35)] active:translate-y-0 active:bg-[#F45B25] active:shadow-[0_6px_18px_rgba(244,91,37,0.3)] focus-visible:bg-[#F45B25] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F45B25]/50"
                     >
-                      <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                      <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110 group-active:scale-105" />
                     </a>
                   );
                 })}
