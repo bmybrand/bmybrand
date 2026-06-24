@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "app/api/audit/route.ts": {
+      "maxDuration": 60,
+      "memory": 1600
+    },
+    "app/api/screenshot/route.ts": {
+      "maxDuration": 60,
+      "memory": 1600
+    }
+  }
+}
