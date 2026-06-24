@@ -66,13 +66,20 @@ export async function POST(request: NextRequest, context: RouteContext) {
       return NextResponse.json({ error: "Audit report not found." }, { status: 404 });
     }
 
-    await saveAuditLeadToLeadsTable({
-      name,
-      email,
-      company,
-      siteUrl: existing.siteUrl,
-      auditId: id,
-    });
+    try {
+      await saveAuditLeadToLeadsTable({
+        name,
+        email,
+        company,
+        siteUrl: existing.siteUrl,
+        auditId: id,
+      });
+    } catch (leadError) {
+      console.error("Failed to save audit lead after unlock", {
+        id,
+        detail: leadError instanceof Error ? leadError.message : "Unknown error",
+      });
+    }
 
     void triggerAuditPdfArchive(id).catch((error) => {
       console.error("Failed to archive audit PDF to Google Drive", {
@@ -89,7 +96,12 @@ export async function POST(request: NextRequest, context: RouteContext) {
     });
 
     return NextResponse.json(
-      { error: "Failed to unlock audit report." },
+      {
+        error:
+          error instanceof Error && error.message
+            ? error.message
+            : "Failed to unlock audit report.",
+      },
       { status: 500 },
     );
   }
