@@ -177,26 +177,45 @@ export async function saveAuditLeadToLeadsTable(lead: {
   const nameParts = lead.name.trim().split(/\s+/).filter(Boolean);
   const firstName = nameParts[0] ?? lead.name;
   const lastName = nameParts.slice(1).join(" ") || "—";
+  const message = [
+    "Unlocked full Brandsight website audit report.",
+    `Company: ${lead.company}`,
+    `Website: ${lead.siteUrl}`,
+    `Audit ID: ${lead.auditId}`,
+  ].join("\n");
 
-  const { error } = await supabaseAdmin.from("leads").insert({
+  const baseRecord = {
     first_name: firstName,
     last_name: lastName,
     email: lead.email,
     phone: "",
-    company: lead.company,
     service: "Website Audit",
-    message: [
-      "Unlocked full Brandsight website audit report.",
-      `Company: ${lead.company}`,
-      `Website: ${lead.siteUrl}`,
-      `Audit ID: ${lead.auditId}`,
-    ].join("\n"),
-    form_type: "website_audit",
+    message,
     access_page: "/grow-my-business/report",
-  });
+  };
 
-  if (error) {
-    console.error("Failed to save audit lead to leads table:", error.message);
-    throw new Error(error.message || "Failed to save audit lead.");
+  const attempts: Array<Record<string, string>> = [
+    { ...baseRecord, company: lead.company, form_type: "website_audit" },
+    { ...baseRecord, form_type: "website_audit" },
+    { ...baseRecord, form_type: "contact" },
+  ];
+
+  for (const record of attempts) {
+    const { error } = await supabaseAdmin.from("leads").insert(record);
+    if (!error) {
+      return;
+    }
+
+    const retryable =
+      error.message.includes("leads_form_type_check") ||
+      error.message.includes("'company'") ||
+      error.message.includes("company");
+
+    if (!retryable) {
+      console.error("Failed to save audit lead to leads table:", error.message);
+      return;
+    }
   }
+
+  console.error("Failed to save audit lead to leads table after fallbacks.");
 }
