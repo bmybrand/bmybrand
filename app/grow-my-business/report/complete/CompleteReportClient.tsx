@@ -136,9 +136,10 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
         <AuditNavbar siteLabel={siteLabel} resultsBy="Brandsight" />
       </div>
 
-      <main className="mx-auto w-[90%] xl:w-[75%] pt-44 lg:pt-52 print:pt-8 print:w-full print:max-w-none">
+      <div className="relative mx-auto w-[90%] xl:w-[75%] print:w-full print:max-w-none">
+      <main className="pb-16 pt-32 lg:pt-40 print:pt-8">
         {/* Hero */}
-        <section className="grid items-start gap-10 pb-14 lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.72fr)] lg:gap-12">
+        <section className="grid items-start gap-8 pb-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.72fr)] lg:gap-10">
           <div>
             <p className="text-[13px] uppercase tracking-[0.2em] text-[#F45B25] BenzinSemibold">
               Brandsight AI Audit
@@ -205,7 +206,7 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
         </section>
 
         {/* Radar + Details */}
-        <section className="grid gap-6 pb-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(280px,0.8fr)] lg:items-stretch">
+        <section className="grid gap-5 pb-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)] lg:items-stretch lg:gap-6">
           <AuditRadarChart sections={data.report.sections} />
           <AuditDetailsPanel
             siteUrl={siteLabel}
@@ -219,7 +220,7 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
         </section>
 
         {/* Findings + Sidebar */}
-        <section className="grid gap-[50px] border-t border-white/8 pt-14 lg:grid-cols-[minmax(0,1fr)_35%] lg:items-start">
+        <section className="grid gap-10 border-t border-white/8 pt-12 lg:grid-cols-[minmax(0,1fr)_35%] lg:items-start lg:gap-12">
           <div className="w-full">
             <h2 className="text-[38px] leading-none text-white BenzinSemibold sm:text-[45px]">
               Key Improvement Points
@@ -354,6 +355,7 @@ export default function CompleteReportClient({ auditId }: { auditId?: string }) 
           </aside>
         </section>
       </main>
+      </div>
 
       <div className="print:hidden">
         <Footer />

@@ -9,10 +9,14 @@ interface AuditNavbarProps {
 
 export default function AuditNavbar({ siteLabel, resultsBy = "Brandsight" }: AuditNavbarProps) {
   return (
-    <header className="fixed top-7 left-1/2 -translate-x-1/2 w-[90%] 2xl:w-[85%] z-[9999] bg-[#FFFFFF]/5 backdrop-blur border-2 border-white/20 rounded-2xl">
-      <div className="mx-auto flex items-center justify-between px-6 md:px-10 py-3 text-white/88">
+    <header className="fixed top-7 left-1/2 z-[9999] w-[90%] -translate-x-1/2 rounded-2xl border-2 border-white/20 bg-[#FFFFFF]/5 backdrop-blur 2xl:w-[85%]">
+      <div className="mx-auto flex items-center justify-between px-6 py-4 text-white/88 md:px-10">
         <Link href="/" className="shrink-0">
-          <img src="/bmyb-logo-bmylogo-01.svg" alt="BmyBrand" className="h-7 w-auto object-contain" />
+          <img
+            src="/logo-animation-1.gif"
+            alt="BmyBrand"
+            className="h-9 w-auto cursor-pointer object-contain sm:h-10 lg:h-[39px] 2xl:h-[43px]"
+          />
         </Link>
 
         <div className="flex flex-wrap items-center justify-end gap-3 text-sm text-white/64">

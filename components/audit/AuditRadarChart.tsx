@@ -33,18 +33,20 @@ export function AuditRadarChart({ sections }: { sections: AuditSection[] }) {
   const polygon = dataPoints.map((p) => `${p.x},${p.y}`).join(" ");
 
   return (
-    <div className="rounded-[18px] border border-[#2A2D4A] bg-[#191A35] p-6 sm:p-8">
-      <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[26px]">
-        Performance Overview
-      </h2>
-      <p className="mt-2 text-[14px] text-[#9EA2C5]">
-        Category scores across your full website audit
-      </p>
+    <div className="flex h-full min-h-full flex-col rounded-[18px] border border-[#2A2D4A] bg-[#191A35] p-6 sm:p-7">
+      <div>
+        <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[26px]">
+          Performance Overview
+        </h2>
+        <p className="mt-2 text-[14px] text-[#9EA2C5]">
+          Category scores across your full website audit
+        </p>
+      </div>
 
-      <div className="mt-6 flex justify-center">
+      <div className="mt-4 flex flex-1 items-center justify-center py-2">
         <svg
           viewBox={`0 0 ${CHART_SIZE} ${CHART_SIZE}`}
-          className="h-auto w-full max-w-[380px]"
+          className="h-auto w-full max-w-[400px]"
           role="img"
           aria-label="Audit category radar chart"
         >

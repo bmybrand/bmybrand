@@ -49,15 +49,17 @@ export function AuditDetailsPanel({
   ];
 
   return (
-    <div className="flex h-full flex-col rounded-[18px] border border-[#2A2D4A] bg-[#191A35] p-6">
-      <h2 className="text-[22px] leading-none text-white BenzinSemibold">Details</h2>
-      <p className="mt-2 text-[14px] text-[#9EA2C5]">
-        Audit metadata and export options
-      </p>
+    <div className="flex h-full min-h-full flex-col rounded-[18px] border border-[#2A2D4A] bg-[#191A35] p-6 sm:p-7">
+      <div>
+        <h2 className="text-[22px] leading-none text-white BenzinSemibold sm:text-[26px]">Details</h2>
+        <p className="mt-2 text-[14px] text-[#9EA2C5]">
+          Audit metadata and export options
+        </p>
+      </div>
 
-      <dl className="mt-6 space-y-4">
+      <dl className="mt-5 flex-1 space-y-3">
         {details.map((item) => (
-          <div key={item.label} className="border-b border-white/8 pb-4 last:border-0 last:pb-0">
+          <div key={item.label} className="border-b border-white/8 pb-3 last:border-0 last:pb-0">
             <dt className="text-[12px] uppercase tracking-wide text-[#7E83A8]">
               {item.label}
             </dt>
@@ -71,7 +73,7 @@ export function AuditDetailsPanel({
       <button
         type="button"
         onClick={handlePrint}
-        className="mt-8 inline-flex h-[52px] w-full items-center justify-center rounded-[8px] bg-white text-[16px] text-[#191A35] BenzinSemibold transition-transform hover:-translate-y-0.5"
+        className="mt-6 inline-flex h-[52px] w-full shrink-0 items-center justify-center rounded-[8px] bg-white text-[16px] text-[#191A35] BenzinSemibold transition-transform hover:-translate-y-0.5"
       >
         Download PDF
       </button>
