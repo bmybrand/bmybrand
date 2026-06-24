@@ -4,6 +4,7 @@ import {
   saveAuditLeadToLeadsTable,
   unlockAuditReport,
 } from "@/lib/audit/store";
+import { triggerAuditPdfArchive } from "@/lib/trigger-audit-pdf-upload";
 import { isValidEmail } from "@/lib/audit/validate";
 
 export const runtime = "nodejs";
@@ -71,6 +72,13 @@ export async function POST(request: NextRequest, context: RouteContext) {
       company,
       siteUrl: existing.siteUrl,
       auditId: id,
+    });
+
+    void triggerAuditPdfArchive(id).catch((error) => {
+      console.error("Failed to archive audit PDF to Google Drive", {
+        id,
+        detail: error instanceof Error ? error.message : "Unknown error",
+      });
     });
 
     return NextResponse.json(unlocked);

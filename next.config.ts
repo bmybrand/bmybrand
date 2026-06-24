@@ -12,8 +12,10 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["framer-motion", "gsap", "lucide-react", "react-icons"],
   },
   outputFileTracingIncludes: {
-    "/api/screenshot": ["./node_modules/@sparticuz/chromium/bin/**"],
-    "/api/screenshot/route": ["./node_modules/@sparticuz/chromium/bin/**"],
+    "/api/screenshot": ["node_modules/@sparticuz/chromium/bin/**"],
+    "/api/screenshot/route": ["node_modules/@sparticuz/chromium/bin/**"],
+    "/api/audit": ["node_modules/@sparticuz/chromium/bin/**"],
+    "/api/audit/route": ["node_modules/@sparticuz/chromium/bin/**"],
   },
   async headers() {
     return [

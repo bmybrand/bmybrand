@@ -174,18 +174,29 @@ export async function saveAuditLeadToLeadsTable(lead: {
     return;
   }
 
+  const nameParts = lead.name.trim().split(/\s+/).filter(Boolean);
+  const firstName = nameParts[0] ?? lead.name;
+  const lastName = nameParts.slice(1).join(" ") || "—";
+
   const { error } = await supabaseAdmin.from("leads").insert({
-    first_name: lead.name.split(" ")[0] ?? lead.name,
-    last_name: lead.name.split(" ").slice(1).join(" ") || "—",
+    first_name: firstName,
+    last_name: lastName,
     email: lead.email,
     phone: "",
-    service: "website_audit",
-    message: `Website audit unlock for ${lead.siteUrl} (auditId: ${lead.auditId}, company: ${lead.company})`,
+    company: lead.company,
+    service: "Website Audit",
+    message: [
+      "Unlocked full Brandsight website audit report.",
+      `Company: ${lead.company}`,
+      `Website: ${lead.siteUrl}`,
+      `Audit ID: ${lead.auditId}`,
+    ].join("\n"),
     form_type: "website_audit",
     access_page: "/grow-my-business/report",
   });
 
   if (error) {
-    console.warn("Failed to save audit lead to leads table:", error.message);
+    console.error("Failed to save audit lead to leads table:", error.message);
+    throw new Error(error.message || "Failed to save audit lead.");
   }
 }
