@@ -296,9 +296,6 @@ export default function AnimationVideoEditingPage() {
                 Short-form edits built to move fast and keep attention.
               </h2>
             </div>
-            <p className="max-w-sm text-sm leading-7 text-white/60">
-              Desktop showcase for social cuts, platform versions, captions, pacing, and motion treatments.
-            </p>
           </div>
 
           <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-3 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
