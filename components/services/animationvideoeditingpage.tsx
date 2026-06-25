@@ -1,4 +1,8 @@
+'use client'
+
+import { useRef } from 'react'
 import Link from 'next/link'
+import { ChevronDown, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Search, Send, SquarePlus, UserCircle } from 'lucide-react'
 import Navbar from '../navbar'
 import Footer from '../footer'
 import EvaluatCTA from '../evaluatcta'
@@ -68,32 +72,69 @@ const reelShowcase = [
     title: 'Launch Teaser Edit',
     desc: 'Fast cuts, captions, hooks, and branded motion for campaign launches.',
     href: 'https://www.instagram.com/bmybrand_official/',
-    video: '/bmyb-services-brand-hero-video-01.mp4',
+    video: '/1 (1) (1) (1).webm',
   },
   {
     platform: 'YouTube Shorts',
     title: 'Product Highlight Short',
     desc: 'Vertical edits made for quick product education and social discovery.',
     href: 'https://www.youtube.com/@BMyBrandofficial',
-    video: '/bmyb-global-strock-animation-1-01.mp4',
+    video: '/2 (1) (1) (1).webm',
   },
   {
     platform: 'Instagram Reel',
     title: 'Brand Story Reel',
     desc: 'Motion-led storytelling with music, pacing, and clean visual rhythm.',
     href: 'https://www.instagram.com/bmybrand_official/',
-    video: '/bmyb-services-brand-hero-video-01.mp4',
+    video: '/3 (1) (1) (1).webm',
   },
   {
     platform: 'YouTube Shorts',
     title: 'Service Explainer Short',
     desc: 'Short-form explainers that simplify the offer in seconds.',
     href: 'https://www.youtube.com/@BMyBrandofficial',
-    video: '/bmyb-global-strock-animation-1-01.mp4',
+    video: '/4 (1) (1) (1).webm',
+  },
+  {
+    platform: 'Instagram Reel',
+    title: 'Social Proof Edit',
+    desc: 'Short testimonial-style edits with strong pacing and clear takeaway moments.',
+    href: 'https://www.instagram.com/bmybrand_official/',
+    video: '/5 (1) (1) (1).webm',
+  },
+  {
+    platform: 'YouTube Shorts',
+    title: 'Motion Brand Moment',
+    desc: 'Quick animated brand beats designed for repeated social and campaign use.',
+    href: 'https://www.youtube.com/@BMyBrandofficial',
+    video: '/6 (1) (1) (1).webm',
+  },
+  {
+    platform: 'Instagram Reel',
+    title: 'Campaign Reel Cut',
+    desc: 'High-energy vertical edits built around hooks, rhythm, and branded detail.',
+    href: 'https://www.instagram.com/bmybrand_official/',
+    video: '/7 (1) (1) (1).webm',
+  },
+  {
+    platform: 'YouTube Shorts',
+    title: 'Offer Explainer Short',
+    desc: 'Compact edits that clarify the offer and keep the viewer moving.',
+    href: 'https://www.youtube.com/@BMyBrandofficial',
+    video: '/8 (1) (1) (1).webm',
   },
 ]
 
-const reelLoop = [...reelShowcase, ...reelShowcase]
+const reelStats = [
+  { likes: '23K', comments: '652', shares: '15.1K' },
+  { likes: '18K', comments: '421', shares: '9.8K' },
+  { likes: '31K', comments: '884', shares: '18.6K' },
+  { likes: '14K', comments: '337', shares: '7.2K' },
+  { likes: '27K', comments: '719', shares: '12.4K' },
+  { likes: '19K', comments: '508', shares: '10.3K' },
+  { likes: '35K', comments: '941', shares: '21.7K' },
+  { likes: '16K', comments: '398', shares: '8.4K' },
+]
 
 const youtubeEditingShowcase = [
   {
@@ -114,6 +155,42 @@ const youtubeEditingShowcase = [
 ]
 
 export default function AnimationVideoEditingPage() {
+  const volumeFadeTimers = useRef(new WeakMap<HTMLVideoElement, number>())
+
+  const fadeReelVolume = (video: HTMLVideoElement, targetVolume: number) => {
+    const timers = volumeFadeTimers.current
+    const activeTimer = timers.get(video)
+
+    if (activeTimer) {
+      window.clearInterval(activeTimer)
+    }
+
+    if (targetVolume > 0) {
+      video.muted = false
+      void video.play().catch(() => {})
+    }
+
+    const step = targetVolume > video.volume ? 0.04 : -0.04
+    const timer = window.setInterval(() => {
+      const nextVolume = video.volume + step
+      const isComplete = step > 0 ? nextVolume >= targetVolume : nextVolume <= targetVolume
+
+      if (isComplete) {
+        video.volume = targetVolume
+        if (targetVolume === 0) {
+          video.muted = true
+        }
+        window.clearInterval(timer)
+        timers.delete(video)
+        return
+      }
+
+      video.volume = Math.max(0, Math.min(1, nextVolume))
+    }, 80)
+
+    timers.set(video, timer)
+  }
+
   return (
     <div className="bg-[#11122F] text-white">
       <style>
@@ -228,14 +305,22 @@ export default function AnimationVideoEditingPage() {
             <div className="reel-auto-track flex">
               {[0, 1].map((groupIndex) => (
                 <div key={groupIndex} className="flex shrink-0 gap-7">
-                  {reelLoop.map((reel, index) => (
+                  {reelShowcase.map((reel, index) => (
                     <Link
                       key={`${groupIndex}-${reel.platform}-${reel.title}-${index}`}
                       href={reel.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group w-[252px] shrink-0 sm:w-[292px]"
+                      className="group w-[270px] shrink-0 sm:w-[316px]"
                       aria-label={`View ${reel.title} on ${reel.platform}`}
+                      onMouseEnter={(event) => {
+                        const video = event.currentTarget.querySelector('video')
+                        if (video) fadeReelVolume(video, 0.85)
+                      }}
+                      onMouseLeave={(event) => {
+                        const video = event.currentTarget.querySelector('video')
+                        if (video) fadeReelVolume(video, 0)
+                      }}
                     >
                       <div className="rounded-[2rem] border border-white/12 bg-[#202141] p-2 shadow-2xl shadow-black/25 transition duration-500 group-hover:-translate-y-2 group-hover:border-[#F45B25]/40">
                         <div className="relative aspect-[9/16] overflow-hidden rounded-[1.55rem] border border-white/10 bg-[#11122F]">
@@ -247,20 +332,71 @@ export default function AnimationVideoEditingPage() {
                             playsInline
                             preload="auto"
                           >
-                            <source src={reel.video} type="video/mp4" />
+                            <source src={reel.video} type="video/webm" />
                           </video>
-                          <div className="absolute left-1/2 top-3 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-black/75 shadow-lg shadow-black/30" />
-                          <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-[#11122F]/18 to-transparent" />
-                          <div className="absolute inset-x-0 bottom-0 translate-y-0 p-5 opacity-100 transition duration-500 lg:translate-y-6 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
-                            <span className="mb-3 inline-flex rounded-full bg-[#F45B25] px-3 py-1 text-xs font-semibold text-white">
-                              {reel.platform}
-                            </span>
-                            <div>
-                              <h3 className="BenzinSemibold text-xl text-white">{reel.title}</h3>
-                              <p className="mt-3 text-sm leading-6 text-white/70">{reel.desc}</p>
+                          <div className="absolute inset-0 bg-linear-to-t from-black/88 via-black/8 to-black/46" />
+                          <div className="absolute left-1/2 top-3 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-black/80 shadow-lg shadow-black/35" />
+                          <div className="absolute inset-x-0 top-0 z-10 px-4 pt-3 text-white">
+                            <div className="flex items-center justify-between text-[11px] font-semibold leading-none drop-shadow">
+                              <span>9:41</span>
+                              <div className="flex items-center gap-1">
+                                <span className="h-2.5 w-3.5 rounded-[2px] border border-white/90" />
+                                <span className="h-2.5 w-3 rounded-sm bg-white/90" />
+                                <span className="h-2 w-4 rounded-sm border border-white/90">
+                                  <span className="block h-full w-3 rounded-sm bg-white/90" />
+                                </span>
+                              </div>
+                            </div>
+                            <div className="mt-5 flex items-center justify-between">
+                              <div className="flex items-center gap-1 text-base font-bold drop-shadow">
+                                Reels
+                                <ChevronDown className="h-3.5 w-3.5" strokeWidth={3} />
+                              </div>
+                              <div className="flex -space-x-2 rounded-full bg-black/20 p-1 backdrop-blur">
+                                {['bg-[#F45B25]', 'bg-[#32D4FF]', 'bg-[#FFE45C]'].map((color) => (
+                                  <span key={color} className={`h-5 w-5 rounded-full border-2 border-white/80 ${color}`} />
+                                ))}
+                              </div>
                             </div>
                           </div>
-                          <div className="absolute bottom-2 left-1/2 h-1 w-16 -translate-x-1/2 rounded-full bg-white/45" />
+                          <div className="absolute bottom-[96px] right-3 z-10 flex flex-col items-center gap-2.5 text-white drop-shadow">
+                            <div className="text-center">
+                              <Heart className="mx-auto h-5 w-5 fill-transparent" strokeWidth={2.4} />
+                              <span className="mt-1 block text-[10px] font-bold">{reelStats[index].likes}</span>
+                            </div>
+                            <div className="text-center">
+                              <MessageCircle className="mx-auto h-5 w-5" strokeWidth={2.4} />
+                              <span className="mt-1 block text-[10px] font-bold">{reelStats[index].comments}</span>
+                            </div>
+                            <div className="text-center">
+                              <Send className="mx-auto h-5 w-5" strokeWidth={2.4} />
+                              <span className="mt-1 block text-[10px] font-bold">{reelStats[index].shares}</span>
+                            </div>
+                            <MoreHorizontal className="h-5 w-5" strokeWidth={2.4} />
+                            <div className="flex h-6 w-6 items-center justify-center rounded-md border border-white/45 bg-black/35 backdrop-blur">
+                              <Music2 className="h-3.5 w-3.5" strokeWidth={2.4} />
+                            </div>
+                          </div>
+                          <div className="absolute inset-x-0 bottom-[76px] z-10 px-4 text-white drop-shadow">
+                            <div className="flex items-center gap-2">
+                              <span className="h-7 w-7 rounded-full border border-white/75 bg-[#F45B25]" />
+                              <span className="max-w-[104px] truncate text-xs font-bold">bmybrand</span>
+                              <span className="rounded-md border border-white/70 px-2 py-1 text-[10px] font-bold leading-none">Follow</span>
+                            </div>
+                            <p className="mt-2 max-w-[190px] truncate text-[11px] font-semibold leading-4">
+                              {reel.desc}
+                            </p>
+                          </div>
+                          <div className="absolute inset-x-0 bottom-0 z-10 border-t border-white/10 bg-black/68 px-5 pb-3 pt-2 text-white backdrop-blur">
+                            <div className="flex items-center justify-between">
+                              <Home className="h-[18px] w-[18px]" strokeWidth={2.2} />
+                              <Search className="h-[18px] w-[18px]" strokeWidth={2.2} />
+                              <SquarePlus className="h-[18px] w-[18px]" strokeWidth={2.2} />
+                              <Clapperboard className="h-[18px] w-[18px] fill-white/20" strokeWidth={2.2} />
+                              <UserCircle className="h-[18px] w-[18px]" strokeWidth={2.2} />
+                            </div>
+                            <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-white/85" />
+                          </div>
                         </div>
                       </div>
                     </Link>
