@@ -1,8 +1,9 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronDown, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Search, Send, SquarePlus, UserCircle } from 'lucide-react'
+import { Battery, ChevronDown, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Search, Send, Signal, SquarePlus, UserCircle, Wifi } from 'lucide-react'
 import Navbar from '../navbar'
 import Footer from '../footer'
 import EvaluatCTA from '../evaluatcta'
@@ -228,9 +229,8 @@ export default function AnimationVideoEditingPage() {
           loop
           playsInline
           preload="metadata"
-          poster="/bmyb-services-brand-banner-01.jpg"
         >
-          <source src="/bmyb-services-brand-hero-video-01.mp4" type="video/mp4" />
+          <source src="/Bmybrand (1)_compressed (1).webm" type="video/webm" />
         </video>
         <div className="absolute inset-0 bg-linear-to-r from-[#11122F]/90 via-[#11122F]/62 to-[#11122F]/25" />
 
@@ -340,11 +340,9 @@ export default function AnimationVideoEditingPage() {
                             <div className="flex items-center justify-between text-[11px] font-semibold leading-none drop-shadow">
                               <span>9:41</span>
                               <div className="flex items-center gap-1">
-                                <span className="h-2.5 w-3.5 rounded-[2px] border border-white/90" />
-                                <span className="h-2.5 w-3 rounded-sm bg-white/90" />
-                                <span className="h-2 w-4 rounded-sm border border-white/90">
-                                  <span className="block h-full w-3 rounded-sm bg-white/90" />
-                                </span>
+                                <Signal className="h-3.5 w-3.5 fill-white/80" strokeWidth={2.6} />
+                                <Wifi className="h-3.5 w-3.5" strokeWidth={2.6} />
+                                <Battery className="h-4 w-4" strokeWidth={2.4} />
                               </div>
                             </div>
                             <div className="mt-5 flex items-center justify-between">
@@ -374,7 +372,9 @@ export default function AnimationVideoEditingPage() {
                           </div>
                           <div className="absolute inset-x-0 bottom-[76px] z-10 px-4 text-white drop-shadow">
                             <div className="flex items-center gap-2">
-                              <span className="h-7 w-7 rounded-full border border-white/75 bg-[#F45B25]" />
+                              <span className="flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border border-white/75 bg-[#11122F]">
+                                <Image src="/bmybrand-B.svg" alt="" width={20} height={20} className="h-5 w-5 object-contain" />
+                              </span>
                               <span className="max-w-[104px] truncate text-xs font-bold">bmybrand</span>
                               <span className="rounded-md border border-white/70 px-2 py-1 text-[10px] font-bold leading-none">Follow</span>
                             </div>
