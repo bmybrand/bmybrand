@@ -352,11 +352,6 @@ export default function AnimationVideoEditingPage() {
                                 Reels
                                 <ChevronDown className="h-3.5 w-3.5" strokeWidth={3} />
                               </div>
-                              <div className="flex -space-x-2 rounded-full bg-black/20 p-1 backdrop-blur">
-                                {['bg-[#F45B25]', 'bg-[#32D4FF]', 'bg-[#FFE45C]'].map((color) => (
-                                  <span key={color} className={`h-5 w-5 rounded-full border-2 border-white/80 ${color}`} />
-                                ))}
-                              </div>
                             </div>
                           </div>
                           <div className="absolute bottom-[96px] right-3 z-10 flex flex-col items-center gap-2.5 text-white drop-shadow">
