@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Battery, ChevronDown, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Search, Send, Signal, SquarePlus, UserCircle, Wifi } from 'lucide-react'
+import { Battery, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Search, Send, Signal, SquarePlus, UserCircle, Wifi } from 'lucide-react'
 import Navbar from '../navbar'
 import Footer from '../footer'
 import EvaluatCTA from '../evaluatcta'
@@ -69,59 +69,43 @@ const outcomes = [
 
 const reelShowcase = [
   {
-    platform: 'Instagram Reel',
     title: 'Launch Teaser Edit',
     desc: 'Fast cuts, captions, hooks, and branded motion for campaign launches.',
-    href: 'https://www.instagram.com/bmybrand_official/',
     video: '/1 (1) (1) (1).webm',
   },
   {
-    platform: 'YouTube Shorts',
     title: 'Product Highlight Short',
     desc: 'Vertical edits made for quick product education and social discovery.',
-    href: 'https://www.youtube.com/@BMyBrandofficial',
     video: '/2 (1) (1) (1).webm',
   },
   {
-    platform: 'Instagram Reel',
     title: 'Brand Story Reel',
     desc: 'Motion-led storytelling with music, pacing, and clean visual rhythm.',
-    href: 'https://www.instagram.com/bmybrand_official/',
     video: '/3 (1) (1) (1).webm',
   },
   {
-    platform: 'YouTube Shorts',
     title: 'Service Explainer Short',
     desc: 'Short-form explainers that simplify the offer in seconds.',
-    href: 'https://www.youtube.com/@BMyBrandofficial',
     video: '/4 (1) (1) (1).webm',
   },
   {
-    platform: 'Instagram Reel',
     title: 'Social Proof Edit',
     desc: 'Short testimonial-style edits with strong pacing and clear takeaway moments.',
-    href: 'https://www.instagram.com/bmybrand_official/',
     video: '/5 (1) (1) (1).webm',
   },
   {
-    platform: 'YouTube Shorts',
     title: 'Motion Brand Moment',
     desc: 'Quick animated brand beats designed for repeated social and campaign use.',
-    href: 'https://www.youtube.com/@BMyBrandofficial',
     video: '/6 (1) (1) (1).webm',
   },
   {
-    platform: 'Instagram Reel',
     title: 'Campaign Reel Cut',
     desc: 'High-energy vertical edits built around hooks, rhythm, and branded detail.',
-    href: 'https://www.instagram.com/bmybrand_official/',
     video: '/7 (1) (1) (1).webm',
   },
   {
-    platform: 'YouTube Shorts',
     title: 'Offer Explainer Short',
     desc: 'Compact edits that clarify the offer and keep the viewer moving.',
-    href: 'https://www.youtube.com/@BMyBrandofficial',
     video: '/8 (1) (1) (1).webm',
   },
 ]
@@ -291,7 +275,7 @@ export default function AnimationVideoEditingPage() {
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
           <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             <div>
-              <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Instagram Reels & YouTube Shorts</p>
+              <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Short-Form Video Edits</p>
               <h2 className="BenzinSemibold max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
                 Short-form edits built to move fast and keep attention.
               </h2>
@@ -303,13 +287,9 @@ export default function AnimationVideoEditingPage() {
               {[0, 1].map((groupIndex) => (
                 <div key={groupIndex} className="flex shrink-0 gap-7">
                   {reelShowcase.map((reel, index) => (
-                    <Link
-                      key={`${groupIndex}-${reel.platform}-${reel.title}-${index}`}
-                      href={reel.href}
-                      target="_blank"
-                      rel="noreferrer"
+                    <div
+                      key={`${groupIndex}-${reel.title}-${index}`}
                       className="group w-[270px] shrink-0 sm:w-[316px]"
-                      aria-label={`View ${reel.title} on ${reel.platform}`}
                       onMouseEnter={(event) => {
                         const video = event.currentTarget.querySelector('video')
                         if (video) fadeReelVolume(video, 0.85)
@@ -343,10 +323,7 @@ export default function AnimationVideoEditingPage() {
                               </div>
                             </div>
                             <div className="mt-5 flex items-center justify-between">
-                              <div className="flex items-center gap-1 text-base font-bold drop-shadow">
-                                Reels
-                                <ChevronDown className="h-3.5 w-3.5" strokeWidth={3} />
-                              </div>
+                              <div className="h-4" />
                             </div>
                           </div>
                           <div className="absolute bottom-[96px] right-3 z-10 flex flex-col items-center gap-2.5 text-white drop-shadow">
@@ -391,7 +368,7 @@ export default function AnimationVideoEditingPage() {
                           </div>
                         </div>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               ))}
