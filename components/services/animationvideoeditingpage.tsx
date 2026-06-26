@@ -262,7 +262,10 @@ export default function AnimationVideoEditingPage() {
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             {deliverables.map((item) => (
-              <div key={item.title} className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
+              <div
+                key={item.title}
+                className="rounded-lg border border-white/10 bg-white/[0.04] p-6 transition-colors duration-300 hover:border-[#F45B25]"
+              >
                 <h3 className="BenzinSemibold mb-3 text-lg text-white">{item.title}</h3>
                 <p className="text-sm leading-7 text-white/60">{item.desc}</p>
               </div>
