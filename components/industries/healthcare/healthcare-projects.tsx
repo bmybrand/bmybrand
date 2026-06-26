@@ -24,7 +24,7 @@ const projectCards: ProjectCard[] = [
     title: 'Scalable Digital Growth For Healthcare',
     image: '/bmyb-industries-healthcare-project-01.webp',
     tag: 'Healthcare',
-    href: 'https://instinctivehealthpass.com/',
+    href: '/case-studies/instinctive-healthcare-solutions',
     imageClassName: 'object-cover object-center',
   },
   {
@@ -34,7 +34,7 @@ const projectCards: ProjectCard[] = [
     title: 'Patient-First Emergency Care Experience',
     image: '/bmyb-industries-healthcare-project-02.webp',
     tag: 'Healthcare',
-    href: 'https://fhmcaz.com/',
+    href: '/case-studies/fountain-hills',
     imageClassName: 'object-cover object-center',
   },
   {
@@ -43,10 +43,10 @@ const projectCards: ProjectCard[] = [
     brandLogo: '/bmyb-industries-healthcare-client-logo-03.svg',
     logoClassName: '',
     title: 'AI-Powered Digital Care For Modern Patients',
-    image: '/bmyb-industries-healthcare-project-03.svg',
+    image: '/bmyb-case-instinctive-health-slider-01.webp',
     tag: 'AI / Healthcare',
-    href: '#',
-    imageClassName: 'object-cover object-center bg-[#f1f5fb]',
+    href: '/case-studies/instinctive-health',
+    imageClassName: 'object-cover object-center',
   },
 ]
 

@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { Battery, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Search, Send, Signal, SquarePlus, UserCircle, Wifi } from 'lucide-react'
 import Navbar from '../navbar'
 import Footer from '../footer'
-import EvaluatCTA from '../evaluatcta'
 import Brandsspec from '../brandsspec'
 
 const serviceFormats = [
@@ -380,6 +379,77 @@ export default function AnimationVideoEditingPage() {
         </div>
       </section>
 
+      <section className="overflow-hidden py-20">
+        <div className="mx-auto w-[90%] 2xl:w-[75%]">
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-white/10 bg-[#11122F]">
+              <video
+                className="absolute inset-0 h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              >
+                <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-transparent to-transparent" />
+            </div>
+
+            <div className="flex flex-col justify-center">
+              <h2 className="BenzinSemibold text-3xl leading-tight md:text-4xl lg:text-5xl">What You Get</h2>
+              <div className="mt-8 space-y-4">
+                {outcomes.map((outcome) => (
+                  <div key={outcome} className="flex items-center gap-4 border-b border-white/10 pb-4">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F45B25]">
+                      <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span className="text-base text-white/80">{outcome}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="mx-auto w-[90%] 2xl:w-[75%]">
+          <h2 className="BenzinSemibold mb-14 text-center text-3xl md:text-4xl lg:text-5xl">
+            Production Process
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {productionSteps.map((step) => (
+              <div
+                key={step.number}
+                className="group relative rounded-lg border border-white/10 bg-[#11122F] p-7 transition duration-300 hover:-translate-y-2 hover:border-[#F45B25]/45 hover:bg-[#202141] hover:shadow-2xl hover:shadow-black/25"
+              >
+                <span className="BenzinSemibold text-5xl text-[#F45B25]/30 transition duration-300 group-hover:text-[#F45B25]/70">{step.number}</span>
+                <h3 className="BenzinSemibold mt-8 text-xl text-white">{step.title}</h3>
+                <p className="mt-4 text-sm leading-7 text-white/60">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto w-[90%] rounded-lg border border-[#F45B25]/25 bg-[#11122F] p-8 text-center md:p-12 2xl:w-[75%]">
+          <p className="BenzinSemibold text-sm text-[#F45B25]">Ready for motion?</p>
+          <h2 className="BenzinSemibold mx-auto mt-4 max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
+            Turn your message into a video people actually finish watching.
+          </h2>
+          <Link
+            href="/strategy-call"
+            className="BenzinSemibold mt-8 inline-flex rounded-full border border-white/20 px-7 py-4 text-sm text-white transition hover:border-[#F45B25] hover:text-[#F45B25]"
+          >
+            Start a Video Project
+          </Link>
+        </div>
+      </section>
+
       <section className="py-16 lg:py-24">
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
           <div className="mb-8 flex flex-col gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
@@ -462,82 +532,6 @@ export default function AnimationVideoEditingPage() {
           </div>
         </div>
       </section>
-
-      <section className="overflow-hidden py-20">
-        <div className="mx-auto w-[90%] 2xl:w-[75%]">
-          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-white/10 bg-[#11122F]">
-              <video
-                className="absolute inset-0 h-full w-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              >
-                <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-transparent to-transparent" />
-            </div>
-
-            <div className="flex flex-col justify-center">
-              <h2 className="BenzinSemibold text-3xl leading-tight md:text-4xl lg:text-5xl">What You Get</h2>
-              <div className="mt-8 space-y-4">
-                {outcomes.map((outcome) => (
-                  <div key={outcome} className="flex items-center gap-4 border-b border-white/10 pb-4">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F45B25]">
-                      <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </span>
-                    <span className="text-base text-white/80">{outcome}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20">
-        <div className="mx-auto w-[90%] 2xl:w-[75%]">
-          <h2 className="BenzinSemibold mb-14 text-center text-3xl md:text-4xl lg:text-5xl">
-            Production Process
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {productionSteps.map((step) => (
-              <div
-                key={step.number}
-                className="group relative rounded-lg border border-white/10 bg-[#11122F] p-7 transition duration-300 hover:-translate-y-2 hover:border-[#F45B25]/45 hover:bg-[#202141] hover:shadow-2xl hover:shadow-black/25"
-              >
-                <span className="BenzinSemibold text-5xl text-[#F45B25]/30 transition duration-300 group-hover:text-[#F45B25]/70">{step.number}</span>
-                <h3 className="BenzinSemibold mt-8 text-xl text-white">{step.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-white/60">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 py-20">
-        <div className="mx-auto max-w-6xl rounded-lg border border-[#F45B25]/25 bg-[#11122F] p-8 text-center md:p-12">
-          <p className="BenzinSemibold text-sm text-[#F45B25]">Ready for motion?</p>
-          <h2 className="BenzinSemibold mx-auto mt-4 max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
-            Turn your message into a video people actually finish watching.
-          </h2>
-          <Link
-            href="/strategy-call"
-            className="BenzinSemibold mt-8 inline-flex rounded-full border border-white/20 px-7 py-4 text-sm text-white transition hover:border-[#F45B25] hover:text-[#F45B25]"
-          >
-            Start a Video Project
-          </Link>
-        </div>
-      </section>
-
-      <EvaluatCTA
-        title="Turn Your Message into Motion!"
-        description="Animation and video editing that helps your brand explain, sell, and stay memorable."
-      />
       <Brandsspec />
       <Footer />
     </div>
