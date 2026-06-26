@@ -313,6 +313,7 @@ export default function AnimationVideoEditingPage() {
                           >
                             <source src={reel.video} type="video/webm" />
                           </video>
+                          <div className="absolute inset-0 z-[1] bg-black/12 backdrop-blur-[3px] transition-opacity duration-500 group-hover:opacity-0" />
                           <div className="absolute inset-0 bg-linear-to-t from-black/88 via-black/8 to-black/46" />
                           <div className="absolute left-1/2 top-3 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-black/80 shadow-lg shadow-black/35" />
                           <div className="absolute inset-x-0 top-0 z-10 px-4 pt-3 text-white">
