@@ -70,10 +70,7 @@ const SERVICE_LINKS = [
   { label: 'MVP Development', href: '/services/mvp-development' },
   { label: 'E-Commerce Solutions', href: '/services/commerce-solutions' },
   { label: 'Cloud Solutions', href: '/services/cloud-solutions' },
-  { label: 'SEO & AEO/GEO', href: '/services/seo-aeo-geo' },
   { label: 'Digital Marketing', href: '/services/digital-marketing' },
-  { label: 'Brand Experience', href: '/services/brand-experience' },
-  { label: 'Animation & Video Editing', href: '/services/animation-video-editing' },
 ]
 
 const REVIEW_PLATFORMS = [
