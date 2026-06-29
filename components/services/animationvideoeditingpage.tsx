@@ -279,7 +279,7 @@ export default function AnimationVideoEditingPage() {
           <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             <div>
               <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Our Short-Form Video Assets</p>
-              <h2 className="BenzinSemibold max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
+              <h2 className="BenzinSemibold max-w-5xl text-3xl leading-tight md:text-4xl lg:text-5xl">
                 People Don&apos;t Have Short Attention Spans; They Just Have an Incredibly High Filter for Boring Content.
               </h2>
             </div>
@@ -442,7 +442,7 @@ export default function AnimationVideoEditingPage() {
           <p className="BenzinSemibold inline-flex rounded-full border border-[#F45B25]/35 bg-[#F45B25]/10 px-5 py-2 text-sm text-[#F45B25]">
             Get Connect Now
           </p>
-          <h2 className="BenzinSemibold mx-auto mt-4 max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
+          <h2 className="BenzinSemibold mx-auto mt-4 max-w-5xl text-3xl leading-tight md:text-4xl lg:text-5xl">
             Want to Create Videos That Stop the Scroll and Spark Real Engagement?
           </h2>
           <Link
@@ -475,7 +475,7 @@ export default function AnimationVideoEditingPage() {
           <div className="mb-8 flex flex-col gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             <div>
               <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Our High-End Long-Form Production</p>
-              <h2 className="BenzinSemibold max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
+              <h2 className="BenzinSemibold max-w-5xl text-3xl leading-tight md:text-4xl lg:text-5xl">
                 Command Authority with Episodic Content and Branded YouTube Channels.
               </h2>
             </div>
