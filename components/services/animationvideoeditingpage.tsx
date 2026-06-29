@@ -9,7 +9,7 @@ import Footer from '../footer'
 import Brandsspec from '../brandsspec'
 
 const serviceFormats = [
-  'Motion graphics',
+  'Motion graphics animation',
   'Explainer videos',
   'Reels and shorts',
   'Website hero videos',
@@ -20,50 +20,50 @@ const serviceFormats = [
 const productionSteps = [
   {
     number: '01',
-    title: 'Creative Direction',
-    desc: 'We define the story, mood, platform, timing, visual style, and key message before editing begins.',
+    title: 'Strategic Direction',
+    desc: "We map out your target audience's psychological triggers, platform goals, and core messaging before jumping into our specialized creative 2D animation services pipeline.",
   },
   {
     number: '02',
-    title: 'Script & Storyboard',
-    desc: 'We map the scenes, copy, captions, transitions, audio moments, and visual rhythm so the edit has structure.',
+    title: 'Conceptual Storyboarding',
+    desc: 'Our writers script high-retention hooks and plan visual transitions, caption styling, and audio beats so your custom animated video production flows naturally.',
   },
   {
     number: '03',
-    title: 'Edit & Animate',
-    desc: 'We cut footage, add motion graphics, build title systems, refine pacing, color, sound, and branded details.',
+    title: 'High-Fidelity Execution',
+    desc: 'We cut your footage with precision, integrate specialized stop motion animation services where needed, and layer dynamic visual elements to maximize on-screen energy.',
   },
   {
     number: '04',
-    title: 'Export for Every Channel',
-    desc: 'We deliver clean versions for websites, ads, social platforms, presentations, launches, and campaigns.',
+    title: 'Multi-Platform Optimization',
+    desc: 'We export clean, perfectly formatted variations optimized for immediate, high-resolution delivery across ad managers, sites, presentation decks, and socials.',
   },
 ]
 
 const deliverables = [
   {
     title: 'Social Campaign Cuts',
-    desc: 'Vertical, square, and widescreen edits built for Instagram, TikTok, YouTube, LinkedIn, and paid campaigns.',
+    desc: 'Dominate chaotic feeds with premium motion graphics animation services in the USA. We cut punchy, scroll-stopping social edits framed perfectly for TikTok, Instagram, and high-ROI paid ad campaigns.',
   },
   {
     title: 'Website Motion Assets',
-    desc: 'Hero loops, service visuals, product animations, and background videos that make pages feel more alive.',
+    desc: 'Keep visitors on your landing pages longer. Our custom motion graphics animation services use loopable UI walkthroughs and sleek visual cues that guide users effortlessly toward your checkout button.',
   },
   {
     title: 'Explainer Systems',
-    desc: 'Animated videos that simplify offers, product flows, onboarding steps, and complex business ideas.',
+    desc: 'Simplify your densest product features, onboarding steps, or tech platforms. We act as a specialized whiteboard animation agency that delivers crystal-clear, premium custom whiteboard animation services.',
   },
   {
     title: 'Brand Video Polish',
-    desc: 'Clean edits with pacing, music, captions, color correction, and motion details that feel on-brand.',
+    desc: 'Transform raw footage into an absolute masterpiece. Partner with our professional video editing company to give your webinars, case studies, and corporate interviews a flawless, cinematic rhythm.',
   },
 ]
 
 const outcomes = [
-  'Sharper message retention',
-  'More engaging landing pages',
-  'Reusable campaign assets',
-  'Platform-ready exports',
+  'High-retention motion graphics in video editing',
+  'Immersive pages powered by 3d animation video',
+  'Elite assets built by a 3d video animation agency',
+  'Platform-ready files from our professional video editing services',
 ]
 
 const reelShowcase = [
@@ -225,12 +225,13 @@ export default function AnimationVideoEditingPage() {
             </div>
 
             <h1 className="BenzinSemibold max-w-6xl text-2xl leading-tight text-white md:text-3xl lg:text-4xl 2xl:text-5xl">
-              Motion Content That Makes Your Brand Easier to Watch, Understand, and Remember
+              Creative Visual Experiences Designed to Make Your Brand Stand Out
             </h1>
 
             <p className="mt-7 max-w-3xl text-base leading-8 text-white/70 md:text-lg">
-              We create scroll-stopping edits, animated explainers, website motion assets, and polished brand videos
-              that turn ideas into clear visual stories for every digital channel.
+              We&apos;re a custom animated video production company offering video animation services,
+              professional video editing services, and creative 2D animation services that turn ideas into clear
+              visual stories for every digital channel.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
@@ -245,7 +246,7 @@ export default function AnimationVideoEditingPage() {
               href="/strategy-call"
               className="BenzinSemibold mt-12 inline-flex items-center rounded-full bg-[#F45B25] px-7 py-4 text-sm text-white transition hover:bg-[#ff7438]"
             >
-              Create Video Content
+              Get Connect Now
             </Link>
           </div>
         </div>
@@ -254,9 +255,9 @@ export default function AnimationVideoEditingPage() {
       <section className="py-20">
         <div className="mx-auto grid w-[90%] items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] 2xl:w-[75%]">
           <div>
-            <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Built for pace, clarity, and recall</p>
+            <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Made For Retention and Rapid Conversion</p>
             <h2 className="BenzinSemibold text-3xl leading-tight md:text-4xl lg:text-5xl">
-              Every frame should help the viewer get the point faster.
+              If Your Videos Don&apos;t Get Straight to The Point, Your Audience Is Already Gone.
             </h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
@@ -277,9 +278,9 @@ export default function AnimationVideoEditingPage() {
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
           <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             <div>
-              <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Short-Form Video Edits</p>
+              <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Our Short-Form Video Assets</p>
               <h2 className="BenzinSemibold max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
-                Short-form edits built to move fast and keep attention.
+                People Don&apos;t Have Short Attention Spans; They Just Have an Incredibly High Filter for Boring Content.
               </h2>
             </div>
           </div>
@@ -398,7 +399,7 @@ export default function AnimationVideoEditingPage() {
             </div>
 
             <div className="flex flex-col justify-center">
-              <h2 className="BenzinSemibold text-3xl leading-tight md:text-4xl lg:text-5xl">What You Get</h2>
+              <h2 className="BenzinSemibold text-3xl leading-tight md:text-4xl lg:text-5xl">What You Get with BMYBrand</h2>
               <div className="mt-8 space-y-4">
                 {outcomes.map((outcome) => (
                   <div key={outcome} className="flex items-center gap-4 border-b border-white/10 pb-4">
@@ -419,7 +420,7 @@ export default function AnimationVideoEditingPage() {
       <section className="py-20">
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
           <h2 className="BenzinSemibold mb-14 text-center text-3xl md:text-4xl lg:text-5xl">
-            Production Process
+            Our Creative Blueprint
           </h2>
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {productionSteps.map((step) => (
@@ -439,10 +440,10 @@ export default function AnimationVideoEditingPage() {
       <section className="px-6 py-20">
         <div className="mx-auto w-[90%] rounded-lg border border-[#F45B25]/25 bg-[#11122F] p-8 text-center md:p-12 2xl:w-[75%]">
           <p className="BenzinSemibold inline-flex rounded-full border border-[#F45B25]/35 bg-[#F45B25]/10 px-5 py-2 text-sm text-[#F45B25]">
-            Ready for motion?
+            Get Connect Now
           </p>
           <h2 className="BenzinSemibold mx-auto mt-4 max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
-            Turn your message into a video people actually finish watching.
+            Want to Create Videos That Stop the Scroll and Spark Real Engagement?
           </h2>
           <Link
             href="/strategy-call"
@@ -464,7 +465,7 @@ export default function AnimationVideoEditingPage() {
                 />
               </svg>
             </span>
-            <span className="whitespace-nowrap px-2">Start a Video Project</span>
+            <span className="whitespace-nowrap px-2">Get Connect Now</span>
           </Link>
         </div>
       </section>
@@ -473,9 +474,9 @@ export default function AnimationVideoEditingPage() {
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
           <div className="mb-8 flex flex-col gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             <div>
-              <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">YouTube Video Editing</p>
+              <p className="BenzinSemibold mb-4 text-sm text-[#F45B25]">Our High-End Long-Form Production</p>
               <h2 className="BenzinSemibold max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
-                Longer edits, ads, and branded YouTube videos.
+                Command Authority with Episodic Content and Branded YouTube Channels.
               </h2>
             </div>
             <Link
