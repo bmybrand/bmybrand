@@ -161,7 +161,7 @@ export default function GrowMyBusinessPage() {
 
                   <p className="mt-3 text-sm leading-6 text-[#9EA2C5]">
                     <span className="text-[#F45B25]">Free website audit.</span>{" "}
-                    {submitted ? "Request received. We&apos;ll send it shortly." : "Sent to your inbox in 2 minutes."}
+                    {submitted ? "Request received. We&apos;ll send it shortly." : "Done in under 2 minutes."}
                   </p>
                 </div>
               </div>
@@ -266,7 +266,7 @@ export default function GrowMyBusinessPage() {
               </button>
 
               <p className="mt-4 text-center text-sm leading-6 text-[#9EA2C5]">
-                <span className="text-[#F45B25]">Free website audit.</span> Sent to your inbox in 2 minutes.
+                <span className="text-[#F45B25]">Free website audit.</span> Done in under 2 minutes.
               </p>
             </form>
           </div>
