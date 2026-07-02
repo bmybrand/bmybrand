@@ -465,7 +465,7 @@ export default function AnimationVideoEditingPage() {
                 />
               </svg>
             </div>
-            <span className="whitespace-nowrap px-2">Free strategy call</span>
+            <span className="whitespace-nowrap px-2">Get Connect Now</span>
           </Link>
         </div>
       </section>
