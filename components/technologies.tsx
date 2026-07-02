@@ -21,6 +21,7 @@ const ToolItem = ({
   hoverColor: string
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const shouldDarkenIcon = icon === '/bmyb-tech-next-01.png' && isHovered
   
   return (
     <div
@@ -45,7 +46,13 @@ const ToolItem = ({
           boxShadow: isHovered ? `0 0 25px ${hoverColor}CC` : '0 10px 15px -3px rgb(0 0 0 / 0.1)',
         }}
       >
-        <img src={icon} alt="" className="w-5 h-5 object-contain" />
+        <img
+          src={icon}
+          alt=""
+          className={`w-5 h-5 object-contain transition-all duration-300 ${
+            shouldDarkenIcon ? 'brightness-0' : ''
+          }`}
+        />
       </div>
 
       {/* LABEL */}
