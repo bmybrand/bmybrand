@@ -166,6 +166,7 @@ const MegaMenu = ({
   portalReady,
   type,
   style,
+  useDetailHover = false,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -176,6 +177,7 @@ const MegaMenu = ({
   portalReady: boolean;
   type: "services" | "industries" | "company" | "resources";
   style?: React.CSSProperties;
+  useDetailHover?: boolean;
 }) => {
   if (!isOpen || !portalReady) return null;
 
@@ -184,6 +186,9 @@ const MegaMenu = ({
   const isResources = type === "resources";
   const isIndustries = type === "industries";
   const hasTwoColumnLayout = isCompany || isServices || isResources;
+  const menuBaseTextClass = useDetailHover ? "text-white/80" : "text-white";
+  const menuHoverTextClass = useDetailHover ? "group-hover:text-white" : "group-hover:text-[#F45B25]";
+  const activeMenuTextClass = useDetailHover ? "text-white" : "text-[#F45B25]";
   const isItemActive = (href: string) => {
     if (typeof window === "undefined") return false;
 
@@ -222,7 +227,7 @@ const MegaMenu = ({
               />
             </div>
             <div>
-              <Link href="/underconstruction" className="text-white text-lg font-semibold transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 group-hover:text-[#F45B25]">
+              <Link href="/underconstruction" className={`${menuBaseTextClass} text-lg font-semibold transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 ${menuHoverTextClass}`}>
                 View Open Positions
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -247,7 +252,7 @@ const MegaMenu = ({
               />
             </div>
             <div className="min-h-0">
-              <div className="text-white text-lg font-semibold flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 transition-colors group-hover:text-[#F45B25]">
+              <div className={`${menuBaseTextClass} text-lg font-semibold flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 transition-colors ${menuHoverTextClass}`}>
                 Explore All Services
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -297,12 +302,12 @@ const MegaMenu = ({
                 className={`flex rounded-xl transition-colors group ${isItemActive(item.href) ? "bg-white/10" : "hover:bg-white/10"} ${hasTwoColumnLayout ? "gap-4 min-w-0 py-1.5 px-3" : isIndustries ? "gap-3 py-2 px-2 min-w-0" : "gap-4 p-4"}`}
               >
                 {"icon" in item && item.icon && (
-                  <div className={`w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 transition-colors ${isItemActive(item.href) ? "text-[#F45B25]" : "text-white group-hover:text-[#F45B25]"}`}>
+                  <div className={`w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 transition-colors ${isItemActive(item.href) ? activeMenuTextClass : `${menuBaseTextClass} ${menuHoverTextClass}`}`}>
                     {item.icon}
                   </div>
                 )}
                 <div>
-                  <span className={`font-semibold transition-colors BenzinSemibold ${isItemActive(item.href) ? "text-[#F45B25]" : "text-white group-hover:text-[#F45B25]"}`}>{item.title}</span>
+                  <span className={`font-semibold transition-colors BenzinSemibold ${isItemActive(item.href) ? activeMenuTextClass : `${menuBaseTextClass} ${menuHoverTextClass}`}`}>{item.title}</span>
                   <p className="text-white/60 text-sm mt-0.5">{item.desc}</p>
                 </div>
               </Link>
@@ -351,6 +356,9 @@ const Navbar = () => {
   const isCaseStudyDetail = pathname.startsWith("/case-studies/") && pathname !== "/case-studies";
   const isServicesPage = pathname.startsWith("/services");
   const isIndustriesPage = pathname.startsWith("/industries");
+  const navBaseTextClass = "text-white/80";
+  const navHoverTextClass = isCaseStudyDetail ? "hover:text-white" : "hover:text-[#F45B25]";
+  const navUnderlineClass = isCaseStudyDetail ? "after:bg-white" : "after:bg-[#F45B25]";
 
   useEffect(() => {
     const updateHash = () => setCurrentHash(window.location.hash);
@@ -427,9 +435,9 @@ const Navbar = () => {
 
   const linkClasses = (path: string) =>
     `block relative py-2 transition
-     ${pathname === path ? "text-[#F45B25]" : "text-white/80 hover:text-[#F45B25]"}
+     ${pathname === path ? "text-[#F45B25]" : `${navBaseTextClass} ${navHoverTextClass}`}
      after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full
-     after:bg-[#F45B25] after:scale-x-0 after:origin-left after:transition
+     ${navUnderlineClass} after:scale-x-0 after:origin-left after:transition
      ${pathname === path ? "after:scale-x-100" : "hover:after:scale-x-100"}`;
 
   return (
@@ -454,14 +462,14 @@ const Navbar = () => {
           >
             <span
               className={`cursor-pointer block relative py-2 transition ${
-                isServicesPage ? "text-[#F45B25]" : "text-white/80 hover:text-[#F45B25]"
-              } after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full after:bg-[#F45B25] after:origin-left after:transition ${
+                isServicesPage ? "text-[#F45B25]" : `${navBaseTextClass} ${navHoverTextClass}`
+              } after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full ${navUnderlineClass} after:origin-left after:transition ${
                 isServicesPage ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100"
               }`}
             >
               Services
             </span>
-            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="services" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "services"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="services" style={dropdownPosition} useDetailHover={isCaseStudyDetail} />
           </li>
           <li
             ref={(el) => { tabRefs.current.industries = el; }}
@@ -471,14 +479,14 @@ const Navbar = () => {
           >
             <span
               className={`cursor-pointer block relative py-2 transition ${
-                isIndustriesPage ? "text-[#F45B25]" : "text-white/80 hover:text-[#F45B25]"
-              } after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full after:bg-[#F45B25] after:origin-left after:transition ${
+                isIndustriesPage ? "text-[#F45B25]" : `${navBaseTextClass} ${navHoverTextClass}`
+              } after:absolute after:left-0 after:bottom-2 after:h-[2px] after:w-full ${navUnderlineClass} after:origin-left after:transition ${
                 isIndustriesPage ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100"
               }`}
             >
               Industries
             </span>
-            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="industries" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "industries"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="industries" style={dropdownPosition} useDetailHover={isCaseStudyDetail} />
           </li>
           <li>
             <Link href="/case-studies" className={linkClasses("/case-studies")}>Case Studies</Link>
@@ -490,7 +498,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/about")}`}>Company</span>
-            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="company" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "company"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="company" style={dropdownPosition} useDetailHover={isCaseStudyDetail} />
           </li>
           <li
             ref={(el) => { tabRefs.current.resources = el; }}
@@ -499,7 +507,7 @@ const Navbar = () => {
             onMouseLeave={handleMegaMenuLeave}
           >
             <span className={`cursor-pointer ${linkClasses("/contact")}`}>Resources</span>
-            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="resources" style={dropdownPosition} />
+            <MegaMenu isOpen={megaMenuOpen === "resources"} onClose={() => setMegaMenuOpen(null)} onStartNavigate={startPreloaderNavigation} onPreloaderNavigate={navigateWithPreloader} currentHash={currentHash} currentPathname={pathname} portalReady={portalReady} type="resources" style={dropdownPosition} useDetailHover={isCaseStudyDetail} />
           </li>
         </ul>
 
