@@ -33,8 +33,9 @@ export function AuditDetailsPanel({
     year: "numeric",
   });
 
-  const handlePrint = () => {
-    window.print();
+  const handleDownloadPdf = () => {
+    const encodedAuditId = encodeURIComponent(auditId);
+    window.location.href = `/api/audit/${encodedAuditId}/pdf`;
   };
 
   const details = [
@@ -72,7 +73,7 @@ export function AuditDetailsPanel({
 
       <button
         type="button"
-        onClick={handlePrint}
+        onClick={handleDownloadPdf}
         className="mt-6 inline-flex h-[52px] w-full shrink-0 items-center justify-center rounded-[8px] bg-white text-[16px] text-[#191A35] BenzinSemibold transition-transform hover:-translate-y-0.5"
       >
         Download PDF
