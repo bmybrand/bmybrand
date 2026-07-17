@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Battery, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Search, Send, Signal, SquarePlus, UserCircle, Wifi } from 'lucide-react'
+import { Battery, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Pause, Play, RotateCcw, RotateCw, Search, Send, Signal, SquarePlus, UserCircle, Volume2, VolumeX, Wifi } from 'lucide-react'
 import Navbar from '../navbar'
 import Footer from '../footer'
 import Brandsspec from '../brandsspec'
@@ -124,19 +124,269 @@ const youtubeEditingShowcase = [
   {
     title: 'YouTube Intro Editing',
     desc: 'Openers with clean pacing, animated titles, logo moments, and branded sound cues.',
-    video: '/bmyb-services-brand-hero-video-01.mp4',
+    youtubeUrl: 'https://youtu.be/nIH43cW_oOY?si=VpEtIIuZ6x3r3Ym8',
   },
   {
     title: 'Long-Form Video Polish',
     desc: 'Cuts, captions, transitions, color cleanup, b-roll timing, and final export formatting.',
-    video: '/bmyb-global-strock-animation-1-01.mp4',
+    youtubeUrl: 'https://youtu.be/agTFdpHc68Y?si=R42FB5kuwW43q2Ok',
   },
   {
     title: 'YouTube Ad Editing',
     desc: 'Hook-first ads built for retention, product clarity, and platform-ready delivery.',
-    video: '/bmyb-services-brand-hero-video-01.mp4',
+    youtubeUrl: 'https://youtu.be/GZpj9Rf6Rkw?si=dZrMGXTu5GqgRbST',
   },
 ]
+
+const getYouTubeVideoId = (url: string) => {
+  if (!url.includes('/')) return url
+
+  try {
+    const parsedUrl = new URL(url)
+
+    if (parsedUrl.hostname === 'youtu.be') {
+      return parsedUrl.pathname.split('/').filter(Boolean)[0] ?? ''
+    }
+
+    const pathParts = parsedUrl.pathname.split('/').filter(Boolean)
+    if (pathParts[0] === 'embed' || pathParts[0] === 'shorts') {
+      return pathParts[1] ?? ''
+    }
+
+    return parsedUrl.searchParams.get('v') ?? ''
+  } catch {
+    return ''
+  }
+}
+
+const getYouTubeEmbedUrl = (url: string) => {
+  const videoId = getYouTubeVideoId(url)
+  const playerParameters = new URLSearchParams({
+    autoplay: '1',
+    mute: '1',
+    loop: '1',
+    playlist: videoId,
+    controls: '0',
+    playsinline: '1',
+    disablekb: '1',
+    fs: '0',
+    iv_load_policy: '3',
+    rel: '0',
+    enablejsapi: '1',
+    cc_load_policy: '0',
+    showinfo: '0',
+    modestbranding: '1',
+    autohide: '1',
+  })
+
+  return `https://www.youtube-nocookie.com/embed/${videoId}?${playerParameters.toString()}`
+}
+
+type YouTubeShowcasePlayerProps = {
+  title: string
+  url: string
+}
+
+function YouTubeShowcasePlayer({ title, url }: YouTubeShowcasePlayerProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const currentTimeRef = useRef(0)
+  const controlTimerRef = useRef<number | null>(null)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [isMuted, setIsMuted] = useState(true)
+  const [isControlHeldVisible, setIsControlHeldVisible] = useState(true)
+
+  useEffect(() => {
+    controlTimerRef.current = window.setTimeout(() => {
+      setIsControlHeldVisible(false)
+      controlTimerRef.current = null
+    }, 4200)
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState !== 'visible') return
+
+      setIsControlHeldVisible(true)
+
+      if (controlTimerRef.current) {
+        window.clearTimeout(controlTimerRef.current)
+      }
+
+      controlTimerRef.current = window.setTimeout(() => {
+        setIsControlHeldVisible(false)
+        controlTimerRef.current = null
+      }, 4200)
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+
+      if (controlTimerRef.current) {
+        window.clearTimeout(controlTimerRef.current)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    const handlePlayerMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow) return
+
+      try {
+        const message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+        const currentTime = message?.info?.currentTime
+
+        if (typeof currentTime === 'number') {
+          currentTimeRef.current = currentTime
+        }
+      } catch {
+        // Ignore unrelated window messages.
+      }
+    }
+
+    window.addEventListener('message', handlePlayerMessage)
+    return () => window.removeEventListener('message', handlePlayerMessage)
+  }, [])
+
+  const sendPlayerCommand = (command: string, args: unknown[] = []) => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: 'command', func: command, args }),
+      'https://www.youtube-nocookie.com'
+    )
+  }
+
+  const handlePlayerLoad = () => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: 'listening', id: title }),
+      'https://www.youtube-nocookie.com'
+    )
+  }
+
+  const seekBy = (seconds: number) => {
+    const targetTime = Math.max(0, currentTimeRef.current + seconds)
+    sendPlayerCommand('seekTo', [targetTime, true])
+    currentTimeRef.current = targetTime
+  }
+
+  const showControlsTemporarily = () => {
+    setIsControlHeldVisible(true)
+
+    if (controlTimerRef.current) {
+      window.clearTimeout(controlTimerRef.current)
+    }
+
+    controlTimerRef.current = window.setTimeout(() => {
+      setIsControlHeldVisible(false)
+      controlTimerRef.current = null
+    }, 4200)
+  }
+
+  const hideControlsSoon = () => {
+    if (controlTimerRef.current) {
+      window.clearTimeout(controlTimerRef.current)
+    }
+
+    controlTimerRef.current = window.setTimeout(() => {
+      setIsControlHeldVisible(false)
+      controlTimerRef.current = null
+    }, 500)
+  }
+
+  const togglePlayback = () => {
+    const command = isPlaying ? 'pauseVideo' : 'playVideo'
+
+    if (!isPlaying) {
+      setIsControlHeldVisible(true)
+
+      if (controlTimerRef.current) {
+        window.clearTimeout(controlTimerRef.current)
+      }
+
+      controlTimerRef.current = window.setTimeout(() => {
+        setIsControlHeldVisible(false)
+        controlTimerRef.current = null
+      }, 4200)
+    }
+
+    sendPlayerCommand(command)
+    setIsPlaying((playing) => !playing)
+  }
+
+  const toggleMute = () => {
+    sendPlayerCommand(isMuted ? 'unMute' : 'mute')
+    setIsMuted((muted) => !muted)
+  }
+
+  const shouldHideControls = !isControlHeldVisible
+
+  return (
+    <>
+      <iframe
+        ref={iframeRef}
+        className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+140px)] w-full -translate-y-1/2 border-0"
+        src={getYouTubeEmbedUrl(url)}
+        title={title}
+        allow="autoplay; encrypted-media"
+        loading="lazy"
+        tabIndex={-1}
+        onLoad={handlePlayerLoad}
+      />
+      <div
+        className="absolute inset-0 z-10"
+        onPointerEnter={showControlsTemporarily}
+        onPointerMove={showControlsTemporarily}
+        onPointerLeave={hideControlsSoon}
+        aria-hidden="true"
+      />
+      <div
+        onPointerEnter={showControlsTemporarily}
+        onPointerMove={showControlsTemporarily}
+        onPointerLeave={hideControlsSoon}
+        className={`absolute left-[calc(50%+0.5px)] top-[calc(50%+0.5px)] z-20 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+          shouldHideControls
+            ? 'pointer-events-none opacity-0'
+            : 'pointer-events-auto opacity-100'
+        }`}
+      >
+        <div className="flex items-center gap-[40px]">
+          <button
+            type="button"
+            onClick={() => seekBy(-10)}
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-[#11122F] text-white shadow-lg transition hover:scale-105 hover:bg-[#202141]"
+            aria-label={`Go back 10 seconds in ${title}`}
+          >
+            <RotateCcw className="h-5 w-5" />
+            <span className="absolute text-[8px] font-bold">10</span>
+          </button>
+          <button
+            type="button"
+            onClick={togglePlayback}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-[#11122F] text-white shadow-xl transition duration-300 hover:scale-105 hover:bg-[#202141] md:h-14 md:w-14"
+            aria-label={isPlaying ? `Pause ${title}` : `Play ${title}`}
+          >
+            {isPlaying ? <Pause className="h-5 w-5" fill="currentColor" /> : <Play className="h-5 w-5" fill="currentColor" />}
+          </button>
+          <button
+            type="button"
+            onClick={() => seekBy(10)}
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-[#11122F] text-white shadow-lg transition hover:scale-105 hover:bg-[#202141]"
+            aria-label={`Go forward 10 seconds in ${title}`}
+          >
+            <RotateCw className="h-5 w-5" />
+            <span className="absolute text-[8px] font-bold">10</span>
+          </button>
+        </div>
+        <button
+          type="button"
+          onClick={toggleMute}
+          className="absolute bottom-[calc(100%+8px)] left-1/2 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full border border-white/20 bg-black/20 text-white shadow-lg backdrop-blur-sm transition hover:scale-105 hover:bg-black/40"
+          aria-label={isMuted ? `Unmute ${title}` : `Mute ${title}`}
+        >
+          {isMuted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+        </button>
+      </div>
+    </>
+  )
+}
 
 export default function AnimationVideoEditingPage() {
   const volumeFadeTimers = useRef(new WeakMap<HTMLVideoElement, number>())
@@ -507,25 +757,12 @@ export default function AnimationVideoEditingPage() {
 
           <div className="grid gap-4 lg:gap-6 xl:grid-cols-[1.45fr_0.9fr]">
             <div className="group overflow-hidden rounded-lg border border-white/10 bg-[#202141]">
-              <div className="relative overflow-hidden">
-                <video
-                  className="block h-auto w-full object-contain"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                >
-                  <source src={youtubeEditingShowcase[0].video} type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-[#11122F]/20 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F45B25] shadow-2xl shadow-black/30 transition duration-300 group-hover:scale-110 md:h-20 md:w-20">
-                    <svg className="ml-1 h-6 w-6 text-white md:h-8 md:w-8" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </span>
-                </div>
+              <div className="relative aspect-video overflow-hidden">
+                <YouTubeShowcasePlayer
+                  title={youtubeEditingShowcase[0].title}
+                  url={youtubeEditingShowcase[0].youtubeUrl}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#11122F] via-[#11122F]/20 to-transparent" />
                 <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-[#11122F]/80 px-3 py-1.5 text-[11px] font-semibold text-white/85 backdrop-blur md:left-6 md:top-6 md:px-4 md:py-2 md:text-xs">
                   Featured Edit
                 </div>
@@ -539,25 +776,13 @@ export default function AnimationVideoEditingPage() {
             <div className="grid auto-rows-max content-start gap-4 sm:grid-cols-2 lg:gap-6 xl:grid-cols-1 xl:grid-rows-2 xl:content-stretch">
               {youtubeEditingShowcase.slice(1).map((video) => (
                 <div key={video.title} className="group h-fit overflow-hidden rounded-lg border border-white/10 bg-[#11122F] xl:flex xl:h-full">
-                  <div className="relative overflow-hidden xl:flex xl:h-full xl:w-full xl:items-center">
-                    <video
-                      className="block h-auto w-full object-cover xl:h-full"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                    >
-                      <source src={video.video} type="video/mp4" />
-                    </video>
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F45B25] transition duration-300 group-hover:scale-110">
-                        <svg className="ml-0.5 h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="absolute inset-x-0 bottom-0 hidden translate-y-6 bg-linear-to-t from-[#11122F] via-[#11122F]/85 to-transparent p-5 opacity-0 transition duration-500 lg:block lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+                  <div className="relative aspect-video overflow-hidden xl:flex xl:h-full xl:w-full xl:aspect-auto xl:items-center">
+                    <YouTubeShowcasePlayer
+                      title={video.title}
+                      url={video.youtubeUrl}
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-black/20" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-6 bg-linear-to-t from-[#11122F] via-[#11122F]/85 to-transparent p-5 opacity-0 transition duration-500 lg:block lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
                       <h3 className="BenzinSemibold text-lg text-white">{video.title}</h3>
                       <p className="mt-2 text-xs leading-5 text-white/70">{video.desc}</p>
                     </div>

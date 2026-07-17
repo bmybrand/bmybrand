@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useSyncExternalStore } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ComposableMap, Geographies, Geography, Sphere, Marker } from 'react-simple-maps'
@@ -8,6 +8,7 @@ import { ComposableMap, Geographies, Geography, Sphere, Marker } from 'react-sim
 gsap.registerPlugin(ScrollTrigger)
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
+const subscribeToHydration = () => () => {}
 
 // Function to generate varied shades for each country
 const getCountryShade = (countryCode: string | undefined, baseColor: string) => {
@@ -50,6 +51,13 @@ const offices = [
 ]
 
 export default function Map() {
+  // Projection paths can differ by tiny floating-point amounts between Node and
+  // the browser, so render the SVG only after React has completed hydration.
+  const isMounted = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false
+  )
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const sectionRef = useRef<HTMLElement>(null)
@@ -127,23 +135,25 @@ export default function Map() {
         </div>
 
         <div ref={mapWrapRef} className="relative overflow-hidden">
-          <ComposableMap
-            projection="geoMercator"
-            projectionConfig={{
-              scale: 95,
-              center: [0, 45],
-            }}
-            width={800}
-            height={400}
-            style={{
-              width: "100%",
-              height: "auto",
-              maxWidth: "100%",
-            }}
-          >
-            <Sphere stroke="none" strokeWidth={0} fill="transparent" id="sphere" />
+          <div className="aspect-[2/1] w-full">
+            {isMounted && (
+              <ComposableMap
+                projection="geoMercator"
+                projectionConfig={{
+                  scale: 95,
+                  center: [0, 45],
+                }}
+                width={800}
+                height={400}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxWidth: "100%",
+                }}
+              >
+                <Sphere stroke="none" strokeWidth={0} fill="transparent" id="sphere" />
             
-            <Geographies geography={geoUrl}>
+                <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => {
                   const countryName = geo.properties.name || geo.id
@@ -193,15 +203,17 @@ export default function Map() {
                   )
                 })
               }
-            </Geographies>
+                </Geographies>
 
-            {offices.map((office) => (
-              <Marker key={office.name} coordinates={office.coordinates as [number, number]}>
-                {/* Simple dot marker */}
-                <circle cx="0" cy="0" r="5" fill="#F45B25" stroke="#FFFFFF" strokeWidth="2" />
-              </Marker>
-            ))}
-          </ComposableMap>
+                {offices.map((office) => (
+                  <Marker key={office.name} coordinates={office.coordinates as [number, number]}>
+                    {/* Simple dot marker */}
+                    <circle cx="0" cy="0" r="5" fill="#F45B25" stroke="#FFFFFF" strokeWidth="2" />
+                  </Marker>
+                ))}
+              </ComposableMap>
+            )}
+          </div>
           
           {hoveredCountry && (
             <div 
