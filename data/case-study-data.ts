@@ -76,7 +76,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Pages Delivered', value: '15+ Pages' },
         { label: 'Industry', value: 'Healthcare / ER' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://fhmcaz.com/',
       sliderImages: [
         '/bmyb-case-fountain-hills-about-fountain-hills-medical-center-01.webp',
         '/bmyb-case-fountain-hills-emergency-room-01.webp',
@@ -157,7 +157,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Pages Delivered', value: '10+ Pages' },
         { label: 'Industry', value: 'Food' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://jiggyjerky.com/',
       sliderImages: [
         '/bmyb-case-jiggy-jerky-slider-01.webp',
         '/bmyb-case-jiggy-jerky-slider-02.webp',
@@ -237,7 +237,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Pages Delivered', value: 'Full Restaurant Website Ecosystem' },
         { label: 'Industry', value: 'Food & Beverage / Restaurant Branding' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://babasburgers.ca/',
       sliderImages: [
         '/bmyb-case-babas-burgers-slider-01.webp',
         '/bmyb-case-babas-burgers-slider-02.webp',
@@ -320,7 +320,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Programs Supported', value: '5+ Programs' },
         { label: 'Industry', value: 'Healthcare / Nonprofit' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://www.pink-me.org/',
       sliderImages: [
         '/bmyb-case-pink-me-slider-01.webp',
         '/bmyb-case-pink-me-slider-02.webp',
@@ -398,7 +398,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Pages Delivered', value: '15+ Pages' },
         { label: 'Industry', value: 'Education' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://instinctivehealthcaresolutions.com/',
       sliderImages: [
         '/bmyb-case-instinctive-healthcare-slider-01.webp',
         '/bmyb-case-instinctive-healthcare-slider-02.webp',
@@ -478,7 +478,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Active Facilities', value: '3+ Projects' },
         { label: 'Industry', value: 'Healthcare / Investment' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://instinctivehealth.com/',
       sliderImages: [
         '/bmyb-case-instinctive-health-slider-01.webp',
         '/bmyb-case-instinctive-health-slider-02.webp',
@@ -559,7 +559,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Features', value: '8+ Features' },
         { label: 'Industry', value: 'Education / EdTech' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://labelnlearn.com/',
       sliderImages: [
         '/bmyb-case-learnandlabel-slider-01.webp',
         '/bmyb-case-learnandlabel-slider-02.webp',
@@ -638,7 +638,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Pages Delivered', value: '15+ Pages' },
         { label: 'Industry', value: 'Travel and Tourism' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://vytistours.com/',
       sliderImages: [
         '/bmyb-case-vytis-tour-slider-01.webp',
         '/bmyb-case-vytis-tour-slider-02.webp',
@@ -717,7 +717,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Pages Delivered', value: '15+ Pages' },
         { label: 'Industry', value: 'Sports / Recreational Tennis' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://jerseyrecreationaltennis.com/',
       sliderImages: [
         '/bmyb-case-jersey-slider-01.webp',
         '/bmyb-case-jersey-slider-02.webp',
@@ -796,7 +796,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         { label: 'Key Pages Delivered', value: 'Nonprofit Website + Campaign Ecosystem' },
         { label: 'Industry', value: 'Nonprofit / Housing & Social Support Services' },
       ],
-      websiteUrl: '#',
+      websiteUrl: 'https://browardhousingsolutions.org/',
       sliderImages: [
         '/bmyb-case-bhs-slider-01.webp',
         '/bmyb-case-bhs-slider-02.webp',

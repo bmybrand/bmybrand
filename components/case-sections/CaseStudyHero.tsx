@@ -108,7 +108,9 @@ const CaseStudyHero = ({ data }: Props) => {
             <div>
               <p className="text-white/60 text-sm mb-2">Check it out</p>
               <a 
-                href={data.websiteUrl} 
+                href={data.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white text-xl md:text-2xl BenzinSemibold transition-opacity inline-flex items-center gap-2 hover:opacity-75"
               >
                 Visit Website
