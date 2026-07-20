@@ -584,7 +584,7 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Copywriting'
       ],
       galleryImages: [
-        '/bmyb-case-learnandlabel-gallery-01.svg',
+        '/bmyb-case-learnandlabel-gallery-04.png',
         '/bmyb-case-learnandlabel-gallery-02.svg',
         '/bmyb-case-learnandlabel-gallery-03.svg',
       ],
@@ -667,8 +667,8 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Website Deployment'
       ],
       galleryImages: [
-        '/bmyb-case-vytis-tour-gallery-01.svg',
-        '/bmyb-case-vytis-tour-gallery-02.svg',
+        '/bmyb-case-vytis-tour-gallery-screen-01.png',
+        '/bmyb-case-vytis-tour-gallery-screen-02.png',
         '/bmyb-case-vytis-tour-gallery-03.svg',
       ],
       galleryImageFit: 'contain',
@@ -828,9 +828,9 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
         'Print & Environmental Branding'
       ],
       galleryImages: [
-        '/bmyb-case-bhs-gallery-01.webp',
+        '/bmyb-case-bhs-gallery-03.png',
         '/bmyb-case-bhs-gallery-02.webp',
-        '/bmyb-case-bhs-gallery-03.webp',
+        '/bmyb-case-bhs-gallery-01.webp',
       ],
       galleryImageFit: 'contain',
       galleryBgColor: '#0160A0'
