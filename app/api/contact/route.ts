@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
-import { supabaseAdmin } from '@/lib/supabase/server'
+import { getContactSupabaseAdmin } from '@/lib/supabase/contact-server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const DEFAULT_TO_EMAIL = 'info@bmybrand.com'
@@ -39,6 +39,7 @@ function containsUnsafeMarkup(value: string) {
 }
 
 export async function POST(request: Request) {
+  const supabaseAdmin = getContactSupabaseAdmin()
   const apiKey = process.env.RESEND_API_KEY
   const from = process.env.RESEND_FROM_EMAIL
   const to = process.env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL

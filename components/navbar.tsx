@@ -32,7 +32,7 @@ const companyMenuItems = [
   },
   {
     title: "Careers",
-    href: "/underconstruction",
+    href: "/careers",
     desc: "Join our team and build something amazing with us.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,7 +151,7 @@ const industriesMenuItems = [
 ];
 
 const resourcesMenuItems = [
-  { title: "Blog", href: "/underconstruction", desc: "Insights, tips, and industry trends to help you stay ahead." },
+  { title: "Blog", href: "/blog", desc: "Insights, tips, and industry trends to help you stay ahead." },
   { title: "Get Your Site Audited", href: "/grow-my-business", desc: "Get an AI-powered website audit to uncover gaps and growth opportunities." },
   { title: "Contact", href: "/contact", desc: "Let's talk about your next project." },
 ];
@@ -216,7 +216,7 @@ const MegaMenu = ({
         {/* Company: Left section with image + View Open Positions */}
         {isCompany && (
           <div
-            onClick={onStartNavigate ? () => onStartNavigate("/underconstruction") : undefined}
+            onClick={onStartNavigate ? () => onStartNavigate("/careers") : undefined}
             className="group lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col gap-4 cursor-pointer rounded-l-2xl transition-colors hover:bg-white/5"
           >
             <div className="rounded-xl overflow-hidden bg-white/5 h-40 lg:h-44 transition-transform duration-300 group-hover:scale-[1.01]">
@@ -227,7 +227,7 @@ const MegaMenu = ({
               />
             </div>
             <div>
-              <Link href="/underconstruction" className={`${menuBaseTextClass} text-lg font-semibold transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 ${menuHoverTextClass}`}>
+              <Link href="/careers" className={`${menuBaseTextClass} text-lg font-semibold transition-colors flex items-center gap-2 BenzinSemibold rounded-lg px-3 py-2 -mx-3 -my-2 ${menuHoverTextClass}`}>
                 View Open Positions
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -618,7 +618,7 @@ const Navbar = () => {
             {mobileExpanded === "company" && (
               <ul className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-white/20 ml-1">
                 <li onClick={() => setOpen(false)}>
-                  <Link href="/underconstruction" className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>View Open Positions</Link>
+                  <Link href="/careers" className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>View Open Positions</Link>
                 </li>
                 {companyMenuItems.map((item, idx) => (
                   <li key={idx} onClick={() => setOpen(false)}>

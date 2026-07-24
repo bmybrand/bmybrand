@@ -31,8 +31,7 @@ function PreloaderScreen({
   const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [currentHash, setCurrentHash] = useState('');
-  const routeKey = `${pathname ?? ""}?${searchParams?.toString() ?? ""}${currentHash}`;
+  const routeKey = `${pathname ?? ""}?${searchParams?.toString() ?? ""}`;
   const previousRouteKeyRef = useRef(routeKey);
   const fadeTimerRef = useRef<number | null>(null);
 
@@ -83,35 +82,21 @@ function PreloaderScreen({
     };
   }, [isLoading]);
 
-  useEffect(() => {
-    const syncHash = () => {
-      setCurrentHash(window.location.hash || '');
-    };
-
-    syncHash();
-    window.addEventListener('hashchange', syncHash);
-
-    return () => {
-      window.removeEventListener('hashchange', syncHash);
-    };
-  }, []);
-
-  useEffect(() => {
-    setCurrentHash(window.location.hash || '');
-  }, [pathname, searchParams]);
-
   useLayoutEffect(() => {
     if (previousRouteKeyRef.current === routeKey) return;
 
     previousRouteKeyRef.current = routeKey;
 
-    startLoading();
+    const startTimer = window.setTimeout(() => {
+      startLoading();
+    }, 0);
 
     const timer = window.setTimeout(() => {
       finishLoading();
     }, ROUTE_TRANSITION_MS);
 
     return () => {
+      window.clearTimeout(startTimer);
       window.clearTimeout(timer);
     };
   }, [routeKey]);

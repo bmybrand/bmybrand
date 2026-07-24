@@ -57,6 +57,8 @@ const YouTubeIcon = ({ className = 'h-5 w-5' }: IconProps) => (
 const IMPORTANT_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
+  { label: 'Careers', href: '/careers' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Services', href: '/services' },
   { label: 'Case Studies', href: '/case-studies' },
   { label: 'Website Audit', href: '#' },
