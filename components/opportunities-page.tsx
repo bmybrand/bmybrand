@@ -62,7 +62,7 @@ export default function OpportunitiesPage() {
       <Navbar />
 
       <main>
-        <section className="relative min-h-[610px] overflow-hidden pt-32 sm:min-h-[650px] lg:pt-40">
+        <section className="relative min-h-[610px] overflow-hidden pt-32 sm:min-h-[650px]">
           <Image
             src="/bmyb-careers-hero-v1.png"
             alt=""
@@ -75,7 +75,7 @@ export default function OpportunitiesPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#11122F]/55 via-transparent to-[#11122F]/30" />
           <div className="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-[#F45B25]/18 blur-[100px]" />
 
-          <div className="relative mx-auto flex min-h-[482px] w-[90%] flex-col items-center justify-center text-center lg:min-h-[490px] 2xl:w-[75%]">
+          <div className="relative mx-auto flex min-h-[482px] w-[90%] flex-col items-center justify-center text-center sm:min-h-[522px] 2xl:w-[75%]">
             <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">Build what matters</p>
             <h1 className="BenzinSemibold mx-auto max-w-6xl text-[clamp(2.65rem,5vw,5rem)] leading-[1.02] tracking-[-0.035em]">
               Let us recognize, grow, and reward your craft.
