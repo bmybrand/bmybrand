@@ -253,7 +253,7 @@ export default function CareerPage() {
                     <p className="mx-auto mt-3 max-w-[190px] text-xs leading-5 text-white/52">Begin with a clear, supported start.</p>
                   </article>
 
-                  <article className="relative min-h-[190px] rounded-[1.6rem] border border-white/18 bg-[#151632] px-5 pb-6 pt-16 text-center xl:top-3">
+                  <article className="relative min-h-[190px] rounded-[1.6rem] border border-white/18 bg-[#151632] px-5 pb-6 pt-16 text-center xl:top-6">
                     <div className="absolute -top-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-[1.3rem] border-4 border-[#0B0C26] bg-[#41425F] shadow-xl shadow-black/25">
                       <Users2 className="h-9 w-9 text-white" strokeWidth={1.6} />
                     </div>
