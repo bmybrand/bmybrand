@@ -203,9 +203,9 @@ export default function CareerPage() {
                 </defs>
                 <path d="M95 335 V387 Q95 417 125 417 H200" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
                 <path d="M302 195 V158 Q302 128 332 128 H385" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M610 335 V387 Q610 417 640 417 H812" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 91 V55 Q916 25 946 25 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 410 V415 Q916 425 926 425 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M610 335 V374 Q610 404 640 404 H812" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 78 V55 Q916 25 946 25 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 397 V402 Q916 412 926 412 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
               </svg>
 
               <div className="relative grid items-center gap-x-4 gap-y-20 md:grid-cols-2 xl:grid-cols-[1fr_1fr_2.05fr_1fr_.92fr]">
@@ -218,7 +218,7 @@ export default function CareerPage() {
                   <p className="mx-auto mt-4 max-w-[220px] text-sm leading-6 text-white/52">{hiringSteps[0].text}</p>
                 </article>
 
-                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:translate-y-20">
+                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:translate-y-16">
                   <div className={`absolute -top-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] ${hiringSteps[1].tone} shadow-xl shadow-black/25`}>
                     <Coffee className="h-11 w-11 text-white" strokeWidth={1.6} />
                   </div>
