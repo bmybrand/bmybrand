@@ -201,11 +201,11 @@ export default function CareerPage() {
                     <path d="M0 0 10 5 0 10Z" fill="#F45B25" />
                   </marker>
                 </defs>
-                <path d="M95 335 V387 Q95 417 125 417 H185" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M302 195 V158 Q302 128 332 128 H400" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M610 335 V374 Q610 404 640 404 H780" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 78 V55 Q916 25 946 25 H1005" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 397 V402 Q916 412 926 412 H1005" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M95 335 V387 Q95 417 125 417 H175" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M302 195 V158 Q302 128 332 128 H390" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M610 335 V374 Q610 404 640 404 H700" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 78 V55 Q916 25 946 25 H975" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 397 V402 Q916 412 926 412 H960" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
               </svg>
 
               <div className="relative grid items-center gap-x-4 gap-y-20 md:grid-cols-2 xl:grid-cols-[1fr_1fr_2.05fr_1fr_.92fr]">
