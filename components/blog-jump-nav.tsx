@@ -5,6 +5,20 @@ import { ArrowRight } from 'lucide-react'
 
 type SectionLink = { id: string; title: string }
 
+function anchorOffset() {
+  const fixedHeader = document.querySelector<HTMLElement>('header.fixed')
+  return Math.ceil(fixedHeader?.getBoundingClientRect().bottom ?? 104) + 24
+}
+
+function scrollToAnchor(id: string, behavior: ScrollBehavior) {
+  const target = document.getElementById(id)
+  if (!target) return false
+
+  const top = target.getBoundingClientRect().top + window.scrollY - anchorOffset()
+  window.scrollTo({ top: Math.max(0, top), behavior })
+  return true
+}
+
 export default function BlogJumpNav({ sections }: { sections: SectionLink[] }) {
   const links = useMemo(() => [
     { id: 'key-highlights', title: 'Key Highlights' },
@@ -16,7 +30,7 @@ export default function BlogJumpNav({ sections }: { sections: SectionLink[] }) {
 
   useEffect(() => {
     const updateActiveSection = () => {
-      const readingLine = 180
+      const readingLine = anchorOffset() + 4
       let currentId = links[0].id
 
       for (const link of links) {
@@ -28,13 +42,28 @@ export default function BlogJumpNav({ sections }: { sections: SectionLink[] }) {
       setActiveId(currentId)
     }
 
+    const alignHashTarget = () => {
+      const hashId = decodeURIComponent(window.location.hash.slice(1))
+      if (!hashId || !links.some((link) => link.id === hashId)) return
+
+      setActiveId(hashId)
+      window.requestAnimationFrame(() => {
+        scrollToAnchor(hashId, 'auto')
+      })
+    }
+
     updateActiveSection()
+    alignHashTarget()
     window.addEventListener('scroll', updateActiveSection, { passive: true })
     window.addEventListener('resize', updateActiveSection)
+    window.addEventListener('hashchange', alignHashTarget)
+    window.addEventListener('popstate', alignHashTarget)
 
     return () => {
       window.removeEventListener('scroll', updateActiveSection)
       window.removeEventListener('resize', updateActiveSection)
+      window.removeEventListener('hashchange', alignHashTarget)
+      window.removeEventListener('popstate', alignHashTarget)
     }
   }, [links])
 
@@ -49,11 +78,9 @@ export default function BlogJumpNav({ sections }: { sections: SectionLink[] }) {
             href={`#${link.id}`}
             onClick={(event) => {
               event.preventDefault()
-              const target = document.getElementById(link.id)
-              if (!target) return
+              if (!scrollToAnchor(link.id, 'smooth')) return
 
               setActiveId(link.id)
-              target.scrollIntoView({ behavior: 'smooth', block: 'start' })
               window.history.pushState(null, '', `#${link.id}`)
             }}
             className={`rounded-lg px-2 py-2.5 text-[16px] leading-5 transition hover:bg-white/[0.05] hover:text-white ${isActive ? 'flex gap-3 text-[#F45B25]' : 'block text-white/60'}`}
