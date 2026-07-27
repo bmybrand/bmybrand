@@ -28,20 +28,13 @@ let blogDatabase: SupabaseClient | null = null
 let blogDatabaseKey = ''
 
 function getBlogDatabase() {
-  const dedicatedUrl = process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL?.trim()
-  const dedicatedKey =
-    process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY?.trim()
-    || process.env.NEXT_PUBLIC_BMYB_SUPABASE_ANON_KEY?.trim()
-
-  const fallbackUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
-  const fallbackKey =
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+  const key =
     process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
     || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim()
     || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY?.trim()
     || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
 
-  const url = dedicatedUrl || fallbackUrl
-  const key = dedicatedUrl ? dedicatedKey : fallbackKey
   if (!url || !key) {
     throw new Error('The published-blog database is not configured.')
   }
