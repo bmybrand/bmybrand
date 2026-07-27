@@ -189,60 +189,96 @@ export default function CareerPage() {
               </p>
             </div>
 
-            <div className="relative mt-20">
+            <div className="relative mt-20 pt-12">
               <svg
-                className="pointer-events-none absolute left-0 top-0 hidden h-40 w-full xl:block"
-                viewBox="0 0 1000 160"
+                className="pointer-events-none absolute inset-0 hidden h-full w-full xl:block"
+                viewBox="0 0 1200 430"
                 preserveAspectRatio="none"
                 aria-hidden="true"
               >
                 <defs>
-                  <marker id="hire-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#F45B25" />
+                  <marker id="hire-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M0 0 10 5 0 10Z" fill="#F45B25" />
                   </marker>
                 </defs>
-                <path d="M100 50 H250 V98 H287" fill="none" stroke="rgba(255,255,255,.25)" strokeWidth="1.25" strokeDasharray="4 6" markerEnd="url(#hire-arrow)" />
-                <path d="M300 98 H450 V50 H487" fill="none" stroke="rgba(255,255,255,.25)" strokeWidth="1.25" strokeDasharray="4 6" markerEnd="url(#hire-arrow)" />
-                <path d="M500 50 H650 V98 H687" fill="none" stroke="rgba(255,255,255,.25)" strokeWidth="1.25" strokeDasharray="4 6" markerEnd="url(#hire-arrow)" />
-                <path d="M700 98 H850 V50 H887" fill="none" stroke="rgba(255,255,255,.25)" strokeWidth="1.25" strokeDasharray="4 6" markerEnd="url(#hire-arrow)" />
+                <path d="M135 290 V365 H245" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M330 120 V64 H430" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M685 300 V365 H770" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M915 115 V62 H1015" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M915 310 V372 H1015" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
               </svg>
 
-              <div className="relative grid gap-x-7 gap-y-20 pt-12 md:grid-cols-2 xl:grid-cols-5 xl:gap-x-5">
-                {hiringSteps.map((step, index) => {
-                  const Icon = step.icon
-                  const isLowerStep = index === 1 || index === 3
-                  const isFinalStep = index === hiringSteps.length - 1
+              <div className="relative grid items-center gap-x-4 gap-y-20 md:grid-cols-2 xl:grid-cols-[1fr_1fr_2.05fr_1fr_.92fr]">
+                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center">
+                  <div className={`absolute -top-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] ${hiringSteps[0].tone} shadow-xl shadow-black/25`}>
+                    <BriefcaseBusiness className="h-11 w-11 text-white" strokeWidth={1.6} />
+                  </div>
+                  <span className="BenzinSemibold absolute right-5 top-5 text-xs text-white/25">01</span>
+                  <h3 className="BenzinSemibold mt-5 text-xl">{hiringSteps[0].title}</h3>
+                  <p className="mx-auto mt-4 max-w-[220px] text-sm leading-6 text-white/52">{hiringSteps[0].text}</p>
+                </article>
 
-                  return (
-                    <article
-                      key={step.number}
-                      className={`group relative z-10 min-h-[245px] rounded-[1.6rem] border px-6 pb-6 pt-[4.5rem] shadow-xl shadow-black/10 transition duration-300 hover:-translate-y-1 ${
-                        isFinalStep
-                          ? 'border-[#F45B25]/60 bg-[linear-gradient(145deg,#28162D,#151632)]'
-                          : 'border-white/15 bg-[#151632] hover:border-white/30'
-                      } ${isLowerStep ? 'xl:mt-12' : ''} ${
-                        isFinalStep ? 'md:col-span-2 md:mx-auto md:w-[calc(50%_-_14px)] xl:col-span-1 xl:mx-0 xl:w-auto' : ''
-                      }`}
-                    >
-                      <div className={`absolute -top-11 left-1/2 flex h-[88px] w-[88px] -translate-x-1/2 items-center justify-center rounded-[1.35rem] border-4 border-[#0B0C26] ${step.tone} shadow-xl shadow-black/25 transition duration-300 group-hover:-translate-x-1/2 group-hover:-translate-y-1`}>
-                        <Icon className="h-10 w-10 text-white" strokeWidth={1.6} />
-                      </div>
+                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:translate-y-12">
+                  <div className={`absolute -top-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] ${hiringSteps[1].tone} shadow-xl shadow-black/25`}>
+                    <Coffee className="h-11 w-11 text-white" strokeWidth={1.6} />
+                  </div>
+                  <span className="BenzinSemibold absolute right-5 top-5 text-xs text-white/25">02</span>
+                  <h3 className="BenzinSemibold mt-5 text-xl">{hiringSteps[1].title}</h3>
+                  <p className="mx-auto mt-4 max-w-[220px] text-sm leading-6 text-white/52">{hiringSteps[1].text}</p>
+                </article>
 
-                      <span className="BenzinSemibold absolute right-5 top-5 text-xs tracking-[0.15em] text-white/28">{step.number}</span>
-                      <div className="flex h-full flex-col text-center">
-                        <h3 className="BenzinSemibold mt-4 text-xl leading-snug">{step.title}</h3>
-                        <p className="mx-auto mt-3 max-w-[230px] text-sm leading-6 text-white/52">{step.text}</p>
-                        {isFinalStep && (
-                          <span className="mx-auto mt-auto rounded-full bg-[#F45B25] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-white">
-                            Welcome aboard
-                          </span>
-                        )}
+                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 md:col-span-2 xl:col-span-1">
+                  <span className="BenzinSemibold absolute right-5 top-5 text-xs text-white/25">03—04</span>
+                  <div className="grid h-full grid-cols-[1fr_auto_1fr] items-center gap-3 text-center">
+                    <div className="relative">
+                      <div className={`absolute -top-28 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] ${hiringSteps[2].tone} shadow-xl shadow-black/25`}>
+                        <Users2 className="h-11 w-11 text-white" strokeWidth={1.6} />
                       </div>
-                    </article>
-                  )
-                })}
+                      <h3 className="BenzinSemibold text-lg leading-snug">{hiringSteps[2].title}</h3>
+                      <p className="mx-auto mt-3 max-w-[170px] text-xs leading-5 text-white/50">{hiringSteps[2].text}</p>
+                    </div>
+                    <ArrowRight className="h-6 w-6 shrink-0 text-[#F45B25]" />
+                    <div className="relative">
+                      <div className={`absolute -top-28 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] ${hiringSteps[3].tone} shadow-xl shadow-black/25`}>
+                        <Sparkles className="h-11 w-11 text-white" strokeWidth={1.6} />
+                      </div>
+                      <h3 className="BenzinSemibold text-lg leading-snug">{hiringSteps[3].title}</h3>
+                      <p className="mx-auto mt-3 max-w-[170px] text-xs leading-5 text-white/50">{hiringSteps[3].text}</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:translate-y-12">
+                  <div className="absolute -top-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] bg-[#314F59] shadow-xl shadow-black/25">
+                    <Compass className="h-11 w-11 text-white" strokeWidth={1.6} />
+                  </div>
+                  <span className="BenzinSemibold absolute right-5 top-5 text-xs text-white/25">05</span>
+                  <h3 className="BenzinSemibold mt-5 text-xl">Decision</h3>
+                  <p className="mx-auto mt-4 max-w-[220px] text-sm leading-6 text-white/52">
+                    Get a clear decision, thoughtful feedback, and the next step.
+                  </p>
+                </article>
+
+                <div className="grid gap-5 md:col-span-2 md:grid-cols-2 xl:col-span-1 xl:grid-cols-1">
+                  <article className="relative min-h-[190px] rounded-[1.6rem] border border-[#F45B25]/60 bg-[linear-gradient(145deg,#28162D,#151632)] px-5 pb-6 pt-16 text-center">
+                    <div className={`absolute -top-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-[1.3rem] border-4 border-[#0B0C26] ${hiringSteps[4].tone} shadow-xl shadow-black/25`}>
+                      <HeartHandshake className="h-9 w-9 text-white" strokeWidth={1.6} />
+                    </div>
+                    <h3 className="BenzinSemibold mt-3 text-lg leading-snug">{hiringSteps[4].title}</h3>
+                    <p className="mx-auto mt-3 max-w-[190px] text-xs leading-5 text-white/52">Begin with a clear, supported start.</p>
+                  </article>
+
+                  <article className="relative min-h-[190px] rounded-[1.6rem] border border-white/18 bg-[#151632] px-5 pb-6 pt-16 text-center">
+                    <div className="absolute -top-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-[1.3rem] border-4 border-[#0B0C26] bg-white/15 shadow-xl shadow-black/25">
+                      <Users2 className="h-9 w-9 text-white" strokeWidth={1.6} />
+                    </div>
+                    <h3 className="BenzinSemibold mt-3 text-lg leading-snug">Stay connected</h3>
+                    <p className="mx-auto mt-3 max-w-[190px] text-xs leading-5 text-white/52">
+                      If another role fits better, we can reconnect when it opens.
+                    </p>
+                  </article>
+                </div>
               </div>
-
             </div>
           </div>
         </section>
