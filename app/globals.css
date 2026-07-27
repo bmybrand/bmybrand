@@ -40,6 +40,16 @@
   line-height: 1.75;
 }
 
+.blog-conclusion-image {
+  grid-column: 1 / -1 !important;
+}
+
+@media (min-width: 640px) {
+  .blog-conclusion-image {
+    grid-column: var(--blog-grid-column) !important;
+  }
+}
+
 .blog-rich-text h1,
 .blog-rich-text h2,
 .blog-rich-text h3,

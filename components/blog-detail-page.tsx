@@ -86,10 +86,7 @@ function prepareRichTextHtml(html: string, usedIds: Set<string>) {
 
 export default function BlogDetailPage({ article }: Props) {
   const tags = article.tags ?? [article.category]
-  const closingImages = article.closingImages ?? [
-    { src: article.heroImage, alt: article.title },
-    { src: article.sections.find((section) => section.image)?.image ?? article.heroImage, alt: '' },
-  ]
+  const closingImages = article.closingImages ?? []
   const usedJumpIds = new Set(['key-highlights', 'conclusion', 'frequently-asked-questions'])
   const jumpLinks: JumpLink[] = []
   const preparedBlockHtml = new Map<string, string>()
@@ -252,9 +249,24 @@ export default function BlogDetailPage({ article }: Props) {
               </div>
             </section>
 
-            <div className="mt-8 grid gap-5 sm:grid-cols-2">
-              {closingImages.slice(0, 2).map((image, index) => <div key={`${image.src}-${index}`} className="relative aspect-[1.05/1] overflow-hidden rounded-2xl bg-[#090A22]"><RemoteBlogImage src={image.src} alt={image.alt} /></div>)}
-            </div>
+            {closingImages.length > 0 && (
+              <div className="mt-8 grid grid-cols-12 gap-5">
+                {closingImages.map((image, index) => {
+                  const columns = Math.min(12, Math.max(1, Math.round(image.columns ?? 6)))
+                  return (
+                    <div
+                      key={`${image.src}-${index}`}
+                      className="blog-conclusion-image relative aspect-[1.05/1] overflow-hidden rounded-2xl bg-[#090A22]"
+                      style={{
+                        '--blog-grid-column': `span ${columns} / span ${columns}`,
+                      } as React.CSSProperties}
+                    >
+                      <RemoteBlogImage src={image.src} alt={image.alt} />
+                    </div>
+                  )
+                })}
+              </div>
+            )}
 
             <BlogFaqs faqs={article.faqs} />
 

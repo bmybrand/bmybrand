@@ -42,7 +42,12 @@ export type BlogArticle = {
   introduction?: string[]
   sections: BlogArticleSection[]
   conclusion: string | string[]
-  closingImages?: Array<{ src: string; alt: string }>
+  closingImages?: Array<{
+    src: string
+    alt: string
+    columns?: number
+    rowStart?: boolean
+  }>
   faqs: Array<{ question: string; answer: string }>
 }
 
