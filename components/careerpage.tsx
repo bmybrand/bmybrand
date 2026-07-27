@@ -248,7 +248,7 @@ export default function CareerPage() {
                   </div>
                 </article>
 
-                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:translate-y-20">
+                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:top-12">
                   <div className="absolute -top-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] bg-[#314F59] shadow-xl shadow-black/25">
                     <Compass className="h-11 w-11 text-white" strokeWidth={1.6} />
                   </div>
