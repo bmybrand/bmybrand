@@ -237,7 +237,7 @@ export default function CareerPage() {
                       <h3 className="BenzinSemibold text-lg leading-snug">{hiringSteps[2].title}</h3>
                       <p className="mx-auto mt-3 max-w-[170px] text-xs leading-5 text-white/50">{hiringSteps[2].text}</p>
                     </div>
-                    <ArrowRight className="h-6 w-6 shrink-0 text-[#F45B25]" />
+                    <ArrowRight className="h-6 w-6 shrink-0 -translate-y-8 text-[#F45B25]" />
                     <div className="relative">
                       <div className={`absolute -top-28 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] ${hiringSteps[3].tone} shadow-xl shadow-black/25`}>
                         <Sparkles className="h-11 w-11 text-white" strokeWidth={1.6} />
