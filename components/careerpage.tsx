@@ -191,7 +191,7 @@ export default function CareerPage() {
 
             <div className="relative mt-20 pt-12">
               <svg
-                className="pointer-events-none absolute inset-0 hidden h-full w-full xl:block"
+                className="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible xl:block"
                 viewBox="0 0 1200 430"
                 preserveAspectRatio="none"
                 aria-hidden="true"
@@ -204,8 +204,8 @@ export default function CareerPage() {
                 <path d="M95 335 V360 Q95 384 119 384 H175" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
                 <path d="M302 195 V125 Q302 95 332 95 H390" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
                 <path d="M610 335 V374 Q610 404 640 404 H700" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 78 V55 Q916 25 946 25 H975" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 397 V402 Q916 412 926 412 H960" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 105 V82 Q916 52 946 52 H975" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 424 V429 Q916 439 926 439 H960" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
               </svg>
 
               <div className="relative grid items-center gap-x-4 gap-y-20 md:grid-cols-2 xl:grid-cols-[1fr_1fr_2.05fr_1fr_.92fr]">
