@@ -202,7 +202,7 @@ export default function CareerPage() {
                   </marker>
                 </defs>
                 <path d="M95 335 V387 Q95 417 125 417 H185" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M302 195 V158 Q302 128 332 128 H370" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M302 195 V158 Q302 128 332 128 H400" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
                 <path d="M610 335 V374 Q610 404 640 404 H780" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
                 <path d="M916 78 V55 Q916 25 946 25 H1005" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
                 <path d="M916 397 V402 Q916 412 926 412 H1005" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
