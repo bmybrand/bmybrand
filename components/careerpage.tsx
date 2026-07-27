@@ -259,7 +259,7 @@ export default function CareerPage() {
                   </p>
                 </article>
 
-                <div className="grid gap-5 md:col-span-2 md:grid-cols-2 xl:col-span-1 xl:grid-cols-1">
+                <div className="relative grid gap-5 md:col-span-2 md:grid-cols-2 xl:top-8 xl:col-span-1 xl:grid-cols-1">
                   <article className="relative min-h-[190px] rounded-[1.6rem] border border-[#F45B25]/60 bg-[linear-gradient(145deg,#28162D,#151632)] px-5 pb-6 pt-16 text-center">
                     <div className={`absolute -top-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-[1.3rem] border-4 border-[#0B0C26] ${hiringSteps[4].tone} shadow-xl shadow-black/25`}>
                       <HeartHandshake className="h-9 w-9 text-white" strokeWidth={1.6} />
