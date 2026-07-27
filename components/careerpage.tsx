@@ -208,7 +208,7 @@ export default function CareerPage() {
               </p>
             </div>
 
-            <div className="relative mt-20 pt-12">
+            <div className="relative">
               <CareerHiringPaths />
 
               <div className="relative grid items-center gap-x-4 gap-y-20 md:grid-cols-2 xl:grid-cols-[1fr_1fr_2.05fr_1fr_.92fr]">
