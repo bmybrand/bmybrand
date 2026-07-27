@@ -203,9 +203,9 @@ export default function CareerPage() {
                 </defs>
                 <path d="M95 335 V417 H200" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
                 <path d="M302 91 V98 H405" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M610 335 V390 H812" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 64 V25 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M916 383 V415 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M610 335 V417 H812" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 91 V25 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 410 V425 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
               </svg>
 
               <div className="relative grid items-center gap-x-4 gap-y-20 md:grid-cols-2 xl:grid-cols-[1fr_1fr_2.05fr_1fr_.92fr]">
@@ -248,7 +248,7 @@ export default function CareerPage() {
                   </div>
                 </article>
 
-                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:translate-y-12">
+                <article className="relative min-h-[270px] rounded-[1.75rem] border border-white/18 bg-[#151632] px-6 pb-8 pt-20 text-center xl:translate-y-20">
                   <div className="absolute -top-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-4 border-[#0B0C26] bg-[#314F59] shadow-xl shadow-black/25">
                     <Compass className="h-11 w-11 text-white" strokeWidth={1.6} />
                   </div>
