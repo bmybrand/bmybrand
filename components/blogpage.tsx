@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
@@ -50,12 +49,14 @@ export default function BlogPage({ blogPosts }: { blogPosts: BlogPostSummary[] }
               <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
                 <article>
                   <div className="relative aspect-[1.62/1] overflow-hidden rounded-2xl bg-[#090A22]">
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={post.heroImage}
                       alt=""
-                      fill
-                      className="object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
-                      sizes="(max-width: 768px) 90vw, (max-width: 1536px) 43vw, 620px"
+                      className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#08091E]/20 to-transparent opacity-0 transition group-hover:opacity-100" />
                     <span className="absolute bottom-4 right-4 flex h-11 w-11 translate-y-2 items-center justify-center rounded-full bg-[#F45B25] opacity-0 shadow-xl transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">

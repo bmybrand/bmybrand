@@ -9,6 +9,30 @@ import type { BlogArticle } from '@/lib/blog/types'
 
 type Props = { article: BlogArticle }
 
+function RemoteBlogImage({
+  src,
+  alt,
+  priority = false,
+}: {
+  src: string
+  alt: string
+  priority?: boolean
+}) {
+  if (!src) return null
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      className="absolute inset-0 h-full w-full object-cover"
+      loading={priority ? 'eager' : 'lazy'}
+      decoding={priority ? 'sync' : 'async'}
+      fetchPriority={priority ? 'high' : 'auto'}
+      referrerPolicy="no-referrer"
+    />
+  )
+}
+
 function sanitizeBlogHtml(html: string) {
   return html
     .replace(/<\s*(script|iframe|object|embed|style)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, '')
@@ -107,7 +131,7 @@ export default function BlogDetailPage({ article }: Props) {
             </div>
           </div>
           <div className="relative mt-14 aspect-[1322/825] overflow-hidden rounded-[1.75rem] bg-[#090A22]">
-            <Image src={article.heroImage} alt={article.title} fill priority className="object-cover" sizes="(max-width:1536px) 90vw, 1322px" />
+            <RemoteBlogImage src={article.heroImage} alt={article.title} priority />
           </div>
         </header>
 
@@ -154,14 +178,14 @@ export default function BlogDetailPage({ article }: Props) {
                           className="relative my-8 aspect-[1.95/1] max-w-full overflow-hidden rounded-2xl bg-[#090A22]"
                           style={gridStyle}
                         >
-                          {block.image && <Image src={block.image} alt={block.alt} fill className="object-cover" sizes="(max-width:1024px) 90vw, 872px" />}
+                          {block.image && <RemoteBlogImage src={block.image} alt={block.alt} />}
                         </div>
                       )
                     }
                     if (block.type === 'banner') {
                       return (
                         <div key={blockIndex} style={gridStyle} className="relative my-8 min-h-72 overflow-hidden rounded-2xl bg-[#090A22]">
-                          {block.image && <Image src={block.image} alt={block.alt} fill className="object-cover" sizes="(max-width:1024px) 90vw, 872px" />}
+                          {block.image && <RemoteBlogImage src={block.image} alt={block.alt} />}
                           {(block.heading || block.text) && <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-7 pt-20"><h3 className="BenzinSemibold text-2xl">{block.heading}</h3>{block.text && <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">{block.text}</p>}</div>}
                         </div>
                       )
@@ -207,8 +231,8 @@ export default function BlogDetailPage({ article }: Props) {
                       ))}
                     </div>
                   )}
-                  {section.images && <div className="mt-8 grid gap-5 sm:grid-cols-2">{section.images.map((image) => <div key={image.src} className="relative aspect-[1.48/1] overflow-hidden rounded-2xl bg-[#090A22]"><Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(max-width:640px) 90vw, 425px" /></div>)}</div>}
-                  {section.image && <div className="relative mt-8 aspect-[1.95/1] overflow-hidden rounded-2xl bg-[#090A22]"><Image src={section.image} alt={section.imageAlt || ''} fill className="object-cover" sizes="(max-width:1024px) 90vw, 872px" /></div>}
+                  {section.images && <div className="mt-8 grid gap-5 sm:grid-cols-2">{section.images.map((image) => <div key={image.src} className="relative aspect-[1.48/1] overflow-hidden rounded-2xl bg-[#090A22]"><RemoteBlogImage src={image.src} alt={image.alt} /></div>)}</div>}
+                  {section.image && <div className="relative mt-8 aspect-[1.95/1] overflow-hidden rounded-2xl bg-[#090A22]"><RemoteBlogImage src={section.image} alt={section.imageAlt || ''} /></div>}
                   {section.html && (
                     <div
                       className="mt-8 text-base leading-7 text-white/65 [&_a]:text-[#F45B25] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-[#F45B25] [&_blockquote]:pl-5 [&_div]:my-4 [&_h3]:mb-3 [&_h3]:mt-6 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white [&_li]:mb-2 [&_ol]:ml-6 [&_ol]:list-decimal [&_p]:mb-4 [&_strong]:text-white [&_ul]:ml-6 [&_ul]:list-disc"
@@ -229,7 +253,7 @@ export default function BlogDetailPage({ article }: Props) {
             </section>
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
-              {closingImages.slice(0, 2).map((image, index) => <div key={`${image.src}-${index}`} className="relative aspect-[1.05/1] overflow-hidden rounded-2xl bg-[#090A22]"><Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(max-width:640px) 90vw, 425px" /></div>)}
+              {closingImages.slice(0, 2).map((image, index) => <div key={`${image.src}-${index}`} className="relative aspect-[1.05/1] overflow-hidden rounded-2xl bg-[#090A22]"><RemoteBlogImage src={image.src} alt={image.alt} /></div>)}
             </div>
 
             <BlogFaqs faqs={article.faqs} />
