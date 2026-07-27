@@ -6,13 +6,13 @@ import Link from 'next/link'
 import { ArrowRight, BriefcaseBusiness, ChevronDown, MapPin, Search, X } from 'lucide-react'
 import Navbar from './navbar'
 import Footer from './footer'
-import { openCareerRoles, type CareerOpening } from '@/data/careers'
+import type { CareerOpening } from '@/data/careers'
 
 const departments: Array<CareerOpening['department']> = ['Design', 'Technology', 'Growth', 'Operations']
 const employmentTypes: Array<CareerOpening['employmentType']> = ['Full-time', 'Part-time', 'Contract', 'Internship']
 const workplaceTypes: Array<CareerOpening['workplace']> = ['Remote', 'Hybrid', 'On-site']
 
-export default function OpportunitiesPage() {
+export default function OpportunitiesPage({ roles }: { roles: CareerOpening[] }) {
   const [searchInput, setSearchInput] = useState('')
   const [query, setQuery] = useState('')
   const [location, setLocation] = useState('')
@@ -21,14 +21,14 @@ export default function OpportunitiesPage() {
   const [workplace, setWorkplace] = useState('')
 
   const locations = useMemo(
-    () => Array.from(new Set(openCareerRoles.map((role) => role.location))).sort(),
-    [],
+    () => Array.from(new Set(roles.map((role) => role.location))).sort(),
+    [roles],
   )
 
   const filteredRoles = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
 
-    return openCareerRoles.filter((role) => {
+    return roles.filter((role) => {
       const searchableText = `${role.title} ${role.summary} ${role.department} ${role.location}`.toLowerCase()
 
       return (
@@ -39,7 +39,7 @@ export default function OpportunitiesPage() {
         (!workplace || role.workplace === workplace)
       )
     })
-  }, [department, employmentType, location, query, workplace])
+  }, [department, employmentType, location, query, roles, workplace])
 
   const hasActiveFilters = Boolean(query || location || department || employmentType || workplace)
 

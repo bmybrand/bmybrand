@@ -17,7 +17,7 @@ import {
 import Navbar from './navbar'
 import Footer from './footer'
 import CareerHiringPaths from './career-hiring-paths'
-import { openCareerRoles } from '@/data/careers'
+import type { CareerOpening } from '@/data/careers'
 
 const primaryCareerButtonClass =
   'BenzinSemibold inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-sm text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] sm:text-[14px] md:text-[15px] lg:text-[15px] xl:text-[15px] 2xl:text-base'
@@ -137,8 +137,8 @@ const principles = [
   },
 ]
 
-export default function CareerPage() {
-  const hasOpenRoles = openCareerRoles.length > 0
+export default function CareerPage({ openRoles }: { openRoles: CareerOpening[] }) {
+  const hasOpenRoles = openRoles.length > 0
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[#11122F] text-white">
@@ -435,13 +435,13 @@ export default function CareerPage() {
                 </h2>
               </div>
               <p className="text-sm text-white/45">
-                {openCareerRoles.length} {openCareerRoles.length === 1 ? 'open role' : 'open roles'}
+                {openRoles.length} {openRoles.length === 1 ? 'open role' : 'open roles'}
               </p>
             </div>
 
             {hasOpenRoles ? (
               <div className="mt-16 border-t border-white/15">
-                {openCareerRoles.map((role) => (
+                {openRoles.map((role) => (
                   <article
                     key={role.slug}
                     className="group grid gap-6 border-b border-white/15 py-9 transition lg:grid-cols-[1fr_auto] lg:items-center"
