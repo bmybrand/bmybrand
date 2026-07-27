@@ -201,11 +201,11 @@ export default function CareerPage() {
                     <path d="M0 0 10 5 0 10Z" fill="#F45B25" />
                   </marker>
                 </defs>
-                <path d="M135 290 V365 H245" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M330 120 V64 H430" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M685 300 V365 H770" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M915 115 V62 H1015" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
-                <path d="M915 310 V372 H1015" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M95 335 V390 H200" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M302 64 V25 H405" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M610 335 V390 H812" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 64 V25 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
+                <path d="M916 383 V415 H1020" fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="1.5" strokeDasharray="5 7" markerEnd="url(#hire-arrow)" />
               </svg>
 
               <div className="relative grid items-center gap-x-4 gap-y-20 md:grid-cols-2 xl:grid-cols-[1fr_1fr_2.05fr_1fr_.92fr]">
