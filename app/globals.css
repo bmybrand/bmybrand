@@ -34,6 +34,137 @@
   font-family: var(--font-benzin-regular), sans-serif;
 }
 
+.blog-rich-text {
+  color: rgb(255 255 255 / 0.68);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.blog-rich-text h1,
+.blog-rich-text h2,
+.blog-rich-text h3,
+.blog-rich-text h4 {
+  color: #ffffff;
+  font-family: var(--font-benzin-semibold), sans-serif;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.blog-rich-text h1 {
+  margin: 2.75rem 0 1.25rem;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.blog-rich-text h2 {
+  margin: 2.5rem 0 1rem;
+  font-size: clamp(1.65rem, 2.25vw, 2.15rem);
+}
+
+.blog-rich-text h3 {
+  margin: 2rem 0 0.75rem;
+  font-size: clamp(1.25rem, 1.6vw, 1.55rem);
+}
+
+.blog-rich-text h4 {
+  margin: 1.75rem 0 0.65rem;
+  font-size: 1.1rem;
+}
+
+.blog-rich-text > :first-child {
+  margin-top: 0;
+}
+
+.blog-rich-text p {
+  margin-bottom: 1rem;
+}
+
+.blog-rich-text ul,
+.blog-rich-text ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+}
+
+.blog-rich-text ul {
+  list-style: disc;
+}
+
+.blog-rich-text ol {
+  list-style: decimal;
+}
+
+.blog-rich-text li {
+  margin-bottom: 0.55rem;
+  padding-left: 0.25rem;
+}
+
+.blog-rich-text li::marker {
+  color: #f45b25;
+}
+
+.blog-rich-text blockquote {
+  margin: 1.75rem 0;
+  border-left: 3px solid #f45b25;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  color: rgb(255 255 255 / 0.82);
+  font-style: italic;
+}
+
+.blog-rich-text a {
+  color: #f45b25;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.blog-rich-text figure {
+  margin: 2rem 0;
+}
+
+.blog-rich-text img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.blog-rich-text figcaption {
+  margin-top: 0.6rem;
+  color: rgb(255 255 255 / 0.48);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.blog-rich-text hr {
+  margin: 2rem 0;
+  border-color: rgb(255 255 255 / 0.12);
+}
+
+.blog-rich-text pre {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 0.75rem;
+  background: #090a22;
+  padding: 1rem;
+}
+
+.blog-rich-text code {
+  border-radius: 0.3rem;
+  background: rgb(255 255 255 / 0.08);
+  padding: 0.15rem 0.35rem;
+}
+
+.blog-rich-text table {
+  width: 100%;
+  margin: 1.75rem 0;
+  border-collapse: collapse;
+}
+
+.blog-rich-text th,
+.blog-rich-text td {
+  border: 1px solid rgb(255 255 255 / 0.12);
+  padding: 0.75rem;
+  text-align: left;
+}
+
 .brand-word {
   display: inline-block;
 }

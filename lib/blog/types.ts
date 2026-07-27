@@ -1,3 +1,13 @@
+export type BlogContentBlock = (
+  | { type: 'richtext'; html: string }
+  | { type: 'heading'; text: string; level?: 2 | 3 }
+  | { type: 'paragraph'; text: string }
+  | { type: 'points'; items: string[] }
+  | { type: 'image'; image: string; alt: string }
+  | { type: 'banner'; image: string; alt: string; heading?: string; text?: string }
+  | { type: 'html'; html: string }
+) & { columns?: number; width?: number; rowStart?: boolean }
+
 export type BlogArticleSection = {
   id: string
   title: string
@@ -11,6 +21,10 @@ export type BlogArticleSection = {
   itemsDescription?: string
   divideItems?: boolean
   items?: Array<{ title: string; description: string; bullets?: string[] }>
+  html?: string
+  hideTitle?: boolean
+  hideFromJump?: boolean
+  blocks?: BlogContentBlock[]
 }
 
 export type BlogArticle = {

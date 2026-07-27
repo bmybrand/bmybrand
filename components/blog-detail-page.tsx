@@ -9,12 +9,88 @@ import type { BlogArticle } from '@/lib/blog/types'
 
 type Props = { article: BlogArticle }
 
+function sanitizeBlogHtml(html: string) {
+  return html
+    .replace(/<\s*(script|iframe|object|embed|style)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, '')
+    .replace(/<\s*(link|meta|base)[^>]*\/?\s*>/gi, '')
+    .replace(/\s+on[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+    .replace(/\s+(href|src)\s*=\s*(["'])\s*javascript:[\s\S]*?\2/gi, '')
+}
+
+type JumpLink = { id: string; title: string }
+
+function headingId(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/gi, 'and')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function prepareRichTextHtml(html: string, usedIds: Set<string>) {
+  const headings: JumpLink[] = []
+  const preparedHtml = sanitizeBlogHtml(html).replace(
+    /<h2([^>]*)>([\s\S]*?)<\/h2>/gi,
+    (fullHeading, attributes: string, content: string) => {
+      const title = content
+        .replace(/<[^>]+>/g, '')
+        .replace(/&amp;/gi, '&')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+      if (!title) return fullHeading
+
+      const baseId = headingId(title) || 'article-heading'
+      let id = baseId
+      let duplicate = 2
+      while (usedIds.has(id)) {
+        id = `${baseId}-${duplicate}`
+        duplicate += 1
+      }
+      usedIds.add(id)
+
+      const safeAttributes = attributes.replace(/\s+id\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+      headings.push({ id, title })
+      return `<h2${safeAttributes} id="${id}">${content}</h2>`
+    },
+  )
+
+  return { html: preparedHtml, headings }
+}
+
 export default function BlogDetailPage({ article }: Props) {
   const tags = article.tags ?? [article.category]
   const closingImages = article.closingImages ?? [
     { src: article.heroImage, alt: article.title },
     { src: article.sections.find((section) => section.image)?.image ?? article.heroImage, alt: '' },
   ]
+  const usedJumpIds = new Set(['key-highlights', 'conclusion', 'frequently-asked-questions'])
+  const jumpLinks: JumpLink[] = []
+  const preparedBlockHtml = new Map<string, string>()
+  const preparedSectionHtml = new Map<number, string>()
+
+  article.sections.forEach((section, sectionIndex) => {
+    if (!section.hideFromJump && section.title) {
+      usedJumpIds.add(section.id)
+      jumpLinks.push({ id: section.id, title: section.title })
+    }
+
+    section.blocks?.forEach((block, blockIndex) => {
+      if ((block.type === 'richtext' || block.type === 'html') && block.html) {
+        const prepared = prepareRichTextHtml(block.html, usedJumpIds)
+        preparedBlockHtml.set(`${sectionIndex}:${blockIndex}`, prepared.html)
+        jumpLinks.push(...prepared.headings)
+      }
+    })
+
+    if (section.html) {
+      const prepared = prepareRichTextHtml(section.html, usedJumpIds)
+      preparedSectionHtml.set(sectionIndex, prepared.html)
+      jumpLinks.push(...prepared.headings)
+    }
+  })
 
   return (
     <div className="min-h-screen bg-[#11122F] text-white">
@@ -49,9 +125,59 @@ export default function BlogDetailPage({ article }: Props) {
             </div>
 
             <div className="mt-12">
-              {article.sections.map((section) => (
+              {article.sections.map((section, sectionIndex) => (
                 <section key={section.id} id={section.id} className="mb-12 scroll-mt-32 border-b border-white/10 pb-12 sm:mb-16 sm:pb-16">
-                  <h2 className="BenzinSemibold mb-5 text-[clamp(1.65rem,2vw,2.15rem)] leading-[1.15]">{section.title}</h2>
+                  {!section.hideTitle && <h2 className="BenzinSemibold mb-5 text-[clamp(1.65rem,2vw,2.15rem)] leading-[1.15]">{section.title}</h2>}
+                  {section.blocks && <div className="grid grid-cols-12 items-start gap-4">
+                  {section.blocks.map((block, blockIndex) => {
+                    const columns = Math.min(12, Math.max(1, Math.round(block.columns ?? ((block.width ?? 100) / 100) * 12)))
+                    const gridStyle = { gridColumn: block.rowStart ? `1 / span ${columns}` : `span ${columns} / span ${columns}` }
+                    if (block.type === 'heading') {
+                      return block.level === 3
+                        ? <h3 key={blockIndex} style={gridStyle} className="BenzinSemibold mb-4 mt-8 text-xl leading-snug text-white">{block.text}</h3>
+                        : <h2 key={blockIndex} style={gridStyle} className="BenzinSemibold mb-5 mt-10 text-[clamp(1.65rem,2vw,2.15rem)] leading-[1.15] first:mt-0">{block.text}</h2>
+                    }
+                    if (block.type === 'paragraph') {
+                      return <p key={blockIndex} style={gridStyle} className="mb-4 text-base leading-7 text-white/62">{block.text}</p>
+                    }
+                    if (block.type === 'points') {
+                      return (
+                        <ul key={blockIndex} style={gridStyle} className="my-6 space-y-3">
+                          {block.items.map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-white/65 sm:text-base"><Check className="mt-1 h-4 w-4 shrink-0 text-[#F45B25]" />{item}</li>)}
+                        </ul>
+                      )
+                    }
+                    if (block.type === 'image') {
+                      return (
+                        <div
+                          key={blockIndex}
+                          className="relative my-8 aspect-[1.95/1] max-w-full overflow-hidden rounded-2xl bg-[#090A22]"
+                          style={gridStyle}
+                        >
+                          {block.image && <Image src={block.image} alt={block.alt} fill className="object-cover" sizes="(max-width:1024px) 90vw, 872px" />}
+                        </div>
+                      )
+                    }
+                    if (block.type === 'banner') {
+                      return (
+                        <div key={blockIndex} style={gridStyle} className="relative my-8 min-h-72 overflow-hidden rounded-2xl bg-[#090A22]">
+                          {block.image && <Image src={block.image} alt={block.alt} fill className="object-cover" sizes="(max-width:1024px) 90vw, 872px" />}
+                          {(block.heading || block.text) && <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-7 pt-20"><h3 className="BenzinSemibold text-2xl">{block.heading}</h3>{block.text && <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">{block.text}</p>}</div>}
+                        </div>
+                      )
+                    }
+                    return (
+                      <div
+                        key={blockIndex}
+                        style={gridStyle}
+                        className="blog-rich-text my-6"
+                        dangerouslySetInnerHTML={{
+                          __html: preparedBlockHtml.get(`${sectionIndex}:${blockIndex}`) ?? sanitizeBlogHtml(block.html),
+                        }}
+                      />
+                    )
+                  })}
+                  </div>}
                   {section.paragraphs.map((paragraph) => <p key={paragraph} className="mb-4 text-base leading-7 text-white/62">{paragraph}</p>)}
                   {section.bullets && (
                     <div className="mt-8">
@@ -83,6 +209,12 @@ export default function BlogDetailPage({ article }: Props) {
                   )}
                   {section.images && <div className="mt-8 grid gap-5 sm:grid-cols-2">{section.images.map((image) => <div key={image.src} className="relative aspect-[1.48/1] overflow-hidden rounded-2xl bg-[#090A22]"><Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(max-width:640px) 90vw, 425px" /></div>)}</div>}
                   {section.image && <div className="relative mt-8 aspect-[1.95/1] overflow-hidden rounded-2xl bg-[#090A22]"><Image src={section.image} alt={section.imageAlt || ''} fill className="object-cover" sizes="(max-width:1024px) 90vw, 872px" /></div>}
+                  {section.html && (
+                    <div
+                      className="mt-8 text-base leading-7 text-white/65 [&_a]:text-[#F45B25] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-[#F45B25] [&_blockquote]:pl-5 [&_div]:my-4 [&_h3]:mb-3 [&_h3]:mt-6 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white [&_li]:mb-2 [&_ol]:ml-6 [&_ol]:list-decimal [&_p]:mb-4 [&_strong]:text-white [&_ul]:ml-6 [&_ul]:list-disc"
+                      dangerouslySetInnerHTML={{ __html: preparedSectionHtml.get(sectionIndex) ?? sanitizeBlogHtml(section.html) }}
+                    />
+                  )}
                 </section>
               ))}
             </div>
@@ -90,7 +222,9 @@ export default function BlogDetailPage({ article }: Props) {
             <section id="conclusion" className="scroll-mt-32 rounded-xl border border-[#F45B25] bg-[#F45B25]/10 p-7 sm:p-9">
               <h2 className="BenzinSemibold mb-5 flex items-center gap-3 text-2xl"><Sparkles className="h-6 w-6 fill-[#F45B25] text-[#F45B25]" />Conclusion</h2>
               <div className="space-y-4 text-base leading-7 text-white/70">
-                {(Array.isArray(article.conclusion) ? article.conclusion : [article.conclusion]).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {Array.isArray(article.conclusion)
+                  ? article.conclusion.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+                  : <p className="whitespace-pre-line">{article.conclusion}</p>}
               </div>
             </section>
 
@@ -105,7 +239,7 @@ export default function BlogDetailPage({ article }: Props) {
           <aside className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
             <div className="rounded-[1.25rem] border border-white/10 bg-[#1A1B3B] p-6">
               <p className="BenzinSemibold mb-5 text-xl">Jump To:</p>
-              <BlogJumpNav sections={article.sections.map(({ id, title }) => ({ id, title }))} />
+              <BlogJumpNav sections={jumpLinks} />
             </div>
 
             <div className="mt-8 overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#1A1B3B]">

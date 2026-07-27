@@ -1,6 +1,5 @@
 import 'server-only'
 
-import { cache } from 'react'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import type { BlogArticle, BlogArticleSection, BlogPostSummary } from './types'
 
@@ -51,7 +50,7 @@ const toArticle = (row: BlogArticleRow): BlogArticle => ({
   faqs: row.faqs as BlogArticle['faqs'],
 })
 
-export const getBlogArticle = cache(async (slug: string): Promise<BlogArticle | null> => {
+export async function getBlogArticle(slug: string): Promise<BlogArticle | null> {
   const { data, error } = await supabaseAdmin
     .from('blog_articles')
     .select('*')
@@ -61,7 +60,7 @@ export const getBlogArticle = cache(async (slug: string): Promise<BlogArticle | 
 
   if (error) throw new Error(`Unable to load blog article: ${error.message}`)
   return data ? toArticle(data as BlogArticleRow) : null
-})
+}
 
 export async function getBlogPosts(): Promise<BlogPostSummary[]> {
   const { data, error } = await supabaseAdmin

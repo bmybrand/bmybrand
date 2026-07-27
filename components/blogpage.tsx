@@ -8,23 +8,12 @@ import Navbar from './navbar'
 import Footer from './footer'
 import type { BlogPostSummary } from '@/lib/blog/types'
 
-const filters = [
-  'All Insights',
-  'AI & Automation',
-  'UX/UI Strategy',
-  'Branding',
-  'Website Trends',
-  'Marketing Growth',
-  'E-Commerce Acceleration',
-]
-
 export default function BlogPage({ blogPosts }: { blogPosts: BlogPostSummary[] }) {
   const [activeFilter, setActiveFilter] = useState('All Insights')
-  const knowledgePosts = blogPosts.slice(0, 8)
-  const latestInsights = blogPosts.slice(8)
+  const filters = ['All Insights', ...Array.from(new Set(blogPosts.map((post) => post.category)))]
   const visiblePosts = activeFilter === 'All Insights'
-    ? knowledgePosts
-    : knowledgePosts.filter((post) => post.category === activeFilter)
+    ? blogPosts
+    : blogPosts.filter((post) => post.category === activeFilter)
 
   return (
     <div className="min-h-screen bg-[#11122F] text-white">
@@ -86,41 +75,6 @@ export default function BlogPage({ blogPosts }: { blogPosts: BlogPostSummary[] }
               More insights in this category are on the way.
             </div>
           )}
-        </section>
-
-        <section className="mt-20 border-t border-white/10 pt-20 lg:mt-28 lg:pt-28">
-          <div className="mb-10 flex items-end justify-between gap-6">
-            <div>
-              <p className="mb-3 text-sm uppercase tracking-[0.18em] text-[#F45B25]">Fresh thinking</p>
-              <h2 className="BenzinSemibold text-3xl sm:text-5xl">Latest insights</h2>
-            </div>
-            <p className="hidden max-w-sm text-right text-white/50 md:block">
-              No filler. Just useful perspectives shaped by the work we do every day.
-            </p>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {latestInsights.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="group flex min-h-[420px] flex-col justify-between overflow-hidden rounded-[1.75rem] border border-white/12 bg-white/[0.045] p-7 transition duration-300 hover:-translate-y-1.5 hover:bg-white/[0.075] sm:p-9"
-              >
-                <div>
-                  <div className="mb-10 flex items-center justify-between">
-                    <span className="text-xs uppercase tracking-[0.16em]" style={{ color: post.accent }}>{post.category}</span>
-                    <span className="BenzinSemibold text-5xl text-white/[0.08]">{post.number}</span>
-                  </div>
-                  <h3 className="BenzinSemibold text-2xl leading-snug sm:text-3xl">{post.title}</h3>
-                  <p className="mt-5 leading-7 text-white/55">{post.excerpt}</p>
-                </div>
-                <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-5 text-sm text-white/45">
-                  <span>{post.readTime}</span>
-                  <ArrowUpRight className="h-5 w-5 text-white transition group-hover:rotate-45 group-hover:text-[#F45B25]" />
-                </div>
-              </Link>
-            ))}
-          </div>
         </section>
 
         <section className="mt-20 lg:mt-28">
