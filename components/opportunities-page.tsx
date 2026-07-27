@@ -62,7 +62,7 @@ export default function OpportunitiesPage() {
       <Navbar />
 
       <main>
-        <section className="relative min-h-[530px] overflow-hidden pt-32 sm:min-h-[590px] lg:pt-40">
+        <section className="relative min-h-[610px] overflow-hidden pt-32 sm:min-h-[650px] lg:pt-40">
           <Image
             src="/bmyb-careers-hero-v1.png"
             alt=""
@@ -75,22 +75,22 @@ export default function OpportunitiesPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#11122F]/55 via-transparent to-[#11122F]/30" />
           <div className="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-[#F45B25]/18 blur-[100px]" />
 
-          <div className="relative mx-auto flex min-h-[390px] w-[90%] flex-col justify-center pb-16 pt-20 2xl:w-[75%]">
+          <div className="relative mx-auto flex min-h-[480px] w-[90%] flex-col items-center justify-center pb-16 pt-20 text-center 2xl:w-[75%]">
             <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-4 text-sm font-semibold text-white/65 sm:text-base">
               <Link href="/" className="transition hover:text-[#F45B25]">Home</Link>
               <span className="h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
               <span className="text-white">Job listings</span>
             </nav>
             <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">Build what matters</p>
-            <h1 className="BenzinSemibold max-w-5xl text-[clamp(2.65rem,5.6vw,5.5rem)] leading-[1.02] tracking-[-0.035em]">
+            <h1 className="BenzinSemibold mx-auto max-w-6xl text-[clamp(2.65rem,5vw,5rem)] leading-[1.02] tracking-[-0.035em]">
               Let us recognize, grow, and reward your craft.
             </h1>
           </div>
         </section>
 
-        <section className="relative z-10 pb-24 lg:pb-36">
+        <section className="relative z-10 pb-24 pt-10 lg:pb-36 lg:pt-14">
           <div className="mx-auto w-[90%] 2xl:w-[75%]">
-            <div className="-mt-10 rounded-[2rem] border border-white/12 bg-[#171835] px-5 py-7 shadow-[0_30px_80px_rgba(0,0,0,.35)] sm:px-8 sm:py-9 lg:px-12 lg:py-11">
+            <div className="rounded-[2rem] border border-white/12 bg-[#171835] px-5 py-7 shadow-[0_30px_80px_rgba(0,0,0,.35)] sm:px-8 sm:py-9 lg:px-12 lg:py-11">
               <form onSubmit={submitSearch} className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row">
                 <label className="relative flex-1">
                   <span className="sr-only">Search jobs or keywords</span>
