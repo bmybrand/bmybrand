@@ -152,7 +152,7 @@ export default function BlogDetailPage({ article }: Props) {
               {article.sections.map((section, sectionIndex) => (
                 <section key={section.id} id={section.id} className="mb-12 scroll-mt-32 border-b border-white/10 pb-12 sm:mb-16 sm:pb-16">
                   {!section.hideTitle && <h2 className="BenzinSemibold mb-5 text-[clamp(1.65rem,2vw,2.15rem)] leading-[1.15]">{section.title}</h2>}
-                  {section.blocks && <div className="grid grid-cols-12 items-start gap-4">
+                  {section.blocks && <div className="grid grid-cols-12 items-start gap-x-4 gap-y-0">
                   {section.blocks.map((block, blockIndex) => {
                     const columns = Math.min(12, Math.max(1, Math.round(block.columns ?? ((block.width ?? 100) / 100) * 12)))
                     const gridStyle = { gridColumn: block.rowStart ? `1 / span ${columns}` : `span ${columns} / span ${columns}` }
@@ -194,7 +194,7 @@ export default function BlogDetailPage({ article }: Props) {
                       <div
                         key={blockIndex}
                         style={gridStyle}
-                        className="blog-rich-text my-6"
+                        className="blog-rich-text"
                         dangerouslySetInnerHTML={{
                           __html: preparedBlockHtml.get(`${sectionIndex}:${blockIndex}`) ?? sanitizeBlogHtml(block.html),
                         }}
