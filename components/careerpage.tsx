@@ -254,7 +254,7 @@ export default function CareerPage() {
                   </article>
 
                   <article className="relative min-h-[190px] rounded-[1.6rem] border border-white/18 bg-[#151632] px-5 pb-6 pt-16 text-center">
-                    <div className="absolute -top-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-[1.3rem] border-4 border-[#0B0C26] bg-white/15 shadow-xl shadow-black/25">
+                    <div className="absolute -top-10 left-1/2 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-[1.3rem] border-4 border-[#0B0C26] bg-[#41425F] shadow-xl shadow-black/25">
                       <Users2 className="h-9 w-9 text-white" strokeWidth={1.6} />
                     </div>
                     <h3 className="BenzinSemibold mt-3 text-lg leading-snug">Stay connected</h3>
