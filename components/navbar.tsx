@@ -84,6 +84,16 @@ const servicesMenuItems = [
       </svg>
     ),
   },
+  {
+    title: "Open Positions",
+    href: "/opportunities",
+    desc: "Search current roles and find where your craft can make an impact.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2m-9 4h10m-7 4h4M5 7h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2z" />
+      </svg>
+    ),
+  },
 ];
 
 const industriesMenuItems = [
@@ -618,7 +628,7 @@ const Navbar = () => {
             {mobileExpanded === "company" && (
               <ul className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-white/20 ml-1">
                 <li onClick={() => setOpen(false)}>
-                  <Link href="/careers" className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>View Open Positions</Link>
+                  <Link href="/opportunities" className="block py-1.5 px-2 -mx-2 rounded-lg text-white/70 hover:text-[#F45B25] hover:bg-white/10 transition-colors" style={{ fontSize: "clamp(0.6875rem, 2.5vw, 0.8125rem)" }}>View Open Positions</Link>
                 </li>
                 {companyMenuItems.map((item, idx) => (
                   <li key={idx} onClick={() => setOpen(false)}>

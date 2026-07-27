@@ -173,7 +173,7 @@ export default function CareerPage() {
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
                 <a
-                  href="#opportunities"
+                  href="/opportunities"
                   className={primaryCareerButtonClass}
                 >
                   <CareerButtonIcon fill="#FF7A32" />

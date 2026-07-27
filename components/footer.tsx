@@ -58,6 +58,7 @@ const IMPORTANT_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
   { label: 'Careers', href: '/careers' },
+  { label: 'Open Positions', href: '/opportunities' },
   { label: 'Blog', href: '/blog' },
   { label: 'Services', href: '/services' },
   { label: 'Case Studies', href: '/case-studies' },
