@@ -1,46 +1,29 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import {
-  ArrowUpRight,
-  BriefcaseBusiness,
-  Clock3,
-  MapPin,
-  Search,
-  SlidersHorizontal,
-  Sparkles,
-  X,
-} from 'lucide-react'
+import { ArrowRight, BriefcaseBusiness, ChevronDown, MapPin, Search, X } from 'lucide-react'
 import Navbar from './navbar'
 import Footer from './footer'
 import { openCareerRoles, type CareerOpening } from '@/data/careers'
 
 const departments: Array<CareerOpening['department']> = ['Design', 'Technology', 'Growth', 'Operations']
-const workplaceTypes: Array<CareerOpening['workplace']> = ['Remote', 'Hybrid', 'On-site']
 const employmentTypes: Array<CareerOpening['employmentType']> = ['Full-time', 'Part-time', 'Contract', 'Internship']
-
-const primaryButtonClass =
-  'BenzinSemibold inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-2 py-2 text-sm text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] sm:text-[14px] md:text-[15px] 2xl:text-base'
-
-function ButtonIcon() {
-  return (
-    <span className="relative z-10 shrink-0 rounded-lg bg-white p-4">
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="h-4 w-4">
-        <path
-          d="M13.2267 11.7955C13.2622 11.7955 13.5467 11.6178 14.08 11.2622C14.6133 10.9067 14.88 10.7289 14.88 10.7289L14.4 10.0889C14.1511 9.73332 13.9111 9.35999 13.68 8.96887C13.4489 8.57776 13.28 8.22221 13.1733 7.90221C12.8533 6.8711 12.7644 5.85776 12.9067 4.86221C13.0489 3.86665 13.4222 2.95998 14.0267 2.14221L14.3467 1.71554L13.1733 0.542207L12.8 0.808874C11.52 1.69776 10.1511 2.09776 8.69333 2.00887C7.23556 1.91998 5.81333 1.32443 4.42667 0.222207C4.21333 0.0444293 4.09778 -0.0266818 4.08 0.00887375C4.06222 0.0444293 3.89333 0.319985 3.57333 0.83554C3.25333 1.3511 3.09333 1.61776 3.09333 1.63554C3.09333 1.65332 3.21778 1.7511 3.46667 1.92887C4.56889 2.67554 5.70667 3.16443 6.88 3.39554C8.05333 3.62665 9.13778 3.56443 10.1333 3.20887L10.56 3.04887L0 13.6622L1.22667 14.8355L11.7867 4.27554L11.6267 4.86221C11.3422 5.64443 11.2533 6.48887 11.36 7.39554C11.4667 8.30221 11.7511 9.21776 12.2133 10.1422C12.32 10.3911 12.5067 10.72 12.7733 11.1289C13.04 11.5378 13.1911 11.76 13.2267 11.7955Z"
-          fill="#FF7A32"
-        />
-      </svg>
-    </span>
-  )
-}
+const workplaceTypes: Array<CareerOpening['workplace']> = ['Remote', 'Hybrid', 'On-site']
 
 export default function OpportunitiesPage() {
+  const [searchInput, setSearchInput] = useState('')
   const [query, setQuery] = useState('')
+  const [location, setLocation] = useState('')
   const [department, setDepartment] = useState('')
-  const [workplace, setWorkplace] = useState('')
   const [employmentType, setEmploymentType] = useState('')
+  const [workplace, setWorkplace] = useState('')
+
+  const locations = useMemo(
+    () => Array.from(new Set(openCareerRoles.map((role) => role.location))).sort(),
+    [],
+  )
 
   const filteredRoles = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
@@ -50,20 +33,28 @@ export default function OpportunitiesPage() {
 
       return (
         (!normalizedQuery || searchableText.includes(normalizedQuery)) &&
+        (!location || role.location === location) &&
         (!department || role.department === department) &&
-        (!workplace || role.workplace === workplace) &&
-        (!employmentType || role.employmentType === employmentType)
+        (!employmentType || role.employmentType === employmentType) &&
+        (!workplace || role.workplace === workplace)
       )
     })
-  }, [department, employmentType, query, workplace])
+  }, [department, employmentType, location, query, workplace])
 
-  const hasActiveFilters = Boolean(query || department || workplace || employmentType)
+  const hasActiveFilters = Boolean(query || location || department || employmentType || workplace)
+
+  const submitSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setQuery(searchInput)
+  }
 
   const clearFilters = () => {
+    setSearchInput('')
     setQuery('')
+    setLocation('')
     setDepartment('')
-    setWorkplace('')
     setEmploymentType('')
+    setWorkplace('')
   }
 
   return (
@@ -71,148 +62,173 @@ export default function OpportunitiesPage() {
       <Navbar />
 
       <main>
-        <section className="relative overflow-hidden pb-20 pt-40 sm:pt-48 lg:pb-28 lg:pt-56">
-          <div className="absolute -left-40 top-24 h-[28rem] w-[28rem] rounded-full bg-[#F45B25]/16 blur-[120px]" />
-          <div className="absolute -right-44 top-0 h-[32rem] w-[32rem] rounded-full bg-[#6558E8]/14 blur-[140px]" />
-          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        <section className="relative min-h-[530px] overflow-hidden pt-32 sm:min-h-[590px] lg:pt-40">
+          <Image
+            src="/bmyb-careers-hero-v1.png"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,6,28,.97)_0%,rgba(8,9,34,.85)_42%,rgba(8,9,34,.42)_100%)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#11122F]/55 via-transparent to-[#11122F]/30" />
+          <div className="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-[#F45B25]/18 blur-[100px]" />
 
-          <div className="relative mx-auto w-[90%] 2xl:w-[75%]">
-            <div className="grid gap-10 lg:grid-cols-[1fr_.42fr] lg:items-end">
-              <div className="max-w-5xl">
-                <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">Open opportunities</p>
-                <h1 className="BenzinSemibold text-[clamp(3rem,7.5vw,7.5rem)] leading-[.92] tracking-[-0.045em]">
-                  Find work worth
-                  <span className="block text-[#F45B25]">showing up for.</span>
-                </h1>
-              </div>
-              <p className="max-w-md text-base leading-7 text-white/55 lg:pb-2 lg:text-lg lg:leading-8">
-                Explore roles across strategy, design, growth, and technology—and find the next place your craft can make a visible difference.
-              </p>
-            </div>
+          <div className="relative mx-auto flex min-h-[390px] w-[90%] flex-col justify-center pb-16 pt-20 2xl:w-[75%]">
+            <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-4 text-sm font-semibold text-white/65 sm:text-base">
+              <Link href="/" className="transition hover:text-[#F45B25]">Home</Link>
+              <span className="h-1.5 w-1.5 rounded-full bg-[#F45B25]" />
+              <span className="text-white">Job listings</span>
+            </nav>
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">Build what matters</p>
+            <h1 className="BenzinSemibold max-w-5xl text-[clamp(2.65rem,5.6vw,5.5rem)] leading-[1.02] tracking-[-0.035em]">
+              Let us recognize, grow, and reward your craft.
+            </h1>
           </div>
         </section>
 
-        <section className="py-16 lg:py-24">
+        <section className="relative z-10 pb-24 lg:pb-36">
           <div className="mx-auto w-[90%] 2xl:w-[75%]">
-            <div className="rounded-[2rem] border border-white/12 bg-[#171835] p-5 shadow-[0_28px_80px_rgba(0,0,0,.2)] sm:p-7 lg:p-9">
-              <div className="flex items-center gap-3">
-                <SlidersHorizontal className="h-5 w-5 text-[#F45B25]" />
-                <p className="BenzinSemibold text-lg">Search open roles</p>
-              </div>
-
-              <div className="mt-6 grid gap-3 lg:grid-cols-[1.5fr_repeat(3,1fr)_auto]">
-                <label className="relative">
-                  <span className="sr-only">Search by job title or keyword</span>
-                  <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/35" />
+            <div className="-mt-10 rounded-[2rem] border border-white/12 bg-[#171835] px-5 py-7 shadow-[0_30px_80px_rgba(0,0,0,.35)] sm:px-8 sm:py-9 lg:px-12 lg:py-11">
+              <form onSubmit={submitSearch} className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row">
+                <label className="relative flex-1">
+                  <span className="sr-only">Search jobs or keywords</span>
+                  <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-white/38" />
                   <input
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Job title or keyword"
-                    className="h-14 w-full rounded-xl border border-white/12 bg-[#0D0E28] pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-white/32 focus:border-[#F45B25]/70"
+                    value={searchInput}
+                    onChange={(event) => setSearchInput(event.target.value)}
+                    placeholder="Search for jobs or keywords"
+                    className="h-16 w-full rounded-full border border-white/10 bg-[#0D0E28] pl-14 pr-6 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-[#F45B25]/70"
                   />
                 </label>
-
-                <FilterSelect label="Department" value={department} onChange={setDepartment} options={departments} />
-                <FilterSelect label="Work style" value={workplace} onChange={setWorkplace} options={workplaceTypes} />
-                <FilterSelect label="Employment" value={employmentType} onChange={setEmploymentType} options={employmentTypes} />
-
                 <button
-                  type="button"
-                  onClick={clearFilters}
-                  disabled={!hasActiveFilters}
-                  className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-white/12 px-5 text-sm text-white/55 transition hover:border-white/25 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                  type="submit"
+                  className="BenzinSemibold h-16 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-10 text-sm transition hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(244,91,37,.4)]"
                 >
-                  <X className="h-4 w-4" />
-                  Clear
+                  Search
                 </button>
+              </form>
+
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+                <PillSelect label="Location" value={location} onChange={setLocation} options={locations} />
+                <PillSelect label="Employment type" value={employmentType} onChange={setEmploymentType} options={employmentTypes} />
+                <PillSelect label="Job category" value={department} onChange={setDepartment} options={departments} />
+                <PillSelect label="Work style" value={workplace} onChange={setWorkplace} options={workplaceTypes} />
+                {hasActiveFilters && (
+                  <button
+                    type="button"
+                    onClick={clearFilters}
+                    className="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 px-5 text-xs font-semibold text-white/58 transition hover:border-[#F45B25] hover:text-white"
+                  >
+                    <X className="h-4 w-4" />
+                    Clear
+                  </button>
+                )}
               </div>
             </div>
 
-            <div className="mt-12 flex items-center justify-between border-b border-white/12 pb-5">
-              <h2 className="BenzinSemibold text-2xl sm:text-3xl">Current openings</h2>
-              <span className="rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 text-xs uppercase tracking-[0.14em] text-white/48">
-                {filteredRoles.length} {filteredRoles.length === 1 ? 'role' : 'roles'}
-              </span>
+            <div className="mb-8 mt-16 flex items-end justify-between gap-6">
+              <div>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#F45B25]">Join the team</p>
+                <h2 className="BenzinSemibold text-3xl sm:text-5xl">Current opportunities</h2>
+              </div>
+              <p className="shrink-0 text-sm text-white/45">
+                {filteredRoles.length} {filteredRoles.length === 1 ? 'open role' : 'open roles'}
+              </p>
             </div>
 
             {filteredRoles.length > 0 ? (
-              <div>
+              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                 {filteredRoles.map((role) => (
-                  <article key={role.slug} className="group border-b border-white/12 py-8 sm:py-10">
-                    <div className="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-center">
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#F45B25]">{role.department}</p>
-                        <h3 className="BenzinSemibold mt-3 text-2xl leading-tight transition group-hover:text-[#FF7544] sm:text-4xl">
-                          {role.title}
-                        </h3>
-                        <p className="mt-4 max-w-3xl leading-7 text-white/52">{role.summary}</p>
-                        <div className="mt-5 flex flex-wrap gap-2">
-                          <RoleMeta icon={MapPin} text={`${role.location} · ${role.workplace}`} />
-                          <RoleMeta icon={Clock3} text={role.employmentType} />
-                        </div>
-                      </div>
-                      <Link
-                        href={`/contact?interest=careers&role=${encodeURIComponent(role.title)}`}
-                        className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-white/18 text-white transition group-hover:border-[#F45B25] group-hover:bg-[#F45B25]"
-                        aria-label={`Apply for ${role.title}`}
-                      >
-                        <ArrowUpRight className="h-6 w-6" />
-                      </Link>
+                  <article
+                    key={role.slug}
+                    className="group flex min-h-[360px] flex-col rounded-[1.5rem] border border-white/12 bg-[#171835] p-7 transition duration-300 hover:-translate-y-1.5 hover:border-[#F45B25]/55 hover:bg-[#1B1C3D] sm:p-8"
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="rounded-full bg-[#F45B25]/12 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#FF7544]">
+                        {role.department}
+                      </span>
+                      <BriefcaseBusiness className="h-5 w-5 text-white/28" strokeWidth={1.6} />
                     </div>
+
+                    <h3 className="BenzinSemibold mt-7 text-2xl leading-snug">{role.title}</h3>
+                    <p className="mt-4 line-clamp-3 text-sm leading-6 text-white/50">{role.summary}</p>
+
+                    <dl className="mt-6 space-y-2 text-sm text-white/52">
+                      <div className="flex gap-2">
+                        <dt className="font-semibold text-white/82">Location:</dt>
+                        <dd>{role.location}</dd>
+                      </div>
+                      <div className="flex gap-2">
+                        <dt className="font-semibold text-white/82">Work style:</dt>
+                        <dd>{role.workplace}</dd>
+                      </div>
+                      <div className="flex gap-2">
+                        <dt className="font-semibold text-white/82">Type:</dt>
+                        <dd>{role.employmentType}</dd>
+                      </div>
+                    </dl>
+
+                    <Link
+                      href={`/contact?interest=careers&role=${encodeURIComponent(role.title)}`}
+                      className="BenzinSemibold mt-auto inline-flex w-fit items-center gap-3 rounded-full bg-[#F45B25] px-6 py-3 text-xs transition hover:bg-[#FF7544]"
+                    >
+                      View role
+                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                    </Link>
                   </article>
                 ))}
               </div>
             ) : (
-              <div className="relative mt-8 overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(120deg,rgba(244,91,37,.16),rgba(255,255,255,.025))] p-8 sm:p-12 lg:p-16">
-                <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#F45B25]/18 blur-3xl" />
-                <div className="relative grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
-                  <div className="max-w-3xl">
-                    <BriefcaseBusiness className="h-10 w-10 text-[#F45B25]" strokeWidth={1.6} />
-                    <h3 className="BenzinSemibold mt-7 text-3xl leading-tight sm:text-5xl">
-                      {hasActiveFilters ? 'No roles match those filters yet.' : 'No openings today. Stay in the conversation.'}
-                    </h3>
-                    <p className="mt-5 max-w-2xl text-base leading-7 text-white/55 sm:text-lg sm:leading-8">
-                      {hasActiveFilters
-                        ? 'Try a broader search, or introduce yourself so we can reach out when a role fits your strengths.'
-                        : 'The right role can open quickly. Share your profile, discipline, and the kind of work you want to do next.'}
+              <div className="overflow-hidden rounded-[2rem] border border-white/12 bg-[#171835]">
+                <div className="grid lg:grid-cols-[.72fr_1.28fr]">
+                  <div className="relative min-h-72 overflow-hidden bg-[#F45B25] p-8 sm:p-11">
+                    <div className="absolute -bottom-20 -right-16 h-64 w-64 rounded-full border-[46px] border-white/10" />
+                    <BriefcaseBusiness className="relative h-11 w-11" strokeWidth={1.5} />
+                    <p className="BenzinSemibold relative mt-28 max-w-sm text-3xl leading-tight sm:text-4xl">
+                      The right opening may be next.
                     </p>
                   </div>
-                  {hasActiveFilters ? (
-                    <button type="button" onClick={clearFilters} className={primaryButtonClass}>
-                      <ButtonIcon />
-                      <span className="px-2">Reset filters</span>
-                    </button>
-                  ) : (
-                    <Link href="/contact?interest=careers" className={primaryButtonClass}>
-                      <ButtonIcon />
-                      <span className="px-2">Join talent network</span>
-                    </Link>
-                  )}
+                  <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">
+                      {hasActiveFilters ? 'No matching roles' : 'Nothing open today'}
+                    </p>
+                    <h3 className="BenzinSemibold mt-5 max-w-3xl text-3xl leading-tight sm:text-5xl">
+                      {hasActiveFilters ? 'Try a broader search.' : 'Stay close to what comes next.'}
+                    </h3>
+                    <p className="mt-5 max-w-2xl text-base leading-7 text-white/55">
+                      {hasActiveFilters
+                        ? 'Reset the filters to see every current opportunity, or send us your profile for future roles.'
+                        : 'Share your profile and the kind of work you want to do. When an opportunity fits your strengths, we will already know where to find you.'}
+                    </p>
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      {hasActiveFilters && (
+                        <button
+                          type="button"
+                          onClick={clearFilters}
+                          className="BenzinSemibold inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3 text-xs transition hover:border-white hover:bg-white/5"
+                        >
+                          Reset filters
+                        </button>
+                      )}
+                      <Link
+                        href="/contact?interest=careers"
+                        className="BenzinSemibold inline-flex items-center gap-3 rounded-full bg-[#F45B25] px-6 py-3 text-xs transition hover:bg-[#FF7544]"
+                      >
+                        Join talent network
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
-          </div>
-        </section>
 
-        <section className="pb-24 pt-8 lg:pb-36 lg:pt-14">
-          <div className="mx-auto w-[90%] 2xl:w-[75%]">
-            <div className="grid overflow-hidden rounded-[2rem] border border-white/12 bg-[#0B0C26] lg:grid-cols-[.75fr_1.25fr]">
-              <div className="flex min-h-72 flex-col justify-between bg-[#F45B25] p-8 sm:p-12">
-                <Sparkles className="h-11 w-11" strokeWidth={1.5} />
-                <p className="BenzinSemibold max-w-sm text-3xl leading-tight sm:text-4xl">Craft first. Titles second.</p>
-              </div>
-              <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">Before you apply</p>
-                <h2 className="BenzinSemibold mt-5 text-3xl leading-tight sm:text-5xl">Bring the work that best represents you.</h2>
-                <p className="mt-5 max-w-2xl text-base leading-7 text-white/55 sm:text-lg sm:leading-8">
-                  A focused portfolio, a thoughtful résumé, or a clear account of what you changed matters more than polished jargon. Show us how you think and what you care about.
-                </p>
-                <Link href="/careers#how-we-hire" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-[#F45B25]">
-                  See how we hire
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </div>
+            <p className="mt-7 flex items-center justify-center gap-2 text-center text-sm text-white/40">
+              <MapPin className="h-4 w-4 text-[#F45B25]" />
+              Roles may be remote, hybrid, or location-based depending on the team.
+            </p>
           </div>
         </section>
       </main>
@@ -222,7 +238,7 @@ export default function OpportunitiesPage() {
   )
 }
 
-function FilterSelect({
+function PillSelect({
   label,
   value,
   onChange,
@@ -234,29 +250,21 @@ function FilterSelect({
   options: readonly string[]
 }) {
   return (
-    <label>
+    <label className="relative">
       <span className="sr-only">{label}</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-14 w-full rounded-xl border border-white/12 bg-[#0D0E28] px-4 text-sm text-white/75 outline-none transition focus:border-[#F45B25]/70"
+        className="h-11 min-w-40 appearance-none rounded-full border border-white/22 bg-transparent py-0 pl-5 pr-11 text-xs font-semibold text-white outline-none transition hover:border-[#F45B25] focus:border-[#F45B25]"
       >
         <option value="">{label}</option>
         {options.map((option) => (
-          <option key={option} value={option}>
+          <option key={option} value={option} className="bg-[#171835]">
             {option}
           </option>
         ))}
       </select>
+      <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#F45B25]" />
     </label>
-  )
-}
-
-function RoleMeta({ icon: Icon, text }: { icon: typeof MapPin; text: string }) {
-  return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/48">
-      <Icon className="h-3.5 w-3.5 text-[#F45B25]" />
-      {text}
-    </span>
   )
 }
