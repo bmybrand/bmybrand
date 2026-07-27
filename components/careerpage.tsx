@@ -172,13 +172,13 @@ export default function CareerPage() {
                 Join the people bringing strategy, creativity, growth, and technology together to make ambitious ideas real.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
-                <a
+                <Link
                   href="/opportunities"
                   className={primaryCareerButtonClass}
                 >
                   <CareerButtonIcon fill="#FF7A32" />
                   <span className="whitespace-nowrap px-2">Browse opportunities</span>
-                </a>
+                </Link>
                 <a
                   href="#how-we-hire"
                   className={secondaryCareerButtonClass}
@@ -473,7 +473,7 @@ export default function CareerPage() {
                     </p>
                   </div>
                   <Link
-                    href="/contact?interest=careers"
+                    href="/opportunities"
                     className={primaryCareerButtonClass}
                   >
                     <CareerButtonIcon fill="#FF7A32" />
