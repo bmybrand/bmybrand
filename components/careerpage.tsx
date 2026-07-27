@@ -198,7 +198,7 @@ export default function CareerPage() {
 
         <section id="how-we-hire" className="scroll-mt-28 border-y border-white/10 bg-[#0B0C26] py-24 text-white lg:py-36">
           <div className="mx-auto w-[90%] 2xl:w-[75%]">
-            <div className="mx-auto max-w-4xl text-center">
+            <div className="mx-auto mb-16 max-w-4xl text-center lg:mb-20">
               <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">How we hire</p>
               <h2 className="BenzinSemibold text-4xl leading-[1.05] sm:text-6xl lg:text-7xl">
                 A clear path from hello to welcome.
