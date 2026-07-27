@@ -189,43 +189,61 @@ export default function CareerPage() {
               </p>
             </div>
 
-            <div className="relative mt-16">
-              <div className="absolute left-[4%] right-[4%] top-11 hidden border-t border-dashed border-white/20 xl:block" />
+            <div className="relative mt-20">
+              <svg
+                className="pointer-events-none absolute left-0 top-0 hidden h-40 w-full xl:block"
+                viewBox="0 0 1000 160"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker id="hire-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#F45B25" />
+                  </marker>
+                </defs>
+                <path d="M100 50 H250 V114 H287" fill="none" stroke="rgba(244,91,37,.5)" strokeWidth="1.5" strokeDasharray="5 6" markerEnd="url(#hire-arrow)" />
+                <path d="M300 114 H450 V50 H487" fill="none" stroke="rgba(244,91,37,.5)" strokeWidth="1.5" strokeDasharray="5 6" markerEnd="url(#hire-arrow)" />
+                <path d="M500 50 H650 V114 H687" fill="none" stroke="rgba(244,91,37,.5)" strokeWidth="1.5" strokeDasharray="5 6" markerEnd="url(#hire-arrow)" />
+                <path d="M700 114 H850 V50 H887" fill="none" stroke="rgba(244,91,37,.5)" strokeWidth="1.5" strokeDasharray="5 6" markerEnd="url(#hire-arrow)" />
+              </svg>
 
-              <div className="relative grid gap-x-8 gap-y-12 md:grid-cols-2 xl:grid-cols-5 xl:gap-x-7">
+              <div className="relative grid gap-x-7 gap-y-20 pt-12 md:grid-cols-2 xl:grid-cols-5 xl:gap-x-5">
                 {hiringSteps.map((step, index) => {
                   const Icon = step.icon
+                  const isLowerStep = index === 1 || index === 3
+                  const isFinalStep = index === hiringSteps.length - 1
 
                   return (
                     <article
                       key={step.number}
-                      className={`group relative z-10 border-t border-white/12 pt-6 md:min-h-[290px] xl:border-0 xl:pt-0 ${
-                        index === hiringSteps.length - 1 ? 'md:col-span-2 md:mx-auto md:w-[calc(50%_-_16px)] xl:col-span-1 xl:mx-0 xl:w-auto' : ''
+                      className={`group relative z-10 min-h-[275px] rounded-[1.75rem] border px-6 pb-7 pt-20 transition duration-300 hover:-translate-y-1 ${
+                        isFinalStep
+                          ? 'border-[#F45B25]/55 bg-[linear-gradient(145deg,rgba(244,91,37,.18),rgba(255,255,255,.035))]'
+                          : 'border-white/15 bg-white/[0.035] hover:border-white/30'
+                      } ${isLowerStep ? 'xl:mt-16' : ''} ${
+                        isFinalStep ? 'md:col-span-2 md:mx-auto md:w-[calc(50%_-_14px)] xl:col-span-1 xl:mx-0 xl:w-auto' : ''
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className={`flex h-[88px] w-[88px] items-center justify-center rounded-[1.4rem] ${step.tone} shadow-xl shadow-black/20 transition duration-300 group-hover:-translate-y-1`}>
-                          <Icon className="h-10 w-10 text-white" strokeWidth={1.6} />
-                        </div>
-                        <span className="BenzinSemibold mt-1 text-xs tracking-[0.15em] text-white/28">
-                          {step.number}
-                        </span>
+                      <div className={`absolute -top-12 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-[1.5rem] border-[5px] border-[#0B0C26] ${step.tone} shadow-xl shadow-black/25 transition duration-300 group-hover:-translate-x-1/2 group-hover:-translate-y-1`}>
+                        <Icon className="h-11 w-11 text-white" strokeWidth={1.6} />
                       </div>
 
-                      <h3 className="BenzinSemibold mt-8 text-xl leading-snug">{step.title}</h3>
-                      <p className="mt-3 max-w-[250px] text-sm leading-6 text-white/52">{step.text}</p>
-
-                      {index < hiringSteps.length - 1 && (
-                        <span className="absolute -right-[1.35rem] top-7 z-20 hidden h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-[#0B0C26] text-[#F45B25] xl:flex">
-                          <ArrowRight className="h-4 w-4" />
-                        </span>
-                      )}
+                      <span className="BenzinSemibold absolute right-5 top-5 text-xs tracking-[0.15em] text-white/28">{step.number}</span>
+                      <div className="flex h-full flex-col text-center">
+                        <h3 className="BenzinSemibold mt-5 text-xl leading-snug">{step.title}</h3>
+                        <p className="mx-auto mt-4 max-w-[230px] text-sm leading-6 text-white/52">{step.text}</p>
+                        {isFinalStep && (
+                          <span className="mx-auto mt-auto rounded-full bg-[#F45B25] px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white">
+                            Welcome aboard
+                          </span>
+                        )}
+                      </div>
                     </article>
                   )
                 })}
               </div>
 
-              <div className="mt-12 flex items-center justify-center gap-3 border-t border-white/10 pt-7 text-center text-sm text-white/45">
+              <div className="mt-14 flex items-center justify-center gap-3 border-t border-white/10 pt-7 text-center text-sm text-white/45 xl:mt-12">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-[#31C48D]" />
                 Clear communication and honest feedback at every stage
               </div>
