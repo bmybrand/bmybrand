@@ -251,22 +251,45 @@ export default function CareerPage() {
 
         <section className="border-y border-white/10 bg-[#0B0C26] py-24 lg:py-36">
           <div className="mx-auto w-[90%] 2xl:w-[75%]">
-            <div className="max-w-4xl">
-              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">What makes us BmyBrand</p>
-              <h2 className="BenzinSemibold text-4xl leading-[1.05] sm:text-6xl">
+            <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
+              <div className="max-w-4xl">
+                <p className="mb-5 flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#F45B25]">
+                  <span className="h-px w-10 bg-[#F45B25]" />
+                  What makes us BmyBrand
+                </p>
+                <h2 className="BenzinSemibold text-4xl leading-[1.05] sm:text-6xl">
                 The values show up in how we work.
-              </h2>
+                </h2>
+              </div>
+              <p className="hidden max-w-xs text-right leading-7 text-white/45 lg:block">
+                Simple principles that guide the way we think, collaborate, and create.
+              </p>
             </div>
 
-            <div className="mt-16 grid gap-x-12 gap-y-14 lg:grid-cols-3">
+            <div className="mt-16 grid gap-5 lg:grid-cols-3">
               {principles.map(({ icon: Icon, title, text }, index) => (
-                <article key={title} className="border-t border-white/18 pt-7">
-                  <div className="flex items-center justify-between">
-                    <Icon className="h-7 w-7 text-[#F45B25]" />
-                    <span className="BenzinSemibold text-sm text-white/20">0{index + 1}</span>
+                <article
+                  key={title}
+                  className="group relative min-h-[330px] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025))] p-7 transition duration-300 hover:-translate-y-1.5 hover:border-[#F45B25]/45 sm:p-9"
+                >
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F45B25]/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <span className="BenzinSemibold absolute -right-2 -top-5 text-[7rem] leading-none text-white/[0.035] transition-colors duration-300 group-hover:text-[#F45B25]/[0.07]">
+                    0{index + 1}
+                  </span>
+
+                  <div className="relative flex h-full flex-col">
+                    <div className="flex items-center justify-between">
+                      <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06] text-[#F45B25] transition-colors duration-300 group-hover:bg-[#F45B25] group-hover:text-white">
+                        <Icon className="h-6 w-6" />
+                      </span>
+                      <span className="BenzinSemibold text-xs tracking-[0.16em] text-white/25">0{index + 1}</span>
+                    </div>
+
+                    <div className="mt-auto pt-14">
+                      <h3 className="BenzinSemibold text-2xl leading-snug">{title}</h3>
+                      <p className="mt-4 max-w-sm leading-7 text-white/52">{text}</p>
+                    </div>
                   </div>
-                  <h3 className="BenzinSemibold mt-12 text-2xl leading-snug">{title}</h3>
-                  <p className="mt-4 max-w-sm leading-7 text-white/52">{text}</p>
                 </article>
               ))}
             </div>
