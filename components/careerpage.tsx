@@ -189,39 +189,34 @@ export default function CareerPage() {
               </p>
             </div>
 
-            <div className="relative mt-16 overflow-hidden rounded-[2.25rem] border border-white/10 bg-[#141533] px-5 py-14 sm:px-8 lg:px-10 xl:py-24">
-              <div className="absolute -left-28 -top-28 h-80 w-80 rounded-full bg-[#6558E8]/10 blur-3xl" />
-              <div className="absolute -bottom-32 -right-20 h-80 w-80 rounded-full bg-[#F45B25]/12 blur-3xl" />
+            <div className="relative mt-16">
+              <div className="absolute left-[4%] right-[4%] top-11 hidden border-t border-dashed border-white/20 xl:block" />
 
-              <div className="absolute left-[7%] right-[7%] top-1/2 hidden border-t border-dashed border-white/20 xl:block" />
-
-              <div className="relative grid gap-6 md:grid-cols-2 xl:grid-cols-5 xl:gap-5">
+              <div className="relative grid gap-x-8 gap-y-12 md:grid-cols-2 xl:grid-cols-5 xl:gap-x-7">
                 {hiringSteps.map((step, index) => {
                   const Icon = step.icon
 
                   return (
                     <article
                       key={step.number}
-                      className={`group relative z-10 flex min-h-[350px] flex-col rounded-[1.6rem] border border-white/12 bg-[#0B0C26] p-6 shadow-2xl shadow-black/15 transition duration-300 hover:-translate-y-2 hover:border-[#F45B25]/55 sm:p-7 ${
-                        index % 2 === 0 ? 'xl:-translate-y-9 xl:hover:-translate-y-11' : 'xl:translate-y-9 xl:hover:translate-y-7'
-                      } ${index === hiringSteps.length - 1 ? 'md:col-span-2 md:mx-auto md:w-[calc(50%_-_12px)] xl:col-span-1 xl:mx-0 xl:w-auto' : ''}`}
+                      className={`group relative z-10 border-t border-white/12 pt-6 md:min-h-[290px] xl:border-0 xl:pt-0 ${
+                        index === hiringSteps.length - 1 ? 'md:col-span-2 md:mx-auto md:w-[calc(50%_-_16px)] xl:col-span-1 xl:mx-0 xl:w-auto' : ''
+                      }`}
                     >
                       <div className="flex items-start justify-between gap-4">
-                        <div className={`flex h-24 w-24 items-center justify-center rounded-[1.4rem] ${step.tone} shadow-lg shadow-black/20`}>
-                          <Icon className="h-11 w-11 text-white" strokeWidth={1.6} />
+                        <div className={`flex h-[88px] w-[88px] items-center justify-center rounded-[1.4rem] ${step.tone} shadow-xl shadow-black/20 transition duration-300 group-hover:-translate-y-1`}>
+                          <Icon className="h-10 w-10 text-white" strokeWidth={1.6} />
                         </div>
-                        <span className="BenzinSemibold rounded-full border border-white/10 px-3 py-2 text-xs tracking-[0.12em] text-white/35">
+                        <span className="BenzinSemibold mt-1 text-xs tracking-[0.15em] text-white/28">
                           {step.number}
                         </span>
                       </div>
 
-                      <div className="mt-auto pt-12">
-                        <h3 className="BenzinSemibold text-xl leading-snug">{step.title}</h3>
-                        <p className="mt-4 text-sm leading-6 text-white/52">{step.text}</p>
-                      </div>
+                      <h3 className="BenzinSemibold mt-8 text-xl leading-snug">{step.title}</h3>
+                      <p className="mt-3 max-w-[250px] text-sm leading-6 text-white/52">{step.text}</p>
 
                       {index < hiringSteps.length - 1 && (
-                        <span className="absolute -right-[1.05rem] top-1/2 z-20 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#202143] text-[#F45B25] xl:flex">
+                        <span className="absolute -right-[1.35rem] top-7 z-20 hidden h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-[#0B0C26] text-[#F45B25] xl:flex">
                           <ArrowRight className="h-4 w-4" />
                         </span>
                       )}
@@ -230,9 +225,9 @@ export default function CareerPage() {
                 })}
               </div>
 
-              <div className="relative mx-auto mt-16 flex max-w-2xl items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.045] px-5 py-3 text-center text-sm text-white/48 xl:mt-24">
+              <div className="mt-12 flex items-center justify-center gap-3 border-t border-white/10 pt-7 text-center text-sm text-white/45">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-[#31C48D]" />
-                Clear communication and honest feedback at every stage.
+                Clear communication and honest feedback at every stage
               </div>
             </div>
           </div>
