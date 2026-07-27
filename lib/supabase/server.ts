@@ -4,18 +4,19 @@ let adminClient: SupabaseClient | null = null;
 let adminClientKey = "";
 
 function getSupabaseConfig() {
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL?.trim() ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const supabaseServiceKey =
-    process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY?.trim() ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-
-  if (!supabaseUrl || !supabaseServiceKey) {
-    return null;
+  const dedicatedUrl = process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL?.trim();
+  const dedicatedKey = process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (dedicatedUrl || dedicatedKey) {
+    return dedicatedUrl && dedicatedKey
+      ? { supabaseUrl: dedicatedUrl, supabaseServiceKey: dedicatedKey }
+      : null;
   }
 
-  return { supabaseUrl, supabaseServiceKey };
+  const fallbackUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const fallbackKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  return fallbackUrl && fallbackKey
+    ? { supabaseUrl: fallbackUrl, supabaseServiceKey: fallbackKey }
+    : null;
 }
 
 function getSupabaseAdmin(): SupabaseClient {

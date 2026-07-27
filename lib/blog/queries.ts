@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { supabaseAdmin } from '@/lib/supabase/server'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { BlogArticle, BlogArticleSection, BlogPostSummary } from './types'
 
 type BlogArticleRow = {
@@ -22,6 +22,38 @@ type BlogArticleRow = {
   conclusion: unknown
   closing_images: unknown
   faqs: unknown
+}
+
+let blogDatabase: SupabaseClient | null = null
+let blogDatabaseKey = ''
+
+function getBlogDatabase() {
+  const dedicatedUrl = process.env.NEXT_PUBLIC_BMYB_SUPABASE_URL?.trim()
+  const dedicatedKey =
+    process.env.BMYB_SUPABASE_SERVICE_ROLE_KEY?.trim()
+    || process.env.NEXT_PUBLIC_BMYB_SUPABASE_ANON_KEY?.trim()
+
+  const fallbackUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+  const fallbackKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
+    || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim()
+    || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY?.trim()
+    || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+
+  const url = dedicatedUrl || fallbackUrl
+  const key = dedicatedUrl ? dedicatedKey : fallbackKey
+  if (!url || !key) {
+    throw new Error('The published-blog database is not configured.')
+  }
+
+  const cacheKey = `${url}:${key}`
+  if (!blogDatabase || blogDatabaseKey !== cacheKey) {
+    blogDatabase = createClient(url, key, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    })
+    blogDatabaseKey = cacheKey
+  }
+  return blogDatabase
 }
 
 const formatDate = (value: string) => new Intl.DateTimeFormat('en-US', {
@@ -51,35 +83,44 @@ const toArticle = (row: BlogArticleRow): BlogArticle => ({
 })
 
 export async function getBlogArticle(slug: string): Promise<BlogArticle | null> {
-  const { data, error } = await supabaseAdmin
-    .from('blog_articles')
-    .select('*')
-    .eq('slug', slug)
-    .eq('is_published', true)
-    .maybeSingle()
+  try {
+    const { data, error } = await getBlogDatabase()
+      .from('blog_articles')
+      .select('*')
+      .eq('slug', slug)
+      .eq('is_published', true)
+      .maybeSingle()
 
-  if (error) throw new Error(`Unable to load blog article: ${error.message}`)
-  return data ? toArticle(data as BlogArticleRow) : null
+    if (error) throw error
+    return data ? toArticle(data as BlogArticleRow) : null
+  } catch (error) {
+    console.error('Unable to load blog article:', error instanceof Error ? error.message : error)
+    return null
+  }
 }
 
 export async function getBlogPosts(): Promise<BlogPostSummary[]> {
-  const { data, error } = await supabaseAdmin
-    .from('blog_articles')
-    .select('slug, category, title, excerpt, published_on, read_time, hero_image, accent, display_number')
-    .eq('is_published', true)
-    .order('sort_order', { ascending: true })
+  try {
+    const { data, error } = await getBlogDatabase()
+      .from('blog_articles')
+      .select('slug, category, title, excerpt, published_on, read_time, hero_image, accent, display_number')
+      .eq('is_published', true)
+      .order('sort_order', { ascending: true })
 
-  if (error) throw new Error(`Unable to load blog posts: ${error.message}`)
-
-  return (data ?? []).map((row) => ({
-    slug: row.slug,
-    category: row.category,
-    title: row.title,
-    excerpt: row.excerpt,
-    publishedAt: formatDate(row.published_on),
-    readTime: row.read_time,
-    heroImage: row.hero_image,
-    accent: row.accent,
-    number: row.display_number,
-  }))
+    if (error) throw error
+    return (data ?? []).map((row) => ({
+      slug: row.slug,
+      category: row.category,
+      title: row.title,
+      excerpt: row.excerpt,
+      publishedAt: formatDate(row.published_on),
+      readTime: row.read_time,
+      heroImage: row.hero_image,
+      accent: row.accent,
+      number: row.display_number,
+    }))
+  } catch (error) {
+    console.error('Unable to load blog posts:', error instanceof Error ? error.message : error)
+    return []
+  }
 }
