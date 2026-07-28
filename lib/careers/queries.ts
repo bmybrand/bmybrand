@@ -8,9 +8,13 @@ type CareerOpeningRow = {
   title: string
   summary: string
   description?: string
+  about_company?: string
+  posted_on?: string
+  job_code?: string
   responsibilities?: unknown
   requirements?: unknown
   benefits?: unknown
+  disclaimer?: string
   apply_url?: string
   department: CareerOpening['department']
   location: string
@@ -22,7 +26,8 @@ let careersDatabase: SupabaseClient | null = null
 let careersDatabaseKey = ''
 
 const listingColumns = 'slug, title, summary, department, location, workplace, employment_type'
-const detailColumns = `${listingColumns}, description, responsibilities, requirements, benefits, apply_url`
+const legacyDetailColumns = `${listingColumns}, description, responsibilities, requirements, benefits, apply_url`
+const detailColumns = `${listingColumns}, description, about_company, posted_on, job_code, responsibilities, requirements, benefits, disclaimer, apply_url`
 
 function getCareersDatabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
@@ -79,8 +84,19 @@ export async function getCareerOpening(slug: string): Promise<CareerOpening | nu
       return data ? mapCareerOpening(data as CareerOpeningRow) : null
     }
 
-    // Keep role pages available while an existing database is waiting for the
-    // detail-field migration. The richer query is used automatically afterward.
+    // Preserve the previously available detail content while the database is
+    // waiting for the latest role-structure migration.
+    const legacy = await database
+      .from('job_openings')
+      .select(legacyDetailColumns)
+      .eq('slug', slug)
+      .eq('is_published', true)
+      .maybeSingle()
+
+    if (!legacy.error) {
+      return legacy.data ? mapCareerOpening(legacy.data as CareerOpeningRow) : null
+    }
+
     const fallback = await database
       .from('job_openings')
       .select(listingColumns)
@@ -102,9 +118,13 @@ function mapCareerOpening(job: CareerOpeningRow): CareerOpening {
     title: job.title,
     summary: job.summary,
     description: job.description || job.summary,
+    aboutCompany: job.about_company || '',
+    postedOn: job.posted_on || '',
+    jobCode: job.job_code || '',
     responsibilities: Array.isArray(job.responsibilities) ? job.responsibilities.map(String) : [],
     requirements: Array.isArray(job.requirements) ? job.requirements.map(String) : [],
     benefits: Array.isArray(job.benefits) ? job.benefits.map(String) : [],
+    disclaimer: job.disclaimer || '',
     applyUrl: job.apply_url || '/contact?interest=careers',
     department: job.department,
     location: job.location,

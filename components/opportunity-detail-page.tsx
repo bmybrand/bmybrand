@@ -19,6 +19,11 @@ export default function OpportunityDetailPage({
   const hasDistinctDescription =
     description.length > 0 &&
     description.join('\n\n').toLocaleLowerCase() !== job.summary.trim().toLocaleLowerCase()
+  const aboutCompany = splitParagraphs(
+    job.aboutCompany ||
+      'BmyBrand brings strategy, design, growth, and technology together to create connected brand and digital experiences. Our teams work closely from the beginning, share ownership of the outcome, and build with both ambition and care.',
+  )
+  const disclaimer = splitParagraphs(job.disclaimer || '')
   const applyHref =
     job.applyUrl && job.applyUrl !== '/contact?interest=careers'
       ? job.applyUrl
@@ -79,32 +84,36 @@ export default function OpportunityDetailPage({
                 </header>
 
                 <JobSection title="About BmyBrand">
-                  <p>
-                    BmyBrand brings strategy, design, growth, and technology together to create connected brand and digital experiences. Our teams work closely from the beginning, share ownership of the outcome, and build with both ambition and care.
-                  </p>
+                  {aboutCompany.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </JobSection>
 
                 {hasDistinctDescription && (
-                  <JobSection title="About the role">
+                  <JobSection title="The Position">
                     {description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                   </JobSection>
                 )}
 
                 {Boolean(job.responsibilities?.length) && (
-                  <JobSection title="What you’ll do">
-                    <BulletList items={job.responsibilities ?? []} />
+                  <JobSection title="Job Responsibilities">
+                    <StructuredList items={job.responsibilities ?? []} />
                   </JobSection>
                 )}
 
                 {Boolean(job.requirements?.length) && (
-                  <JobSection title="What you’ll bring">
+                  <JobSection title="Job Qualifications">
                     <BulletList items={job.requirements ?? []} />
                   </JobSection>
                 )}
 
                 {Boolean(job.benefits?.length) && (
-                  <JobSection title="What you can expect">
+                  <JobSection title="Benefits">
                     <BulletList items={job.benefits ?? []} />
+                  </JobSection>
+                )}
+
+                {disclaimer.length > 0 && (
+                  <JobSection title="Our commitment to inclusion">
+                    {disclaimer.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                   </JobSection>
                 )}
 
@@ -132,6 +141,8 @@ export default function OpportunityDetailPage({
                     <MetaRow label="Location" value={job.location} />
                     <MetaRow label="Work style" value={job.workplace} />
                     <MetaRow label="Employment" value={job.employmentType} />
+                    {job.postedOn && <MetaRow label="Posted on" value={job.postedOn} />}
+                    {job.jobCode && <MetaRow label="Job code" value={job.jobCode} />}
                   </dl>
                   <Link
                     href={applyHref}
@@ -188,6 +199,36 @@ function BulletList({ items }: { items: string[] }) {
       ))}
     </ul>
   )
+}
+
+function StructuredList({ items }: { items: string[] }) {
+  return (
+    <div className="space-y-6">
+      {items.map((item, index) => {
+        const isHeading = item.endsWith(':')
+        if (isHeading) {
+          return (
+            <h3 key={`${item}-${index}`} className="BenzinSemibold pt-2 text-lg leading-snug text-white">
+              {item.slice(0, -1)}
+            </h3>
+          )
+        }
+        return (
+          <div key={`${item}-${index}`} className="flex gap-4">
+            <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#F45B25]" />
+            <span>{item}</span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function splitParagraphs(value: string) {
+  return value
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
 }
 
 function MetaRow({ label, value }: { label: string; value: string }) {
