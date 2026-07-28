@@ -27,7 +27,7 @@ export default function OpportunityDetailPage({
   const applyHref =
     job.applyUrl && job.applyUrl !== '/contact?interest=careers'
       ? job.applyUrl
-      : `/contact?interest=careers&role=${encodeURIComponent(job.title)}`
+      : `/opportunities/${job.slug}/apply`
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#11122F] text-white">
