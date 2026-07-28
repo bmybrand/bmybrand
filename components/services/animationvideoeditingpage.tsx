@@ -651,16 +651,10 @@ export default function AnimationVideoEditingPage() {
         <div className="mx-auto w-[90%] 2xl:w-[75%]">
           <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-white/10 bg-[#11122F]">
-              <video
-                className="absolute inset-0 h-full w-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              >
-                <source src="/bmyb-global-strock-animation-1-01.mp4" type="video/mp4" />
-              </video>
+              <YouTubeShowcasePlayer
+                title="BMyBrand Creative Showreel"
+                url="https://youtu.be/5O_d7zhmgOw?si=pkqXMWzzx-FjkUEf"
+              />
               <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-transparent to-transparent" />
             </div>
 
