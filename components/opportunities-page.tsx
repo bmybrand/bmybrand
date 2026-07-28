@@ -165,13 +165,15 @@ export default function OpportunitiesPage({ roles }: { roles: CareerOpening[] })
                       </div>
                     </dl>
 
-                    <Link
-                      href={`/contact?interest=careers&role=${encodeURIComponent(role.title)}`}
-                      className="BenzinSemibold mt-auto inline-flex w-fit items-center gap-3 rounded-full bg-[#F45B25] px-6 py-3 text-xs transition hover:bg-[#FF7544]"
-                    >
-                      View role
-                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                    </Link>
+                    <div className="mt-auto pt-8">
+                      <Link
+                        href={`/contact?interest=careers&role=${encodeURIComponent(role.title)}`}
+                        className="BenzinSemibold inline-flex w-fit items-center gap-3 rounded-full bg-[#F45B25] px-6 py-3 text-xs transition hover:bg-[#FF7544]"
+                      >
+                        View role
+                        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                      </Link>
+                    </div>
                   </article>
                 ))}
               </div>
