@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getCareerOpening } from '@/lib/careers/queries'
+import { deleteResumeFromDrive, uploadResumeToDrive } from '@/lib/careers/resume-drive'
 import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
 import { getContactSupabaseAdmin } from '@/lib/supabase/contact-server'
 
@@ -129,6 +130,24 @@ export async function POST(request: Request) {
   const resumeBuffer = Buffer.from(await resume.arrayBuffer())
   const fullName = `${payload.firstName} ${payload.lastName}`
 
+  let careersDatabase
+  try {
+    careersDatabase = getContactSupabaseAdmin()
+  } catch {
+    return NextResponse.json({ error: 'The application database is not configured.' }, { status: 503 })
+  }
+
+  let driveUpload
+  try {
+    driveUpload = await uploadResumeToDrive(
+      resume,
+      `${job.slug} - ${fullName} - ${resumeName}`,
+    )
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'The résumé could not be saved to Google Drive.'
+    return NextResponse.json({ error: message }, { status: 502 })
+  }
+
   const text = [
     `New application for ${job.title}`,
     '',
@@ -142,6 +161,7 @@ export async function POST(request: Request) {
     `Relevant experience: ${payload.yearsExperience}`,
     `LinkedIn: ${payload.linkedIn || 'Not provided'}`,
     `Portfolio: ${payload.portfolio || 'Not provided'}`,
+    `Résumé in Google Drive: ${driveUpload.viewUrl}`,
     '',
     'Cover note:',
     payload.coverLetter || 'Not provided',
@@ -157,6 +177,7 @@ export async function POST(request: Request) {
     ['Current title', payload.currentTitle || 'Not provided'],
     ['LinkedIn', payload.linkedIn || 'Not provided'],
     ['Portfolio', payload.portfolio || 'Not provided'],
+    ['Résumé in Google Drive', driveUpload.viewUrl],
   ]
     .map(([label, value]) => `<tr><td style="padding:12px 16px;border-top:1px solid #e5e7eb;color:#6b7280;font-weight:700;width:180px">${escapeHtml(label)}</td><td style="padding:12px 16px;border-top:1px solid #e5e7eb;color:#11122f">${escapeHtml(value)}</td></tr>`)
     .join('')
@@ -178,13 +199,6 @@ export async function POST(request: Request) {
     </div>
   `
 
-  let careersDatabase
-  try {
-    careersDatabase = getContactSupabaseAdmin()
-  } catch {
-    return NextResponse.json({ error: 'The application database is not configured.' }, { status: 503 })
-  }
-
   const { error: insertError } = await careersDatabase.from('job_applications').insert({
     job_slug: job.slug,
     job_title: job.title,
@@ -204,9 +218,12 @@ export async function POST(request: Request) {
     resume_file_name: resumeName,
     resume_file_type: resume.type,
     resume_file_size: resume.size,
+    resume_drive_file_id: driveUpload.fileId,
+    resume_drive_url: driveUpload.viewUrl,
   })
 
   if (insertError) {
+    await deleteResumeFromDrive(driveUpload.fileId).catch(() => undefined)
     const duplicate = insertError.code === '23505'
     return NextResponse.json(
       { error: duplicate ? 'You have already applied for this role using this email address.' : 'We could not save your application.' },

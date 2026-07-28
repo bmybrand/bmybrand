@@ -20,11 +20,19 @@ create table if not exists public.job_applications (
   resume_file_name text not null,
   resume_file_type text not null,
   resume_file_size integer not null,
+  resume_drive_file_id text not null default '',
+  resume_drive_url text not null default '',
   status text not null default 'new' check (status in ('new', 'reviewing', 'shortlisted', 'interviewing', 'offered', 'rejected', 'withdrawn')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   unique (job_slug, email)
 );
+
+alter table public.job_applications
+  add column if not exists resume_drive_file_id text not null default '';
+
+alter table public.job_applications
+  add column if not exists resume_drive_url text not null default '';
 
 create index if not exists job_applications_created_at_idx
   on public.job_applications (created_at desc);
