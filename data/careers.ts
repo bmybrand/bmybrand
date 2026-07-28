@@ -3,6 +3,11 @@ export type CareerOpening = {
   title: string
   department: 'Design' | 'Technology' | 'Growth' | 'Operations'
   summary: string
+  description?: string
+  responsibilities?: string[]
+  requirements?: string[]
+  benefits?: string[]
+  applyUrl?: string
   location: string
   workplace: 'Remote' | 'Hybrid' | 'On-site'
   employmentType: 'Full-time' | 'Part-time' | 'Contract' | 'Internship'

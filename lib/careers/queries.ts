@@ -7,6 +7,11 @@ type CareerOpeningRow = {
   slug: string
   title: string
   summary: string
+  description: string
+  responsibilities: unknown
+  requirements: unknown
+  benefits: unknown
+  apply_url: string
   department: CareerOpening['department']
   location: string
   workplace: CareerOpening['workplace']
@@ -43,7 +48,7 @@ export async function getCareerOpenings(): Promise<CareerOpening[]> {
   try {
     const { data, error } = await getCareersDatabase()
       .from('job_openings')
-      .select('slug, title, summary, department, location, workplace, employment_type')
+      .select('slug, title, summary, description, responsibilities, requirements, benefits, apply_url, department, location, workplace, employment_type')
       .eq('is_published', true)
       .order('sort_order', { ascending: true })
       .order('created_at', { ascending: false })
@@ -56,6 +61,11 @@ export async function getCareerOpenings(): Promise<CareerOpening[]> {
         slug: job.slug,
         title: job.title,
         summary: job.summary,
+        description: job.description,
+        responsibilities: Array.isArray(job.responsibilities) ? job.responsibilities.map(String) : [],
+        requirements: Array.isArray(job.requirements) ? job.requirements.map(String) : [],
+        benefits: Array.isArray(job.benefits) ? job.benefits.map(String) : [],
+        applyUrl: job.apply_url,
         department: job.department,
         location: job.location,
         workplace: job.workplace,
@@ -65,5 +75,38 @@ export async function getCareerOpenings(): Promise<CareerOpening[]> {
   } catch (error) {
     console.error('Unable to load career openings:', error instanceof Error ? error.message : error)
     return []
+  }
+}
+
+export async function getCareerOpening(slug: string): Promise<CareerOpening | null> {
+  try {
+    const { data, error } = await getCareersDatabase()
+      .from('job_openings')
+      .select('slug, title, summary, description, responsibilities, requirements, benefits, apply_url, department, location, workplace, employment_type')
+      .eq('slug', slug)
+      .eq('is_published', true)
+      .maybeSingle()
+
+    if (error) throw error
+    if (!data) return null
+
+    const job = data as CareerOpeningRow
+    return {
+      slug: job.slug,
+      title: job.title,
+      summary: job.summary,
+      description: job.description,
+      responsibilities: Array.isArray(job.responsibilities) ? job.responsibilities.map(String) : [],
+      requirements: Array.isArray(job.requirements) ? job.requirements.map(String) : [],
+      benefits: Array.isArray(job.benefits) ? job.benefits.map(String) : [],
+      applyUrl: job.apply_url,
+      department: job.department,
+      location: job.location,
+      workplace: job.workplace,
+      employmentType: job.employment_type,
+    }
+  } catch (error) {
+    console.error('Unable to load career opening:', error instanceof Error ? error.message : error)
+    return null
   }
 }
