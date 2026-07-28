@@ -12,10 +12,13 @@ export default function OpportunityDetailPage({
   job: CareerOpening
   similarJobs: CareerOpening[]
 }) {
-  const description = (job.description || job.summary)
+  const description = (job.description || '')
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean)
+  const hasDistinctDescription =
+    description.length > 0 &&
+    description.join('\n\n').toLocaleLowerCase() !== job.summary.trim().toLocaleLowerCase()
   const applyHref =
     job.applyUrl && job.applyUrl !== '/contact?interest=careers'
       ? job.applyUrl
@@ -81,9 +84,11 @@ export default function OpportunityDetailPage({
                   </p>
                 </JobSection>
 
-                <JobSection title="About the role">
-                  {description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                </JobSection>
+                {hasDistinctDescription && (
+                  <JobSection title="About the role">
+                    {description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                  </JobSection>
+                )}
 
                 {Boolean(job.responsibilities?.length) && (
                   <JobSection title="What you’ll do">
