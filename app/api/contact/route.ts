@@ -194,7 +194,7 @@ export async function POST(request: Request) {
                       </td>
                       <td width="50%" align="right" style="background-color:#11122f; padding:18px 28px 10px; font-family:Arial,sans-serif; vertical-align:middle; text-align:right;">
                         <div style="font-size:15px; line-height:1.9; text-align:right;">
-                          <div style="color:#ffffff;">PO BOX 605 Allen, TX 75013</div>
+                          <div style="color:#ffffff;">Austin, TX 73301, USA</div>
                           <div><a href="mailto:info@bmybrand.com" style="color:#ffffff; text-decoration:none;">info@bmybrand.com</a></div>
                           <div style="color:#ffffff;">+1 469 501 1401</div>
                         </div>

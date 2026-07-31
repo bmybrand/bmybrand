@@ -12,7 +12,7 @@ const locations = [
     mapLink: 'https://www.google.com/maps/search/?api=1&query=PO+BOX+605+Allen%2C+TX+75013',
     email: 'info@bmybrand.com',
     phone: '+1 469 501 1401',
-    location: 'PO BOX 605 Allen, TX 75013'
+    location: 'Austin, TX 73301, USA'
   },
   {
     title: 'Canada Office',

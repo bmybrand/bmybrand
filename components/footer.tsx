@@ -253,7 +253,7 @@ const Footer: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-1">
-                  <div>PO BOX 605 Allen, TX 75013</div>
+                  <div>Austin, TX 73301, USA</div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
