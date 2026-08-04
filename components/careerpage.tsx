@@ -44,7 +44,7 @@ const hiringSteps = [
     icon: BriefcaseBusiness,
     tone: 'bg-[#F45B25]',
     title: 'Apply',
-    text: 'Share your profile, résumé, or portfolio for a role that feels right.',
+    text: 'Share your profile, resume, or portfolio for a role that feels right.',
   },
   {
     number: '02',

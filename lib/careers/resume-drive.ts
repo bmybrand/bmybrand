@@ -99,7 +99,7 @@ async function resumeFolderId(token: string) {
     | { files?: Array<{ id?: string }>; error?: { message?: string } }
     | null
   if (!listResponse.ok) {
-    throw new Error(listPayload?.error?.message || 'Unable to find the résumé folder in Google Drive.')
+    throw new Error(listPayload?.error?.message || 'Unable to find the resume folder in Google Drive.')
   }
 
   const existingId = listPayload?.files?.[0]?.id
@@ -126,7 +126,7 @@ async function resumeFolderId(token: string) {
     | { id?: string; error?: { message?: string } }
     | null
   if (!createResponse.ok || !createPayload?.id) {
-    throw new Error(createPayload?.error?.message || 'Unable to create the résumé folder in Google Drive.')
+    throw new Error(createPayload?.error?.message || 'Unable to create the resume folder in Google Drive.')
   }
 
   cachedFolderId = createPayload.id
@@ -156,7 +156,7 @@ export async function uploadResumeToDrive(file: File, destinationName: string): 
     | null
 
   if (!response.ok || !payload?.id) {
-    throw new Error(payload?.error?.message || 'Unable to upload the résumé to Google Drive.')
+    throw new Error(payload?.error?.message || 'Unable to upload the resume to Google Drive.')
   }
 
   return {

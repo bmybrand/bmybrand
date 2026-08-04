@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 import type { CareerOpening } from '@/data/careers'
 
-const steps = ['Résumé', 'My information', 'Experience', 'Review']
+const steps = ['Resume', 'My information', 'Experience', 'Review']
 const acceptedFileTypes = '.pdf,.doc,.docx,.txt'
 const maxResumeSize = 5 * 1024 * 1024
 
@@ -77,11 +77,11 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
     if (!file) return
     const extension = file.name.split('.').pop()?.toLowerCase()
     if (!extension || !['pdf', 'doc', 'docx', 'txt'].includes(extension)) {
-      setError('Upload a PDF, DOC, DOCX, or TXT résumé.')
+      setError('Upload a PDF, DOC, DOCX, or TXT resume.')
       return
     }
     if (file.size > maxResumeSize) {
-      setError('Your résumé must be 5 MB or smaller.')
+      setError('Your resume must be 5 MB or smaller.')
       return
     }
     setResume(file)
@@ -89,7 +89,7 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
   }
 
   function validateCurrentStep() {
-    if (step === 0 && !resume) return 'Add your résumé before continuing.'
+    if (step === 0 && !resume) return 'Add your resume before continuing.'
     if (step === 1) {
       if (!fields.source || !fields.workedBefore || !fields.firstName || !fields.lastName || !fields.email || !fields.phone || !fields.country) {
         return 'Complete all required personal information.'
@@ -115,7 +115,7 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
   async function submitApplication() {
     const message = validateCurrentStep()
     if (message || !resume) {
-      setError(message || 'Add your résumé before submitting.')
+      setError(message || 'Add your resume before submitting.')
       return
     }
 
@@ -207,7 +207,7 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
           <div className="px-6 py-8 sm:px-10 sm:py-10">
             {step === 0 && (
               <div>
-                <StepHeading title="Start with your résumé" text="Upload your résumé or CV. We’ll attach it securely to this application." />
+                <StepHeading title="Start with your resume" text="Upload your resume or CV. We’ll attach it securely to this application." />
                 <input
                   ref={inputRef}
                   type="file"
@@ -233,7 +233,7 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
                   <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#F45B25]/12 text-[#F45B25]">
                     <UploadCloud className="h-8 w-8" />
                   </span>
-                  <span className="BenzinSemibold mt-5 text-lg">{resume ? 'Replace résumé' : 'Drop your résumé here'}</span>
+                  <span className="BenzinSemibold mt-5 text-lg">{resume ? 'Replace resume' : 'Drop your resume here'}</span>
                   <span className="mt-2 text-sm text-white/45">or click to choose a file</span>
                   <span className="mt-4 text-xs text-white/30">PDF, DOC, DOCX, or TXT · 5 MB maximum</span>
                 </button>
@@ -244,7 +244,7 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
                       <p className="truncate text-sm font-semibold text-white">{resume.name}</p>
                       <p className="mt-1 text-xs text-white/35">{formatBytes(resume.size)}</p>
                     </div>
-                    <button type="button" onClick={() => setResume(null)} aria-label="Remove résumé" className="rounded-lg p-2 text-white/40 transition hover:bg-white/10 hover:text-white">
+                    <button type="button" onClick={() => setResume(null)} aria-label="Remove resume" className="rounded-lg p-2 text-white/40 transition hover:bg-white/10 hover:text-white">
                       <X className="h-4 w-4" />
                     </button>
                   </div>
@@ -314,7 +314,7 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
               <div>
                 <StepHeading title="Review your application" text="Make sure everything looks right before sending it to our team." />
                 <div className="mt-8 space-y-4">
-                  <ReviewCard title="Résumé" rows={[[resume?.name || '', resume ? formatBytes(resume.size) : '']]} onEdit={() => setStep(0)} />
+                  <ReviewCard title="Resume" rows={[[resume?.name || '', resume ? formatBytes(resume.size) : '']]} onEdit={() => setStep(0)} />
                   <ReviewCard title="My information" rows={[
                     ['Name', candidateName],
                     ['Email', fields.email],

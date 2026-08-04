@@ -54,13 +54,13 @@ export async function POST(request: Request) {
 
   const resume = formData.get('resume')
   if (!(resume instanceof File) || resume.size === 0) {
-    return NextResponse.json({ error: 'A résumé is required.' }, { status: 400 })
+    return NextResponse.json({ error: 'A resume is required.' }, { status: 400 })
   }
   if (resume.size > MAX_RESUME_SIZE) {
-    return NextResponse.json({ error: 'Your résumé must be 5 MB or smaller.' }, { status: 413 })
+    return NextResponse.json({ error: 'Your resume must be 5 MB or smaller.' }, { status: 413 })
   }
   if (!allowedResumeTypes.has(resume.type)) {
-    return NextResponse.json({ error: 'Upload a PDF, DOC, DOCX, or TXT résumé.' }, { status: 400 })
+    return NextResponse.json({ error: 'Upload a PDF, DOC, DOCX, or TXT resume.' }, { status: 400 })
   }
 
   const payload = {
@@ -144,7 +144,7 @@ export async function POST(request: Request) {
       `${job.slug} - ${fullName} - ${resumeName}`,
     )
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'The résumé could not be saved to Google Drive.'
+    const message = error instanceof Error ? error.message : 'The resume could not be saved to Google Drive.'
     return NextResponse.json({ error: message }, { status: 502 })
   }
 
@@ -161,7 +161,7 @@ export async function POST(request: Request) {
     `Relevant experience: ${payload.yearsExperience}`,
     `LinkedIn: ${payload.linkedIn || 'Not provided'}`,
     `Portfolio: ${payload.portfolio || 'Not provided'}`,
-    `Résumé in Google Drive: ${driveUpload.viewUrl}`,
+    `Resume in Google Drive: ${driveUpload.viewUrl}`,
     '',
     'Cover note:',
     payload.coverLetter || 'Not provided',
@@ -177,7 +177,7 @@ export async function POST(request: Request) {
     ['Current title', payload.currentTitle || 'Not provided'],
     ['LinkedIn', payload.linkedIn || 'Not provided'],
     ['Portfolio', payload.portfolio || 'Not provided'],
-    ['Résumé in Google Drive', driveUpload.viewUrl],
+    ['Resume in Google Drive', driveUpload.viewUrl],
   ]
     .map(([label, value]) => `<tr><td style="padding:12px 16px;border-top:1px solid #e5e7eb;color:#6b7280;font-weight:700;width:180px">${escapeHtml(label)}</td><td style="padding:12px 16px;border-top:1px solid #e5e7eb;color:#11122f">${escapeHtml(value)}</td></tr>`)
     .join('')
@@ -190,7 +190,7 @@ export async function POST(request: Request) {
           <h1 style="margin:10px 0 0;font-size:25px">${escapeHtml(job.title)}</h1>
         </div>
         <div style="padding:28px 32px">
-          <p style="margin:0 0 22px;color:#374151;line-height:1.7">${escapeHtml(fullName)} submitted an application through the BmyBrand careers page. The résumé is attached.</p>
+          <p style="margin:0 0 22px;color:#374151;line-height:1.7">${escapeHtml(fullName)} submitted an application through the BmyBrand careers page. The resume is attached.</p>
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #e5e7eb;border-radius:14px;border-collapse:separate;border-spacing:0;overflow:hidden;font-size:14px">${rows}</table>
           <h2 style="margin:28px 0 10px;color:#11122f;font-size:18px">Cover note</h2>
           <p style="margin:0;white-space:pre-wrap;color:#4b5563;line-height:1.75">${escapeHtml(payload.coverLetter || 'Not provided')}</p>
@@ -250,11 +250,11 @@ export async function POST(request: Request) {
       }),
     })
   } catch {
-    return NextResponse.json({ error: 'Your details were saved, but the résumé could not be delivered. Please contact us.' }, { status: 502 })
+    return NextResponse.json({ error: 'Your details were saved, but the resume could not be delivered. Please contact us.' }, { status: 502 })
   }
 
   if (!emailResponse.ok) {
-    return NextResponse.json({ error: 'Your details were saved, but the résumé could not be delivered. Please contact us.' }, { status: 502 })
+    return NextResponse.json({ error: 'Your details were saved, but the resume could not be delivered. Please contact us.' }, { status: 502 })
   }
 
   return NextResponse.json({ ok: true }, { status: 201 })
