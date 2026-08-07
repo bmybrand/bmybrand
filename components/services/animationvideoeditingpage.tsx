@@ -711,7 +711,6 @@ export default function AnimationVideoEditingPage() {
                 title="BMyBrand Creative Showreel"
                 url="https://youtu.be/5O_d7zhmgOw?si=pkqXMWzzx-FjkUEf"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-[#11122F] via-transparent to-transparent" />
             </div>
 
             <div className="flex flex-col justify-center">
