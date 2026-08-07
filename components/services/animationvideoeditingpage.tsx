@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Battery, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Pause, Play, RotateCcw, RotateCw, Search, Send, Signal, SquarePlus, UserCircle, Volume2, VolumeX, Wifi } from 'lucide-react'
@@ -70,42 +70,42 @@ const reelShowcase = [
   {
     title: 'Launch Teaser Edit',
     desc: 'Fast cuts, captions, hooks, and branded motion for campaign launches.',
-    video: '/1 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/pqQm7UtGcFQ?si=dQ8AlfWOKjnjiG7Y',
   },
   {
     title: 'Product Highlight Short',
     desc: 'Vertical edits made for quick product education and social discovery.',
-    video: '/2 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/mo-RndXQPw8?si=Rai_e8pHOt9kGov9',
   },
   {
     title: 'Brand Story Reel',
     desc: 'Motion-led storytelling with music, pacing, and clean visual rhythm.',
-    video: '/3 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/LssaBupVNhk?si=emhfvBOeRBhR6hF6',
   },
   {
     title: 'Service Explainer Short',
     desc: 'Short-form explainers that simplify the offer in seconds.',
-    video: '/4 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/eowPl9rAaEg?si=Ot-NhCVUQz9AaVJz',
   },
   {
     title: 'Social Proof Edit',
     desc: 'Short testimonial-style edits with strong pacing and clear takeaway moments.',
-    video: '/5 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/Tfg6zaM8zVw?si=mYrEBEgBT0HMHs21',
   },
   {
     title: 'Motion Brand Moment',
     desc: 'Quick animated brand beats designed for repeated social and campaign use.',
-    video: '/6 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/mLTD1Lmqjhc?si=81Zem29-R4eNcGKx',
   },
   {
     title: 'Campaign Reel Cut',
     desc: 'High-energy vertical edits built around hooks, rhythm, and branded detail.',
-    video: '/7 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/Ob6VPkYD9Pk?si=DxZUHSypP5pHXKCR',
   },
   {
     title: 'Offer Explainer Short',
     desc: 'Compact edits that clarify the offer and keep the viewer moving.',
-    video: '/8 (1) (1) (1).webm',
+    youtubeUrl: 'https://youtube.com/shorts/3pgQwT6wY3Y?si=Nv4wy2o5QqiQAN7E',
   },
 ]
 
@@ -180,6 +180,115 @@ const getYouTubeEmbedUrl = (url: string) => {
   })
 
   return `https://www.youtube-nocookie.com/embed/${videoId}?${playerParameters.toString()}`
+}
+
+type YouTubeShortPlayerProps = {
+  title: string
+  url: string
+}
+
+function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const retryTimerRef = useRef<number | null>(null)
+  const volumeFadeTimerRef = useRef<number | null>(null)
+  const currentVolumeRef = useRef(0)
+
+  const sendPlayerCommand = useCallback((command: string) => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: 'command', func: command, args: [] }),
+      'https://www.youtube-nocookie.com'
+    )
+  }, [])
+
+  const startPlayback = useCallback(() => {
+    sendPlayerCommand('mute')
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: 'command', func: 'setVolume', args: [0] }),
+      'https://www.youtube-nocookie.com'
+    )
+    sendPlayerCommand('playVideo')
+  }, [sendPlayerCommand])
+
+  const fadeVolumeTo = (targetVolume: number) => {
+    if (volumeFadeTimerRef.current) window.clearInterval(volumeFadeTimerRef.current)
+
+    if (targetVolume > 0) {
+      sendPlayerCommand('playVideo')
+      sendPlayerCommand('unMute')
+    }
+
+    const step = targetVolume > currentVolumeRef.current ? 5 : -5
+
+    volumeFadeTimerRef.current = window.setInterval(() => {
+      const nextVolume = currentVolumeRef.current + step
+      const isComplete = step > 0 ? nextVolume >= targetVolume : nextVolume <= targetVolume
+      currentVolumeRef.current = isComplete ? targetVolume : Math.max(0, Math.min(100, nextVolume))
+
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: 'command', func: 'setVolume', args: [currentVolumeRef.current] }),
+        'https://www.youtube-nocookie.com'
+      )
+
+      if (!isComplete) return
+
+      if (targetVolume === 0) sendPlayerCommand('mute')
+      if (volumeFadeTimerRef.current) window.clearInterval(volumeFadeTimerRef.current)
+      volumeFadeTimerRef.current = null
+    }, 80)
+  }
+
+  useEffect(() => {
+    const handlePlayerMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow) return
+
+      try {
+        const message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+        if (message?.event === 'onReady') startPlayback()
+      } catch {
+        // Ignore unrelated window messages.
+      }
+    }
+
+    window.addEventListener('message', handlePlayerMessage)
+
+    return () => {
+      window.removeEventListener('message', handlePlayerMessage)
+      if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current)
+      if (volumeFadeTimerRef.current) window.clearInterval(volumeFadeTimerRef.current)
+    }
+  }, [startPlayback])
+
+  const handlePlayerLoad = () => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: 'listening', id: title }),
+      'https://www.youtube-nocookie.com'
+    )
+    startPlayback()
+
+    retryTimerRef.current = window.setTimeout(startPlayback, 600)
+  }
+
+  return (
+    <>
+      <iframe
+        ref={iframeRef}
+        className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+140px)] w-full -translate-y-1/2 border-0 transition duration-500 group-hover:scale-105"
+        src={getYouTubeEmbedUrl(url)}
+        title={title}
+        loading="lazy"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerPolicy="strict-origin-when-cross-origin"
+        tabIndex={-1}
+        onLoad={handlePlayerLoad}
+      />
+      <div
+        className="absolute inset-0 z-30"
+        onMouseEnter={() => fadeVolumeTo(85)}
+        onMouseLeave={() => fadeVolumeTo(0)}
+        aria-hidden="true"
+      />
+    </>
+  )
 }
 
 type YouTubeShowcasePlayerProps = {
@@ -389,42 +498,6 @@ function YouTubeShowcasePlayer({ title, url }: YouTubeShowcasePlayerProps) {
 }
 
 export default function AnimationVideoEditingPage() {
-  const volumeFadeTimers = useRef(new WeakMap<HTMLVideoElement, number>())
-
-  const fadeReelVolume = (video: HTMLVideoElement, targetVolume: number) => {
-    const timers = volumeFadeTimers.current
-    const activeTimer = timers.get(video)
-
-    if (activeTimer) {
-      window.clearInterval(activeTimer)
-    }
-
-    if (targetVolume > 0) {
-      video.muted = false
-      void video.play().catch(() => {})
-    }
-
-    const step = targetVolume > video.volume ? 0.04 : -0.04
-    const timer = window.setInterval(() => {
-      const nextVolume = video.volume + step
-      const isComplete = step > 0 ? nextVolume >= targetVolume : nextVolume <= targetVolume
-
-      if (isComplete) {
-        video.volume = targetVolume
-        if (targetVolume === 0) {
-          video.muted = true
-        }
-        window.clearInterval(timer)
-        timers.delete(video)
-        return
-      }
-
-      video.volume = Math.max(0, Math.min(1, nextVolume))
-    }, 80)
-
-    timers.set(video, timer)
-  }
-
   return (
     <div className="bg-[#11122F] text-white">
       <style>
@@ -559,27 +632,10 @@ export default function AnimationVideoEditingPage() {
                     <div
                       key={`${groupIndex}-${reel.title}-${index}`}
                       className="group w-[270px] shrink-0 sm:w-[316px]"
-                      onMouseEnter={(event) => {
-                        const video = event.currentTarget.querySelector('video')
-                        if (video) fadeReelVolume(video, 0.85)
-                      }}
-                      onMouseLeave={(event) => {
-                        const video = event.currentTarget.querySelector('video')
-                        if (video) fadeReelVolume(video, 0)
-                      }}
                     >
                       <div className="rounded-[2rem] border border-white/12 bg-[#202141] p-2 shadow-2xl shadow-black/25 transition duration-500 group-hover:-translate-y-2 group-hover:border-[#F45B25]/40">
                         <div className="relative aspect-[9/16] overflow-hidden rounded-[1.55rem] border border-white/10 bg-[#11122F]">
-                          <video
-                            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="auto"
-                          >
-                            <source src={reel.video} type="video/webm" />
-                          </video>
+                          <YouTubeShortPlayer title={reel.title} url={reel.youtubeUrl} />
                           <div className="absolute inset-0 z-[1] bg-black/12 backdrop-blur-[3px] transition-opacity duration-500 group-hover:opacity-0" />
                           <div className="absolute inset-0 bg-linear-to-t from-black/88 via-black/8 to-black/46" />
                           <div className="absolute left-1/2 top-3 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-black/80 shadow-lg shadow-black/35" />
