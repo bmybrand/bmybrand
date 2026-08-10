@@ -190,22 +190,27 @@ type YouTubeShortPlayerProps = {
 function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const retryTimerRef = useRef<number | null>(null)
+  const resumeTimerRef = useRef<number | null>(null)
+  const playbackHealthTimerRef = useRef<number | null>(null)
   const volumeFadeTimerRef = useRef<number | null>(null)
   const currentVolumeRef = useRef(0)
+  const isVisibleRef = useRef(false)
 
-  const sendPlayerCommand = useCallback((command: string) => {
+  const sendPlayerCommand = useCallback((command: string, args: unknown[] = []) => {
     iframeRef.current?.contentWindow?.postMessage(
-      JSON.stringify({ event: 'command', func: command, args: [] }),
+      JSON.stringify({ event: 'command', func: command, args }),
       'https://www.youtube-nocookie.com'
     )
   }, [])
 
   const startPlayback = useCallback(() => {
     sendPlayerCommand('mute')
-    iframeRef.current?.contentWindow?.postMessage(
-      JSON.stringify({ event: 'command', func: 'setVolume', args: [0] }),
-      'https://www.youtube-nocookie.com'
-    )
+    sendPlayerCommand('setVolume', [0])
+    sendPlayerCommand('playVideo')
+  }, [sendPlayerCommand])
+
+  const resumePlayback = useCallback(() => {
+    if (!isVisibleRef.current || document.visibilityState !== 'visible') return
     sendPlayerCommand('playVideo')
   }, [sendPlayerCommand])
 
@@ -224,10 +229,7 @@ function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
       const isComplete = step > 0 ? nextVolume >= targetVolume : nextVolume <= targetVolume
       currentVolumeRef.current = isComplete ? targetVolume : Math.max(0, Math.min(100, nextVolume))
 
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: 'command', func: 'setVolume', args: [currentVolumeRef.current] }),
-        'https://www.youtube-nocookie.com'
-      )
+      sendPlayerCommand('setVolume', [currentVolumeRef.current])
 
       if (!isComplete) return
 
@@ -244,19 +246,57 @@ function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
       try {
         const message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
         if (message?.event === 'onReady') startPlayback()
+
+        const playerState = message?.event === 'onStateChange' ? message?.info : message?.info?.playerState
+        if ((playerState === 0 || playerState === 2) && isVisibleRef.current) {
+          if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current)
+          resumeTimerRef.current = window.setTimeout(resumePlayback, 250)
+        }
       } catch {
         // Ignore unrelated window messages.
       }
     }
 
+    const iframe = iframeRef.current
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting
+
+        if (entry.isIntersecting) {
+          resumePlayback()
+
+          if (!playbackHealthTimerRef.current) {
+            playbackHealthTimerRef.current = window.setInterval(resumePlayback, 2000)
+          }
+          return
+        }
+
+        sendPlayerCommand('pauseVideo')
+        if (playbackHealthTimerRef.current) window.clearInterval(playbackHealthTimerRef.current)
+        playbackHealthTimerRef.current = null
+      },
+      { rootMargin: '100px', threshold: 0.05 }
+    )
+
+    if (iframe) visibilityObserver.observe(iframe)
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') resumePlayback()
+    }
+
     window.addEventListener('message', handlePlayerMessage)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return () => {
+      visibilityObserver.disconnect()
       window.removeEventListener('message', handlePlayerMessage)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
       if (retryTimerRef.current) window.clearTimeout(retryTimerRef.current)
+      if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current)
+      if (playbackHealthTimerRef.current) window.clearInterval(playbackHealthTimerRef.current)
       if (volumeFadeTimerRef.current) window.clearInterval(volumeFadeTimerRef.current)
     }
-  }, [startPlayback])
+  }, [resumePlayback, sendPlayerCommand, startPlayback])
 
   const handlePlayerLoad = () => {
     iframeRef.current?.contentWindow?.postMessage(
