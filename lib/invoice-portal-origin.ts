@@ -13,6 +13,7 @@ export const BRIEF_FORM_SLUGS = [
   "logo-design",
   "graphic-design",
   "video-animation",
+  "smm",
 ] as const;
 
 export type BriefFormSlug = (typeof BRIEF_FORM_SLUGS)[number];
