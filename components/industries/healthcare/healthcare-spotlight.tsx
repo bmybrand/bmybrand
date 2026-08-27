@@ -53,7 +53,7 @@ export default function HealthcareSpotlight({ title, description, items }: Healt
         avatar: '/bmyb-case-jiggy-jerky-jiggylogo-01.svg',
       },
       {
-        video: '/bmyb-global-preloader-01.mp4',
+        video: '/Label%20n%20Learn.mp4',
         logo: '/bmyb-case-learnandlabel-learnandlabellogo-01.svg',
         logoAlt: 'Learn and Label',
         title: 'Creating AI-Powered Labels And Newsletters For Smarter Communication',
