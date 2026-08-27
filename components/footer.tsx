@@ -42,12 +42,6 @@ const LinkedInIcon = ({ className = 'h-5 w-5' }: IconProps) => (
   </svg>
 )
 
-const XIcon = ({ className = 'h-5 w-5' }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-    <path d="M18.9 3H21l-6.4 7.3L22 21h-5.8l-4.5-6-5.2 6H4.4l6.9-7.8L2 3h6l4 5.4L18.9 3Zm-2 16h1.6L6.9 4.9H5.2L16.9 19Z" />
-  </svg>
-)
-
 const YouTubeIcon = ({ className = 'h-5 w-5' }: IconProps) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
     <path d="M21.8 7.2a2.95 2.95 0 0 0-2.07-2.09C17.9 4.6 12 4.6 12 4.6s-5.9 0-7.73.5A2.95 2.95 0 0 0 2.2 7.2 30.7 30.7 0 0 0 1.7 12c0 1.63.17 3.23.5 4.8a2.95 2.95 0 0 0 2.07 2.09c1.83.5 7.73.5 7.73.5s5.9 0 7.73-.5a2.95 2.95 0 0 0 2.07-2.09c.33-1.57.5-3.17.5-4.8s-.17-3.23-.5-4.8ZM10 15.5v-7l6 3.5-6 3.5Z" />
@@ -89,7 +83,6 @@ const SOCIAL_LINKS = [
   { name: 'Facebook', href: 'https://www.facebook.com/bmybrandofficial/', Icon: FacebookIcon },
   { name: 'Instagram', href: 'https://www.instagram.com/bmybrand_official/', Icon: InstagramIcon },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/company/bmy-brand/', Icon: LinkedInIcon },
-  { name: 'Twitter', href: '#', Icon: XIcon },
   { name: 'YouTube', href: 'https://www.youtube.com/@BMyBrandofficial', Icon: YouTubeIcon },
 ]
 
