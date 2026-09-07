@@ -8,5 +8,11 @@
       "maxDuration": 60,
       "memory": 1600
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/health/keepalive",
+      "schedule": "0 6 * * *"
+    }
+  ]
 }
