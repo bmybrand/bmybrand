@@ -9,6 +9,7 @@ import HealthcareStories from "@/components/industries/healthcare/healthcare-sto
 import Logobar from "@/components/logobar";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { YouTubeShowcasePlayer } from "@/components/services/animationvideoeditingpage";
 
 export default function GrowMyBusinessPage() {
   const router = useRouter();
@@ -169,6 +170,17 @@ export default function GrowMyBusinessPage() {
           </section>
         </main>
       </div>
+
+      <section aria-label="BmyBrand video" className="w-full pb-16 lg:pb-20">
+        <div className="relative mx-auto aspect-video w-[90%] max-w-[88rem] overflow-hidden rounded-[18px] border border-white/20 bg-[#191A35] sm:rounded-[24px]">
+          <YouTubeShowcasePlayer
+            title="BmyBrand website performance and growth"
+            url="https://youtu.be/ib5VgdetJxY?si=ZaR_wBJ7tyF9vDc9"
+            playWhenVisible
+            startMuted={false}
+          />
+        </div>
+      </section>
 
       <div className="pb-16 lg:pb-20">
         <Logobar />

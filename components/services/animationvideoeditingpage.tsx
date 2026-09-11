@@ -159,11 +159,14 @@ const getYouTubeVideoId = (url: string) => {
   }
 }
 
-const getYouTubeEmbedUrl = (url: string) => {
+const getYouTubeEmbedUrl = (
+  url: string,
+  { autoplay = true, muted = true }: { autoplay?: boolean; muted?: boolean } = {}
+) => {
   const videoId = getYouTubeVideoId(url)
   const playerParameters = new URLSearchParams({
-    autoplay: '1',
-    mute: '1',
+    autoplay: autoplay ? '1' : '0',
+    mute: muted ? '1' : '0',
     loop: '1',
     playlist: videoId,
     controls: '0',
@@ -204,6 +207,7 @@ function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
   }, [])
 
   const startPlayback = useCallback(() => {
+    sendPlayerCommand('unloadModule', ['captions'])
     sendPlayerCommand('mute')
     sendPlayerCommand('setVolume', [0])
     sendPlayerCommand('playVideo')
@@ -245,7 +249,7 @@ function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
 
       try {
         const message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
-        if (message?.event === 'onReady') startPlayback()
+        if (message?.event === 'onReady' || message?.event === 'onApiChange') startPlayback()
 
         const playerState = message?.event === 'onStateChange' ? message?.info : message?.info?.playerState
         if ((playerState === 0 || playerState === 2) && isVisibleRef.current) {
@@ -312,7 +316,7 @@ function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
     <>
       <iframe
         ref={iframeRef}
-        className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+140px)] w-full -translate-y-1/2 border-0 transition duration-500 group-hover:scale-105"
+        className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+320px)] w-full -translate-y-1/2 border-0 transition duration-500 group-hover:scale-105"
         src={getYouTubeEmbedUrl(url)}
         title={title}
         loading="lazy"
@@ -334,14 +338,34 @@ function YouTubeShortPlayer({ title, url }: YouTubeShortPlayerProps) {
 type YouTubeShowcasePlayerProps = {
   title: string
   url: string
+  playWhenVisible?: boolean
+  startMuted?: boolean
 }
 
-function YouTubeShowcasePlayer({ title, url }: YouTubeShowcasePlayerProps) {
+const scrollPlaybackThreshold = 0.2
+const fullScrollVolumeThreshold = 0.7
+
+const getScrollVolume = (intersectionRatio: number) => {
+  const fadeProgress =
+    (intersectionRatio - scrollPlaybackThreshold) /
+    (fullScrollVolumeThreshold - scrollPlaybackThreshold)
+
+  return Math.round(Math.max(0, Math.min(1, fadeProgress)) * 100)
+}
+
+export function YouTubeShowcasePlayer({
+  title,
+  url,
+  playWhenVisible = false,
+  startMuted = true,
+}: YouTubeShowcasePlayerProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const currentTimeRef = useRef(0)
   const controlTimerRef = useRef<number | null>(null)
+  const isInViewRef = useRef(false)
+  const intersectionRatioRef = useRef(0)
   const [isPlaying, setIsPlaying] = useState(true)
-  const [isMuted, setIsMuted] = useState(true)
+  const [isMuted, setIsMuted] = useState(startMuted)
   const [isControlHeldVisible, setIsControlHeldVisible] = useState(true)
 
   useEffect(() => {
@@ -384,6 +408,13 @@ function YouTubeShowcasePlayer({ title, url }: YouTubeShowcasePlayerProps) {
         const message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
         const currentTime = message?.info?.currentTime
 
+        if (message?.event === 'onReady' || message?.event === 'onApiChange') {
+          iframeRef.current?.contentWindow?.postMessage(
+            JSON.stringify({ event: 'command', func: 'unloadModule', args: ['captions'] }),
+            'https://www.youtube-nocookie.com'
+          )
+        }
+
         if (typeof currentTime === 'number') {
           currentTimeRef.current = currentTime
         }
@@ -396,18 +427,82 @@ function YouTubeShowcasePlayer({ title, url }: YouTubeShowcasePlayerProps) {
     return () => window.removeEventListener('message', handlePlayerMessage)
   }, [])
 
-  const sendPlayerCommand = (command: string, args: unknown[] = []) => {
+  const sendPlayerCommand = useCallback((command: string, args: unknown[] = []) => {
     iframeRef.current?.contentWindow?.postMessage(
       JSON.stringify({ event: 'command', func: command, args }),
       'https://www.youtube-nocookie.com'
     )
-  }
+  }, [])
+
+  useEffect(() => {
+    if (!playWhenVisible) return
+
+    const iframe = iframeRef.current
+    if (!iframe) return
+    const visibilityTarget = iframe.parentElement ?? iframe
+
+    const syncPlaybackWithFocus = () => {
+      const shouldPlay =
+        intersectionRatioRef.current > scrollPlaybackThreshold &&
+        document.visibilityState === 'visible' &&
+        document.hasFocus()
+
+      if (shouldPlay) {
+        if (!isMuted) {
+          sendPlayerCommand('unMute')
+          sendPlayerCommand('setVolume', [getScrollVolume(intersectionRatioRef.current)])
+        }
+        sendPlayerCommand('playVideo')
+        setIsPlaying(true)
+        return
+      }
+
+      if (!isMuted) sendPlayerCommand('setVolume', [0])
+      sendPlayerCommand('pauseVideo')
+      setIsPlaying(false)
+    }
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        intersectionRatioRef.current = entry.intersectionRatio
+        isInViewRef.current = entry.intersectionRatio > scrollPlaybackThreshold
+        syncPlaybackWithFocus()
+      },
+      { threshold: Array.from({ length: 51 }, (_, index) => index / 50) }
+    )
+
+    visibilityObserver.observe(visibilityTarget)
+    document.addEventListener('visibilitychange', syncPlaybackWithFocus)
+    window.addEventListener('focus', syncPlaybackWithFocus)
+    window.addEventListener('blur', syncPlaybackWithFocus)
+
+    return () => {
+      visibilityObserver.disconnect()
+      document.removeEventListener('visibilitychange', syncPlaybackWithFocus)
+      window.removeEventListener('focus', syncPlaybackWithFocus)
+      window.removeEventListener('blur', syncPlaybackWithFocus)
+    }
+  }, [isMuted, playWhenVisible, sendPlayerCommand])
 
   const handlePlayerLoad = () => {
     iframeRef.current?.contentWindow?.postMessage(
       JSON.stringify({ event: 'listening', id: title }),
       'https://www.youtube-nocookie.com'
     )
+    sendPlayerCommand('unloadModule', ['captions'])
+    if (
+      playWhenVisible &&
+      isInViewRef.current &&
+      document.visibilityState === 'visible' &&
+      document.hasFocus()
+    ) {
+      if (!startMuted) {
+        sendPlayerCommand('unMute')
+        sendPlayerCommand('setVolume', [getScrollVolume(intersectionRatioRef.current)])
+      }
+      sendPlayerCommand('playVideo')
+      setIsPlaying(true)
+    }
   }
 
   const seekBy = (seconds: number) => {
@@ -471,8 +566,8 @@ function YouTubeShowcasePlayer({ title, url }: YouTubeShowcasePlayerProps) {
     <>
       <iframe
         ref={iframeRef}
-        className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+140px)] w-full -translate-y-1/2 border-0"
-        src={getYouTubeEmbedUrl(url)}
+        className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+320px)] w-full -translate-y-1/2 border-0"
+        src={getYouTubeEmbedUrl(url, { autoplay: !playWhenVisible, muted: startMuted })}
         title={title}
         allow="autoplay; encrypted-media"
         loading="lazy"
