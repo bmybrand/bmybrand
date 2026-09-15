@@ -427,6 +427,7 @@ export function YouTubeShowcasePlayer({
     const previousHtmlOverflow = document.documentElement.style.overflow
     const previousHtmlScrollbarGutter = document.documentElement.style.scrollbarGutter
     const previousHtmlScrollBehavior = document.documentElement.style.scrollBehavior
+    const previousHtmlBackgroundColor = document.documentElement.style.backgroundColor
     const lockedScrollY = infoModalScrollYRef.current
     const maintainLockedScroll = () => {
       if (window.scrollY !== lockedScrollY) window.scrollTo(0, lockedScrollY)
@@ -436,6 +437,7 @@ export function YouTubeShowcasePlayer({
     document.body.style.touchAction = 'none'
     document.documentElement.style.scrollbarGutter = 'stable'
     document.documentElement.style.scrollBehavior = 'auto'
+    document.documentElement.style.backgroundColor = '#11122F'
     document.documentElement.style.overflow = 'hidden'
     maintainLockedScroll()
     window.addEventListener('scroll', maintainLockedScroll)
@@ -460,6 +462,7 @@ export function YouTubeShowcasePlayer({
       document.documentElement.style.overflow = previousHtmlOverflow
       document.documentElement.style.scrollbarGutter = previousHtmlScrollbarGutter
       document.documentElement.style.scrollBehavior = previousHtmlScrollBehavior
+      document.documentElement.style.backgroundColor = previousHtmlBackgroundColor
       window.removeEventListener('scroll', maintainLockedScroll)
       document.removeEventListener('keydown', handleKeyDown)
     }
