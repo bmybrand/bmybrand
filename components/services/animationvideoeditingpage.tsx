@@ -372,6 +372,7 @@ export function YouTubeShowcasePlayer({
   const infoAudioFadeTimerRef = useRef<number | null>(null)
   const infoModalCloseTimerRef = useRef<number | null>(null)
   const isInfoTransitionRef = useRef(false)
+  const infoModalScrollYRef = useRef(0)
   const isInViewRef = useRef(false)
   const intersectionRatioRef = useRef(0)
   const manuallyPausedRef = useRef(false)
@@ -383,6 +384,7 @@ export function YouTubeShowcasePlayer({
   const [isCenterHovered, setIsCenterHovered] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false)
+  const [isInfoVideoLoaded, setIsInfoVideoLoaded] = useState(false)
 
   useEffect(() => {
     controlTimerRef.current = window.setTimeout(() => {
@@ -420,7 +422,23 @@ export function YouTubeShowcasePlayer({
     if (!isInfoModalOpen) return
 
     const previousBodyOverflow = document.body.style.overflow
+    const previousBodyOverscroll = document.body.style.overscrollBehavior
+    const previousBodyTouchAction = document.body.style.touchAction
+    const previousHtmlOverflow = document.documentElement.style.overflow
+    const previousHtmlScrollbarGutter = document.documentElement.style.scrollbarGutter
+    const previousHtmlScrollBehavior = document.documentElement.style.scrollBehavior
+    const lockedScrollY = infoModalScrollYRef.current
+    const maintainLockedScroll = () => {
+      if (window.scrollY !== lockedScrollY) window.scrollTo(0, lockedScrollY)
+    }
     document.body.style.overflow = 'hidden'
+    document.body.style.overscrollBehavior = 'none'
+    document.body.style.touchAction = 'none'
+    document.documentElement.style.scrollbarGutter = 'stable'
+    document.documentElement.style.scrollBehavior = 'auto'
+    document.documentElement.style.overflow = 'hidden'
+    maintainLockedScroll()
+    window.addEventListener('scroll', maintainLockedScroll)
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return
@@ -437,6 +455,12 @@ export function YouTubeShowcasePlayer({
 
     return () => {
       document.body.style.overflow = previousBodyOverflow
+      document.body.style.overscrollBehavior = previousBodyOverscroll
+      document.body.style.touchAction = previousBodyTouchAction
+      document.documentElement.style.overflow = previousHtmlOverflow
+      document.documentElement.style.scrollbarGutter = previousHtmlScrollbarGutter
+      document.documentElement.style.scrollBehavior = previousHtmlScrollBehavior
+      window.removeEventListener('scroll', maintainLockedScroll)
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [isInfoModalOpen])
@@ -663,8 +687,10 @@ export function YouTubeShowcasePlayer({
     const fadeDuration = 1000
     const fadeStartedAt = performance.now()
 
+    infoModalScrollYRef.current = window.scrollY
     setIsCenterHovered(false)
     isInfoTransitionRef.current = true
+    setIsInfoVideoLoaded(false)
     setIsInfoModalOpen(true)
     setIsInfoModalVisible(false)
     window.requestAnimationFrame(() => {
@@ -810,7 +836,7 @@ export function YouTubeShowcasePlayer({
                 role="dialog"
                 aria-modal="true"
                 aria-label="Brandsight information"
-                className={`relative flex h-[90vh] w-[90vw] items-center justify-center overflow-hidden rounded-[28px] border border-[#3A3B61] bg-[#202141] px-6 py-7 text-white shadow-[0_28px_100px_rgba(0,0,0,0.55)] transition-all duration-1000 sm:px-10 sm:py-10 lg:px-14 lg:py-12 ${
+                className={`relative flex aspect-video w-[min(90vw,160vh)] items-center justify-center overflow-hidden rounded-[28px] border border-[#3A3B61] bg-[#202141] px-6 py-7 text-white shadow-[0_28px_100px_rgba(0,0,0,0.55)] transition-all duration-1000 sm:px-10 sm:py-10 lg:px-14 lg:py-12 ${
                   isInfoModalVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-6 scale-95 opacity-0'
                 }`}
               >
@@ -820,14 +846,14 @@ export function YouTubeShowcasePlayer({
                     closeInfoModal()
                     window.setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 320)
                   }}
-                  className="absolute left-5 top-5 flex h-10 items-center justify-center rounded-xl bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 text-xs text-[#17183B] shadow-lg transition hover:scale-[1.03] hover:brightness-110 sm:px-5 sm:text-sm BenzinSemibold"
+                  className="absolute left-5 top-5 z-30 flex h-10 items-center justify-center rounded-xl bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 text-xs text-[#17183B] shadow-lg transition hover:scale-[1.03] hover:brightness-110 sm:px-5 sm:text-sm BenzinSemibold"
                 >
                   Try Brandsight Now
                 </button>
                 <button
                   type="button"
                   onClick={closeInfoModal}
-                  className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#17183B] transition hover:scale-105"
+                  className="absolute right-5 top-5 z-30 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#17183B] transition hover:scale-105"
                   aria-label="Close Brandsight information"
                 >
                   <X className="h-5 w-5" />
@@ -841,6 +867,18 @@ export function YouTubeShowcasePlayer({
                   className="h-auto w-[min(70vw,420px)] object-contain"
                   priority
                 />
+                <video
+                  autoPlay
+                  controls
+                  playsInline
+                  preload="auto"
+                  onCanPlay={() => setIsInfoVideoLoaded(true)}
+                  className={`absolute inset-0 z-10 h-full w-full bg-[#202141] object-contain transition-opacity duration-500 ${
+                    isInfoVideoLoaded ? 'opacity-100' : 'pointer-events-none opacity-0'
+                  }`}
+                >
+                  <source src="/1%20_%20Noot%20Noot%20extended.mp4" type="video/mp4" />
+                </video>
               </section>
             </div>,
             document.body
