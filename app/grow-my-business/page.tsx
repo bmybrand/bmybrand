@@ -111,7 +111,7 @@ export default function GrowMyBusinessPage() {
                 </p>
               </div>
 
-              <div className="relative isolate min-w-0 w-full lg:flex-[0.42_1_0%]">
+              <div id="brandsight-audit" className="relative isolate min-w-0 w-full lg:flex-[0.42_1_0%]">
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute bottom-0 left-[-2rem] top-0 -z-10 hidden w-px bg-gradient-to-b from-transparent via-white/12 to-transparent lg:block"
@@ -178,6 +178,7 @@ export default function GrowMyBusinessPage() {
             url="https://youtu.be/ib5VgdetJxY?si=ZaR_wBJ7tyF9vDc9"
             playWhenVisible
             startMuted={false}
+            hoverCta={{ label: "What is Brandsight?" }}
           />
         </div>
       </section>

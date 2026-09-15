@@ -1,9 +1,10 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { type PointerEvent as ReactPointerEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Battery, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Pause, Play, RotateCcw, RotateCw, Search, Send, Signal, SquarePlus, UserCircle, Volume2, VolumeX, Wifi } from 'lucide-react'
+import { Battery, Clapperboard, Heart, Home, MessageCircle, MoreHorizontal, Music2, Pause, Play, RotateCcw, RotateCw, Search, Send, Signal, SquarePlus, UserCircle, Volume2, VolumeX, Wifi, X } from 'lucide-react'
 import Navbar from '../navbar'
 import Footer from '../footer'
 import Brandsspec from '../brandsspec'
@@ -340,6 +341,9 @@ type YouTubeShowcasePlayerProps = {
   url: string
   playWhenVisible?: boolean
   startMuted?: boolean
+  hoverCta?: {
+    label: string
+  }
 }
 
 const scrollPlaybackThreshold = 0.2
@@ -358,15 +362,27 @@ export function YouTubeShowcasePlayer({
   url,
   playWhenVisible = false,
   startMuted = true,
+  hoverCta,
 }: YouTubeShowcasePlayerProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const currentTimeRef = useRef(0)
   const controlTimerRef = useRef<number | null>(null)
+  const playbackControlHoldUntilRef = useRef(0)
+  const playbackHealthTimerRef = useRef<number | null>(null)
+  const infoAudioFadeTimerRef = useRef<number | null>(null)
+  const infoModalCloseTimerRef = useRef<number | null>(null)
+  const isInfoTransitionRef = useRef(false)
   const isInViewRef = useRef(false)
   const intersectionRatioRef = useRef(0)
-  const [isPlaying, setIsPlaying] = useState(true)
-  const [isMuted, setIsMuted] = useState(startMuted)
+  const manuallyPausedRef = useRef(false)
+  const initialMuted = startMuted
+  const [isPlaying, setIsPlaying] = useState(!playWhenVisible)
+  const [isMuted, setIsMuted] = useState(initialMuted)
+  const isMutedRef = useRef(initialMuted)
   const [isControlHeldVisible, setIsControlHeldVisible] = useState(true)
+  const [isCenterHovered, setIsCenterHovered] = useState(false)
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
+  const [isInfoModalVisible, setIsInfoModalVisible] = useState(false)
 
   useEffect(() => {
     controlTimerRef.current = window.setTimeout(() => {
@@ -401,6 +417,38 @@ export function YouTubeShowcasePlayer({
   }, [])
 
   useEffect(() => {
+    if (!isInfoModalOpen) return
+
+    const previousBodyOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+
+      setIsInfoModalVisible(false)
+      if (infoModalCloseTimerRef.current) window.clearTimeout(infoModalCloseTimerRef.current)
+      infoModalCloseTimerRef.current = window.setTimeout(() => {
+        setIsInfoModalOpen(false)
+        infoModalCloseTimerRef.current = null
+      }, 300)
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isInfoModalOpen])
+
+  useEffect(() => {
+    return () => {
+      if (infoAudioFadeTimerRef.current) window.clearInterval(infoAudioFadeTimerRef.current)
+      if (infoModalCloseTimerRef.current) window.clearTimeout(infoModalCloseTimerRef.current)
+    }
+  }, [])
+
+  useEffect(() => {
     const handlePlayerMessage = (event: MessageEvent) => {
       if (event.source !== iframeRef.current?.contentWindow) return
 
@@ -413,11 +461,29 @@ export function YouTubeShowcasePlayer({
             JSON.stringify({ event: 'command', func: 'unloadModule', args: ['captions'] }),
             'https://www.youtube-nocookie.com'
           )
+
+          // The observer may have fired before the iframe API was ready. Re-send
+          // the desired state now so that initial playback is not timing-dependent.
+          if (playWhenVisible && isInViewRef.current && document.visibilityState === 'visible') {
+            const muteCommand = isMutedRef.current ? 'mute' : 'unMute'
+            iframeRef.current?.contentWindow?.postMessage(
+              JSON.stringify({ event: 'command', func: muteCommand, args: [] }),
+              'https://www.youtube-nocookie.com'
+            )
+            iframeRef.current?.contentWindow?.postMessage(
+              JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+              'https://www.youtube-nocookie.com'
+            )
+          }
         }
 
         if (typeof currentTime === 'number') {
           currentTimeRef.current = currentTime
         }
+
+        const playerState = message?.event === 'onStateChange' ? message?.info : message?.info?.playerState
+        if (playerState === 1) setIsPlaying(true)
+        if (playerState === 0 || playerState === 2) setIsPlaying(false)
       } catch {
         // Ignore unrelated window messages.
       }
@@ -425,13 +491,25 @@ export function YouTubeShowcasePlayer({
 
     window.addEventListener('message', handlePlayerMessage)
     return () => window.removeEventListener('message', handlePlayerMessage)
-  }, [])
+  }, [playWhenVisible])
 
   const sendPlayerCommand = useCallback((command: string, args: unknown[] = []) => {
     iframeRef.current?.contentWindow?.postMessage(
       JSON.stringify({ event: 'command', func: command, args }),
       'https://www.youtube-nocookie.com'
     )
+  }, [])
+
+  const holdControlsForPlayerTransition = useCallback((duration = 4200) => {
+    playbackControlHoldUntilRef.current = Date.now() + duration
+    setIsControlHeldVisible(true)
+
+    if (controlTimerRef.current) window.clearTimeout(controlTimerRef.current)
+
+    controlTimerRef.current = window.setTimeout(() => {
+      setIsControlHeldVisible(false)
+      controlTimerRef.current = null
+    }, duration)
   }, [])
 
   useEffect(() => {
@@ -442,18 +520,23 @@ export function YouTubeShowcasePlayer({
     const visibilityTarget = iframe.parentElement ?? iframe
 
     const syncPlaybackWithFocus = () => {
+      if (isInfoTransitionRef.current) return
+
       const shouldPlay =
         intersectionRatioRef.current > scrollPlaybackThreshold &&
         document.visibilityState === 'visible' &&
-        document.hasFocus()
+        !manuallyPausedRef.current
 
       if (shouldPlay) {
-        if (!isMuted) {
+        // Muted playback is the only form of autoplay consistently allowed by
+        // Chrome, Safari, Firefox, and embedded mobile browsers.
+        if (isMuted) {
+          sendPlayerCommand('mute')
+        } else {
           sendPlayerCommand('unMute')
           sendPlayerCommand('setVolume', [getScrollVolume(intersectionRatioRef.current)])
         }
         sendPlayerCommand('playVideo')
-        setIsPlaying(true)
         return
       }
 
@@ -464,8 +547,10 @@ export function YouTubeShowcasePlayer({
 
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
+        const wasInView = isInViewRef.current
         intersectionRatioRef.current = entry.intersectionRatio
         isInViewRef.current = entry.intersectionRatio > scrollPlaybackThreshold
+        if (wasInView !== isInViewRef.current) holdControlsForPlayerTransition()
         syncPlaybackWithFocus()
       },
       { threshold: Array.from({ length: 51 }, (_, index) => index / 50) }
@@ -473,16 +558,17 @@ export function YouTubeShowcasePlayer({
 
     visibilityObserver.observe(visibilityTarget)
     document.addEventListener('visibilitychange', syncPlaybackWithFocus)
-    window.addEventListener('focus', syncPlaybackWithFocus)
-    window.addEventListener('blur', syncPlaybackWithFocus)
+    // YouTube occasionally finishes booting after both iframe load and the
+    // first intersection event. This inexpensive health check closes that race.
+    playbackHealthTimerRef.current = window.setInterval(syncPlaybackWithFocus, 1250)
 
     return () => {
       visibilityObserver.disconnect()
       document.removeEventListener('visibilitychange', syncPlaybackWithFocus)
-      window.removeEventListener('focus', syncPlaybackWithFocus)
-      window.removeEventListener('blur', syncPlaybackWithFocus)
+      if (playbackHealthTimerRef.current) window.clearInterval(playbackHealthTimerRef.current)
+      playbackHealthTimerRef.current = null
     }
-  }, [isMuted, playWhenVisible, sendPlayerCommand])
+  }, [holdControlsForPlayerTransition, isMuted, playWhenVisible, sendPlayerCommand])
 
   const handlePlayerLoad = () => {
     iframeRef.current?.contentWindow?.postMessage(
@@ -493,19 +579,16 @@ export function YouTubeShowcasePlayer({
     if (
       playWhenVisible &&
       isInViewRef.current &&
-      document.visibilityState === 'visible' &&
-      document.hasFocus()
+      document.visibilityState === 'visible'
     ) {
-      if (!startMuted) {
-        sendPlayerCommand('unMute')
-        sendPlayerCommand('setVolume', [getScrollVolume(intersectionRatioRef.current)])
-      }
+      sendPlayerCommand(isMutedRef.current ? 'mute' : 'unMute')
       sendPlayerCommand('playVideo')
-      setIsPlaying(true)
     }
   }
 
   const seekBy = (seconds: number) => {
+    holdControlsForPlayerTransition()
+
     const targetTime = Math.max(0, currentTimeRef.current + seconds)
     sendPlayerCommand('seekTo', [targetTime, true])
     currentTimeRef.current = targetTime
@@ -529,26 +612,40 @@ export function YouTubeShowcasePlayer({
       window.clearTimeout(controlTimerRef.current)
     }
 
+    const remainingPlaybackHold = Math.max(0, playbackControlHoldUntilRef.current - Date.now())
+    const hideDelay = Math.max(500, remainingPlaybackHold)
+
     controlTimerRef.current = window.setTimeout(() => {
       setIsControlHeldVisible(false)
       controlTimerRef.current = null
-    }, 500)
+    }, hideDelay)
+  }
+
+  const updateCenterHover = (event: ReactPointerEvent<HTMLElement>) => {
+    const playerBounds = iframeRef.current?.parentElement?.getBoundingClientRect()
+    if (!playerBounds) return
+
+    const horizontalRadius = Math.min(180, playerBounds.width * 0.22)
+    const verticalRadius = Math.min(105, playerBounds.height * 0.2)
+    const horizontalDistance = (event.clientX - (playerBounds.left + playerBounds.width / 2)) / horizontalRadius
+    const verticalDistance = (event.clientY - (playerBounds.top + playerBounds.height / 2)) / verticalRadius
+
+    setIsCenterHovered(horizontalDistance ** 2 + verticalDistance ** 2 <= 1)
+  }
+
+  const leaveVideoControls = () => {
+    setIsCenterHovered(false)
+    hideControlsSoon()
   }
 
   const togglePlayback = () => {
     const command = isPlaying ? 'pauseVideo' : 'playVideo'
+    manuallyPausedRef.current = isPlaying
 
     if (!isPlaying) {
-      setIsControlHeldVisible(true)
-
-      if (controlTimerRef.current) {
-        window.clearTimeout(controlTimerRef.current)
-      }
-
-      controlTimerRef.current = window.setTimeout(() => {
-        setIsControlHeldVisible(false)
-        controlTimerRef.current = null
-      }, 4200)
+      holdControlsForPlayerTransition()
+    } else {
+      playbackControlHoldUntilRef.current = 0
     }
 
     sendPlayerCommand(command)
@@ -557,17 +654,58 @@ export function YouTubeShowcasePlayer({
 
   const toggleMute = () => {
     sendPlayerCommand(isMuted ? 'unMute' : 'mute')
-    setIsMuted((muted) => !muted)
+    if (isMuted) sendPlayerCommand('setVolume', [100])
+    isMutedRef.current = !isMuted
+    setIsMuted(!isMuted)
   }
 
-  const shouldHideControls = !isControlHeldVisible
+  const openInfoModal = () => {
+    const fadeDuration = 1000
+    const fadeStartedAt = performance.now()
+
+    setIsCenterHovered(false)
+    isInfoTransitionRef.current = true
+    setIsInfoModalOpen(true)
+    setIsInfoModalVisible(false)
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setIsInfoModalVisible(true))
+    })
+
+    if (infoAudioFadeTimerRef.current) window.clearInterval(infoAudioFadeTimerRef.current)
+
+    infoAudioFadeTimerRef.current = window.setInterval(() => {
+      const fadeProgress = Math.min(1, (performance.now() - fadeStartedAt) / fadeDuration)
+      sendPlayerCommand('setVolume', [Math.round((1 - fadeProgress) * 100)])
+
+      if (fadeProgress < 1) return
+
+      if (infoAudioFadeTimerRef.current) window.clearInterval(infoAudioFadeTimerRef.current)
+      infoAudioFadeTimerRef.current = null
+      sendPlayerCommand('pauseVideo')
+      isInfoTransitionRef.current = false
+      manuallyPausedRef.current = true
+      playbackControlHoldUntilRef.current = 0
+      setIsPlaying(false)
+    }, 50)
+  }
+
+  const closeInfoModal = () => {
+    setIsInfoModalVisible(false)
+    if (infoModalCloseTimerRef.current) window.clearTimeout(infoModalCloseTimerRef.current)
+    infoModalCloseTimerRef.current = window.setTimeout(() => {
+      setIsInfoModalOpen(false)
+      infoModalCloseTimerRef.current = null
+    }, 300)
+  }
+
+  const shouldHideControls = isPlaying && !isControlHeldVisible
 
   return (
     <>
       <iframe
         ref={iframeRef}
         className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+320px)] w-full -translate-y-1/2 border-0"
-        src={getYouTubeEmbedUrl(url, { autoplay: !playWhenVisible, muted: startMuted })}
+        src={getYouTubeEmbedUrl(url, { autoplay: !playWhenVisible, muted: initialMuted })}
         title={title}
         allow="autoplay; encrypted-media"
         loading="lazy"
@@ -576,15 +714,27 @@ export function YouTubeShowcasePlayer({
       />
       <div
         className="absolute inset-0 z-10"
-        onPointerEnter={showControlsTemporarily}
-        onPointerMove={showControlsTemporarily}
-        onPointerLeave={hideControlsSoon}
+        onPointerEnter={(event) => {
+          showControlsTemporarily()
+          updateCenterHover(event)
+        }}
+        onPointerMove={(event) => {
+          showControlsTemporarily()
+          updateCenterHover(event)
+        }}
+        onPointerLeave={leaveVideoControls}
         aria-hidden="true"
       />
       <div
-        onPointerEnter={showControlsTemporarily}
-        onPointerMove={showControlsTemporarily}
-        onPointerLeave={hideControlsSoon}
+        onPointerEnter={(event) => {
+          showControlsTemporarily()
+          updateCenterHover(event)
+        }}
+        onPointerMove={(event) => {
+          showControlsTemporarily()
+          updateCenterHover(event)
+        }}
+        onPointerLeave={leaveVideoControls}
         className={`absolute left-[calc(50%+0.5px)] top-[calc(50%+0.5px)] z-20 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 ${
           shouldHideControls
             ? 'pointer-events-none opacity-0'
@@ -595,24 +745,39 @@ export function YouTubeShowcasePlayer({
           <button
             type="button"
             onClick={() => seekBy(-10)}
-            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-[#11122F] text-white shadow-lg transition hover:scale-105 hover:bg-[#202141]"
+            className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-[#202141] text-white shadow-lg transition hover:scale-105 hover:bg-[#292A52]"
             aria-label={`Go back 10 seconds in ${title}`}
           >
             <RotateCcw className="h-5 w-5" />
             <span className="absolute text-[8px] font-bold">10</span>
           </button>
-          <button
-            type="button"
-            onClick={togglePlayback}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-[#11122F] text-white shadow-xl transition duration-300 hover:scale-105 hover:bg-[#202141] md:h-14 md:w-14"
-            aria-label={isPlaying ? `Pause ${title}` : `Play ${title}`}
-          >
-            {isPlaying ? <Pause className="h-5 w-5" fill="currentColor" /> : <Play className="h-5 w-5" fill="currentColor" />}
-          </button>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={togglePlayback}
+              className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#FF955D] bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-[#17183B] shadow-xl transition duration-300 hover:scale-105 hover:brightness-110 md:h-14 md:w-14"
+              aria-label={isPlaying ? `Pause ${title}` : `Play ${title}`}
+            >
+              {isPlaying ? <Pause className="h-5 w-5" fill="currentColor" /> : <Play className="h-5 w-5" fill="currentColor" />}
+            </button>
+            {hoverCta ? (
+              <button
+                type="button"
+                onClick={openInfoModal}
+                className={`absolute left-1/2 top-[calc(100%+12px)] flex h-12 -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-xl border border-[#F45B25]/70 bg-[#202141] px-5 text-sm text-white shadow-xl transition-all duration-200 hover:border-[#F45B25] hover:bg-[#292A52] md:h-14 md:text-[15px] BenzinSemibold ${
+                  isCenterHovered
+                    ? 'pointer-events-auto translate-y-0 opacity-100'
+                    : 'pointer-events-none translate-y-1 opacity-0'
+                }`}
+              >
+                {hoverCta.label}
+              </button>
+            ) : null}
+          </div>
           <button
             type="button"
             onClick={() => seekBy(10)}
-            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-[#11122F] text-white shadow-lg transition hover:scale-105 hover:bg-[#202141]"
+            className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-[#202141] text-white shadow-lg transition hover:scale-105 hover:bg-[#292A52]"
             aria-label={`Go forward 10 seconds in ${title}`}
           >
             <RotateCw className="h-5 w-5" />
@@ -622,12 +787,65 @@ export function YouTubeShowcasePlayer({
         <button
           type="button"
           onClick={toggleMute}
-          className="absolute bottom-[calc(100%+8px)] left-1/2 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full border border-white/20 bg-black/20 text-white shadow-lg backdrop-blur-sm transition hover:scale-105 hover:bg-black/40"
+          className="absolute bottom-[calc(100%+8px)] left-1/2 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-lg border border-white/20 bg-[#202141] text-white shadow-lg transition hover:scale-105 hover:bg-[#292A52]"
           aria-label={isMuted ? `Unmute ${title}` : `Mute ${title}`}
         >
           {isMuted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
         </button>
       </div>
+      {isInfoModalOpen && hoverCta
+        ? createPortal(
+            <div
+              className={`fixed inset-0 z-[2147483000] flex items-center justify-center px-4 py-8 transition-all duration-1000 ${
+                isInfoModalVisible
+                  ? 'bg-[#0A0B22]/75 opacity-100 backdrop-blur-md'
+                  : 'bg-transparent opacity-0 backdrop-blur-none'
+              }`}
+              role="presentation"
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) closeInfoModal()
+              }}
+            >
+              <section
+                role="dialog"
+                aria-modal="true"
+                aria-label="Brandsight information"
+                className={`relative flex h-[90vh] w-[90vw] items-center justify-center overflow-hidden rounded-[28px] border border-[#3A3B61] bg-[#202141] px-6 py-7 text-white shadow-[0_28px_100px_rgba(0,0,0,0.55)] transition-all duration-1000 sm:px-10 sm:py-10 lg:px-14 lg:py-12 ${
+                  isInfoModalVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-6 scale-95 opacity-0'
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeInfoModal()
+                    window.setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 320)
+                  }}
+                  className="absolute left-5 top-5 flex h-10 items-center justify-center rounded-xl bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 text-xs text-[#17183B] shadow-lg transition hover:scale-[1.03] hover:brightness-110 sm:px-5 sm:text-sm BenzinSemibold"
+                >
+                  Try Brandsight Now
+                </button>
+                <button
+                  type="button"
+                  onClick={closeInfoModal}
+                  className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#17183B] transition hover:scale-105"
+                  aria-label="Close Brandsight information"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+                <Image
+                  src="/logo-animation-1.gif"
+                  alt="BmyBrand"
+                  width={420}
+                  height={120}
+                  unoptimized
+                  className="h-auto w-[min(70vw,420px)] object-contain"
+                  priority
+                />
+              </section>
+            </div>,
+            document.body
+          )
+        : null}
     </>
   )
 }
