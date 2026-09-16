@@ -177,7 +177,7 @@ export default function GrowMyBusinessPage() {
             title="BmyBrand website performance and growth"
             url="https://youtu.be/ib5VgdetJxY?si=ZaR_wBJ7tyF9vDc9"
             playWhenVisible
-            startMuted={false}
+            startMuted
             hoverCta={{ label: "What is Brandsight?" }}
           />
         </div>

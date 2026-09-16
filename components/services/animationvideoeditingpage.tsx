@@ -371,6 +371,11 @@ export function YouTubeShowcasePlayer({
   const playbackHealthTimerRef = useRef<number | null>(null)
   const infoAudioFadeTimerRef = useRef<number | null>(null)
   const infoModalCloseTimerRef = useRef<number | null>(null)
+  const autoUnmuteTimerRef = useRef<number | null>(null)
+  const autoUnmuteAttemptedRef = useRef(false)
+  const userChangedMuteRef = useRef(false)
+  const firstPlaybackRequestedRef = useRef(false)
+  const firstPlaybackConfirmedRef = useRef(false)
   const isInfoTransitionRef = useRef(false)
   const infoModalScrollYRef = useRef(0)
   const isInViewRef = useRef(false)
@@ -472,8 +477,33 @@ export function YouTubeShowcasePlayer({
     return () => {
       if (infoAudioFadeTimerRef.current) window.clearInterval(infoAudioFadeTimerRef.current)
       if (infoModalCloseTimerRef.current) window.clearTimeout(infoModalCloseTimerRef.current)
+      if (autoUnmuteTimerRef.current) window.clearTimeout(autoUnmuteTimerRef.current)
     }
   }, [])
+
+  const sendPlayerCommand = useCallback((command: string, args: unknown[] = []) => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: 'command', func: command, args }),
+      'https://www.youtube-nocookie.com'
+    )
+  }, [])
+
+  const startVisiblePlayback = useCallback((playerJustBecameReady = false) => {
+    if (!firstPlaybackConfirmedRef.current && (!firstPlaybackRequestedRef.current || playerJustBecameReady)) {
+      sendPlayerCommand('seekTo', [0, true])
+      currentTimeRef.current = 0
+      firstPlaybackRequestedRef.current = true
+    }
+
+    if (isMutedRef.current) {
+      sendPlayerCommand('mute')
+    } else {
+      sendPlayerCommand('unMute')
+      sendPlayerCommand('setVolume', [getScrollVolume(intersectionRatioRef.current)])
+    }
+
+    sendPlayerCommand('playVideo')
+  }, [sendPlayerCommand])
 
   useEffect(() => {
     const handlePlayerMessage = (event: MessageEvent) => {
@@ -484,23 +514,20 @@ export function YouTubeShowcasePlayer({
         const currentTime = message?.info?.currentTime
 
         if (message?.event === 'onReady' || message?.event === 'onApiChange') {
-          iframeRef.current?.contentWindow?.postMessage(
-            JSON.stringify({ event: 'command', func: 'unloadModule', args: ['captions'] }),
-            'https://www.youtube-nocookie.com'
-          )
+          sendPlayerCommand('unloadModule', ['captions'])
 
           // The observer may have fired before the iframe API was ready. Re-send
           // the desired state now so that initial playback is not timing-dependent.
-          if (playWhenVisible && isInViewRef.current && document.visibilityState === 'visible') {
-            const muteCommand = isMutedRef.current ? 'mute' : 'unMute'
-            iframeRef.current?.contentWindow?.postMessage(
-              JSON.stringify({ event: 'command', func: muteCommand, args: [] }),
-              'https://www.youtube-nocookie.com'
-            )
-            iframeRef.current?.contentWindow?.postMessage(
-              JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
-              'https://www.youtube-nocookie.com'
-            )
+          if (
+            playWhenVisible &&
+            isInViewRef.current &&
+            document.visibilityState === 'visible' &&
+            !manuallyPausedRef.current &&
+            !isInfoTransitionRef.current
+          ) {
+            startVisiblePlayback(true)
+          } else if (playWhenVisible) {
+            sendPlayerCommand('pauseVideo')
           }
         }
 
@@ -509,8 +536,37 @@ export function YouTubeShowcasePlayer({
         }
 
         const playerState = message?.event === 'onStateChange' ? message?.info : message?.info?.playerState
-        if (playerState === 1) setIsPlaying(true)
-        if (playerState === 0 || playerState === 2) setIsPlaying(false)
+        if (playerState === 1) {
+          setIsPlaying(true)
+          if (isInViewRef.current) firstPlaybackConfirmedRef.current = true
+          if (
+            playWhenVisible && startMuted && isInViewRef.current &&
+            isMutedRef.current && !autoUnmuteAttemptedRef.current &&
+            !userChangedMuteRef.current && autoUnmuteTimerRef.current === null
+          ) {
+            autoUnmuteTimerRef.current = window.setTimeout(() => {
+              autoUnmuteTimerRef.current = null
+              if (
+                !isInViewRef.current || manuallyPausedRef.current ||
+                isInfoTransitionRef.current || userChangedMuteRef.current
+              ) return
+
+              autoUnmuteAttemptedRef.current = true
+              isMutedRef.current = false
+              setIsMuted(false)
+              sendPlayerCommand('unMute')
+              sendPlayerCommand('setVolume', [100])
+            }, 100)
+          }
+        }
+        if (playerState === 0 || playerState === 2) {
+          setIsPlaying(false)
+          if (autoUnmuteTimerRef.current !== null) {
+            window.clearTimeout(autoUnmuteTimerRef.current)
+            autoUnmuteTimerRef.current = null
+          }
+
+        }
       } catch {
         // Ignore unrelated window messages.
       }
@@ -518,14 +574,7 @@ export function YouTubeShowcasePlayer({
 
     window.addEventListener('message', handlePlayerMessage)
     return () => window.removeEventListener('message', handlePlayerMessage)
-  }, [playWhenVisible])
-
-  const sendPlayerCommand = useCallback((command: string, args: unknown[] = []) => {
-    iframeRef.current?.contentWindow?.postMessage(
-      JSON.stringify({ event: 'command', func: command, args }),
-      'https://www.youtube-nocookie.com'
-    )
-  }, [])
+  }, [playWhenVisible, sendPlayerCommand, startMuted, startVisiblePlayback])
 
   const holdControlsForPlayerTransition = useCallback((duration = 4200) => {
     playbackControlHoldUntilRef.current = Date.now() + duration
@@ -546,28 +595,30 @@ export function YouTubeShowcasePlayer({
     if (!iframe) return
     const visibilityTarget = iframe.parentElement ?? iframe
 
+    const getCurrentPlaybackThreshold = () => {
+      if (firstPlaybackConfirmedRef.current) return scrollPlaybackThreshold
+
+      // Wait until most of the video is visible before playing its opening.
+      // On short viewports, use 80% of the largest reachable intersection.
+      const height = visibilityTarget.getBoundingClientRect().height
+      const maximumVisibleRatio = Math.min(1, window.innerHeight / Math.max(1, height))
+      return Math.min(0.65, maximumVisibleRatio * 0.8)
+    }
+
     const syncPlaybackWithFocus = () => {
       if (isInfoTransitionRef.current) return
 
       const shouldPlay =
-        intersectionRatioRef.current > scrollPlaybackThreshold &&
+        intersectionRatioRef.current > getCurrentPlaybackThreshold() &&
         document.visibilityState === 'visible' &&
         !manuallyPausedRef.current
 
       if (shouldPlay) {
-        // Muted playback is the only form of autoplay consistently allowed by
-        // Chrome, Safari, Firefox, and embedded mobile browsers.
-        if (isMuted) {
-          sendPlayerCommand('mute')
-        } else {
-          sendPlayerCommand('unMute')
-          sendPlayerCommand('setVolume', [getScrollVolume(intersectionRatioRef.current)])
-        }
-        sendPlayerCommand('playVideo')
+        startVisiblePlayback()
         return
       }
 
-      if (!isMuted) sendPlayerCommand('setVolume', [0])
+      if (!isMutedRef.current) sendPlayerCommand('setVolume', [0])
       sendPlayerCommand('pauseVideo')
       setIsPlaying(false)
     }
@@ -576,7 +627,7 @@ export function YouTubeShowcasePlayer({
       ([entry]) => {
         const wasInView = isInViewRef.current
         intersectionRatioRef.current = entry.intersectionRatio
-        isInViewRef.current = entry.intersectionRatio > scrollPlaybackThreshold
+        isInViewRef.current = entry.intersectionRatio > getCurrentPlaybackThreshold()
         if (wasInView !== isInViewRef.current) holdControlsForPlayerTransition()
         syncPlaybackWithFocus()
       },
@@ -595,7 +646,7 @@ export function YouTubeShowcasePlayer({
       if (playbackHealthTimerRef.current) window.clearInterval(playbackHealthTimerRef.current)
       playbackHealthTimerRef.current = null
     }
-  }, [holdControlsForPlayerTransition, isMuted, playWhenVisible, sendPlayerCommand])
+  }, [holdControlsForPlayerTransition, playWhenVisible, sendPlayerCommand, startVisiblePlayback])
 
   const handlePlayerLoad = () => {
     iframeRef.current?.contentWindow?.postMessage(
@@ -608,8 +659,7 @@ export function YouTubeShowcasePlayer({
       isInViewRef.current &&
       document.visibilityState === 'visible'
     ) {
-      sendPlayerCommand(isMutedRef.current ? 'mute' : 'unMute')
-      sendPlayerCommand('playVideo')
+      startVisiblePlayback()
     }
   }
 
@@ -680,6 +730,7 @@ export function YouTubeShowcasePlayer({
   }
 
   const toggleMute = () => {
+    userChangedMuteRef.current = true
     sendPlayerCommand(isMuted ? 'unMute' : 'mute')
     if (isMuted) sendPlayerCommand('setVolume', [100])
     isMutedRef.current = !isMuted
@@ -734,10 +785,10 @@ export function YouTubeShowcasePlayer({
       <iframe
         ref={iframeRef}
         className="pointer-events-none absolute left-0 top-1/2 h-[calc(100%+320px)] w-full -translate-y-1/2 border-0"
-        src={getYouTubeEmbedUrl(url, { autoplay: !playWhenVisible, muted: initialMuted })}
+        src={getYouTubeEmbedUrl(url, { autoplay: true, muted: initialMuted })}
         title={title}
         allow="autoplay; encrypted-media"
-        loading="lazy"
+        loading={playWhenVisible ? 'eager' : 'lazy'}
         tabIndex={-1}
         onLoad={handlePlayerLoad}
       />
