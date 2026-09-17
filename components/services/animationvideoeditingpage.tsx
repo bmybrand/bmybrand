@@ -371,9 +371,6 @@ export function YouTubeShowcasePlayer({
   const playbackHealthTimerRef = useRef<number | null>(null)
   const infoAudioFadeTimerRef = useRef<number | null>(null)
   const infoModalCloseTimerRef = useRef<number | null>(null)
-  const autoUnmuteTimerRef = useRef<number | null>(null)
-  const autoUnmuteAttemptedRef = useRef(false)
-  const userChangedMuteRef = useRef(false)
   const firstPlaybackRequestedRef = useRef(false)
   const firstPlaybackConfirmedRef = useRef(false)
   const isInfoTransitionRef = useRef(false)
@@ -477,7 +474,6 @@ export function YouTubeShowcasePlayer({
     return () => {
       if (infoAudioFadeTimerRef.current) window.clearInterval(infoAudioFadeTimerRef.current)
       if (infoModalCloseTimerRef.current) window.clearTimeout(infoModalCloseTimerRef.current)
-      if (autoUnmuteTimerRef.current) window.clearTimeout(autoUnmuteTimerRef.current)
     }
   }, [])
 
@@ -539,33 +535,9 @@ export function YouTubeShowcasePlayer({
         if (playerState === 1) {
           setIsPlaying(true)
           if (isInViewRef.current) firstPlaybackConfirmedRef.current = true
-          if (
-            playWhenVisible && startMuted && isInViewRef.current &&
-            isMutedRef.current && !autoUnmuteAttemptedRef.current &&
-            !userChangedMuteRef.current && autoUnmuteTimerRef.current === null
-          ) {
-            autoUnmuteTimerRef.current = window.setTimeout(() => {
-              autoUnmuteTimerRef.current = null
-              if (
-                !isInViewRef.current || manuallyPausedRef.current ||
-                isInfoTransitionRef.current || userChangedMuteRef.current
-              ) return
-
-              autoUnmuteAttemptedRef.current = true
-              isMutedRef.current = false
-              setIsMuted(false)
-              sendPlayerCommand('unMute')
-              sendPlayerCommand('setVolume', [100])
-            }, 100)
-          }
         }
         if (playerState === 0 || playerState === 2) {
           setIsPlaying(false)
-          if (autoUnmuteTimerRef.current !== null) {
-            window.clearTimeout(autoUnmuteTimerRef.current)
-            autoUnmuteTimerRef.current = null
-          }
-
         }
       } catch {
         // Ignore unrelated window messages.
@@ -574,7 +546,7 @@ export function YouTubeShowcasePlayer({
 
     window.addEventListener('message', handlePlayerMessage)
     return () => window.removeEventListener('message', handlePlayerMessage)
-  }, [playWhenVisible, sendPlayerCommand, startMuted, startVisiblePlayback])
+  }, [playWhenVisible, sendPlayerCommand, startVisiblePlayback])
 
   const holdControlsForPlayerTransition = useCallback((duration = 4200) => {
     playbackControlHoldUntilRef.current = Date.now() + duration
@@ -730,7 +702,6 @@ export function YouTubeShowcasePlayer({
   }
 
   const toggleMute = () => {
-    userChangedMuteRef.current = true
     sendPlayerCommand(isMuted ? 'unMute' : 'mute')
     if (isMuted) sendPlayerCommand('setVolume', [100])
     isMutedRef.current = !isMuted
