@@ -35,7 +35,7 @@ export default function BottomFlyingBear() {
       const startTop = 80;
       const endTop = Math.max(
         startTop,
-        lowerBoundary - bearHeight - 20,
+        lowerBoundary - bearHeight - 85,
       );
       const availableTravel = endTop - startTop;
       const scrollDelta = window.scrollY - previousScrollYRef.current;
@@ -136,8 +136,10 @@ export default function BottomFlyingBear() {
           />
         </span>
       </span>
-      <span className="bottom-flying-bear__progress" aria-hidden>
-        {scrollProgress}%
+      <span className="bottom-flying-bear__progress-orbit" aria-hidden>
+        <span className="bottom-flying-bear__progress">
+          {scrollProgress}%
+        </span>
       </span>
     </button>
   );

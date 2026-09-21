@@ -199,6 +199,20 @@
   filter: brightness(1);
 }
 
+.bottom-flying-bear__progress-orbit {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+}
+
+.bottom-flying-bear[data-direction="down"] .bottom-flying-bear__progress-orbit {
+  transform: rotate(-180deg);
+}
+
 .bottom-flying-bear__progress {
   align-items: center;
   background: rgb(5 10 34 / 88%);
@@ -214,9 +228,13 @@
   min-width: 3.25rem;
   padding: 0.35rem 0.5rem;
   position: absolute;
-  top: 50%;
+  top: -20%;
   transform: translate(-50%, -50%) rotate(-90deg);
-  z-index: 2;
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bottom-flying-bear[data-direction="down"] .bottom-flying-bear__progress {
+  transform: translate(-50%, -50%) rotate(-270deg);
 }
 
 .bottom-flying-bear:focus-visible {
