@@ -538,7 +538,7 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`xl:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-[80vh] opacity-100 py-4 overflow-y-auto" : "max-h-0 opacity-0"}`}>
+      <div data-lenis-prevent className={`xl:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-[80vh] opacity-100 py-4 overflow-y-auto" : "max-h-0 opacity-0"}`}>
         <ul className="flex flex-col gap-2 px-6 BenzinSemibold" style={{ fontSize: "clamp(0.75rem, 3.5vw, 1rem)" }}>
           {/* Services - expandable */}
           <li>

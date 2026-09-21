@@ -50,7 +50,7 @@ export default function ChatWindow({
   const showWelcome = messages.length === 0 && !isStreaming && !botThinking
 
   return (
-    <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-3 space-y-0.5 chat-scrollbar">
+    <div data-lenis-prevent className="flex-1 overflow-y-auto overscroll-contain px-4 py-3 space-y-0.5 chat-scrollbar">
       {/* Welcome screen — shown before the first message */}
       {showWelcome && (
         <div className="flex flex-col items-center justify-center h-full text-center px-2">

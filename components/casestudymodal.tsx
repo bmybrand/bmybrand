@@ -109,6 +109,7 @@ export default function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudy
 
                 {/* Scrollable Content */}
                 <div 
+                  data-lenis-prevent
                   className="p-6 md:p-10 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
                 >
                   {/* Client Info */}

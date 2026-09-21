@@ -199,6 +199,7 @@ export default function GrowMyBusinessPage() {
       {auditModalOpen ? (
         <div className="fixed inset-0 z-[10020] flex items-center justify-center bg-[#0E1026]/80 px-4 py-8 backdrop-blur-sm">
           <div
+            data-lenis-prevent
             className="relative mx-auto w-full max-w-[52rem] max-h-[calc(100vh-4rem)] overflow-y-auto rounded-[24px] border border-[#2A2B47] bg-[#202141] px-6 py-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] [::-webkit-scrollbar]:hidden sm:max-h-[calc(100vh-5rem)] sm:px-8 sm:py-8"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >

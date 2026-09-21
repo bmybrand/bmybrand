@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import localFont from "next/font/local";
 import GlobalPreloader from "@/components/global-preloader";
 import GoogleAnalytics from "@/components/google-analytics";
+import SmoothScroll from "@/components/smooth-scroll";
+import BottomFlyingBear from "@/components/bottom-flying-bear";
 import "./globals.css";
 import ChatWidgetGate from "@/components/chatbot/ChatWidgetGate";
 
@@ -109,11 +111,13 @@ export default function RootLayout({
           } as CSSProperties
         }
       >
+        <SmoothScroll />
         <GoogleAnalytics />
         <Suspense fallback={<PreloaderFallback />}>
           <GlobalPreloader>{children}</GlobalPreloader>
         </Suspense>
         <ChatWidgetGate />
+        <BottomFlyingBear />
       </body>
     </html>
   );

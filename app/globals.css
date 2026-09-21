@@ -12,6 +12,23 @@
     overflow-x: clip;
   }
 
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
   ::selection {
     background: #f45b25;
     color: #ffffff;
@@ -20,6 +37,12 @@
   ::-moz-selection {
     background: #f45b25;
     color: #ffffff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
@@ -32,6 +55,184 @@
 }
 .BenzinRegular {
   font-family: var(--font-benzin-regular), sans-serif;
+}
+
+.bottom-flying-bear {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  position: fixed;
+  right: -1.25rem;
+  top: 5rem;
+  z-index: 9998;
+  aspect-ratio: 1;
+  width: clamp(8rem, 13vw, 10rem);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(55%, var(--bear-travel, 0px), 0);
+  transition:
+    opacity 500ms ease,
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.bottom-flying-bear[data-visible="true"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, var(--bear-travel, 0px), 0);
+}
+
+.bottom-flying-bear__trail {
+  height: 4.5rem;
+  left: 50%;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, 22%);
+  transform-origin: center;
+  width: 3.5rem;
+  z-index: -1;
+}
+
+.bottom-flying-bear[data-direction="down"] .bottom-flying-bear__trail {
+  transform: translate(-50%, -122%) rotate(180deg);
+}
+
+.bottom-flying-bear__spark {
+  animation: bottom-bear-spark 620ms linear infinite;
+  animation-play-state: paused;
+  background: linear-gradient(to bottom, #fff7e8, #ff843e 38%, transparent);
+  border-radius: 999px;
+  height: 1.65rem;
+  left: 50%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 2px;
+}
+
+.bottom-flying-bear[data-moving="true"] .bottom-flying-bear__spark {
+  animation-play-state: running;
+}
+
+.bottom-flying-bear__spark:nth-child(1) {
+  margin-left: -1.3rem;
+}
+
+.bottom-flying-bear__spark:nth-child(2) {
+  animation-delay: -110ms;
+  height: 1rem;
+  margin-left: -0.75rem;
+}
+
+.bottom-flying-bear__spark:nth-child(3) {
+  animation-delay: -260ms;
+  height: 2rem;
+  margin-left: -0.2rem;
+}
+
+.bottom-flying-bear__spark:nth-child(4) {
+  animation-delay: -380ms;
+  height: 1.2rem;
+  margin-left: 0.35rem;
+}
+
+.bottom-flying-bear__spark:nth-child(5) {
+  animation-delay: -480ms;
+  height: 1.8rem;
+  margin-left: 0.9rem;
+}
+
+.bottom-flying-bear__spark:nth-child(6) {
+  animation-delay: -190ms;
+  height: 0.8rem;
+  margin-left: 1.35rem;
+}
+
+@keyframes bottom-bear-spark {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scaleY(0.45);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(3.25rem) scaleY(1.15);
+  }
+}
+
+.bottom-flying-bear__art,
+.bottom-flying-bear__bright-mask {
+  inset: 0;
+  position: absolute;
+}
+
+.bottom-flying-bear__image {
+  height: auto;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scaleX(-1) rotate(-60deg);
+  transform-origin: center;
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  width: 88%;
+}
+
+.bottom-flying-bear[data-direction="down"] .bottom-flying-bear__image {
+  transform: translate(-50%, -50%) scaleX(-1) rotate(120deg);
+}
+
+.bottom-flying-bear__image--dull {
+  filter: brightness(0.3) saturate(0.55);
+}
+
+.bottom-flying-bear__bright-mask {
+  clip-path: inset(var(--bear-dull-progress, 0%) 0 0 0);
+  transition: clip-path 180ms linear;
+}
+
+.bottom-flying-bear__image--bright {
+  filter: brightness(1);
+}
+
+.bottom-flying-bear__progress {
+  align-items: center;
+  background: rgb(5 10 34 / 88%);
+  border: 1px solid rgb(244 91 37 / 35%);
+  border-radius: 0.35rem;
+  color: #f45b25;
+  display: flex;
+  font-family: var(--font-benzin-semibold), sans-serif;
+  font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+  justify-content: center;
+  left: 50%;
+  min-height: 2rem;
+  min-width: 3.25rem;
+  padding: 0.35rem 0.5rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  z-index: 2;
+}
+
+.bottom-flying-bear:focus-visible {
+  outline: 2px solid #f45b25;
+  outline-offset: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-flying-bear,
+  .bottom-flying-bear__image {
+    transition: none;
+  }
+
+  .bottom-flying-bear__spark {
+    animation: none;
+  }
 }
 
 .blog-rich-text {

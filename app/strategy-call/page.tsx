@@ -288,7 +288,7 @@ function CustomCountrySelect({
               />
             </div>
 
-            <div className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]">
+            <div data-lenis-prevent className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#B9BBCB_transparent]">
               {filteredCountries.length > 0 ? (
                 filteredCountries.map((c, i) => (
                   <button
@@ -1243,7 +1243,7 @@ export default function StrategyCallPage() {
                               />
                             </div>
 
-                            <div className="mt-3 max-h-[13.5rem] space-y-1 overflow-y-auto pr-1 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                            <div data-lenis-prevent className="mt-3 max-h-[13.5rem] space-y-1 overflow-y-auto pr-1 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
                               {timezoneOptions.map((option) => {
                                 const active = option.id === selectedTimezone;
                                 return (
@@ -1354,7 +1354,7 @@ export default function StrategyCallPage() {
                           </div>
                         </div>
 
-                        <div className="mt-4 flex max-h-[15rem] flex-col gap-3 overflow-y-auto overscroll-contain pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
+                        <div data-lenis-prevent className="mt-4 flex max-h-[15rem] flex-col gap-3 overflow-y-auto overscroll-contain pr-2 [scrollbar-color:#B9BBCB_transparent] [scrollbar-width:thin]">
                           {baseTimeSlots.length === 0 ? (
                             <p className="rounded-xl border border-[#343556] px-4 py-3 text-sm text-[#A4A8C9]">
                               No slots available for this date. Please choose another day.
