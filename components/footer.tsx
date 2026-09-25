@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Script from 'next/script'
 
 const subscribe = () => () => {}
 
@@ -377,22 +378,43 @@ const Footer: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex gap-3 shrink-0 sm:items-center">
-                {SOCIAL_LINKS.map((social) => {
-                  const Icon = social.Icon
-                  return (
-                    <a
-                      key={social.name}
-                      href={social.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={social.name}
-                      className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-[#F45B25] transition-colors"
-                    >
-                      <Icon className="w-5 h-5" />
-                    </a>
-                  )
-                })}
+              <div className="flex shrink-0 flex-col items-center gap-3 sm:items-end">
+                <a
+                  href="https://www.dmca.com/Protection/Status.aspx?ID=59022717-a100-4f91-a3be-6a815be3a9f7"
+                  title="DMCA.com Protection Status"
+                  className="dmca-badge"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://images.dmca.com/Badges/dmca-badge-w200-5x1-06.png?ID=59022717-a100-4f91-a3be-6a815be3a9f7"
+                    alt="DMCA.com Protection Status"
+                    width={200}
+                    height={20}
+                    className="h-auto w-50"
+                  />
+                </a>
+                <Script
+                  src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"
+                  strategy="afterInteractive"
+                />
+                <div className="flex gap-3">
+                  {SOCIAL_LINKS.map((social) => {
+                    const Icon = social.Icon
+                    return (
+                      <a
+                        key={social.name}
+                        href={social.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={social.name}
+                        className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-[#F45B25] transition-colors"
+                      >
+                        <Icon className="w-5 h-5" />
+                      </a>
+                    )
+                  })}
+                </div>
               </div>
             </div>
           </div>
