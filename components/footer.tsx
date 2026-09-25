@@ -380,7 +380,7 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex shrink-0 flex-col items-center gap-3 sm:items-end">
                 <a
-                  href="https://www.dmca.com/Protection/Status.aspx?ID=59022717-a100-4f91-a3be-6a815be3a9f7"
+                  href="https://www.dmca.com/Protection/Status.aspx?ID=59022717-a100-4f91-a3be-6a815be3a9f7&refurl=https://bmybrand.com/"
                   title="DMCA.com Protection Status"
                   className="dmca-badge"
                   target="_blank"
