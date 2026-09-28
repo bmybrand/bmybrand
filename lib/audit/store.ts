@@ -5,10 +5,15 @@ import {
   unlockMemoryAuditRecord,
 } from "@/lib/audit/memory-store";
 import { normalizeAuditSummary } from "@/lib/audit/summary";
-import { supabaseAdmin } from "@/lib/supabase/server";
+import { getContactSupabaseAdmin } from "@/lib/supabase/contact-server";
 import type { AuditApiResponse, AuditReport, AuditReportRow } from "@/types/audit";
 
 const TABLE = "audit_reports";
+
+// Website database (NEXT_PUBLIC_SUPABASE_URL). Chat uses the separate BMYB project.
+function websiteDb() {
+  return getContactSupabaseAdmin();
+}
 
 type CreateAuditInput = {
   siteUrl: string;
@@ -81,7 +86,7 @@ export async function createAuditReport(
     return createMemoryAuditRecord(input);
   }
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await websiteDb()
     .from(TABLE)
     .insert({
       site_url: input.siteUrl,
@@ -112,7 +117,7 @@ export async function getAuditReport(
     return row ? formatResponse(row) : null;
   }
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await websiteDb()
     .from(TABLE)
     .select("*")
     .eq("id", id)
@@ -139,7 +144,7 @@ export async function unlockAuditReport(
     return row ? formatResponse(row) : null;
   }
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await websiteDb()
     .from(TABLE)
     .update({
       unlocked: true,
@@ -201,7 +206,7 @@ export async function saveAuditLeadToLeadsTable(lead: {
   ];
 
   for (const record of attempts) {
-    const { error } = await supabaseAdmin.from("leads").insert(record);
+    const { error } = await websiteDb().from("leads").insert(record);
     if (!error) {
       return;
     }
