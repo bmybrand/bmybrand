@@ -4,15 +4,23 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
-import type { ChatMessage as ChatMessageType } from '@/types/chat'
+import ContactFormCard from './ContactFormCard'
+import type { ChatMessage as ChatMessageType, ChatUi } from '@/types/chat'
+import type { ContactFormValues } from '@/hooks/useChatState'
 
 interface ChatWindowProps {
   messages: ChatMessageType[]
   isStreaming: boolean
   streamingText: string
-  agentTyping: boolean
   botThinking: boolean
+  contactSubmitted: boolean
   onSend: (message: string) => void
+  onSubmitContact: (values: ContactFormValues) => Promise<{ error?: string }>
+}
+
+function contactFormUi(msg: ChatMessageType): ChatUi | null {
+  const ui = msg.metadata?.ui as ChatUi | undefined
+  return ui?.type === 'contact_form' ? ui : null
 }
 
 const PRESET_MESSAGES = [
@@ -26,9 +34,10 @@ export default function ChatWindow({
   messages,
   isStreaming,
   streamingText,
-  agentTyping,
   botThinking,
+  contactSubmitted,
   onSend,
+  onSubmitContact,
 }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null)
   // Locks the preset buttons the moment one is tapped, so a fast double-click
@@ -38,7 +47,7 @@ export default function ChatWindow({
   // Auto-scroll to bottom on new messages or streaming updates
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages.length, streamingText, agentTyping])
+  }, [messages.length, streamingText])
 
   const handlePreset = (msg: string) => {
     if (presetSent) return
@@ -48,6 +57,12 @@ export default function ChatWindow({
   }
 
   const showWelcome = messages.length === 0 && !isStreaming && !botThinking
+
+  // Only the newest contact form can be filled in.
+  let lastFormIndex = -1
+  messages.forEach((msg, i) => {
+    if (contactFormUi(msg)) lastFormIndex = i
+  })
 
   return (
     <div data-lenis-prevent className="flex-1 overflow-y-auto overscroll-contain px-4 py-3 space-y-0.5 chat-scrollbar">
@@ -65,7 +80,7 @@ export default function ChatWindow({
             />
           </div>
           <h3 className="text-white text-lg font-semibold">Mr. B</h3>
-          <p className="text-[#ADAECC] text-sm mt-0.5">AI Specialist at BMYBrand</p>
+          <p className="text-[#ADAECC] text-sm mt-0.5">BMYBrand&apos;s AI Assistant</p>
           <p className="text-[#ADAECC]/70 text-sm mt-3 max-w-[260px]">
             Send a message or pick a topic below to start chatting.
           </p>
@@ -86,14 +101,26 @@ export default function ChatWindow({
       )}
 
       {/* Message list */}
-      {messages.map((msg) => (
-        <ChatMessage
-          key={msg.id}
-          role={msg.role}
-          content={msg.content}
-          timestamp={msg.created_at}
-        />
-      ))}
+      {messages.map((msg, i) => {
+        const ui = contactFormUi(msg)
+        return (
+          <div key={msg.id}>
+            <ChatMessage
+              role={msg.role}
+              content={msg.content}
+              timestamp={msg.created_at}
+            />
+            {ui && (
+              <ContactFormCard
+                contacts={ui.contacts}
+                interactive={i === lastFormIndex}
+                submitted={contactSubmitted}
+                onSubmit={onSubmitContact}
+              />
+            )}
+          </div>
+        )
+      })}
 
       {/* Streaming message in progress */}
       {isStreaming && streamingText && (
@@ -109,9 +136,6 @@ export default function ChatWindow({
 
       {/* Bot thinking indicator (non-streaming responses) */}
       {botThinking && !isStreaming && <TypingIndicator />}
-
-      {/* Agent typing indicator */}
-      {agentTyping && !isStreaming && <TypingIndicator label="Agent is typing" />}
 
       <div ref={bottomRef} />
     </div>

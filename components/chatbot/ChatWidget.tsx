@@ -24,11 +24,12 @@ function ChatWidgetInner() {
     state,
     sessionLoading,
     messages,
+    contactSubmitted,
     isStreaming,
     streamingText,
-    agentTyping,
     botThinking,
     sendMessage,
+    submitContact,
     clearSession,
   } = useChatState()
 
@@ -45,7 +46,6 @@ function ChatWidgetInner() {
   }
 
   const isClosed = state === 'CLOSED'
-  const isAgentMode = state === 'AGENT_CONNECTED'
 
   return (
     <div className="fixed bottom-5 right-5 z-[9999]">
@@ -71,22 +71,17 @@ function ChatWidgetInner() {
               messages={messages}
               isStreaming={isStreaming}
               streamingText={streamingText}
-              agentTyping={agentTyping}
               botThinking={botThinking}
+              contactSubmitted={contactSubmitted}
               onSend={handleSend}
+              onSubmitContact={submitContact}
             />
 
             {!isClosed && (
               <ChatInput
                 onSend={handleSend}
                 disabled={isStreaming || sessionLoading}
-                placeholder={
-                  isAgentMode
-                    ? 'Message the agent...'
-                    : isClosed
-                      ? 'Chat ended'
-                      : 'Type a message...'
-                }
+                placeholder="Type a message..."
               />
             )}
 
@@ -101,6 +96,10 @@ function ChatWidgetInner() {
                 </button>
               </div>
             )}
+
+            <p className="bg-[#11122F] px-4 pb-2 text-center text-xs text-[#ADAECC]/60">
+              AI can make mistakes. Please double-check important details.
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

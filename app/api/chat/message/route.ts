@@ -3,31 +3,38 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 import { processMessage } from '@/lib/chat/state-machine'
 import { checkRateLimit } from '@/lib/utils/rate-limiter'
 import { sanitizeInput, isInjectionAttempt } from '@/lib/utils/validators'
-import type { ChatSession } from '@/types/chat'
+import type { ChatSession, ChatUi } from '@/types/chat'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
+const SSE_HEADERS = {
+  'Content-Type': 'text/event-stream',
+  'Cache-Control': 'no-cache',
+  Connection: 'keep-alive',
+}
+
+// The prompt forbids em dashes but the model still slips them in now and then.
+// Tokens never split a single character, so this is safe per chunk.
+function stripDashes(text: string): string {
+  return text.replace(/ ?\u2014 ?/g, ', ').replace(/ \u2013 /g, ', ')
+}
+
+function sseEvent(payload: Record<string, unknown>): Uint8Array {
+  return new TextEncoder().encode(`data: ${JSON.stringify(payload)}\n\n`)
+}
+
 // Wrap a single assistant message as an SSE stream so the client shows a
-// typing indicator first (matches the deterministic response path below).
-function sseMessage(text: string, state: string): Response {
-  const encoder = new TextEncoder()
+// typing indicator first (same shape as the streamed answers below).
+function sseMessage(text: string, state: string, ui: ChatUi | null = null): Response {
   const readable = new ReadableStream({
     start(controller) {
-      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`))
-      controller.enqueue(
-        encoder.encode(`data: ${JSON.stringify({ done: true, state })}\n\n`)
-      )
+      controller.enqueue(sseEvent({ text }))
+      controller.enqueue(sseEvent({ done: true, state, ui }))
       controller.close()
     },
   })
-  return new Response(readable, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
-    },
-  })
+  return new Response(readable, { headers: SSE_HEADERS })
 }
 
 export async function POST(request: NextRequest) {
@@ -85,9 +92,10 @@ export async function POST(request: NextRequest) {
       })
       const fallback =
         "I'm not able to process that message. Is there something about BMYBrand's services I can help you with?"
+      const now = Date.now()
       await supabaseAdmin.from('chat_messages').insert([
-        { session_id: sessionId, role: 'user', content: sanitized },
-        { session_id: sessionId, role: 'assistant', content: fallback },
+        { session_id: sessionId, role: 'user', content: sanitized, created_at: new Date(now).toISOString() },
+        { session_id: sessionId, role: 'assistant', content: fallback, created_at: new Date(now + 1).toISOString() },
       ])
       return sseMessage(fallback, session.state)
     }
@@ -99,131 +107,47 @@ export async function POST(request: NextRequest) {
       content: sanitized,
     })
 
-    // 4. If bot is disabled (agent mode), don't process
-    if (!session.bot_enabled && session.state === 'AGENT_CONNECTED') {
-      return Response.json({ status: 'agent_mode', message: 'Message delivered to agent' })
-    }
-
-    // 5. Run state machine
+    // 4. Run state machine
     const result = await processMessage(session as ChatSession, sanitized)
+    const messageMetadata = result.ui ? { ui: result.ui } : {}
 
-    // 6. Update session state
-    const updates: Record<string, unknown> = {
-      state: result.newState,
-      ...result.sessionUpdates,
-    }
+    // 5. Update session state
     await supabaseAdmin
       .from('chat_sessions')
-      .update(updates)
+      .update({ state: result.newState, ...result.sessionUpdates })
       .eq('id', sessionId)
 
-    // 7a. Deterministic response (lead capture, booking, handoff, farewell)
-    //     Wrapped as SSE so the client always sees a typing indicator first.
+    // 6a. Fixed response (booking, farewell, safety), sent as SSE so the client
+    //     always sees a typing indicator first.
     if (result.response) {
       await supabaseAdmin.from('chat_messages').insert({
         session_id: sessionId,
         role: 'assistant',
         content: result.response,
+        metadata: messageMetadata,
       })
-
-      const encoder = new TextEncoder()
-      const readable = new ReadableStream({
-        start(controller) {
-          controller.enqueue(
-            encoder.encode(`data: ${JSON.stringify({ text: result.response })}\n\n`)
-          )
-          controller.enqueue(
-            encoder.encode(`data: ${JSON.stringify({ done: true, state: result.newState })}\n\n`)
-          )
-          controller.close()
-        },
-      })
-
-      return new Response(readable, {
-        headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
-          Connection: 'keep-alive',
-        },
-      })
+      return sseMessage(result.response, result.newState, result.ui)
     }
 
-    // 7b. Streaming response (knowledge QA)
+    // 6b. Streamed answer
     if (result.stream) {
       const stream = result.stream as AsyncIterable<{
         choices: Array<{ delta: { content?: string } }>
       }>
 
-      const encoder = new TextEncoder()
       let fullResponse = ''
-
-      // Strip control markers ([HANDOFF_REQUESTED]/[BOOKING_REQUESTED]) from the
-      // streamed text so visitors never see them, while still detecting them for
-      // state routing. A carry buffer holds back any tail that could be the start
-      // of a marker split across token chunks, so partial markers never leak.
-      const MARKER_RE = /\[(?:HANDOFF_REQUESTED|BOOKING_REQUESTED)\]/g
-      const isMarkerPrefix = (s: string) =>
-        '[HANDOFF_REQUESTED]'.startsWith(s) || '[BOOKING_REQUESTED]'.startsWith(s)
-      let carry = ''
-      let sawHandoff = false
-      let sawBooking = false
-
-      const pump = (incoming: string, isFinal: boolean): string => {
-        carry = (carry + incoming).replace(MARKER_RE, (m) => {
-          if (m.includes('HANDOFF')) sawHandoff = true
-          else sawBooking = true
-          return ''
-        })
-        if (isFinal) {
-          const out = carry
-          carry = ''
-          return out
-        }
-        const idx = carry.lastIndexOf('[')
-        if (idx !== -1 && isMarkerPrefix(carry.slice(idx))) {
-          const out = carry.slice(0, idx)
-          carry = carry.slice(idx)
-          return out
-        }
-        const out = carry
-        carry = ''
-        return out
-      }
 
       const readable = new ReadableStream({
         async start(controller) {
           try {
             for await (const chunk of stream) {
-              const text = chunk.choices[0]?.delta?.content || ''
+              const text = stripDashes(chunk.choices[0]?.delta?.content || '')
               if (!text) continue
-              const emit = pump(text, false)
-              if (emit) {
-                fullResponse += emit
-                controller.enqueue(
-                  encoder.encode(`data: ${JSON.stringify({ text: emit })}\n\n`)
-                )
-              }
-            }
-            const tail = pump('', true)
-            if (tail) {
-              fullResponse += tail
-              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: tail })}\n\n`))
+              fullResponse += text
+              controller.enqueue(sseEvent({ text }))
             }
 
-            // Route based on any markers the model emitted (rare now that the
-            // prompt forbids them; detectIntent already handles escalation).
-            let finalState = result.newState
-            const sessionPatch: Record<string, unknown> = {}
-            if (sawHandoff) {
-              finalState = 'HANDOFF_REQUESTED'
-              sessionPatch.status = 'handoff_pending'
-            } else if (sawBooking) {
-              finalState = 'BOOKING'
-            }
-
-            controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ done: true, state: finalState })}\n\n`)
-            )
+            controller.enqueue(sseEvent({ done: true, state: result.newState, ui: result.ui }))
             controller.close()
 
             if (fullResponse.trim()) {
@@ -231,34 +155,22 @@ export async function POST(request: NextRequest) {
                 session_id: sessionId,
                 role: 'assistant',
                 content: fullResponse.trim(),
+                metadata: messageMetadata,
               })
-              if (Object.keys(sessionPatch).length > 0 || finalState !== result.newState) {
-                await supabaseAdmin
-                  .from('chat_sessions')
-                  .update({ state: finalState, ...sessionPatch })
-                  .eq('id', sessionId)
-              }
             }
           } catch (err) {
             const errMsg = err instanceof Error ? err.message : 'Stream error'
-            controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ error: errMsg })}\n\n`)
-            )
+            console.error('[chat] stream failed', { sessionId, error: errMsg })
+            controller.enqueue(sseEvent({ error: errMsg }))
             controller.close()
           }
         },
       })
 
-      return new Response(readable, {
-        headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
-          Connection: 'keep-alive',
-        },
-      })
+      return new Response(readable, { headers: SSE_HEADERS })
     }
 
-    // 8. No response (agent connected or closed state)
+    // 7. No response (closed session)
     return Response.json({ state: result.newState })
   } catch (error) {
     const message =

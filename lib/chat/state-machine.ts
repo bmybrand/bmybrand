@@ -4,79 +4,98 @@ import { retrieveContext, assembleContext } from '@/lib/rag/retrieve'
 import { detectIntent } from './intent-detector'
 import { detectLanguage, translateMessage } from './language-detector'
 import {
-  LEAD_CAPTURE,
-  VALIDATION,
   knowledgeQAPrompt,
   bookingResponse,
-  HANDOFF,
+  getBookingUrl,
   FAREWELL_MESSAGE,
 } from './prompts'
-import {
-  isValidEmail,
-  isValidPhone,
-  isValidName,
-  isSkip,
-  sanitizeInput,
-} from '@/lib/utils/validators'
+import { contactsForRegion, regionFromCountry } from './contact-info'
+import { sanitizeInput } from '@/lib/utils/validators'
 import {
   screenMessage,
   CRISIS_RESPONSE,
   PROHIBITED_REFUSAL,
   CONVERSATION_END,
 } from './safety'
-import type { ChatSession, ConversationState } from '@/types/chat'
+import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
+import type { ChatSession, ChatUi, ConversationState, UserIntent } from '@/types/chat'
 
 export interface StateMachineResult {
   response: string | null       // null when streaming
   stream: AsyncIterable<unknown> | null  // non-null for streamed responses
   newState: ConversationState
   sessionUpdates: Partial<ChatSession>
+  ui: ChatUi | null             // rich UI to show under the reply (contact form)
 }
 
 // Current date/time injected into the system prompt (SOP §2.4). Defaults to
 // Texas time (US Central / America/Chicago — the Allen, TX HQ), overridable via
 // CHATBOT_TIMEZONE. UTC is intentionally avoided for client-facing output.
-function currentDateTime(): string {
+function currentDateTime(date = new Date()): string {
   const timeZone = process.env.CHATBOT_TIMEZONE || 'America/Chicago'
   try {
     return new Intl.DateTimeFormat('en-US', {
       dateStyle: 'full',
       timeStyle: 'short',
       timeZone,
-    }).format(new Date())
+    }).format(date)
   } catch {
     return new Intl.DateTimeFormat('en-US', {
       dateStyle: 'full',
       timeStyle: 'short',
-    }).format(new Date())
+    }).format(date)
   }
 }
 
-// Fetch the last N messages for context
-async function getRecentMessages(sessionId: string, limit = 10): Promise<string> {
+interface HistoryMessage {
+  role: string
+  content: string
+  metadata: Record<string, unknown> | null
+}
+
+// Fetch the last N messages before the current one (oldest first). The message
+// route saves the visitor's message before running the state machine, so the
+// newest row is dropped when it is that same message.
+async function getRecentMessages(
+  sessionId: string,
+  currentInput: string,
+  limit = 12
+): Promise<HistoryMessage[]> {
   const { data } = await supabaseAdmin
     .from('chat_messages')
-    .select('role, content')
+    .select('role, content, metadata')
     .eq('session_id', sessionId)
     .order('created_at', { ascending: false })
-    .limit(limit)
+    .limit(limit + 1)
 
-  if (!data || data.length === 0) return ''
+  const rows = (data ?? []) as HistoryMessage[]
+  if (rows[0]?.role === 'user' && rows[0].content === currentInput) rows.shift()
+  return rows.slice(0, limit).reverse()
+}
 
-  return data
-    .reverse()
-    .map((m) => `${m.role}: ${m.content}`)
-    .join('\n')
+function historyAsText(history: HistoryMessage[]): string {
+  return history.map((m) => `${m.role}: ${m.content}`).join('\n')
+}
+
+// A contact form shown in one of the last few assistant replies is still easy
+// to find, so the next reply does not need another one.
+function contactFormShownInLast(history: HistoryMessage[], replies: number): boolean {
+  return history
+    .filter((m) => m.role === 'assistant')
+    .slice(-replies)
+    .some((m) => (m.metadata?.ui as ChatUi | undefined)?.type === 'contact_form')
 }
 
 // ─── Main State Machine ──────────────────────────────────────────────────
-// New flow: KNOWLEDGE_QA first, lead capture only on buying intent
-//
-// KNOWLEDGE_QA (answer freely)
-//   → service_inquiry or booking_request (no lead yet) → LEAD_CAPTURE_NAME → EMAIL → PHONE → BOOKING / back to QA
-//   → general_query → RAG streaming answer
-//   → human_request → HANDOFF
-//   → farewell → CLOSED
+// There is no live handoff. Every turn is answered by the bot:
+//   general_query                   → knowledge base answer
+//   service_inquiry                 → answer, then offer the contact form
+//   support_request / human_request → explain there is no live chat, share the
+//                                     team's phone/email and show the contact form
+//   booking_request                 → booking link
+//   farewell                        → CLOSED
+// Contact details are collected by the in-chat form (/api/chat/contact), which
+// emails the team.
 
 export async function processMessage(
   session: ChatSession,
@@ -91,8 +110,9 @@ export async function processMessage(
       response: CRISIS_RESPONSE,
       stream: null,
       // Crisis is never treated as a violation; keep the visitor in flow.
-      newState: session.state === 'CLOSED' ? 'KNOWLEDGE_QA' : session.state,
+      newState: 'KNOWLEDGE_QA',
       sessionUpdates: {},
+      ui: null,
     }
   }
   if (screen === 'prohibited') {
@@ -109,314 +129,150 @@ export async function processMessage(
           status: 'closed',
           metadata: { ...meta, violation_count: count },
         },
+        ui: null,
       }
     }
     const response = await maybeTranslate(PROHIBITED_REFUSAL, session.visitor_language)
     return {
       response,
       stream: null,
-      newState: session.state === 'CLOSED' ? 'KNOWLEDGE_QA' : session.state,
+      newState: 'KNOWLEDGE_QA',
       sessionUpdates: { metadata: { ...meta, violation_count: count } },
+      ui: null,
     }
   }
 
-  const { state } = session
-
-  switch (state) {
-    case 'GREETING':
-    case 'KNOWLEDGE_QA':
-      return handleKnowledgeQA(session, input)
-
-    case 'LEAD_CAPTURE_NAME':
-      return handleNameCapture(session, input)
-
-    case 'LEAD_CAPTURE_EMAIL':
-      return handleEmailCapture(session, input)
-
-    case 'LEAD_CAPTURE_PHONE':
-      return handlePhoneCapture(session, input)
-
-    case 'BOOKING':
-      return handleBookingFollowup(session, input)
-
-    case 'HANDOFF_REQUESTED':
-      return {
-        response: HANDOFF.CONNECTING,
-        stream: null,
-        newState: 'HANDOFF_REQUESTED',
-        sessionUpdates: {},
-      }
-
-    case 'AGENT_CONNECTED':
-      return {
-        response: null,
-        stream: null,
-        newState: 'AGENT_CONNECTED',
-        sessionUpdates: {},
-      }
-
-    case 'CLOSED':
-      return {
-        response: null,
-        stream: null,
-        newState: 'CLOSED',
-        sessionUpdates: {},
-      }
-
-    default:
-      return handleKnowledgeQA(session, input)
+  if (session.state === 'CLOSED') {
+    return {
+      response: null,
+      stream: null,
+      newState: 'CLOSED',
+      sessionUpdates: {},
+      ui: null,
+    }
   }
+
+  // Every other state, including legacy handoff and lead-capture states on
+  // older sessions, is handled as a normal conversation turn.
+  return handleConversation(session, input)
 }
 
-// ─── Knowledge QA Handler (streaming) ────────────────────────────────────
+// ─── Conversation turn ───────────────────────────────────────────────────
 
-async function handleKnowledgeQA(
+async function handleConversation(
   session: ChatSession,
   input: string
 ): Promise<StateMachineResult> {
-  // Detect language on first message
-  let language = session.visitor_language || 'en'
-  if (language === 'en') {
-    const detected = await detectLanguage(input)
-    if (detected !== language) {
-      language = detected
+  const history = await getRecentMessages(session.id, input)
+
+  // Language, intent and knowledge retrieval are independent, so run them
+  // together to keep the reply fast.
+  const knownLanguage = session.visitor_language || 'en'
+  const [language, intent, matches] = await Promise.all([
+    knownLanguage === 'en' ? detectLanguage(input) : Promise.resolve(knownLanguage),
+    detectIntent(input, historyAsText(history)),
+    retrieveContext(input).catch((err) => {
+      console.error('[chat] knowledge retrieval failed', err)
+      return []
+    }),
+  ])
+
+  if (intent === 'farewell') {
+    const response = await maybeTranslate(FAREWELL_MESSAGE, language)
+    return {
+      response,
+      stream: null,
+      newState: 'CLOSED',
+      sessionUpdates: { status: 'closed', visitor_language: language },
+      ui: null,
     }
   }
 
-  // Classify intent
-  const intent = await detectIntent(input)
-
-  switch (intent) {
-    // Service inquiry or booking — trigger lead capture if we don't have details yet
-    case 'service_inquiry':
-    case 'booking_request': {
-      const hasLead = session.visitor_name && session.visitor_email
-      if (!hasLead) {
-        // Start lead capture flow
-        const msg = LEAD_CAPTURE.ASK_NAME
-        const response = await maybeTranslate(msg, language)
-        return {
-          response,
-          stream: null,
-          newState: 'LEAD_CAPTURE_NAME',
-          sessionUpdates: {
-            status: 'lead_capture',
-            visitor_language: language,
-            // Remember what the user wanted so we can resume after capture
-            metadata: { ...session.metadata, pending_intent: intent },
-          },
-        }
-      }
-
-      // Already have lead details — handle booking directly
-      if (intent === 'booking_request') {
-        const bookingUrl = process.env.ZOOM_BOOKING_URL || '#'
-        let response = bookingResponse(bookingUrl)
-        response = await maybeTranslate(response, language)
-        return {
-          response,
-          stream: null,
-          newState: 'BOOKING',
-          sessionUpdates: { visitor_language: language },
-        }
-      }
-
-      // service_inquiry with lead already captured — just answer via RAG
-      return handleRAGResponse(session, input, language)
+  if (intent === 'booking_request') {
+    const response = await maybeTranslate(bookingResponse(getBookingUrl()), language)
+    return {
+      response,
+      stream: null,
+      newState: 'BOOKING',
+      sessionUpdates: { status: 'bot', visitor_language: language },
+      ui: null,
     }
-
-    case 'human_request': {
-      const { data: agents } = await supabaseAdmin
-        .from('agents')
-        .select('id')
-        .eq('is_online', true)
-        .limit(1)
-
-      const agentAvailable = agents && agents.length > 0
-      const handoffMsg: string = agentAvailable
-        ? HANDOFF.CONNECTING
-        : HANDOFF.NO_AGENT_ONLINE
-      const response = await maybeTranslate(handoffMsg, language)
-
-      return {
-        response,
-        stream: null,
-        newState: 'HANDOFF_REQUESTED',
-        sessionUpdates: {
-          status: agentAvailable ? 'handoff_pending' : 'bot',
-          visitor_language: language,
-        },
-      }
-    }
-
-    case 'farewell': {
-      const response = await maybeTranslate(FAREWELL_MESSAGE, language)
-      return {
-        response,
-        stream: null,
-        newState: 'CLOSED',
-        sessionUpdates: { status: 'closed', visitor_language: language },
-      }
-    }
-
-    case 'general_query':
-    default:
-      return handleRAGResponse(session, input, language)
   }
+
+  return handleAnswer(session, input, language, intent, history, assembleContext(matches))
 }
 
-// ─── RAG Streaming Response ──────────────────────────────────────────────
+// ─── Streaming answer ────────────────────────────────────────────────────
 
-async function handleRAGResponse(
+async function handleAnswer(
   session: ChatSession,
   input: string,
-  language: string
+  language: string,
+  intent: UserIntent,
+  history: HistoryMessage[],
+  context: string
 ): Promise<StateMachineResult> {
-  const matches = await retrieveContext(input)
-  const context = assembleContext(matches)
-  const recentMessages = await getRecentMessages(session.id)
-  const systemPrompt = knowledgeQAPrompt(
-    language,
-    context,
-    recentMessages,
-    currentDateTime()
-  )
+  const meta = (session.metadata ?? {}) as Record<string, unknown>
+  const leadSubmittedAt =
+    typeof meta.lead_submitted_at === 'string' ? meta.lead_submitted_at : null
+  const region = regionFromCountry(meta.country as string | undefined)
+  const contacts = contactsForRegion(region)
 
-  const stream = await chatCompletionStream(
-    [
-      { role: 'system', content: systemPrompt },
-      { role: 'user', content: input },
-    ],
-    { temperature: 0.7 }
-  )
+  const wantsTeam = intent === 'support_request' || intent === 'human_request'
+  const showContactForm =
+    !leadSubmittedAt &&
+    ((wantsTeam && !contactFormShownInLast(history, 2)) ||
+      (intent === 'service_inquiry' && !contactFormShownInLast(history, 4)))
+
+  const systemPrompt = knowledgeQAPrompt(language, context, currentDateTime(), {
+    intent,
+    contacts,
+    showContactForm,
+    teamInformedAt: leadSubmittedAt ? currentDateTime(new Date(leadSubmittedAt)) : null,
+    visitorName: session.visitor_name,
+    bookingUrl: getBookingUrl(),
+  })
+
+  const messages: ChatCompletionMessageParam[] = [
+    { role: 'system', content: systemPrompt },
+    ...history
+      .filter((m) => m.role === 'user' || m.role === 'assistant')
+      .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+    { role: 'user', content: input },
+  ]
+
+  const stream = await chatCompletionStream(messages, { temperature: 0.5 })
 
   return {
     response: null,
     stream,
     newState: 'KNOWLEDGE_QA',
-    sessionUpdates: { visitor_language: language },
+    sessionUpdates: {
+      status: 'bot',
+      visitor_language: language,
+      // Remember what the visitor wanted, so the lead shows it in the CRM.
+      // Existing-client support is kept once seen, since follow-ups like
+      // "when can I talk to someone" would otherwise relabel it.
+      ...((wantsTeam || intent === 'service_inquiry') &&
+      meta.lead_interest !== interestLabel('support_request')
+        ? { metadata: { ...meta, lead_interest: interestLabel(intent) } }
+        : {}),
+    },
+    ui: showContactForm ? { type: 'contact_form', contacts } : null,
   }
 }
 
-// ─── Lead Capture Handlers ───────────────────────────────────────────────
-
-async function handleNameCapture(
-  session: ChatSession,
-  input: string
-): Promise<StateMachineResult> {
-  if (!isValidName(input)) {
-    const msg = VALIDATION.INVALID_NAME
-    const response = await maybeTranslate(msg, session.visitor_language)
-    return {
-      response,
-      stream: null,
-      newState: 'LEAD_CAPTURE_NAME',
-      sessionUpdates: {},
-    }
+function interestLabel(intent: UserIntent): string {
+  switch (intent) {
+    case 'support_request':
+      return 'Existing client support'
+    case 'human_request':
+      return 'Asked to talk to the team'
+    case 'service_inquiry':
+      return 'New project inquiry'
+    default:
+      return 'Chatbot inquiry'
   }
-
-  const name = input.trim()
-  const prompt = LEAD_CAPTURE.ASK_EMAIL(name)
-  const response = await maybeTranslate(prompt, session.visitor_language)
-
-  return {
-    response,
-    stream: null,
-    newState: 'LEAD_CAPTURE_EMAIL',
-    sessionUpdates: { visitor_name: name },
-  }
-}
-
-async function handleEmailCapture(
-  session: ChatSession,
-  input: string
-): Promise<StateMachineResult> {
-  if (!isValidEmail(input)) {
-    const msg = VALIDATION.INVALID_EMAIL
-    const response = await maybeTranslate(msg, session.visitor_language)
-    return {
-      response,
-      stream: null,
-      newState: 'LEAD_CAPTURE_EMAIL',
-      sessionUpdates: {},
-    }
-  }
-
-  const email = input.trim().toLowerCase()
-  const prompt = LEAD_CAPTURE.ASK_PHONE
-  const response = await maybeTranslate(prompt, session.visitor_language)
-
-  return {
-    response,
-    stream: null,
-    newState: 'LEAD_CAPTURE_PHONE',
-    sessionUpdates: { visitor_email: email },
-  }
-}
-
-async function handlePhoneCapture(
-  session: ChatSession,
-  input: string
-): Promise<StateMachineResult> {
-  const updates: Partial<ChatSession> = {
-    status: 'bot',
-  }
-
-  if (!isSkip(input)) {
-    if (!isValidPhone(input)) {
-      const msg = VALIDATION.INVALID_PHONE
-      const response = await maybeTranslate(msg, session.visitor_language)
-      return {
-        response,
-        stream: null,
-        newState: 'LEAD_CAPTURE_PHONE',
-        sessionUpdates: {},
-      }
-    }
-    updates.visitor_phone = input.trim()
-  }
-
-  const name = session.visitor_name || 'there'
-
-  // Check if user had a pending booking request
-  const pendingIntent = (session.metadata as Record<string, string>)?.pending_intent
-  if (pendingIntent === 'booking_request') {
-    const bookingUrl = process.env.ZOOM_BOOKING_URL || '#'
-    let response = bookingResponse(bookingUrl)
-    response = await maybeTranslate(response, session.visitor_language)
-    // Clear pending intent
-    updates.metadata = { ...session.metadata, pending_intent: null }
-    return {
-      response,
-      stream: null,
-      newState: 'BOOKING',
-      sessionUpdates: updates,
-    }
-  }
-
-  // Otherwise complete lead capture and go back to QA
-  const prompt = LEAD_CAPTURE.COMPLETE(name)
-  const response = await maybeTranslate(prompt, session.visitor_language)
-  updates.metadata = { ...session.metadata, pending_intent: null }
-
-  return {
-    response,
-    stream: null,
-    newState: 'KNOWLEDGE_QA',
-    sessionUpdates: updates,
-  }
-}
-
-// ─── Booking Followup ────────────────────────────────────────────────────
-
-async function handleBookingFollowup(
-  session: ChatSession,
-  input: string
-): Promise<StateMachineResult> {
-  return handleKnowledgeQA(
-    { ...session, state: 'KNOWLEDGE_QA' },
-    input
-  )
 }
 
 // ─── Translation Helper ─────────────────────────────────────────────────

@@ -14,7 +14,6 @@ export default function ChatMessage({
   timestamp,
 }: ChatMessageProps) {
   const isUser = role === 'user'
-  const isAgent = role === 'agent'
   const isSystem = role === 'system'
 
   if (isSystem) {
@@ -33,9 +32,9 @@ export default function ChatMessage({
     >
       <div className={`max-w-[80%] ${isUser ? 'order-1' : 'order-1'}`}>
         {/* Sender label */}
-        {!isUser && !isSystem && (
-          <span className={`text-xs font-medium mb-0.5 block ${isAgent ? 'text-blue-400' : 'text-[#ADAECC]'}`}>
-            {isAgent ? 'Agent' : 'Mr. B'}
+        {!isUser && (
+          <span className="text-xs font-medium mb-0.5 block text-[#ADAECC]">
+            Mr. B
           </span>
         )}
 
@@ -43,9 +42,7 @@ export default function ChatMessage({
           className={`px-4 py-2.5 rounded-2xl text-base leading-relaxed break-words whitespace-pre-wrap ${
             isUser
               ? 'bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white rounded-br-md'
-              : isAgent
-                ? 'bg-blue-600/20 text-white border border-blue-500/20 rounded-bl-md'
-                : 'bg-[#21235C] text-white/90 rounded-bl-md'
+              : 'bg-[#21235C] text-white/90 rounded-bl-md'
           }`}
         >
           {renderContent(content)}
