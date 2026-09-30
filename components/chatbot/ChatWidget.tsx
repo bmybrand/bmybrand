@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle } from 'lucide-react'
 import ChatHeader from './ChatHeader'
 import ChatWindow from './ChatWindow'
 import ChatInput from './ChatInput'
@@ -104,12 +103,21 @@ function ChatWidgetInner() {
         )}
       </AnimatePresence>
 
+      {/* Waves draw attention to the launcher; they stop while the chat is open */}
+      {!isOpen && (
+        <span aria-hidden className="pointer-events-none absolute bottom-0 right-0 h-14 w-14">
+          <span className="chat-launcher-wave" />
+          <span className="chat-launcher-wave" />
+          <span className="chat-launcher-wave" />
+        </span>
+      )}
+
       {/* Floating Launcher Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white shadow-lg shadow-[#F45B25]/30 flex items-center justify-center hover:shadow-xl hover:shadow-[#F45B25]/40 transition-shadow cursor-pointer"
+        className="relative w-14 h-14 rounded-full bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white shadow-lg shadow-[#F45B25]/30 flex items-center justify-center hover:shadow-xl hover:shadow-[#F45B25]/40 transition-shadow cursor-pointer"
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         <AnimatePresence mode="wait">
@@ -132,11 +140,21 @@ function ChatWidgetInner() {
               exit={{ rotate: -90, opacity: 0 }}
               transition={{ duration: 0.15 }}
             >
-              <MessageCircle className="w-6 h-6" />
+              <BrandMark className="h-7 w-auto" />
             </motion.span>
           )}
         </AnimatePresence>
       </motion.button>
     </div>
+  )
+}
+
+// The BMYBrand "B" mark (same shape as the site loader), drawn in currentColor.
+function BrandMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 9 15" fill="currentColor" aria-hidden className={className}>
+      <path d="M6.80532 0.525235L4.25712 0.0398631C4.08521 -0.0511442 3.88298 0.0196393 3.79197 0.191542C3.7313 0.322997 3.75152 0.474675 3.84253 0.575795L4.61103 1.07128C5.03574 1.28363 5.18741 1.83978 4.89417 2.20381C4.81327 2.29482 4.72227 2.37572 4.59081 2.43639L0 4.85314V8.91813L7.51316 4.27676C7.93786 4.01385 8.22099 3.63971 8.37267 3.23523C8.80748 2.05213 8.02886 0.767921 6.79521 0.535347L6.80532 0.525235Z" />
+      <path d="M8.41312 9.1703C8.27155 9.62533 7.9783 10.0399 7.51315 10.3332L0 14.9745V11.3241L4.4998 8.54336L4.59081 8.4928C4.67171 8.45235 4.7526 8.4119 4.81327 8.35123C4.84361 8.3209 4.87394 8.29056 4.89417 8.26022C5.18741 7.88608 5.03573 7.34004 4.61103 7.12769L4.4998 7.07713L5.75368 6.30862L6.88622 6.58165C7.05812 6.62209 7.23002 6.69288 7.3817 6.77377C8.2311 7.22881 8.70636 8.21978 8.41312 9.18041V9.1703Z" />
+    </svg>
   )
 }

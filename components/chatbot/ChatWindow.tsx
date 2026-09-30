@@ -93,8 +93,8 @@ export default function ChatWindow({
           </div>
           <h3 className="text-white text-lg font-semibold">Mr. B</h3>
           <p className="text-[#ADAECC] text-sm mt-0.5">BMYBrand&apos;s AI Assistant</p>
-          <p className="text-[#ADAECC]/70 text-sm mt-3 max-w-[260px]">
-            Send a message or pick a topic below to start chatting.
+          <p className="text-white/90 text-base font-medium mt-4 max-w-[260px]">
+            Hi there! How can I help you today?
           </p>
 
           <div className="flex flex-wrap justify-center gap-2 mt-5">
