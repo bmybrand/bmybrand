@@ -8,6 +8,7 @@ import {
   bookingResponse,
   getBookingUrl,
   FAREWELL_MESSAGE,
+  type TurnCard,
 } from './prompts'
 import { contactsForRegion, regionFromCountry } from './contact-info'
 import { sanitizeInput } from '@/lib/utils/validators'
@@ -77,22 +78,30 @@ function historyAsText(history: HistoryMessage[]): string {
   return history.map((m) => `${m.role}: ${m.content}`).join('\n')
 }
 
-// A contact form shown in one of the last few assistant replies is still easy
-// to find, so the next reply does not need another one.
-function contactFormShownInLast(history: HistoryMessage[], replies: number): boolean {
+// A card shown in one of the last few assistant replies is still easy to
+// find, so the next reply does not need another one.
+function cardShownInLast(
+  history: HistoryMessage[],
+  replies: number,
+  types: ChatUi['type'][]
+): boolean {
   return history
     .filter((m) => m.role === 'assistant')
     .slice(-replies)
-    .some((m) => (m.metadata?.ui as ChatUi | undefined)?.type === 'contact_form')
+    .some((m) => {
+      const ui = m.metadata?.ui as ChatUi | undefined
+      return ui ? types.includes(ui.type) : false
+    })
 }
 
 // ─── Main State Machine ──────────────────────────────────────────────────
 // There is no live handoff. Every turn is answered by the bot:
 //   general_query                   → knowledge base answer
-//   service_inquiry                 → answer, then offer the contact form
+//   service_inquiry                 → answer, then offer a free strategy call
+//                                     (booking button, contact form one tap away)
 //   support_request / human_request → explain there is no live chat, share the
 //                                     team's phone/email and show the contact form
-//   booking_request                 → booking link
+//   booking_request                 → booking button
 //   farewell                        → CLOSED
 // Contact details are collected by the in-chat form (/api/chat/contact), which
 // emails the team.
@@ -189,13 +198,13 @@ async function handleConversation(
   }
 
   if (intent === 'booking_request') {
-    const response = await maybeTranslate(bookingResponse(getBookingUrl()), language)
+    const response = await maybeTranslate(bookingResponse(), language)
     return {
       response,
       stream: null,
       newState: 'BOOKING',
       sessionUpdates: { status: 'bot', visitor_language: language },
-      ui: null,
+      ui: { type: 'booking', bookingUrl: getBookingUrl() },
     }
   }
 
@@ -219,18 +228,30 @@ async function handleAnswer(
   const contacts = contactsForRegion(region)
 
   const wantsTeam = intent === 'support_request' || intent === 'human_request'
-  const showContactForm =
-    !leadSubmittedAt &&
-    ((wantsTeam && !contactFormShownInLast(history, 2)) ||
-      (intent === 'service_inquiry' && !contactFormShownInLast(history, 4)))
+  const bookingUrl = getBookingUrl()
+
+  let card: TurnCard = null
+  if (wantsTeam && !leadSubmittedAt && !cardShownInLast(history, 2, ['contact_form'])) {
+    card = 'contact_form'
+  } else if (
+    intent === 'service_inquiry' &&
+    !cardShownInLast(history, 4, ['sales', 'booking'])
+  ) {
+    card = leadSubmittedAt ? 'booking' : 'sales'
+  }
+
+  let ui: ChatUi | null = null
+  if (card === 'contact_form') ui = { type: 'contact_form', contacts }
+  else if (card === 'sales') ui = { type: 'sales', contacts, bookingUrl }
+  else if (card === 'booking') ui = { type: 'booking', bookingUrl }
 
   const systemPrompt = knowledgeQAPrompt(language, context, currentDateTime(), {
     intent,
     contacts,
-    showContactForm,
+    card,
     teamInformedAt: leadSubmittedAt ? currentDateTime(new Date(leadSubmittedAt)) : null,
     visitorName: session.visitor_name,
-    bookingUrl: getBookingUrl(),
+    bookingUrl,
   })
 
   const messages: ChatCompletionMessageParam[] = [
@@ -258,7 +279,7 @@ async function handleAnswer(
         ? { metadata: { ...meta, lead_interest: interestLabel(intent) } }
         : {}),
     },
-    ui: showContactForm ? { type: 'contact_form', contacts } : null,
+    ui,
   }
 }
 

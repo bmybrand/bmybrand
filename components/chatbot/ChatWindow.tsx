@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
-import ContactFormCard from './ContactFormCard'
+import ChatCard from './ChatCards'
 import type { ChatMessage as ChatMessageType, ChatUi } from '@/types/chat'
 import type { ContactFormValues } from '@/hooks/useChatState'
 
@@ -18,16 +18,20 @@ interface ChatWindowProps {
   onSubmitContact: (values: ContactFormValues) => Promise<{ error?: string }>
 }
 
-function contactFormUi(msg: ChatMessageType): ChatUi | null {
+function messageUi(msg: ChatMessageType): ChatUi | null {
   const ui = msg.metadata?.ui as ChatUi | undefined
-  return ui?.type === 'contact_form' ? ui : null
+  return ui && ['contact_form', 'sales', 'booking'].includes(ui.type) ? ui : null
+}
+
+function hasForm(ui: ChatUi | null): boolean {
+  return ui?.type === 'contact_form' || ui?.type === 'sales'
 }
 
 const PRESET_MESSAGES = [
   'What services do you offer?',
   'I need a website built',
   'Tell me about your process',
-  "I'd like a consultation",
+  'Book a free strategy call',
 ]
 
 export default function ChatWindow({
@@ -45,9 +49,17 @@ export default function ChatWindow({
   const [presetSent, setPresetSent] = useState(false)
 
   // Auto-scroll to bottom on new messages or streaming updates
+  const lastMessageRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
+    // A reply that comes with a card can be taller than the window, so show
+    // the start of the reply instead of jumping past it to the card's end.
+    const last = messages[messages.length - 1]
+    if (last?.role === 'assistant' && messageUi(last) && !streamingText) {
+      lastMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages.length, streamingText])
+  }, [messages, streamingText])
 
   const handlePreset = (msg: string) => {
     if (presetSent) return
@@ -61,7 +73,7 @@ export default function ChatWindow({
   // Only the newest contact form can be filled in.
   let lastFormIndex = -1
   messages.forEach((msg, i) => {
-    if (contactFormUi(msg)) lastFormIndex = i
+    if (hasForm(messageUi(msg))) lastFormIndex = i
   })
 
   return (
@@ -102,20 +114,21 @@ export default function ChatWindow({
 
       {/* Message list */}
       {messages.map((msg, i) => {
-        const ui = contactFormUi(msg)
+        const ui = messageUi(msg)
         return (
-          <div key={msg.id}>
+          <div key={msg.id} ref={i === messages.length - 1 ? lastMessageRef : undefined}>
             <ChatMessage
               role={msg.role}
               content={msg.content}
               timestamp={msg.created_at}
+              kind={typeof msg.metadata?.type === 'string' ? msg.metadata.type : undefined}
             />
             {ui && (
-              <ContactFormCard
-                contacts={ui.contacts}
+              <ChatCard
+                ui={ui}
                 interactive={i === lastFormIndex}
                 submitted={contactSubmitted}
-                onSubmit={onSubmitContact}
+                onSubmitContact={onSubmitContact}
               />
             )}
           </div>

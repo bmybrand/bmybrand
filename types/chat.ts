@@ -34,12 +34,27 @@ export type UserIntent =
 
 // ─── Rich UI attached to an assistant message ─────────────────────────────
 
+// Support: an open contact form plus the team's phone and email.
 export interface ContactFormUi {
   type: 'contact_form'
   contacts: RegionContact[]
 }
 
-export type ChatUi = ContactFormUi
+// Sales: a "book a free strategy call" button, with the contact form one tap
+// away for visitors who would rather the team reached out.
+export interface SalesUi {
+  type: 'sales'
+  contacts: RegionContact[]
+  bookingUrl: string
+}
+
+// Just the booking button.
+export interface BookingUi {
+  type: 'booking'
+  bookingUrl: string
+}
+
+export type ChatUi = ContactFormUi | SalesUi | BookingUi
 
 // ─── Database Row Types ───────────────────────────────────────────────────
 

@@ -1,96 +1,86 @@
 'use client'
 
+import Image from 'next/image'
+import { CheckCircle2 } from 'lucide-react'
+import RichText from './RichText'
 import type { MessageRole } from '@/types/chat'
 
 interface ChatMessageProps {
   role: MessageRole
   content: string
   timestamp: string
+  // 'contact_form' marks the visitor's submitted contact details.
+  kind?: string
 }
 
-export default function ChatMessage({
-  role,
-  content,
-  timestamp,
-}: ChatMessageProps) {
-  const isUser = role === 'user'
-  const isSystem = role === 'system'
-
-  if (isSystem) {
+export default function ChatMessage({ role, content, timestamp, kind }: ChatMessageProps) {
+  if (role === 'system') {
     return (
-      <div className="flex justify-center my-2">
-        <span className="text-[#ADAECC] text-sm px-3 py-1 bg-white/5 rounded-full">
+      <div className="my-2 flex justify-center">
+        <span className="rounded-full bg-white/5 px-3 py-1 text-center text-sm text-[#ADAECC]">
           {content}
         </span>
       </div>
     )
   }
 
-  return (
-    <div
-      className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-3 group`}
-    >
-      <div className={`max-w-[80%] ${isUser ? 'order-1' : 'order-1'}`}>
-        {/* Sender label */}
-        {!isUser && (
-          <span className="text-xs font-medium mb-0.5 block text-[#ADAECC]">
-            Mr. B
-          </span>
-        )}
-
-        <div
-          className={`px-4 py-2.5 rounded-2xl text-base leading-relaxed break-words whitespace-pre-wrap ${
-            isUser
-              ? 'bg-gradient-to-r from-[#F45B25] to-[#FF843E] text-white rounded-br-md'
-              : 'bg-[#21235C] text-white/90 rounded-bl-md'
-          }`}
-        >
-          {renderContent(content)}
+  if (role === 'user') {
+    if (kind === 'contact_form') {
+      const lines = content.split('\n').slice(1)
+      return (
+        <div className="group mb-3 flex justify-end">
+          <div className="max-w-[80%] rounded-2xl rounded-br-md border border-[#FF843E]/40 bg-[#F45B25]/15 px-4 py-3 text-sm text-white">
+            <p className="mb-1.5 flex items-center gap-1.5 font-semibold">
+              <CheckCircle2 className="h-4 w-4 text-[#FF843E]" /> Details shared with the team
+            </p>
+            {lines.map((line, i) => (
+              <p key={i} className="break-words text-white/80">
+                {line}
+              </p>
+            ))}
+          </div>
         </div>
+      )
+    }
+    return (
+      <div className="group mb-3 flex justify-end">
+        <div className="max-w-[80%]">
+          <div className="rounded-2xl rounded-br-md bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-2.5 text-[15px] leading-relaxed text-white shadow-md shadow-[#F45B25]/15 break-words">
+            <RichText text={content} variant="user" />
+          </div>
+          <Time value={timestamp} align="right" />
+        </div>
+      </div>
+    )
+  }
 
-        {/* Timestamp on hover */}
-        <span
-          className={`text-xs text-[#ADAECC]/0 group-hover:text-[#ADAECC]/70 transition-colors mt-0.5 block ${
-            isUser ? 'text-right' : 'text-left'
-          }`}
-        >
-          {formatTime(timestamp)}
-        </span>
+  // Bot
+  return (
+    <div className="group mb-3 flex items-end gap-2">
+      <div className="h-7 w-7 shrink-0 overflow-hidden rounded-full ring-1 ring-white/20">
+        <Image src="/bmybrand-mark.png" alt="" width={28} height={28} className="h-full w-full object-cover" />
+      </div>
+      <div className="max-w-[82%]">
+        <span className="mb-1 block text-xs font-medium text-[#ADAECC]">Mr. B</span>
+        <div className="rounded-2xl rounded-bl-md border border-white/[0.06] bg-[#21235C] px-4 py-2.5 text-[15px] leading-relaxed text-white/90 break-words">
+          <RichText text={content} variant="bot" />
+        </div>
+        <Time value={timestamp} align="left" />
       </div>
     </div>
   )
 }
 
-// Render markdown links as clickable
-function renderContent(text: string) {
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g
-  const parts: (string | React.ReactElement)[] = []
-  let lastIndex = 0
-  let match
-
-  while ((match = linkRegex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index))
-    }
-    parts.push(
-      <a
-        key={match.index}
-        href={match[2]}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="underline underline-offset-2 hover:text-white/70 transition-colors"
-      >
-        {match[1]}
-      </a>
-    )
-    lastIndex = match.index + match[0].length
-  }
-
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex))
-  }
-
-  return parts.length > 0 ? parts : text
+function Time({ value, align }: { value: string; align: 'left' | 'right' }) {
+  return (
+    <span
+      className={`mt-0.5 block text-xs text-[#ADAECC]/0 transition-colors group-hover:text-[#ADAECC]/70 ${
+        align === 'right' ? 'text-right' : 'text-left'
+      }`}
+    >
+      {formatTime(value)}
+    </span>
+  )
 }
 
 function formatTime(isoString: string): string {
