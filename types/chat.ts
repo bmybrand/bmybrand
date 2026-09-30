@@ -1,4 +1,8 @@
+import type { RegionContact } from '@/lib/chat/contact-info'
+
 // ─── Conversation State Machine ───────────────────────────────────────────
+// LEAD_CAPTURE_*, HANDOFF_REQUESTED and AGENT_CONNECTED are legacy values that
+// older sessions may still hold in the database. New sessions never enter them.
 
 export type ConversationState =
   | 'GREETING'
@@ -24,8 +28,33 @@ export type UserIntent =
   | 'general_query'
   | 'service_inquiry'
   | 'booking_request'
+  | 'support_request'
   | 'human_request'
   | 'farewell'
+
+// ─── Rich UI attached to an assistant message ─────────────────────────────
+
+// Support: an open contact form plus the team's phone and email.
+export interface ContactFormUi {
+  type: 'contact_form'
+  contacts: RegionContact[]
+}
+
+// Sales: a "book a free strategy call" button, with the contact form one tap
+// away for visitors who would rather the team reached out.
+export interface SalesUi {
+  type: 'sales'
+  contacts: RegionContact[]
+  bookingUrl: string
+}
+
+// Just the booking button.
+export interface BookingUi {
+  type: 'booking'
+  bookingUrl: string
+}
+
+export type ChatUi = ContactFormUi | SalesUi | BookingUi
 
 // ─── Database Row Types ───────────────────────────────────────────────────
 
@@ -103,13 +132,19 @@ export interface SendMessageRequest {
   content: string
 }
 
-export interface HandoffRequest {
+export interface ContactSubmitRequest {
   sessionId: string
+  name: string
+  email: string
+  phone?: string
+  message?: string
+  // Honeypot: real visitors never see or fill this field.
+  website?: string
 }
 
-export interface HandoffResponse {
-  success: boolean
-  agentAvailable: boolean
+export interface ContactSubmitResponse {
+  ok: true
+  messages: ChatMessage[]
 }
 
 export interface ChatHistoryResponse {
@@ -137,18 +172,4 @@ export interface KnowledgeMatch {
   source_filename: string
   chunk_index: number
   similarity: number
-}
-
-// ─── Realtime Payload Types ───────────────────────────────────────────────
-
-export interface RealtimeMessagePayload {
-  new: ChatMessage
-  old: ChatMessage | null
-  eventType: 'INSERT'
-}
-
-export interface RealtimeSessionPayload {
-  new: ChatSession
-  old: ChatSession | null
-  eventType: 'UPDATE'
 }

@@ -2,7 +2,10 @@ import { generateEmbedding } from '@/lib/openai/embeddings'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import type { KnowledgeMatch } from '@/types/chat'
 
-const DEFAULT_MATCH_THRESHOLD = 0.75
+// text-embedding-3-small scores relevant chunks around 0.35 to 0.6 and
+// unrelated ones below 0.2, so 0.75 matched nothing and left the bot with no
+// knowledge base at all.
+const DEFAULT_MATCH_THRESHOLD = 0.3
 const DEFAULT_MATCH_COUNT = 5
 
 // Embed a query and search for matching knowledge chunks via vector similarity

@@ -6,15 +6,25 @@ const VALID_INTENTS: UserIntent[] = [
   'general_query',
   'service_inquiry',
   'booking_request',
+  'support_request',
   'human_request',
   'farewell',
 ]
 
-export async function detectIntent(userMessage: string): Promise<UserIntent> {
+// `history` is the recent conversation as "role: content" lines, so short
+// replies like "yes" or "when will they call?" are read in context.
+export async function detectIntent(
+  userMessage: string,
+  history = ''
+): Promise<UserIntent> {
+  const content = history
+    ? `Recent conversation:\n${history}\n\nLatest visitor message:\n${userMessage}`
+    : userMessage
+
   const result = await chatCompletion(
     [
       { role: 'system', content: INTENT_DETECTION_PROMPT },
-      { role: 'user', content: userMessage },
+      { role: 'user', content },
     ],
     { maxTokens: 10, temperature: 0 }
   )

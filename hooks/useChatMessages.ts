@@ -1,9 +1,7 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
-import { subscribeToMessages, subscribeToTyping, unsubscribeChannel } from '@/lib/supabase/realtime'
-import type { ChatMessage, ConversationState } from '@/types/chat'
-import type { RealtimeChannel } from '@supabase/supabase-js'
+import { useState, useCallback, useRef } from 'react'
+import type { ChatMessage, ChatUi, ConversationState } from '@/types/chat'
 
 interface SendMessageResult {
   message?: string
@@ -15,67 +13,41 @@ export function useChatMessages(sessionId: string | null) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isStreaming, setIsStreaming] = useState(false)
   const [streamingText, setStreamingText] = useState('')
-  const [agentTyping, setAgentTyping] = useState(false)
   const [botThinking, setBotThinking] = useState(false)
-  const channelRef = useRef<RealtimeChannel | null>(null)
-  const typingChannelRef = useRef<RealtimeChannel | null>(null)
-
-  // Subscribe to realtime messages (for agent/system messages)
-  useEffect(() => {
-    if (!sessionId) return
-
-    channelRef.current = subscribeToMessages(sessionId, (newMsg) => {
-      // Only add messages from agents/system (bot messages come from API response)
-      if (newMsg.role === 'agent' || newMsg.role === 'system') {
-        setAgentTyping(false) // Agent sent a message — stop typing indicator
-        setMessages((prev) => {
-          if (prev.some((m) => m.id === newMsg.id)) return prev
-          return [...prev, newMsg]
-        })
-      }
-    })
-
-    // Subscribe to agent typing events
-    typingChannelRef.current = subscribeToTyping(sessionId, (isTyping) => {
-      setAgentTyping(isTyping)
-    })
-
-    return () => {
-      if (channelRef.current) {
-        unsubscribeChannel(channelRef.current)
-        channelRef.current = null
-      }
-      if (typingChannelRef.current) {
-        unsubscribeChannel(typingChannelRef.current)
-        typingChannelRef.current = null
-      }
-    }
-  }, [sessionId])
+  const localIdRef = useRef(0)
 
   // Load message history
-  const loadHistory = useCallback(async () => {
-    if (!sessionId) return
+  const loadHistory = useCallback(async (): Promise<ChatMessage[]> => {
+    if (!sessionId) return []
 
     try {
       const res = await fetch(`/api/chat/history/${sessionId}`)
       if (res.ok) {
         const data = await res.json()
-        setMessages(data.messages ?? [])
+        const history: ChatMessage[] = data.messages ?? []
+        setMessages(history)
+        return history
       }
     } catch {
       // Silently fail — messages will be empty
     }
+    return []
   }, [sessionId])
 
   // Add a local message (optimistic UI)
   const addLocalMessage = useCallback(
-    (role: ChatMessage['role'], content: string) => {
+    (
+      role: ChatMessage['role'],
+      content: string,
+      metadata: Record<string, unknown> = {}
+    ) => {
+      localIdRef.current += 1
       const msg: ChatMessage = {
-        id: `local-${Date.now()}`,
+        id: `local-${Date.now()}-${localIdRef.current}`,
         session_id: sessionId || '',
         role,
         content,
-        metadata: {},
+        metadata,
         created_at: new Date().toISOString(),
       }
       setMessages((prev) => [...prev, msg])
@@ -83,6 +55,14 @@ export function useChatMessages(sessionId: string | null) {
     },
     [sessionId]
   )
+
+  // Append messages returned by the server (e.g. after the contact form)
+  const appendMessages = useCallback((incoming: ChatMessage[]) => {
+    setMessages((prev) => [
+      ...prev,
+      ...incoming.filter((m) => !prev.some((p) => p.id === m.id)),
+    ])
+  }, [])
 
   // Send a message and handle the response (JSON or SSE stream)
   const sendMessage = useCallback(
@@ -105,7 +85,7 @@ export function useChatMessages(sessionId: string | null) {
 
         const contentType = res.headers.get('content-type') || ''
 
-        // SSE stream (knowledge QA responses)
+        // SSE stream (every bot reply)
         if (contentType.includes('text/event-stream')) {
           setIsStreaming(true)
           setStreamingText('')
@@ -114,6 +94,7 @@ export function useChatMessages(sessionId: string | null) {
           const decoder = new TextDecoder()
           let fullText = ''
           let finalState: ConversationState | undefined
+          let ui: ChatUi | null = null
 
           if (reader) {
             while (true) {
@@ -137,10 +118,12 @@ export function useChatMessages(sessionId: string | null) {
 
                   if (parsed.done) {
                     finalState = parsed.state
+                    ui = parsed.ui ?? null
                   }
 
                   if (parsed.error) {
                     setIsStreaming(false)
+                    setStreamingText('')
                     return { error: parsed.error }
                   }
                 } catch {
@@ -152,7 +135,7 @@ export function useChatMessages(sessionId: string | null) {
 
           // Add completed streamed message to list
           if (fullText.trim()) {
-            addLocalMessage('assistant', fullText.trim())
+            addLocalMessage('assistant', fullText.trim(), ui ? { ui } : {})
           }
 
           setIsStreaming(false)
@@ -161,13 +144,9 @@ export function useChatMessages(sessionId: string | null) {
           return { message: fullText, state: finalState }
         }
 
-        // JSON response (lead capture, booking, handoff, etc.)
+        // JSON response (closed session)
         const data = await res.json()
-        if (data.message) {
-          addLocalMessage('assistant', data.message)
-        }
-
-        return { message: data.message, state: data.state }
+        return { state: data.state }
       } catch (err) {
         const msg = err instanceof Error ? err.message : 'Network error'
         return { error: msg }
@@ -182,10 +161,10 @@ export function useChatMessages(sessionId: string | null) {
     messages,
     isStreaming,
     streamingText,
-    agentTyping,
     botThinking,
     sendMessage,
     addLocalMessage,
+    appendMessages,
     loadHistory,
     setMessages,
   }
