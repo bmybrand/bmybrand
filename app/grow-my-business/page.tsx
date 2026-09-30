@@ -237,9 +237,23 @@ export default function GrowMyBusinessPage() {
                     </option>
                     <option value="healthcare">Healthcare</option>
                     <option value="ecommerce">E-commerce</option>
-                    <option value="saas">SaaS</option>
+                    <option value="saas">SaaS / Software</option>
                     <option value="education">Education</option>
-                    <option value="finance">Finance</option>
+                    <option value="finance">Finance / Fintech</option>
+                    <option value="food">Food & Beverage</option>
+                    <option value="non-profit">Non-Profit</option>
+                    <option value="sports">Sports & Fitness</option>
+                    <option value="travel-and-tourism">Travel & Tourism</option>
+                    <option value="real-estate">Real Estate</option>
+                    <option value="professional-services">Professional Services</option>
+                    <option value="retail">Retail</option>
+                    <option value="manufacturing">Manufacturing</option>
+                    <option value="hospitality">Hospitality</option>
+                    <option value="technology">Technology</option>
+                    <option value="media-entertainment">Media & Entertainment</option>
+                    <option value="legal">Legal</option>
+                    <option value="construction">Construction</option>
+                    <option value="automotive">Automotive</option>
                     <option value="other">Other</option>
                   </select>
                   <svg className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
