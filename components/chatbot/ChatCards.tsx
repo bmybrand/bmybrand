@@ -44,13 +44,15 @@ export default function ChatCard({
   onSubmitBooking,
 }: CardProps) {
   const bookingProps = { booking, prefill, onSubmitBooking }
-  if (ui.type === 'calendar' || ui.type === 'booking') {
+  if (ui.type === 'booking') return <BookingLinkCard url={ui.bookingUrl} />
+  if (ui.type === 'calendar') {
     return <CalendarCard url={ui.bookingUrl} interactive={interactive} {...bookingProps} />
   }
   if (ui.type === 'sales') {
     return (
       <SalesCard
         url={ui.bookingUrl}
+        calendar={ui.calendar !== false}
         contacts={ui.contacts}
         interactive={interactive}
         submitted={submitted}
@@ -106,6 +108,22 @@ function BookButton({ url, label = 'Book my free strategy call' }: { url: string
   )
 }
 
+// A button to the strategy-call page (calendar switched off, or older chats).
+function BookingLinkCard({ url }: { url: string }) {
+  return (
+    <Shell>
+      <CardHeader
+        icon={<CalendarCheck className="h-5 w-5" />}
+        title="Free strategy call"
+        text="A no-pressure call to map out a plan and get a tailored quote."
+      />
+      <div className="p-4">
+        <BookButton url={url} />
+      </div>
+    </Shell>
+  )
+}
+
 // The booking calendar, open straight away. Older (non-interactive) copies
 // keep a link to the full booking page.
 function CalendarCard({
@@ -137,6 +155,7 @@ function CalendarCard({
 
 function SalesCard({
   url,
+  calendar,
   contacts,
   interactive,
   submitted,
@@ -146,6 +165,7 @@ function SalesCard({
   onSubmitBooking,
 }: {
   url: string
+  calendar: boolean
   contacts: RegionContact[]
   interactive: boolean
   submitted: boolean
@@ -173,7 +193,7 @@ function SalesCard({
         text="Book a free strategy call for a clear plan and a tailored quote."
       />
       <div className="space-y-2.5 p-4">
-        {!interactive ? (
+        {!interactive || !calendar ? (
           <BookButton url={url} />
         ) : showCalendar ? (
           <BookingCalendar prefill={prefill} onSubmit={onSubmitBooking} fullPageUrl={url} />

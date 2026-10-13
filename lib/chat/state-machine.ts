@@ -13,6 +13,7 @@ import {
 } from './prompts'
 import { contactsForRegion, regionFromCountry } from './contact-info'
 import { formatSlotLong, zoneAbbr } from '@/lib/booking/slots'
+import { getSettings } from '@/lib/settings'
 import { sanitizeInput } from '@/lib/utils/validators'
 import {
   screenMessage,
@@ -215,8 +216,9 @@ async function handleConversation(
 
   if (intent === 'booking_request') {
     const booked = bookedFor(session)
+    const calendar = (await getSettings()).booking.enabled
     const response = await maybeTranslate(
-      booked ? alreadyBookedResponse(booked) : bookingResponse(),
+      booked ? alreadyBookedResponse(booked) : bookingResponse(calendar),
       language
     )
     return {
@@ -224,7 +226,9 @@ async function handleConversation(
       stream: null,
       newState: 'BOOKING',
       sessionUpdates: { status: 'bot', visitor_language: language },
-      ui: booked ? null : { type: 'calendar', bookingUrl: getBookingUrl() },
+      ui: booked
+        ? null
+        : { type: calendar ? 'calendar' : 'booking', bookingUrl: getBookingUrl() },
     }
   }
 
@@ -244,8 +248,10 @@ async function handleAnswer(
   const meta = (session.metadata ?? {}) as Record<string, unknown>
   const leadSubmittedAt =
     typeof meta.lead_submitted_at === 'string' ? meta.lead_submitted_at : null
+  const settings = await getSettings()
+  const calendarEnabled = settings.booking.enabled
   const region = regionFromCountry(meta.country as string | undefined)
-  const contacts = contactsForRegion(region)
+  const contacts = contactsForRegion(region, settings)
 
   const wantsTeam = intent === 'support_request' || intent === 'human_request'
   const bookingUrl = getBookingUrl()
@@ -264,8 +270,8 @@ async function handleAnswer(
 
   let ui: ChatUi | null = null
   if (card === 'contact_form') ui = { type: 'contact_form', contacts }
-  else if (card === 'sales') ui = { type: 'sales', contacts, bookingUrl }
-  else if (card === 'booking') ui = { type: 'calendar', bookingUrl }
+  else if (card === 'sales') ui = { type: 'sales', contacts, bookingUrl, calendar: calendarEnabled }
+  else if (card === 'booking') ui = { type: calendarEnabled ? 'calendar' : 'booking', bookingUrl }
 
   const systemPrompt = knowledgeQAPrompt(language, context, currentDateTime(), {
     intent,
@@ -275,6 +281,8 @@ async function handleAnswer(
     visitorName: session.visitor_name,
     bookingUrl,
     bookedFor: booked,
+    assistantName: settings.assistant.name,
+    calendarEnabled,
   })
 
   const messages: ChatCompletionMessageParam[] = [

@@ -55,6 +55,9 @@ export interface SalesUi {
   type: 'sales'
   contacts: RegionContact[]
   bookingUrl: string
+  // false when the in-chat calendar is switched off in Settings: the button
+  // links to the strategy-call page instead. Missing on older messages = on.
+  calendar?: boolean
 }
 
 // The in-chat calendar, opened straight away (visitor asked to book).
@@ -63,7 +66,8 @@ export interface CalendarUi {
   bookingUrl: string
 }
 
-// Legacy: older messages carry a plain booking button.
+// A plain button linking to the strategy-call page (used when the in-chat
+// calendar is switched off, and on older messages).
 export interface BookingUi {
   type: 'booking'
   bookingUrl: string

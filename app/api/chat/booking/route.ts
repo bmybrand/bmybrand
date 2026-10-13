@@ -9,7 +9,8 @@ import { saveStrategyCallBooking, updateStrategyCallCalendarEventId } from '@/li
 import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from '@/lib/strategy-call-ip-config'
 import { notifyTeamOfLead } from '@/lib/chat/notify-team'
-import { REGION_CONTACTS, regionFromCountry } from '@/lib/chat/contact-info'
+import { regionContacts, regionFromCountry } from '@/lib/chat/contact-info'
+import { getSettings } from '@/lib/settings'
 import { translateMessage } from '@/lib/chat/language-detector'
 import {
   BUDGET_OPTIONS,
@@ -59,6 +60,9 @@ export async function POST(request: NextRequest) {
   const timeZone = isValidZone(body.timeZone ?? '') ? body.timeZone : DEFAULT_BOOKING_ZONE
   const startsAt = new Date(body.slotId ?? '')
 
+  const settings = await getSettings()
+  if (!settings.booking.enabled) return fail('Booking in the chat is turned off right now.', 403)
+
   if (!sessionId) return fail('sessionId is required.', 400)
   if (Number.isNaN(startsAt.getTime())) return fail('Please pick a time.', 400)
   if (name.length < 2) return fail('Please enter your name.', 400)
@@ -96,7 +100,7 @@ export async function POST(request: NextRequest) {
   }
 
   const region = regionFromCountry(typeof meta.country === 'string' ? meta.country : null)
-  const team = REGION_CONTACTS[region === 'CA' ? 'CA' : 'US']
+  const team = regionContacts(settings)[region === 'CA' ? 'CA' : 'US']
   const country = typeof meta.country === 'string' ? meta.country : null
   const interest = typeof meta.lead_interest === 'string' ? meta.lead_interest : null
 
@@ -112,7 +116,7 @@ export async function POST(request: NextRequest) {
   // ─── Is the time still free? ───────────────────────────────────────────
   let open: boolean
   try {
-    open = await isSlotOpen(startsAt.toISOString())
+    open = await isSlotOpen(startsAt.toISOString(), settings.booking)
   } catch (err) {
     console.error('[booking] slot check failed', { sessionId, error: err instanceof Error ? err.message : err })
     return bookingFailed()

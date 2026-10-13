@@ -2,7 +2,8 @@
 // booking paths (chat and /strategy-call) can hide times that are taken.
 
 import { bridgeHeaders, buildBridgeUrl, getBridgeConfig } from '../strategy-call-save'
-import { BOOKING_WINDOW_DAYS, getOpenDays, toInstant, type OpenDay } from './slots'
+import { getOpenDays, toInstant, type OpenDay } from './slots'
+import type { AppSettings } from '../settings/schema'
 
 interface BridgeBooking {
   id: number
@@ -49,29 +50,34 @@ export async function listTakenSlots(from: string, to: string): Promise<Set<stri
 // false); the booking request re-checks before saving.
 export async function getOpenSlotsLive(
   timeZone: string,
+  booking: AppSettings['booking'],
   now: Date = new Date()
 ): Promise<{ days: OpenDay[]; takenChecked: boolean }> {
   const from = isoDate(now)
-  const to = isoDate(new Date(now.getTime() + BOOKING_WINDOW_DAYS * 86_400_000))
+  const to = isoDate(new Date(now.getTime() + booking.windowDays * 86_400_000))
   try {
     const taken = await listTakenSlots(from, to)
-    return { days: getOpenDays(timeZone, taken, now), takenChecked: true }
+    return { days: getOpenDays(timeZone, taken, now, booking.windowDays, booking.hours), takenChecked: true }
   } catch (err) {
     console.warn('[booking] could not read booked times', err instanceof Error ? err.message : err)
-    return { days: getOpenDays(timeZone, new Set(), now), takenChecked: false }
+    return { days: getOpenDays(timeZone, new Set(), now, booking.windowDays, booking.hours), takenChecked: false }
   }
 }
 
 // True when the instant is still an open slot (inside office hours, in the
 // future, and not booked). Throws if the bridge can't be read, so a booking
 // is never saved without the check.
-export async function isSlotOpen(slotId: string, now: Date = new Date()): Promise<boolean> {
+export async function isSlotOpen(
+  slotId: string,
+  booking: AppSettings['booking'],
+  now: Date = new Date()
+): Promise<boolean> {
   const at = new Date(slotId)
   if (Number.isNaN(at.getTime())) return false
   const date = isoDate(at)
   const taken = await listTakenSlots(date, date)
   // Check in UTC: the slot rules don't depend on the viewer's zone.
-  const days = getOpenDays('UTC', taken, now, BOOKING_WINDOW_DAYS + 1)
+  const days = getOpenDays('UTC', taken, now, booking.windowDays + 1, booking.hours)
   return days.some((d) => d.slots.some((s) => s.id === at.toISOString()))
 }
 

@@ -3,7 +3,8 @@
 import assert from 'node:assert/strict'
 import { getOpenDays, isValidZone, toInstant } from '../lib/booking/slots'
 import { buildIcs } from '../lib/booking/ics'
-import { getZonedParts } from '../lib/strategy-call-scheduling'
+import { getZonedParts, isInOfficeHours, zonedTimeToUtc } from '../lib/strategy-call-scheduling'
+import { DEFAULT_SETTINGS, normalizeSettings, phoneHref, validateSettings } from '../lib/settings/schema'
 
 let passed = 0
 function check(name: string, fn: () => void) {
@@ -91,6 +92,73 @@ check('ics: UTC times, CRLF, escaping', () => {
   assert.ok(ics.includes('\\, ok\\; thanks\\nSee you'))
   assert.ok(ics.split('\r\n').length > 8)
   assert.ok(!/[^\r]\n/.test(ics), 'every newline is CRLF')
+})
+
+// The Karachi rule as it was before office hours moved to Settings.
+function oldKarachiRule(instant: Date) {
+  const WD: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }
+  const k = getZonedParts(instant, 'Asia/Karachi')
+  const dow = WD[k.weekday]
+  if (k.hour >= 21) return dow >= 1 && dow <= 5
+  if (k.hour < 6) {
+    const noon = zonedTimeToUtc(k.year, k.month, k.day, 12, 0, 'Asia/Karachi')
+    const prev = getZonedParts(new Date(noon.getTime() - 86_400_000), 'Asia/Karachi')
+    return WD[prev.weekday] >= 1 && WD[prev.weekday] <= 5
+  }
+  return false
+}
+
+check('default office hours match the old Karachi rule (every 30 min, 3 weeks)', () => {
+  const start = Date.parse('2026-10-31T00:00:00Z') // spans the US DST change
+  for (let t = start; t < start + 21 * 86_400_000; t += 30 * 60_000) {
+    const at = new Date(t)
+    assert.equal(isInOfficeHours(at), oldKarachiRule(at), at.toISOString())
+  }
+})
+
+check('same-day office hours in Chicago', () => {
+  const hours = { timeZone: 'America/Chicago', days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }
+  assert.equal(isInOfficeHours(new Date('2026-10-19T14:00:00Z'), hours), true) // Mon 9:00 CDT
+  assert.equal(isInOfficeHours(new Date('2026-10-19T13:30:00Z'), hours), false) // Mon 8:30
+  assert.equal(isInOfficeHours(new Date('2026-10-19T22:00:00Z'), hours), false) // Mon 17:00, end excluded
+  assert.equal(isInOfficeHours(new Date('2026-10-18T15:00:00Z'), hours), false) // Sunday
+  const days = getOpenDays('America/Chicago', new Set(), now, 7, hours)
+  assert.equal(days[0].slots[0].label, '10:30 AM') // now is 10:00 AM, so the next slot
+  assert.equal(days[1].slots.length, 16)
+})
+
+check('settings: defaults survive garbage', () => {
+  assert.deepEqual(normalizeSettings(null), DEFAULT_SETTINGS)
+  assert.deepEqual(
+    normalizeSettings({ assistant: 7, contacts: { US: { phone: 'x' } }, booking: { hours: { start: '25:00' } } }),
+    DEFAULT_SETTINGS
+  )
+  const partial = normalizeSettings({ assistant: { name: 'Ava' }, leadEmails: { US: ['a@b.co', 'bad'] } })
+  assert.equal(partial.assistant.name, 'Ava')
+  assert.equal(partial.assistant.welcome, DEFAULT_SETTINGS.assistant.welcome)
+  assert.deepEqual(partial.leadEmails.US, DEFAULT_SETTINGS.leadEmails.US)
+})
+
+check('settings: strict validation reports each bad field', () => {
+  assert.equal(validateSettings(DEFAULT_SETTINGS).ok, true)
+  const bad = validateSettings({
+    ...DEFAULT_SETTINGS,
+    assistant: { ...DEFAULT_SETTINGS.assistant, name: '' },
+    leadEmails: { US: [], CA: ['nope'] },
+    booking: { ...DEFAULT_SETTINGS.booking, hours: { ...DEFAULT_SETTINGS.booking.hours, start: '21:15', days: [] } },
+  })
+  assert.equal(bad.ok, false)
+  if (!bad.ok) {
+    for (const k of ['assistant.name', 'leadEmails.US', 'leadEmails.CA', 'booking.hours.start', 'booking.hours.days']) {
+      assert.ok(bad.errors[k], `missing error for ${k}`)
+    }
+  }
+})
+
+check('phone links', () => {
+  assert.equal(phoneHref('+1 469 501 1401'), 'tel:+14695011401')
+  assert.equal(phoneHref('+(587) 492-5888'), 'tel:+15874925888')
+  assert.equal(phoneHref('+44 20 7946 0958'), 'tel:+442079460958')
 })
 
 console.log(`\n${passed} checks passed`)

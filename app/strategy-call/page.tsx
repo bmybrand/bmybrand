@@ -29,6 +29,8 @@ import {
   getAvailableSlots,
   getInitialCalendarStateForTimeZone,
   getMonthStart,
+  DEFAULT_OFFICE_HOURS,
+  type OfficeHours,
 } from "@/lib/strategy-call-scheduling";
 import {
   detectTimeZoneFromIp,
@@ -549,6 +551,8 @@ export default function StrategyCallPage() {
   // Times already booked (from this page or the chat calendar), as ISO
   // instants, for the month on screen.
   const [takenSlots, setTakenSlots] = useState<Set<string>>(() => new Set());
+  // Bookable hours from the CRM's Settings page (sent with the booked times).
+  const [officeHours, setOfficeHours] = useState<OfficeHours>(DEFAULT_OFFICE_HOURS);
   const [takenVersion, setTakenVersion] = useState(0);
   useEffect(() => {
     const year = calendarDate.getFullYear();
@@ -560,8 +564,10 @@ export default function StrategyCallPage() {
     let cancelled = false;
     fetch(`/api/strategy-call/slots?from=${from}&to=${to}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : { taken: [] }))
-      .then((data: { taken?: string[] }) => {
-        if (!cancelled) setTakenSlots(new Set(data.taken ?? []));
+      .then((data: { taken?: string[]; hours?: OfficeHours }) => {
+        if (cancelled) return;
+        setTakenSlots(new Set(data.taken ?? []));
+        if (data.hours) setOfficeHours(data.hours);
       })
       .catch(() => {});
     return () => {
@@ -575,9 +581,11 @@ export default function StrategyCallPage() {
         calendarDate.getFullYear(),
         calendarDate.getMonth() + 1,
         selectedDate,
-        selectedTimezone
+        selectedTimezone,
+        undefined,
+        officeHours
       ).filter((slot) => !takenSlots.has(slot.id)),
-    [calendarDate, selectedDate, selectedTimezone, takenSlots]
+    [calendarDate, selectedDate, selectedTimezone, takenSlots, officeHours]
   );
 
   const canGoToPreviousMonth =
@@ -654,7 +662,9 @@ export default function StrategyCallPage() {
       const firstDay = firstSelectableDayInMonthWithSlots(
         next.getFullYear(),
         next.getMonth(),
-        selectedTimezone
+        selectedTimezone,
+        undefined,
+        officeHours
       );
       if (firstDay !== null) setSelectedDate(firstDay);
       setSelectedTime("");
@@ -1336,7 +1346,9 @@ export default function StrategyCallPage() {
                                 calendarDate.getFullYear(),
                                 calendarDate.getMonth() + 1,
                                 dayNumber,
-                                selectedTimezone
+                                selectedTimezone,
+                                undefined,
+                                officeHours
                               );
 
                             return (

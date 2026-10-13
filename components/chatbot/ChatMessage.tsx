@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { CheckCircle2 } from 'lucide-react'
 import RichText from './RichText'
+import { useChatConfig } from '@/hooks/useChatConfig'
 import type { MessageRole } from '@/types/chat'
 
 interface ChatMessageProps {
@@ -15,6 +16,7 @@ interface ChatMessageProps {
 }
 
 export default function ChatMessage({ role, content, timestamp, kind }: ChatMessageProps) {
+  const { name } = useChatConfig()
   if (role === 'system') {
     return (
       <div className="my-2 flex justify-center">
@@ -63,7 +65,7 @@ export default function ChatMessage({ role, content, timestamp, kind }: ChatMess
         <Image src="/bmybrand-mark.png" alt="" width={28} height={28} className="h-full w-full object-cover" />
       </div>
       <div className="max-w-[82%]">
-        <span className="mb-1 block text-xs font-medium text-[#ADAECC]">Mr. B</span>
+        <span className="mb-1 block text-xs font-medium text-[#ADAECC]">{name}</span>
         <div className="rounded-2xl rounded-bl-md border border-white/[0.06] bg-[#21235C] px-4 py-2.5 text-[15px] leading-relaxed text-white/90 break-words">
           <RichText text={content} variant="bot" />
         </div>

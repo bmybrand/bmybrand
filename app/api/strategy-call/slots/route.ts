@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { listTakenSlots } from '@/lib/booking/bridge'
+import { getSettings } from '@/lib/settings'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -7,8 +8,11 @@ export const dynamic = 'force-dynamic'
 const DATE = /^\d{4}-\d{2}-\d{2}$/
 
 // Booked strategy-call times (ISO instants) between two dates, so the
-// strategy-call page can hide them. Bookings from the chat calendar count too.
+// strategy-call page can hide them (bookings from the chat calendar count
+// too), plus the bookable hours set on the CRM's Settings page.
 export async function GET(request: NextRequest) {
+  const { booking } = await getSettings()
+  const hours = booking.hours
   const from = request.nextUrl.searchParams.get('from') ?? ''
   const to = request.nextUrl.searchParams.get('to') ?? ''
   if (!DATE.test(from) || !DATE.test(to)) {
@@ -16,9 +20,9 @@ export async function GET(request: NextRequest) {
   }
   try {
     const taken = await listTakenSlots(from, to)
-    return NextResponse.json({ taken: [...taken] }, { headers: { 'Cache-Control': 'no-store' } })
+    return NextResponse.json({ taken: [...taken], hours }, { headers: { 'Cache-Control': 'no-store' } })
   } catch (err) {
     console.warn('[strategy-call/slots] could not read booked times', err instanceof Error ? err.message : err)
-    return NextResponse.json({ taken: [] }, { headers: { 'Cache-Control': 'no-store' } })
+    return NextResponse.json({ taken: [], hours }, { headers: { 'Cache-Control': 'no-store' } })
   }
 }

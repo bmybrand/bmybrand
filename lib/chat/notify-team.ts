@@ -1,4 +1,5 @@
-import { REGION_CONTACTS, type ContactRegion } from './contact-info'
+import type { ContactRegion } from './contact-info'
+import { getSettings } from '@/lib/settings'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 
@@ -16,14 +17,15 @@ export interface LeadNotification {
   booking?: { when: string; company: string; budget: string; failed?: boolean }
 }
 
-// Canada leads go to the Canada inbox, everything else to the US one.
-// CHAT_LEAD_TO_EMAIL (comma-separated) overrides both, e.g. for testing.
-function recipients(region: ContactRegion | null): string[] {
+// Canada leads go to the Canada lead inboxes, everything else to the US ones
+// (both set on the CRM's Settings page). CHAT_LEAD_TO_EMAIL (comma-separated)
+// overrides both, e.g. for testing.
+function recipients(region: ContactRegion | null, leadEmails: { US: string[]; CA: string[] }): string[] {
   const override = process.env.CHAT_LEAD_TO_EMAIL?.split(',')
     .map((e) => e.trim())
     .filter(Boolean)
   if (override && override.length > 0) return override
-  return [REGION_CONTACTS[region === 'CA' ? 'CA' : 'US'].email]
+  return leadEmails[region === 'CA' ? 'CA' : 'US']
 }
 
 function escapeHtml(value: string) {
@@ -54,8 +56,9 @@ export async function notifyTeamOfLead(
     return { sent: false, error: 'Email is not configured' }
   }
 
+  const settings = await getSettings()
   const location = lead.region
-    ? REGION_CONTACTS[lead.region].label
+    ? settings.contacts[lead.region].label
     : lead.country
       ? `Unknown (${lead.country})`
       : 'Unknown'
@@ -84,7 +87,7 @@ export async function notifyTeamOfLead(
   ]
 
   const transcriptLines = lead.transcript.map(
-    (m) => `${m.role === 'user' ? 'Visitor' : 'Mr. B'}: ${m.content}`
+    (m) => `${m.role === 'user' ? 'Visitor' : settings.assistant.name}: ${m.content}`
   )
 
   const text = [
@@ -128,7 +131,7 @@ export async function notifyTeamOfLead(
       },
       body: JSON.stringify({
         from,
-        to: recipients(lead.region),
+        to: recipients(lead.region, settings.leadEmails),
         reply_to: lead.email,
         subject: booking
           ? `${subjectPrefix(booking)}: ${lead.name} – ${booking.when}`

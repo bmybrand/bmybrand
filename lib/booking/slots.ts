@@ -1,10 +1,16 @@
 // Slot math for the in-chat booking calendar. Pure functions (no I/O), so
 // they can run on the server and in scripts/test-booking-slots.ts.
 //
-// Office hours come from the strategy-call page (Karachi office, Mon–Fri,
-// 9 PM–6 AM), so both booking paths offer exactly the same times.
+// Office hours come from the CRM's Settings page and are shared with the
+// strategy-call page, so both booking paths offer exactly the same times.
 
-import { getAvailableSlots, getZonedParts, zonedTimeToUtc } from '../strategy-call-scheduling'
+import {
+  DEFAULT_OFFICE_HOURS,
+  getAvailableSlots,
+  getZonedParts,
+  zonedTimeToUtc,
+  type OfficeHours,
+} from '../strategy-call-scheduling'
 
 export const BOOKING_WINDOW_DAYS = 14
 export const DEFAULT_BOOKING_ZONE = 'America/Chicago'
@@ -96,7 +102,8 @@ export function getOpenDays(
   timeZone: string,
   taken: Set<string>,
   now: Date = new Date(),
-  days: number = BOOKING_WINDOW_DAYS
+  days: number = BOOKING_WINDOW_DAYS,
+  hours: OfficeHours = DEFAULT_OFFICE_HOURS
 ): OpenDay[] {
   const today = getZonedParts(now, timeZone)
   const result: OpenDay[] = []
@@ -105,7 +112,7 @@ export function getOpenDays(
     const year = cal.getUTCFullYear()
     const month = cal.getUTCMonth() + 1
     const day = cal.getUTCDate()
-    const slots = getAvailableSlots(year, month, day, timeZone, now)
+    const slots = getAvailableSlots(year, month, day, timeZone, now, hours)
       .filter((s) => !taken.has(s.startsAt.toISOString()))
       .map((s) => ({ id: s.startsAt.toISOString(), label: formatSlotTime(s.startsAt, timeZone) }))
     if (slots.length === 0) continue
