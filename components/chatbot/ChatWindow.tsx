@@ -5,8 +5,9 @@ import Image from 'next/image'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
 import ChatCard from './ChatCards'
-import type { ChatMessage as ChatMessageType, ChatUi } from '@/types/chat'
-import type { ContactFormValues } from '@/hooks/useChatState'
+import type { BookingSummary, ChatMessage as ChatMessageType, ChatUi } from '@/types/chat'
+import type { BookingFormValues, BookingResult, ContactFormValues } from '@/hooks/useChatState'
+import type { BookingPrefill } from './BookingCalendar'
 
 interface ChatWindowProps {
   messages: ChatMessageType[]
@@ -16,15 +17,26 @@ interface ChatWindowProps {
   contactSubmitted: boolean
   onSend: (message: string) => void
   onSubmitContact: (values: ContactFormValues) => Promise<{ error?: string }>
+  booking: BookingSummary | null
+  onSubmitBooking: (values: BookingFormValues) => Promise<BookingResult>
 }
 
 function messageUi(msg: ChatMessageType): ChatUi | null {
   const ui = msg.metadata?.ui as ChatUi | undefined
-  return ui && ['contact_form', 'sales', 'booking'].includes(ui.type) ? ui : null
+  return ui && ['contact_form', 'sales', 'calendar', 'booking'].includes(ui.type) ? ui : null
 }
 
 function hasForm(ui: ChatUi | null): boolean {
-  return ui?.type === 'contact_form' || ui?.type === 'sales'
+  return ui?.type === 'contact_form' || ui?.type === 'sales' || ui?.type === 'calendar'
+}
+
+// Details the visitor already shared in this chat (contact form), used to
+// pre-fill the booking form.
+function prefillFrom(messages: ChatMessageType[]): BookingPrefill {
+  const shared = [...messages].reverse().find((m) => m.metadata?.type === 'contact_form')
+  if (!shared) return {}
+  const field = (label: string) => new RegExp(`^${label}: (.+)$`, 'm').exec(shared.content)?.[1]?.trim()
+  return { name: field('Name'), email: field('Email'), phone: field('Phone') }
 }
 
 const PRESET_MESSAGES = [
@@ -42,6 +54,8 @@ export default function ChatWindow({
   contactSubmitted,
   onSend,
   onSubmitContact,
+  booking,
+  onSubmitBooking,
 }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null)
   // Locks the preset buttons the moment one is tapped, so a fast double-click
@@ -75,6 +89,7 @@ export default function ChatWindow({
   messages.forEach((msg, i) => {
     if (hasForm(messageUi(msg))) lastFormIndex = i
   })
+  const prefill = prefillFrom(messages)
 
   return (
     <div data-lenis-prevent className="flex-1 overflow-y-auto overscroll-contain px-4 py-3 space-y-0.5 chat-scrollbar">
@@ -129,6 +144,9 @@ export default function ChatWindow({
                 interactive={i === lastFormIndex}
                 submitted={contactSubmitted}
                 onSubmitContact={onSubmitContact}
+                booking={booking}
+                prefill={prefill}
+                onSubmitBooking={onSubmitBooking}
               />
             )}
           </div>

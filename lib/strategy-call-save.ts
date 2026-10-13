@@ -16,10 +16,12 @@ export type StrategyCallRecord = {
   ipAddress?: string
 }
 
+// BMYB_* names are the ones handed over for the chatbot; the MYSQL_BRIDGE_*
+// names are the website's original ones. Both point at the same bridge.
 export function getBridgeConfig() {
   return {
-    url: process.env.MYSQL_BRIDGE_URL?.trim() ?? '',
-    secret: process.env.MYSQL_BRIDGE_SECRET?.trim() ?? '',
+    url: (process.env.BMYB_MYSQL_BRIDGE_URL || process.env.MYSQL_BRIDGE_URL)?.trim() ?? '',
+    secret: (process.env.BMYB_MYSQL_BRIDGE_SECRET || process.env.MYSQL_BRIDGE_SECRET)?.trim() ?? '',
   }
 }
 
@@ -29,7 +31,7 @@ export function usesMysqlBridge() {
 }
 
 /** cPanel/Apache often strips Authorization; pass token in the query string too. */
-function buildBridgeUrl(baseUrl: string, secret: string, params: Record<string, string> = {}) {
+export function buildBridgeUrl(baseUrl: string, secret: string, params: Record<string, string> = {}) {
   const url = new URL(baseUrl)
   url.searchParams.set('token', secret)
   for (const [key, value] of Object.entries(params)) {
@@ -38,7 +40,7 @@ function buildBridgeUrl(baseUrl: string, secret: string, params: Record<string, 
   return url.toString()
 }
 
-function bridgeHeaders(secret: string) {
+export function bridgeHeaders(secret: string) {
   return {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${secret}`,

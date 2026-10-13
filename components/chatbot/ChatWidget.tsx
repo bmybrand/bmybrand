@@ -29,6 +29,8 @@ function ChatWidgetInner() {
     botThinking,
     sendMessage,
     submitContact,
+    booking,
+    submitBooking,
     clearSession,
   } = useChatState()
 
@@ -74,6 +76,8 @@ function ChatWidgetInner() {
               contactSubmitted={contactSubmitted}
               onSend={handleSend}
               onSubmitContact={submitContact}
+              booking={booking}
+              onSubmitBooking={submitBooking}
             />
 
             {!isClosed && (

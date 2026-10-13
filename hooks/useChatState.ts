@@ -1,9 +1,15 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useChatSession } from './useChatSession'
 import { useChatMessages } from './useChatMessages'
-import type { ContactSubmitResponse } from '@/types/chat'
+import type {
+  BookingSubmitRequest,
+  BookingSubmitResponse,
+  BookingSummary,
+  ChatMessage,
+  ContactSubmitResponse,
+} from '@/types/chat'
 
 export interface ContactFormValues {
   name: string
@@ -11,6 +17,22 @@ export interface ContactFormValues {
   phone: string
   message: string
   website: string
+}
+
+export type BookingFormValues = Omit<BookingSubmitRequest, 'sessionId'>
+
+export interface BookingResult {
+  error?: string
+  // 'slot_taken': reload times; 'booking_failed': the team has the request.
+  code?: string
+}
+
+function bookingFrom(messages: ChatMessage[]): BookingSummary | null {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const meta = messages[i].metadata
+    if (meta?.type === 'booking' && meta.booking) return meta.booking as BookingSummary
+  }
+  return null
 }
 
 function friendlyError(error: string): string {
@@ -23,6 +45,7 @@ function friendlyError(error: string): string {
 export function useChatState() {
   const session = useChatSession()
   const messages = useChatMessages(session.sessionId)
+  const [booking, setBooking] = useState<BookingSummary | null>(null)
 
   // Load history when session is restored from sessionStorage
   const { sessionId, markContactSubmitted } = session
@@ -31,9 +54,10 @@ export function useChatState() {
   useEffect(() => {
     if (sessionId && messageCount === 0) {
       loadHistory().then((history) => {
-        if (history.some((m) => m.metadata?.type === 'contact_form')) {
+        if (history.some((m) => m.metadata?.type === 'contact_form' || m.metadata?.type === 'booking')) {
           markContactSubmitted()
         }
+        setBooking(bookingFrom(history))
       })
     }
   }, [sessionId, messageCount, loadHistory, markContactSubmitted])
@@ -104,6 +128,33 @@ export function useChatState() {
     }
   }
 
+  // Book a strategy call from the in-chat calendar. The server saves it,
+  // emails the team and the visitor, and returns the messages to show.
+  const submitBooking = async (values: BookingFormValues): Promise<BookingResult> => {
+    if (!session.sessionId) return { error: 'Please start a chat first.' }
+    try {
+      const res = await fetch('/api/chat/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: session.sessionId, ...values }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        return {
+          error: data.error || 'Sorry, something went wrong. Please try again.',
+          code: data.code,
+        }
+      }
+      const result = data as BookingSubmitResponse
+      messages.appendMessages(result.messages ?? [])
+      setBooking(result.booking)
+      session.markContactSubmitted()
+      return {}
+    } catch {
+      return { error: 'Sorry, something went wrong. Please try again.' }
+    }
+  }
+
   return {
     // Session
     sessionId: session.sessionId,
@@ -114,7 +165,10 @@ export function useChatState() {
     clearSession: () => {
       session.clearSession()
       messages.setMessages([])
+      setBooking(null)
     },
+    booking,
+    submitBooking,
 
     // Messages
     messages: messages.messages,

@@ -40,21 +40,36 @@ export interface ContactFormUi {
   contacts: RegionContact[]
 }
 
-// Sales: a "book a free strategy call" button, with the contact form one tap
-// away for visitors who would rather the team reached out.
+// A strategy call booked in the chat (stored in session metadata.booking).
+export interface BookingSummary {
+  id: number | null
+  startsAt: string // ISO instant
+  timeZone: string // visitor's zone
+  phone: string
+}
+
+// Sales: a "Pick a time" button that opens the in-chat calendar, with the
+// contact form one tap away for visitors who would rather the team reached
+// out. bookingUrl is the full strategy-call page, kept as a fallback link.
 export interface SalesUi {
   type: 'sales'
   contacts: RegionContact[]
   bookingUrl: string
 }
 
-// Just the booking button.
+// The in-chat calendar, opened straight away (visitor asked to book).
+export interface CalendarUi {
+  type: 'calendar'
+  bookingUrl: string
+}
+
+// Legacy: older messages carry a plain booking button.
 export interface BookingUi {
   type: 'booking'
   bookingUrl: string
 }
 
-export type ChatUi = ContactFormUi | SalesUi | BookingUi
+export type ChatUi = ContactFormUi | SalesUi | CalendarUi | BookingUi
 
 // ─── Database Row Types ───────────────────────────────────────────────────
 
@@ -144,6 +159,27 @@ export interface ContactSubmitRequest {
 
 export interface ContactSubmitResponse {
   ok: true
+  messages: ChatMessage[]
+}
+
+export const BUDGET_OPTIONS = ['Below $1K', '$1K-$3K', '$3K-$5K', '$5K-$10K', '$10K-$20K', 'Above $20K'] as const
+
+export interface BookingSubmitRequest {
+  sessionId: string
+  slotId: string // ISO instant
+  timeZone: string
+  name: string
+  email: string
+  phone: string
+  company: string
+  budget: string
+  // Honeypot: real visitors never see or fill this field.
+  website?: string
+}
+
+export interface BookingSubmitResponse {
+  ok: true
+  booking: BookingSummary
   messages: ChatMessage[]
 }
 

@@ -116,11 +116,13 @@ export function zonedTimeToUtc(
   minute: number,
   timeZone: string
 ) {
-  let utcMs = Date.UTC(year, month - 1, day, hour, minute, 0, 0)
-  let offset = getTimezoneOffsetMs(timeZone, new Date(utcMs))
-  utcMs -= offset
-  offset = getTimezoneOffsetMs(timeZone, new Date(utcMs))
-  return new Date(utcMs - offset)
+  // Treat the wall-clock time as UTC, shift by the zone's offset, then
+  // re-check the offset at the result in case a DST change sits in between.
+  const wallMs = Date.UTC(year, month - 1, day, hour, minute, 0, 0)
+  const offset = getTimezoneOffsetMs(timeZone, new Date(wallMs))
+  const utcMs = wallMs - offset
+  const corrected = getTimezoneOffsetMs(timeZone, new Date(utcMs))
+  return new Date(corrected === offset ? utcMs : wallMs - corrected)
 }
 
 /** Karachi office: Mon–Fri, 9:00 PM – 6:00 AM (next calendar day). */

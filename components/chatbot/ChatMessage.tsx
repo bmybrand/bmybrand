@@ -9,7 +9,8 @@ interface ChatMessageProps {
   role: MessageRole
   content: string
   timestamp: string
-  // 'contact_form' marks the visitor's submitted contact details.
+  // 'contact_form' marks the visitor's submitted contact details, 'booking'
+  // a strategy call booked in the chat calendar.
   kind?: string
 }
 
@@ -25,13 +26,14 @@ export default function ChatMessage({ role, content, timestamp, kind }: ChatMess
   }
 
   if (role === 'user') {
-    if (kind === 'contact_form') {
+    if (kind === 'contact_form' || kind === 'booking') {
       const lines = content.split('\n').slice(1)
       return (
         <div className="group mb-3 flex justify-end">
           <div className="max-w-[80%] rounded-2xl rounded-br-md border border-[#FF843E]/40 bg-[#F45B25]/15 px-4 py-3 text-sm text-white">
             <p className="mb-1.5 flex items-center gap-1.5 font-semibold">
-              <CheckCircle2 className="h-4 w-4 text-[#FF843E]" /> Details shared with the team
+              <CheckCircle2 className="h-4 w-4 text-[#FF843E]" />{' '}
+              {kind === 'booking' ? 'Strategy call booked' : 'Details shared with the team'}
             </p>
             {lines.map((line, i) => (
               <p key={i} className="break-words text-white/80">
