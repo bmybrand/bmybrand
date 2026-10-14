@@ -26,8 +26,7 @@ REST API, cPanel PHP MySQL bridge, Playwright-core for end-to-end tests, and
 - Budget options: `Below $1K`, `$1K-$3K`, `$3K-$5K`, `$5K-$10K`, `$10K-$20K`,
   `Above $20K`.
 - Bridge source value: `Chatbot`.
-- Bridge env: `BMYB_MYSQL_BRIDGE_URL` / `BMYB_MYSQL_BRIDGE_SECRET`, falling
-  back to `MYSQL_BRIDGE_URL` / `MYSQL_BRIDGE_SECRET`.
+- Bridge env: `MYSQL_BRIDGE_URL` / `MYSQL_BRIDGE_SECRET`.
 - Commits must not carry a Claude co-author trailer.
 - The dashboard deploys through the Vercel API (`create_deployment`). The
   website deploys from a git push.
@@ -124,7 +123,7 @@ REST API, cPanel PHP MySQL bridge, Playwright-core for end-to-end tests, and
 
 ### Task 7: Ship
 
-- Add the `BMYB_MYSQL_BRIDGE_*` env vars to the website Vercel project.
+- The website Vercel project already has `MYSQL_BRIDGE_URL` / `MYSQL_BRIDGE_SECRET`.
 - Run `npm run build` and lint in both repos.
 - Run the local Playwright end-to-end test, then clean up.
 - Commit and push the website. Deploy the dashboard through the Vercel API.

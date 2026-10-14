@@ -16,12 +16,10 @@ export type StrategyCallRecord = {
   ipAddress?: string
 }
 
-// BMYB_* names are the ones handed over for the chatbot; the MYSQL_BRIDGE_*
-// names are the website's original ones. Both point at the same bridge.
 export function getBridgeConfig() {
   return {
-    url: (process.env.BMYB_MYSQL_BRIDGE_URL || process.env.MYSQL_BRIDGE_URL)?.trim() ?? '',
-    secret: (process.env.BMYB_MYSQL_BRIDGE_SECRET || process.env.MYSQL_BRIDGE_SECRET)?.trim() ?? '',
+    url: process.env.MYSQL_BRIDGE_URL?.trim() ?? '',
+    secret: process.env.MYSQL_BRIDGE_SECRET?.trim() ?? '',
   }
 }
 

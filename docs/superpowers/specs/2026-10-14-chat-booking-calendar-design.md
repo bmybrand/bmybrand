@@ -64,10 +64,8 @@ Errors in the card:
 
 ### Config
 
-- `getBridgeConfig()` reads `BMYB_MYSQL_BRIDGE_URL` / `BMYB_MYSQL_BRIDGE_SECRET`,
-  falling back to the existing `MYSQL_BRIDGE_URL` / `MYSQL_BRIDGE_SECRET`.
-- Add both `BMYB_` vars to the Vercel website project (Production and
-  Preview).
+- `getBridgeConfig()` reads `MYSQL_BRIDGE_URL` / `MYSQL_BRIDGE_SECRET`. The
+  website's Vercel project already has both.
 
 ### `lib/booking/availability.ts`
 
