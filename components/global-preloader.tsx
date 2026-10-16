@@ -1,12 +1,13 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const MIN_PRELOADER_MS = 3000;
 const ROUTE_TRANSITION_MS = 3000;
 const NAVIGATION_PRELOADER_EVENT = "bmy:navigation-preloader-start";
 const PRELOADER_FADE_MS = 220;
+const subscribeToClient = () => () => {};
 
 export default function GlobalPreloader({
   children,
@@ -27,6 +28,11 @@ function PreloaderScreen({
 }: {
   children: React.ReactNode;
 }) {
+  const hasMounted = useSyncExternalStore(
+    subscribeToClient,
+    () => true,
+    () => false
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
@@ -125,16 +131,18 @@ function PreloaderScreen({
           }`}
           role="status"
         >
-          <video
-            autoPlay
-            className="h-full w-full object-cover"
-            loop
-            muted
-            playsInline
-            preload="auto"
-          >
-            <source src="/bmyb-global-preloader-01.webm" type="video/webm" />
-          </video>
+          {hasMounted ? (
+            <video
+              autoPlay
+              className="h-full w-full object-cover"
+              loop
+              muted
+              playsInline
+              preload="auto"
+            >
+              <source src="/bmyb-global-preloader-01.webm" type="video/webm" />
+            </video>
+          ) : null}
         </div>
       ) : null}
     </>
