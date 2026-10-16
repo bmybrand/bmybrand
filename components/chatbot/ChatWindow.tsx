@@ -5,8 +5,10 @@ import Image from 'next/image'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
 import ChatCard from './ChatCards'
-import type { ChatMessage as ChatMessageType, ChatUi } from '@/types/chat'
-import type { ContactFormValues } from '@/hooks/useChatState'
+import type { BookingSummary, ChatMessage as ChatMessageType, ChatUi } from '@/types/chat'
+import type { BookingFormValues, BookingResult, ContactFormValues } from '@/hooks/useChatState'
+import type { BookingPrefill } from './BookingCalendar'
+import { useChatConfig } from '@/hooks/useChatConfig'
 
 interface ChatWindowProps {
   messages: ChatMessageType[]
@@ -16,23 +18,27 @@ interface ChatWindowProps {
   contactSubmitted: boolean
   onSend: (message: string) => void
   onSubmitContact: (values: ContactFormValues) => Promise<{ error?: string }>
+  booking: BookingSummary | null
+  onSubmitBooking: (values: BookingFormValues) => Promise<BookingResult>
 }
 
 function messageUi(msg: ChatMessageType): ChatUi | null {
   const ui = msg.metadata?.ui as ChatUi | undefined
-  return ui && ['contact_form', 'sales', 'booking'].includes(ui.type) ? ui : null
+  return ui && ['contact_form', 'sales', 'calendar', 'booking'].includes(ui.type) ? ui : null
 }
 
 function hasForm(ui: ChatUi | null): boolean {
-  return ui?.type === 'contact_form' || ui?.type === 'sales'
+  return ui?.type === 'contact_form' || ui?.type === 'sales' || ui?.type === 'calendar'
 }
 
-const PRESET_MESSAGES = [
-  'What services do you offer?',
-  'I need a website built',
-  'Tell me about your process',
-  'Book a free strategy call',
-]
+// Details the visitor already shared in this chat (contact form), used to
+// pre-fill the booking form.
+function prefillFrom(messages: ChatMessageType[]): BookingPrefill {
+  const shared = [...messages].reverse().find((m) => m.metadata?.type === 'contact_form')
+  if (!shared) return {}
+  const field = (label: string) => new RegExp(`^${label}: (.+)$`, 'm').exec(shared.content)?.[1]?.trim()
+  return { name: field('Name'), email: field('Email'), phone: field('Phone') }
+}
 
 export default function ChatWindow({
   messages,
@@ -42,7 +48,10 @@ export default function ChatWindow({
   contactSubmitted,
   onSend,
   onSubmitContact,
+  booking,
+  onSubmitBooking,
 }: ChatWindowProps) {
+  const config = useChatConfig()
   const bottomRef = useRef<HTMLDivElement>(null)
   // Locks the preset buttons the moment one is tapped, so a fast double-click
   // can't fire two sends during the brief session-creation gap.
@@ -75,6 +84,7 @@ export default function ChatWindow({
   messages.forEach((msg, i) => {
     if (hasForm(messageUi(msg))) lastFormIndex = i
   })
+  const prefill = prefillFrom(messages)
 
   return (
     <div data-lenis-prevent className="flex-1 overflow-y-auto overscroll-contain px-4 py-3 space-y-0.5 chat-scrollbar">
@@ -84,21 +94,19 @@ export default function ChatWindow({
           <div className="w-14 h-14 rounded-full overflow-hidden mb-3 ring-2 ring-white/70 shadow-[0_0_18px_rgba(255,255,255,0.15)]">
             <Image
               src="/bmybrand-mark.png"
-              alt="Mr. B"
+              alt={config.name}
               width={56}
               height={56}
               className="h-full w-full object-cover"
               priority
             />
           </div>
-          <h3 className="text-white text-lg font-semibold">Mr. B</h3>
-          <p className="text-[#ADAECC] text-sm mt-0.5">BMYBrand&apos;s AI Assistant</p>
-          <p className="text-white/90 text-base font-medium mt-4 max-w-[260px]">
-            Hi there! How can I help you today?
-          </p>
+          <h3 className="text-white text-lg font-semibold">{config.name}</h3>
+          <p className="text-[#ADAECC] text-sm mt-0.5">{config.subtitle}</p>
+          <p className="text-white/90 text-base font-medium mt-4 max-w-[260px]">{config.welcome}</p>
 
           <div className="flex flex-wrap justify-center gap-2 mt-5">
-            {PRESET_MESSAGES.map((msg) => (
+            {config.quickReplies.map((msg) => (
               <button
                 key={msg}
                 onClick={() => handlePreset(msg)}
@@ -129,6 +137,9 @@ export default function ChatWindow({
                 interactive={i === lastFormIndex}
                 submitted={contactSubmitted}
                 onSubmitContact={onSubmitContact}
+                booking={booking}
+                prefill={prefill}
+                onSubmitBooking={onSubmitBooking}
               />
             )}
           </div>

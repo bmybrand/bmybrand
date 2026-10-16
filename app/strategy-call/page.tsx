@@ -29,6 +29,8 @@ import {
   getAvailableSlots,
   getInitialCalendarStateForTimeZone,
   getMonthStart,
+  DEFAULT_OFFICE_HOURS,
+  type OfficeHours,
 } from "@/lib/strategy-call-scheduling";
 import {
   detectTimeZoneFromIp,
@@ -546,15 +548,44 @@ export default function StrategyCallPage() {
     source.trim() !== "" &&
     isValidWebsiteUrl(websiteUrl);
 
+  // Times already booked (from this page or the chat calendar), as ISO
+  // instants, for the month on screen.
+  const [takenSlots, setTakenSlots] = useState<Set<string>>(() => new Set());
+  // Bookable hours from the CRM's Settings page (sent with the booked times).
+  const [officeHours, setOfficeHours] = useState<OfficeHours>(DEFAULT_OFFICE_HOURS);
+  const [takenVersion, setTakenVersion] = useState(0);
+  useEffect(() => {
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth();
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const from = `${year}-${pad(month + 1)}-01`;
+    const last = new Date(year, month + 1, 0).getDate();
+    const to = `${year}-${pad(month + 1)}-${pad(last)}`;
+    let cancelled = false;
+    fetch(`/api/strategy-call/slots?from=${from}&to=${to}`, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : { taken: [] }))
+      .then((data: { taken?: string[]; hours?: OfficeHours }) => {
+        if (cancelled) return;
+        setTakenSlots(new Set(data.taken ?? []));
+        if (data.hours) setOfficeHours(data.hours);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [calendarDate, takenVersion]);
+
   const baseTimeSlots = useMemo(
     () =>
       getAvailableSlots(
         calendarDate.getFullYear(),
         calendarDate.getMonth() + 1,
         selectedDate,
-        selectedTimezone
-      ),
-    [calendarDate, selectedDate, selectedTimezone]
+        selectedTimezone,
+        undefined,
+        officeHours
+      ).filter((slot) => !takenSlots.has(slot.id)),
+    [calendarDate, selectedDate, selectedTimezone, takenSlots, officeHours]
   );
 
   const canGoToPreviousMonth =
@@ -631,7 +662,9 @@ export default function StrategyCallPage() {
       const firstDay = firstSelectableDayInMonthWithSlots(
         next.getFullYear(),
         next.getMonth(),
-        selectedTimezone
+        selectedTimezone,
+        undefined,
+        officeHours
       );
       if (firstDay !== null) setSelectedDate(firstDay);
       setSelectedTime("");
@@ -708,6 +741,11 @@ export default function StrategyCallPage() {
       });
 
       const result = await response.json();
+
+      if (response.status === 409) {
+        setSelectedTime("");
+        setTakenVersion((v) => v + 1);
+      }
 
       if (!response.ok) {
         const message = [result.error, result.hint, result.details?.message, result.details]
@@ -1308,7 +1346,9 @@ export default function StrategyCallPage() {
                                 calendarDate.getFullYear(),
                                 calendarDate.getMonth() + 1,
                                 dayNumber,
-                                selectedTimezone
+                                selectedTimezone,
+                                undefined,
+                                officeHours
                               );
 
                             return (

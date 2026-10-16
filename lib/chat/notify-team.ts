@@ -1,4 +1,5 @@
-import { REGION_CONTACTS, type ContactRegion } from './contact-info'
+import type { ContactRegion } from './contact-info'
+import { getSettings } from '@/lib/settings'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 
@@ -12,16 +13,19 @@ export interface LeadNotification {
   region: ContactRegion | null
   country: string | null
   transcript: { role: string; content: string }[]
+  // Set when the visitor booked (or tried to book) a strategy call in the chat.
+  booking?: { when: string; company: string; budget: string; failed?: boolean }
 }
 
-// Canada leads go to the Canada inbox, everything else to the US one.
-// CHAT_LEAD_TO_EMAIL (comma-separated) overrides both, e.g. for testing.
-function recipients(region: ContactRegion | null): string[] {
+// Canada leads go to the Canada lead inboxes, everything else to the US ones
+// (both set on the CRM's Settings page). CHAT_LEAD_TO_EMAIL (comma-separated)
+// overrides both, e.g. for testing.
+function recipients(region: ContactRegion | null, leadEmails: { US: string[]; CA: string[] }): string[] {
   const override = process.env.CHAT_LEAD_TO_EMAIL?.split(',')
     .map((e) => e.trim())
     .filter(Boolean)
   if (override && override.length > 0) return override
-  return [REGION_CONTACTS[region === 'CA' ? 'CA' : 'US'].email]
+  return leadEmails[region === 'CA' ? 'CA' : 'US']
 }
 
 function escapeHtml(value: string) {
@@ -31,6 +35,11 @@ function escapeHtml(value: string) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;')
+}
+
+function subjectPrefix(booking: LeadNotification['booking']): string {
+  if (!booking) return 'New chatbot lead'
+  return booking.failed ? 'Booking failed, please call' : 'Strategy call booked'
 }
 
 // Emails the team about a chatbot lead via Resend. Never throws: the lead is
@@ -47,13 +56,28 @@ export async function notifyTeamOfLead(
     return { sent: false, error: 'Email is not configured' }
   }
 
+  const settings = await getSettings()
   const location = lead.region
-    ? REGION_CONTACTS[lead.region].label
+    ? settings.contacts[lead.region].label
     : lead.country
       ? `Unknown (${lead.country})`
       : 'Unknown'
 
+  const booking = lead.booking
+  const intro = booking
+    ? booking.failed
+      ? `A visitor tried to book a strategy call in the chatbot for ${booking.when}, but the booking could not be saved. Please contact them to confirm a time.`
+      : `A visitor booked a free strategy call in the chatbot for ${booking.when}. Call them on the number below.`
+    : 'A visitor asked the BMYBrand chatbot for the team to get back to them.'
+
   const details: [string, string][] = [
+    ...(booking
+      ? ([
+          [booking.failed ? 'Requested time' : 'Call booked for', booking.when],
+          ['Company', booking.company],
+          ['Budget', booking.budget],
+        ] as [string, string][])
+      : []),
     ['Name', lead.name],
     ['Email', lead.email],
     ['Phone', lead.phone || 'Not given'],
@@ -63,11 +87,11 @@ export async function notifyTeamOfLead(
   ]
 
   const transcriptLines = lead.transcript.map(
-    (m) => `${m.role === 'user' ? 'Visitor' : 'Mr. B'}: ${m.content}`
+    (m) => `${m.role === 'user' ? 'Visitor' : settings.assistant.name}: ${m.content}`
   )
 
   const text = [
-    'A visitor asked the BMYBrand chatbot for the team to get back to them.',
+    intro,
     '',
     ...details.map(([k, v]) => `${k}: ${v}`),
     '',
@@ -80,8 +104,8 @@ export async function notifyTeamOfLead(
 
   const html = `
     <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.5;color:#1c1d2b;max-width:640px;">
-      <h2 style="margin:0 0 12px;font-size:18px;">New chatbot lead: ${escapeHtml(lead.name)}</h2>
-      <p style="margin:0 0 16px;">A visitor asked the BMYBrand chatbot for the team to get back to them.</p>
+      <h2 style="margin:0 0 12px;font-size:18px;">${escapeHtml(subjectPrefix(booking))}: ${escapeHtml(lead.name)}</h2>
+      <p style="margin:0 0 16px;">${escapeHtml(intro)}</p>
       <table cellpadding="6" cellspacing="0" style="border-collapse:collapse;margin-bottom:16px;">
         ${details
           .map(
@@ -107,9 +131,11 @@ export async function notifyTeamOfLead(
       },
       body: JSON.stringify({
         from,
-        to: recipients(lead.region),
+        to: recipients(lead.region, settings.leadEmails),
         reply_to: lead.email,
-        subject: `New chatbot lead: ${lead.name}${lead.interest ? ` (${lead.interest})` : ''}`,
+        subject: booking
+          ? `${subjectPrefix(booking)}: ${lead.name} – ${booking.when}`
+          : `New chatbot lead: ${lead.name}${lead.interest ? ` (${lead.interest})` : ''}`,
         text,
         html,
       }),

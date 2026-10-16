@@ -6,6 +6,7 @@ import ChatHeader from './ChatHeader'
 import ChatWindow from './ChatWindow'
 import ChatInput from './ChatInput'
 import { useChatState } from '@/hooks/useChatState'
+import { ChatConfigProvider } from '@/hooks/useChatConfig'
 import { isSupabaseBrowserConfigured } from '@/lib/supabase/client'
 
 export default function ChatWidget() {
@@ -13,7 +14,11 @@ export default function ChatWidget() {
     return null
   }
 
-  return <ChatWidgetInner />
+  return (
+    <ChatConfigProvider>
+      <ChatWidgetInner />
+    </ChatConfigProvider>
+  )
 }
 
 function ChatWidgetInner() {
@@ -29,6 +34,8 @@ function ChatWidgetInner() {
     botThinking,
     sendMessage,
     submitContact,
+    booking,
+    submitBooking,
     clearSession,
   } = useChatState()
 
@@ -74,6 +81,8 @@ function ChatWidgetInner() {
               contactSubmitted={contactSubmitted}
               onSend={handleSend}
               onSubmitContact={submitContact}
+              booking={booking}
+              onSubmitBooking={submitBooking}
             />
 
             {!isClosed && (

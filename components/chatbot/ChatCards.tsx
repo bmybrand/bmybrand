@@ -13,12 +13,19 @@ import {
   User,
 } from 'lucide-react'
 import type { RegionContact } from '@/lib/chat/contact-info'
-import type { ChatUi } from '@/types/chat'
-import type { ContactFormValues } from '@/hooks/useChatState'
+import type { BookingSummary, ChatUi } from '@/types/chat'
+import type { BookingFormValues, BookingResult, ContactFormValues } from '@/hooks/useChatState'
+import BookingCalendar, { BookedSummary, type BookingPrefill } from './BookingCalendar'
 
 type SubmitContact = (values: ContactFormValues) => Promise<{ error?: string }>
 
-interface CardProps {
+interface BookingProps {
+  booking: BookingSummary | null
+  prefill: BookingPrefill
+  onSubmitBooking: (values: BookingFormValues) => Promise<BookingResult>
+}
+
+interface CardProps extends BookingProps {
   ui: ChatUi
   // Only the newest form in the chat can be filled in; older cards collapse.
   interactive: boolean
@@ -27,16 +34,30 @@ interface CardProps {
 }
 
 // Rich cards shown under a bot reply (see ChatUi in types/chat.ts).
-export default function ChatCard({ ui, interactive, submitted, onSubmitContact }: CardProps) {
-  if (ui.type === 'booking') return <BookingCard url={ui.bookingUrl} />
+export default function ChatCard({
+  ui,
+  interactive,
+  submitted,
+  onSubmitContact,
+  booking,
+  prefill,
+  onSubmitBooking,
+}: CardProps) {
+  const bookingProps = { booking, prefill, onSubmitBooking }
+  if (ui.type === 'booking') return <BookingLinkCard url={ui.bookingUrl} />
+  if (ui.type === 'calendar') {
+    return <CalendarCard url={ui.bookingUrl} interactive={interactive} {...bookingProps} />
+  }
   if (ui.type === 'sales') {
     return (
       <SalesCard
         url={ui.bookingUrl}
+        calendar={ui.calendar !== false}
         contacts={ui.contacts}
         interactive={interactive}
         submitted={submitted}
         onSubmitContact={onSubmitContact}
+        {...bookingProps}
       />
     )
   }
@@ -87,7 +108,8 @@ function BookButton({ url, label = 'Book my free strategy call' }: { url: string
   )
 }
 
-function BookingCard({ url }: { url: string }) {
+// A button to the strategy-call page (calendar switched off, or older chats).
+function BookingLinkCard({ url }: { url: string }) {
   return (
     <Shell>
       <CardHeader
@@ -102,20 +124,67 @@ function BookingCard({ url }: { url: string }) {
   )
 }
 
+// The booking calendar, open straight away. Older (non-interactive) copies
+// keep a link to the full booking page.
+function CalendarCard({
+  url,
+  interactive,
+  booking,
+  prefill,
+  onSubmitBooking,
+}: { url: string; interactive: boolean } & BookingProps) {
+  return (
+    <Shell>
+      <CardHeader
+        icon={<CalendarCheck className="h-5 w-5" />}
+        title={booking && interactive ? 'Your strategy call' : 'Pick a time for your free call'}
+        text={booking && interactive ? undefined : '30 minutes with the team: a clear plan and a tailored quote.'}
+      />
+      <div className="p-4">
+        {!interactive ? (
+          booking ? null : <BookButton url={url} />
+        ) : booking ? (
+          <BookedSummary booking={booking} />
+        ) : (
+          <BookingCalendar prefill={prefill} onSubmit={onSubmitBooking} fullPageUrl={url} />
+        )}
+      </div>
+    </Shell>
+  )
+}
+
 function SalesCard({
   url,
+  calendar,
   contacts,
   interactive,
   submitted,
   onSubmitContact,
+  booking,
+  prefill,
+  onSubmitBooking,
 }: {
   url: string
+  calendar: boolean
   contacts: RegionContact[]
   interactive: boolean
   submitted: boolean
   onSubmitContact: SubmitContact
-}) {
+} & BookingProps) {
   const [showForm, setShowForm] = useState(false)
+  const [showCalendar, setShowCalendar] = useState(false)
+
+  if (interactive && booking) {
+    return (
+      <Shell>
+        <CardHeader icon={<CalendarCheck className="h-5 w-5" />} title="Your strategy call" />
+        <div className="p-4">
+          <BookedSummary booking={booking} />
+        </div>
+      </Shell>
+    )
+  }
+
   return (
     <Shell>
       <CardHeader
@@ -124,8 +193,24 @@ function SalesCard({
         text="Book a free strategy call for a clear plan and a tailored quote."
       />
       <div className="space-y-2.5 p-4">
-        <BookButton url={url} />
-        {interactive && !submitted && !showForm && (
+        {!interactive || !calendar ? (
+          <BookButton url={url} />
+        ) : showCalendar ? (
+          <BookingCalendar prefill={prefill} onSubmit={onSubmitBooking} fullPageUrl={url} />
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              setShowCalendar(true)
+              setShowForm(false)
+            }}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#F45B25] to-[#FF843E] px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#F45B25]/25 transition hover:brightness-110 cursor-pointer"
+          >
+            <CalendarCheck className="h-4 w-4" />
+            Pick a time
+          </button>
+        )}
+        {interactive && !submitted && !showForm && !showCalendar && (
           <button
             type="button"
             onClick={() => setShowForm(true)}

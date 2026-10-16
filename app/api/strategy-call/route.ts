@@ -6,6 +6,8 @@ import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from '@/lib/strategy-call-ip-config'
 import { strategyCallBookingExistsForIp } from '@/lib/strategy-call-ip'
 import { saveStrategyCallBooking, updateStrategyCallCalendarEventId } from '@/lib/strategy-call-save'
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from '@/lib/website-url'
+import { listTakenSlots } from '@/lib/booking/bridge'
+import { toInstant } from '@/lib/booking/slots'
 
 type StrategyCallPayload = {
   email: string
@@ -79,6 +81,23 @@ export async function POST(request: Request) {
 
   if (!isValidDate(payload.appointmentDate)) {
     return NextResponse.json({ error: 'Invalid appointment date.' }, { status: 400 })
+  }
+
+  // Someone (here or in the chat calendar) may have booked this time since
+  // the page loaded. If the bridge can't be read, carry on as before.
+  const startsAt = toInstant(payload.appointmentDate, payload.appointmentTime, payload.timezone)
+  if (startsAt) {
+    try {
+      const taken = await listTakenSlots(payload.appointmentDate, payload.appointmentDate)
+      if (taken.has(startsAt.toISOString())) {
+        return NextResponse.json(
+          { error: 'That time was just booked by someone else. Please pick another time.', code: 'slot_taken' },
+          { status: 409 }
+        )
+      }
+    } catch (error) {
+      console.error('[strategy-call] booked-time check failed:', error)
+    }
   }
 
   const ipAddress = getClientIp(request)

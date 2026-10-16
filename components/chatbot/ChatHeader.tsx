@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { X, Minus, RotateCcw } from "lucide-react";
+import { useChatConfig } from "@/hooks/useChatConfig";
 
 interface ChatHeaderProps {
   onMinimize: () => void;
@@ -10,6 +11,7 @@ interface ChatHeaderProps {
 }
 
 export default function ChatHeader({ onMinimize, onClose, onNewChat }: ChatHeaderProps) {
+  const { name } = useChatConfig();
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#F45B25] to-[#FF843E] rounded-t-2xl">
       <div className="flex items-center gap-2">
@@ -24,7 +26,7 @@ export default function ChatHeader({ onMinimize, onClose, onNewChat }: ChatHeade
         </div>
         <div>
           <h3 className="text-white text-base font-semibold leading-tight">
-            Mr. B
+            {name}
           </h3>
           <p className="text-white/70 text-sm">Online</p>
         </div>

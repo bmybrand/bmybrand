@@ -1,4 +1,7 @@
-export const KARACHI_OFFICE_TZ = 'Asia/Karachi'
+import { DEFAULT_SETTINGS, minutesOf, type OfficeHours } from './settings/schema'
+
+export type { OfficeHours }
+export const DEFAULT_OFFICE_HOURS: OfficeHours = DEFAULT_SETTINGS.booking.hours
 export const SLOT_INTERVAL_MINUTES = 30
 export const CALL_DURATION_MINUTES = 30
 
@@ -116,36 +119,30 @@ export function zonedTimeToUtc(
   minute: number,
   timeZone: string
 ) {
-  let utcMs = Date.UTC(year, month - 1, day, hour, minute, 0, 0)
-  let offset = getTimezoneOffsetMs(timeZone, new Date(utcMs))
-  utcMs -= offset
-  offset = getTimezoneOffsetMs(timeZone, new Date(utcMs))
-  return new Date(utcMs - offset)
+  // Treat the wall-clock time as UTC, shift by the zone's offset, then
+  // re-check the offset at the result in case a DST change sits in between.
+  const wallMs = Date.UTC(year, month - 1, day, hour, minute, 0, 0)
+  const offset = getTimezoneOffsetMs(timeZone, new Date(wallMs))
+  const utcMs = wallMs - offset
+  const corrected = getTimezoneOffsetMs(timeZone, new Date(utcMs))
+  return new Date(corrected === offset ? utcMs : wallMs - corrected)
 }
 
-/** Karachi office: Mon–Fri, 9:00 PM – 6:00 AM (next calendar day). */
-export function isInKarachiOfficeHours(instant: Date) {
-  const karachi = getZonedParts(instant, KARACHI_OFFICE_TZ)
-  const dow = WEEKDAY[karachi.weekday]
-
-  if (karachi.hour >= 21) {
-    return dow >= 1 && dow <= 5
-  }
-
-  if (karachi.hour < 6) {
-    const previousDay = zonedTimeToUtc(
-      karachi.year,
-      karachi.month,
-      karachi.day,
-      12,
-      0,
-      KARACHI_OFFICE_TZ
-    )
-    const prev = getZonedParts(new Date(previousDay.getTime() - 86_400_000), KARACHI_OFFICE_TZ)
-    const prevDow = WEEKDAY[prev.weekday]
-    return prevDow >= 1 && prevDow <= 5
-  }
-
+/**
+ * True when a call can start at this instant. Hours come from the CRM's
+ * Settings page (default: Karachi office, Mon–Fri, 9:00 PM – 6:00 AM). A
+ * window whose end is earlier than its start runs past midnight and belongs
+ * to the day it starts on.
+ */
+export function isInOfficeHours(instant: Date, hours: OfficeHours = DEFAULT_OFFICE_HOURS) {
+  const local = getZonedParts(instant, hours.timeZone)
+  const dow = WEEKDAY[local.weekday]
+  const minutes = local.hour * 60 + local.minute
+  const start = minutesOf(hours.start)
+  const end = minutesOf(hours.end)
+  if (start < end) return hours.days.includes(dow) && minutes >= start && minutes < end
+  if (minutes >= start) return hours.days.includes(dow)
+  if (minutes < end) return hours.days.includes((dow + 6) % 7)
   return false
 }
 
@@ -168,7 +165,8 @@ export function getAvailableSlots(
   month: number,
   day: number,
   viewerTimeZone: string,
-  now: Date = new Date()
+  now: Date = new Date(),
+  hours: OfficeHours = DEFAULT_OFFICE_HOURS
 ) {
   const slots: BookingSlot[] = []
 
@@ -176,7 +174,7 @@ export function getAvailableSlots(
     for (const minute of [0, 30]) {
       const startsAt = zonedTimeToUtc(year, month, day, hour, minute, viewerTimeZone)
       if (startsAt.getTime() <= now.getTime()) continue
-      if (!isInKarachiOfficeHours(startsAt)) continue
+      if (!isInOfficeHours(startsAt, hours)) continue
 
       const labels = formatSlotLabels(startsAt, viewerTimeZone)
       slots.push({
@@ -195,16 +193,18 @@ export function dateHasAvailableSlots(
   month: number,
   day: number,
   viewerTimeZone: string,
-  now: Date = new Date()
+  now: Date = new Date(),
+  hours: OfficeHours = DEFAULT_OFFICE_HOURS
 ) {
-  return getAvailableSlots(year, month, day, viewerTimeZone, now).length > 0
+  return getAvailableSlots(year, month, day, viewerTimeZone, now, hours).length > 0
 }
 
 export function firstSelectableDayInMonthWithSlots(
   year: number,
   month: number,
   viewerTimeZone: string,
-  now: Date = new Date()
+  now: Date = new Date(),
+  hours: OfficeHours = DEFAULT_OFFICE_HOURS
 ) {
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   for (let day = 1; day <= daysInMonth; day++) {
@@ -212,17 +212,20 @@ export function firstSelectableDayInMonthWithSlots(
     const todayStart = zonedTimeToUtc(today.year, today.month, today.day, 0, 0, viewerTimeZone)
     const cellStart = zonedTimeToUtc(year, month + 1, day, 0, 0, viewerTimeZone)
     if (cellStart.getTime() < todayStart.getTime()) continue
-    if (dateHasAvailableSlots(year, month + 1, day, viewerTimeZone, now)) return day
+    if (dateHasAvailableSlots(year, month + 1, day, viewerTimeZone, now, hours)) return day
   }
   return null
 }
 
-export function getInitialCalendarStateForTimeZone(viewerTimeZone: string) {
+export function getInitialCalendarStateForTimeZone(
+  viewerTimeZone: string,
+  hours: OfficeHours = DEFAULT_OFFICE_HOURS
+) {
   const now = new Date()
   const today = getZonedParts(now, viewerTimeZone)
   const monthStart = new Date(today.year, today.month - 1, 1)
   const firstDay =
-    firstSelectableDayInMonthWithSlots(today.year, today.month - 1, viewerTimeZone, now) ??
+    firstSelectableDayInMonthWithSlots(today.year, today.month - 1, viewerTimeZone, now, hours) ??
     today.day
 
   return {

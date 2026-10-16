@@ -6,11 +6,14 @@ import { detectLanguage, translateMessage } from './language-detector'
 import {
   knowledgeQAPrompt,
   bookingResponse,
+  alreadyBookedResponse,
   getBookingUrl,
   FAREWELL_MESSAGE,
   type TurnCard,
 } from './prompts'
 import { contactsForRegion, regionFromCountry } from './contact-info'
+import { formatSlotLong, zoneAbbr } from '@/lib/booking/slots'
+import { getSettings } from '@/lib/settings'
 import { sanitizeInput } from '@/lib/utils/validators'
 import {
   screenMessage,
@@ -94,6 +97,19 @@ function cardShownInLast(
     })
 }
 
+// "Tuesday, October 20 at 2:00 PM (CDT)" for a call booked in this chat, in
+// the visitor's own zone, or null when nothing is booked.
+function bookedFor(session: ChatSession): string | null {
+  const booking = (session.metadata as Record<string, unknown> | null)?.booking as
+    | { startsAt?: string; timeZone?: string }
+    | undefined
+  if (!booking?.startsAt) return null
+  const at = new Date(booking.startsAt)
+  if (Number.isNaN(at.getTime())) return null
+  const zone = booking.timeZone || 'America/Chicago'
+  return `${formatSlotLong(at, zone)} (${zoneAbbr(at, zone)})`
+}
+
 // ─── Main State Machine ──────────────────────────────────────────────────
 // There is no live handoff. Every turn is answered by the bot:
 //   general_query                   → knowledge base answer
@@ -101,7 +117,8 @@ function cardShownInLast(
 //                                     (booking button, contact form one tap away)
 //   support_request / human_request → explain there is no live chat, share the
 //                                     team's phone/email and show the contact form
-//   booking_request                 → booking button
+//   booking_request                 → in-chat booking calendar (or the
+//                                     existing booking, if there is one)
 //   farewell                        → CLOSED
 // Contact details are collected by the in-chat form (/api/chat/contact), which
 // emails the team.
@@ -198,13 +215,20 @@ async function handleConversation(
   }
 
   if (intent === 'booking_request') {
-    const response = await maybeTranslate(bookingResponse(), language)
+    const booked = bookedFor(session)
+    const calendar = (await getSettings()).booking.enabled
+    const response = await maybeTranslate(
+      booked ? alreadyBookedResponse(booked) : bookingResponse(calendar),
+      language
+    )
     return {
       response,
       stream: null,
       newState: 'BOOKING',
       sessionUpdates: { status: 'bot', visitor_language: language },
-      ui: { type: 'booking', bookingUrl: getBookingUrl() },
+      ui: booked
+        ? null
+        : { type: calendar ? 'calendar' : 'booking', bookingUrl: getBookingUrl() },
     }
   }
 
@@ -224,26 +248,30 @@ async function handleAnswer(
   const meta = (session.metadata ?? {}) as Record<string, unknown>
   const leadSubmittedAt =
     typeof meta.lead_submitted_at === 'string' ? meta.lead_submitted_at : null
+  const settings = await getSettings()
+  const calendarEnabled = settings.booking.enabled
   const region = regionFromCountry(meta.country as string | undefined)
-  const contacts = contactsForRegion(region)
+  const contacts = contactsForRegion(region, settings)
 
   const wantsTeam = intent === 'support_request' || intent === 'human_request'
   const bookingUrl = getBookingUrl()
+  const booked = bookedFor(session)
 
   let card: TurnCard = null
   if (wantsTeam && !leadSubmittedAt && !cardShownInLast(history, 2, ['contact_form'])) {
     card = 'contact_form'
   } else if (
     intent === 'service_inquiry' &&
-    !cardShownInLast(history, 4, ['sales', 'booking'])
+    !booked &&
+    !cardShownInLast(history, 4, ['sales', 'calendar', 'booking'])
   ) {
     card = leadSubmittedAt ? 'booking' : 'sales'
   }
 
   let ui: ChatUi | null = null
   if (card === 'contact_form') ui = { type: 'contact_form', contacts }
-  else if (card === 'sales') ui = { type: 'sales', contacts, bookingUrl }
-  else if (card === 'booking') ui = { type: 'booking', bookingUrl }
+  else if (card === 'sales') ui = { type: 'sales', contacts, bookingUrl, calendar: calendarEnabled }
+  else if (card === 'booking') ui = { type: calendarEnabled ? 'calendar' : 'booking', bookingUrl }
 
   const systemPrompt = knowledgeQAPrompt(language, context, currentDateTime(), {
     intent,
@@ -252,6 +280,9 @@ async function handleAnswer(
     teamInformedAt: leadSubmittedAt ? currentDateTime(new Date(leadSubmittedAt)) : null,
     visitorName: session.visitor_name,
     bookingUrl,
+    bookedFor: booked,
+    assistantName: settings.assistant.name,
+    calendarEnabled,
   })
 
   const messages: ChatCompletionMessageParam[] = [
@@ -275,6 +306,7 @@ async function handleAnswer(
       // Existing-client support is kept once seen, since follow-ups like
       // "when can I talk to someone" would otherwise relabel it.
       ...((wantsTeam || intent === 'service_inquiry') &&
+      !booked &&
       meta.lead_interest !== interestLabel('support_request')
         ? { metadata: { ...meta, lead_interest: interestLabel(intent) } }
         : {}),

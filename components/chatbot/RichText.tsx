@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { REGION_CONTACTS } from '@/lib/chat/contact-info'
+import { phoneHref as telHref } from '@/lib/settings/schema'
 
 // Lightweight message formatting for chat bubbles: paragraphs, "-" and "1."
 // lists, **bold**, markdown links, and clickable URLs, emails and phone
@@ -8,14 +8,10 @@ import { REGION_CONTACTS } from '@/lib/chat/contact-info'
 const INLINE_RE =
   /\*\*([^*]+)\*\*|\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)\s]+)\)|(https?:\/\/[^\s)]+[^\s).,!?])|([\w.+-]+@[\w-]+(?:\.[\w-]+)+)|(\+?\s?\(?\d[\d\s().-]{7,}\d)/g
 
-const KNOWN_PHONES = new Map(
-  Object.values(REGION_CONTACTS).map((c) => [c.phone.replace(/\D/g, ''), c.phoneHref])
-)
-
 function phoneHref(raw: string): string | null {
   const digits = raw.replace(/\D/g, '')
   if (digits.length < 10 || digits.length > 15) return null
-  return KNOWN_PHONES.get(digits) ?? `tel:${raw.trim().startsWith('+') ? '+' : ''}${digits}`
+  return telHref(raw)
 }
 
 function inline(text: string, linkClass: string, keyBase: string): ReactNode[] {
