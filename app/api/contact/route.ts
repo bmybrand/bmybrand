@@ -3,6 +3,8 @@ import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
 import { getContactSupabaseAdmin } from '@/lib/supabase/contact-server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
+const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+const RECAPTCHA_MIN_SCORE = 0.5
 const DEFAULT_TO_EMAIL = 'info@bmybrand.com'
 const DEFAULT_SUPABASE_TABLE = 'leads'
 const CONTACT_RATE_LIMIT = {
@@ -19,6 +21,13 @@ type ContactPayload = {
   service?: string
   message: string
   accessPage?: string
+  recaptchaToken?: string
+}
+
+type RecaptchaVerification = {
+  success: boolean
+  score?: number
+  action?: string
 }
 
 function isValidEmail(value: string) {
@@ -61,12 +70,17 @@ export async function POST(request: Request) {
     service: body.service?.trim(),
     message: body.message?.trim(),
     accessPage: body.accessPage?.trim(),
+    recaptchaToken: body.recaptchaToken?.trim(),
   }
 
   const formType =
     payload.formType === 'custom_quote_request'
       ? 'custom_quote_request'
       : 'contact'
+  const expectedRecaptchaAction =
+    formType === 'custom_quote_request'
+      ? 'custom_quote_request'
+      : 'contact_form'
 
   if (
     !payload.firstName ||
@@ -102,6 +116,64 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: 'HTML or script content is not allowed in this form.' },
       { status: 400 }
+    )
+  }
+
+  if (!payload.recaptchaToken) {
+    return NextResponse.json(
+      { error: 'Security verification is required.' },
+      { status: 400 }
+    )
+  }
+
+  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY
+
+  if (!recaptchaSecret) {
+    return NextResponse.json(
+      { error: 'Security verification is not configured.' },
+      { status: 500 }
+    )
+  }
+
+  let recaptchaResponse: Response
+
+  try {
+    recaptchaResponse = await fetch(RECAPTCHA_VERIFY_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: recaptchaSecret,
+        response: payload.recaptchaToken,
+      }),
+      cache: 'no-store',
+    })
+  } catch {
+    return NextResponse.json(
+      { error: 'Security verification is temporarily unavailable.' },
+      { status: 502 }
+    )
+  }
+
+  if (!recaptchaResponse.ok) {
+    return NextResponse.json(
+      { error: 'Security verification is temporarily unavailable.' },
+      { status: 502 }
+    )
+  }
+
+  const recaptchaResult = await recaptchaResponse.json() as RecaptchaVerification
+
+  if (
+    !recaptchaResult.success ||
+    recaptchaResult.action !== expectedRecaptchaAction ||
+    typeof recaptchaResult.score !== 'number' ||
+    recaptchaResult.score < RECAPTCHA_MIN_SCORE
+  ) {
+    return NextResponse.json(
+      { error: 'Security verification failed. Please try again.' },
+      { status: 403 }
     )
   }
 

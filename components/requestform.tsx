@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import Script from 'next/script';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,10 +72,12 @@ export default function RequestForm({ title }: RequestFormProps) {
   const [openFaq, setOpenFaq] = useState<string | null>('01');
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [submitError, setSubmitError] = useState('');
+  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const formColRef = useRef<HTMLDivElement>(null);
   const faqColRef = useRef<HTMLDivElement>(null);
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
     mode: 'onSubmit',
@@ -121,7 +124,25 @@ export default function RequestForm({ title }: RequestFormProps) {
   const onSubmit = async (data: FormValues) => {
     setSubmitStatus('loading');
     setSubmitError('');
+
+    const recaptcha = window.grecaptcha;
+
+    if (!recaptchaSiteKey || !recaptcha || !isRecaptchaReady) {
+      setSubmitError('Security verification is not ready. Please try again.');
+      setSubmitStatus('error');
+      return;
+    }
+
     try {
+      const recaptchaToken = await new Promise<string>((resolve, reject) => {
+        recaptcha.ready(() => {
+          recaptcha
+            .execute(recaptchaSiteKey, { action: 'custom_quote_request' })
+            .then(resolve)
+            .catch(reject);
+        });
+      });
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -132,6 +153,7 @@ export default function RequestForm({ title }: RequestFormProps) {
           ...data,
           service: 'Custom Quote Request',
           accessPage: pathname || '/',
+          recaptchaToken,
         }),
       });
 
@@ -153,6 +175,13 @@ export default function RequestForm({ title }: RequestFormProps) {
 
   return (
     <section id="contact" ref={sectionRef} className="bg-[#11122F] text-white py-20 overflow-x-hidden">
+      {recaptchaSiteKey && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
+          strategy="afterInteractive"
+          onReady={() => setIsRecaptchaReady(true)}
+        />
+      )}
       <div className="mx-auto w-[90%] 2xl:w-[75%] max-w-full">
         
 
@@ -255,7 +284,7 @@ export default function RequestForm({ title }: RequestFormProps) {
                 )}
                 <button
                   type="submit"
-                  disabled={submitStatus === 'loading'}
+                  disabled={submitStatus === 'loading' || !isRecaptchaReady}
                   className="w-full h-12 rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white font-semibold hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] hover:brightness-105 transition-all duration-300 BenzinSemibold disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
                   {submitStatus === 'loading' ? 'Sending...' : 'Request a Quote'}
