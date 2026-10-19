@@ -8,6 +8,7 @@ import { saveStrategyCallBooking, updateStrategyCallCalendarEventId } from '@/li
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from '@/lib/website-url'
 import { listTakenSlots } from '@/lib/booking/bridge'
 import { toInstant } from '@/lib/booking/slots'
+import { verifyRecaptcha } from '@/lib/recaptcha-server'
 
 type StrategyCallPayload = {
   email: string
@@ -22,6 +23,7 @@ type StrategyCallPayload = {
   appointmentDate?: string
   appointmentTime?: string
   timezone?: string
+  recaptchaToken?: string
 }
 
 function isValidEmail(value: string) {
@@ -54,6 +56,7 @@ export async function POST(request: Request) {
     appointmentDate: body.appointmentDate?.trim(),
     appointmentTime: body.appointmentTime?.trim(),
     timezone: body.timezone?.trim(),
+    recaptchaToken: body.recaptchaToken?.trim(),
   }
 
   if (
@@ -81,6 +84,18 @@ export async function POST(request: Request) {
 
   if (!isValidDate(payload.appointmentDate)) {
     return NextResponse.json({ error: 'Invalid appointment date.' }, { status: 400 })
+  }
+
+  const recaptchaResult = await verifyRecaptcha(
+    payload.recaptchaToken,
+    'strategy_call',
+  )
+
+  if (!recaptchaResult.ok) {
+    return NextResponse.json(
+      { error: recaptchaResult.error },
+      { status: recaptchaResult.status },
+    )
   }
 
   // Someone (here or in the chat calendar) may have booked this time since

@@ -18,6 +18,7 @@ import {
   type BookingSummary,
   type ChatMessage,
 } from '@/types/chat'
+import { verifyRecaptcha } from '@/lib/recaptcha-server'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -60,9 +61,6 @@ export async function POST(request: NextRequest) {
   const timeZone = isValidZone(body.timeZone ?? '') ? body.timeZone : DEFAULT_BOOKING_ZONE
   const startsAt = new Date(body.slotId ?? '')
 
-  const settings = await getSettings()
-  if (!settings.booking.enabled) return fail('Booking in the chat is turned off right now.', 403)
-
   if (!sessionId) return fail('sessionId is required.', 400)
   if (Number.isNaN(startsAt.getTime())) return fail('Please pick a time.', 400)
   if (name.length < 2) return fail('Please enter your name.', 400)
@@ -70,6 +68,12 @@ export async function POST(request: NextRequest) {
   if (!isValidPhone(phone)) return fail('Please enter a valid phone number so the team can call you.', 400)
   if (company.length < 2) return fail('Please enter your company name.', 400)
   if (!budget) return fail('Please pick a budget range.', 400)
+
+  const recaptchaResult = await verifyRecaptcha(body.recaptchaToken, 'chat_booking')
+  if (!recaptchaResult.ok) return fail(recaptchaResult.error, recaptchaResult.status)
+
+  const settings = await getSettings()
+  if (!settings.booking.enabled) return fail('Booking in the chat is turned off right now.', 403)
 
   const { data: session, error: sessionError } = await supabaseAdmin
     .from('chat_sessions')

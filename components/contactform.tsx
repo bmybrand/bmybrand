@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import Script from 'next/script'
+import { executeRecaptcha } from '@/lib/recaptcha-client'
 
 type FormValues = {
   firstName: string
@@ -65,9 +65,6 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [submitSuccess, setSubmitSuccess] = useState('')
-  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false)
-
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 
   const {
     register,
@@ -86,23 +83,8 @@ export default function ContactForm() {
     setSubmitError('')
     setSubmitSuccess('')
 
-    const recaptcha = window.grecaptcha
-
-    if (!recaptchaSiteKey || !recaptcha || !isRecaptchaReady) {
-      setSubmitError('Security verification is not ready. Please try again.')
-      setIsSubmitting(false)
-      return
-    }
-
     try {
-      const recaptchaToken = await new Promise<string>((resolve, reject) => {
-        recaptcha.ready(() => {
-          recaptcha
-            .execute(recaptchaSiteKey, { action: 'contact_form' })
-            .then(resolve)
-            .catch(reject)
-        })
-      })
+      const recaptchaToken = await executeRecaptcha('contact_form')
 
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -136,13 +118,6 @@ export default function ContactForm() {
 
   return (
     <section className="overflow-x-hidden bg-[#11122F] py-20 text-white">
-      {recaptchaSiteKey && (
-        <Script
-          src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
-          strategy="afterInteractive"
-          onReady={() => setIsRecaptchaReady(true)}
-        />
-      )}
       <div className="mx-auto w-[90%] max-w-360 2xl:w-[75%]">
         <div className="flex w-full min-w-0 flex-col gap-12 lg:flex-row">
           <div className="flex min-h-0 min-w-0 max-w-xl flex-1 flex-col justify-between">
@@ -263,7 +238,7 @@ export default function ContactForm() {
               <div className="w-full">
                 <button
                   type="submit"
-                  disabled={isSubmitting || !isRecaptchaReady}
+                  disabled={isSubmitting}
                   className="BenzinSemibold h-12 w-full rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] text-white transition-all duration-300 hover:-translate-y-1 hover:brightness-105 hover:shadow-[0_0_25px_rgba(244,91,37,0.5)] disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}

@@ -153,6 +153,7 @@ export interface SendMessageRequest {
 
 export interface ContactSubmitRequest {
   sessionId: string
+  recaptchaToken?: string
   name: string
   email: string
   phone?: string
@@ -170,6 +171,7 @@ export const BUDGET_OPTIONS = ['Below $1K', '$1K-$3K', '$3K-$5K', '$5K-$10K', '$
 
 export interface BookingSubmitRequest {
   sessionId: string
+  recaptchaToken?: string
   slotId: string // ISO instant
   timeZone: string
   name: string

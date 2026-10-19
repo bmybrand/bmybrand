@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
 import { getContactSupabaseAdmin } from '@/lib/supabase/contact-server'
+import { verifyRecaptcha } from '@/lib/recaptcha-server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
-const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
-const RECAPTCHA_MIN_SCORE = 0.5
 const DEFAULT_TO_EMAIL = 'info@bmybrand.com'
 const DEFAULT_SUPABASE_TABLE = 'leads'
 const CONTACT_RATE_LIMIT = {
@@ -22,12 +21,6 @@ type ContactPayload = {
   message: string
   accessPage?: string
   recaptchaToken?: string
-}
-
-type RecaptchaVerification = {
-  success: boolean
-  score?: number
-  action?: string
 }
 
 function isValidEmail(value: string) {
@@ -48,11 +41,6 @@ function containsUnsafeMarkup(value: string) {
 }
 
 export async function POST(request: Request) {
-  const supabaseAdmin = getContactSupabaseAdmin()
-  const apiKey = process.env.RESEND_API_KEY
-  const from = process.env.RESEND_FROM_EMAIL
-  const to = process.env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL
-
   let body: ContactPayload
 
   try {
@@ -119,63 +107,22 @@ export async function POST(request: Request) {
     )
   }
 
-  if (!payload.recaptchaToken) {
+  const recaptchaResult = await verifyRecaptcha(
+    payload.recaptchaToken,
+    expectedRecaptchaAction,
+  )
+
+  if (!recaptchaResult.ok) {
     return NextResponse.json(
-      { error: 'Security verification is required.' },
-      { status: 400 }
+      { error: recaptchaResult.error },
+      { status: recaptchaResult.status }
     )
   }
 
-  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY
-
-  if (!recaptchaSecret) {
-    return NextResponse.json(
-      { error: 'Security verification is not configured.' },
-      { status: 500 }
-    )
-  }
-
-  let recaptchaResponse: Response
-
-  try {
-    recaptchaResponse = await fetch(RECAPTCHA_VERIFY_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        secret: recaptchaSecret,
-        response: payload.recaptchaToken,
-      }),
-      cache: 'no-store',
-    })
-  } catch {
-    return NextResponse.json(
-      { error: 'Security verification is temporarily unavailable.' },
-      { status: 502 }
-    )
-  }
-
-  if (!recaptchaResponse.ok) {
-    return NextResponse.json(
-      { error: 'Security verification is temporarily unavailable.' },
-      { status: 502 }
-    )
-  }
-
-  const recaptchaResult = await recaptchaResponse.json() as RecaptchaVerification
-
-  if (
-    !recaptchaResult.success ||
-    recaptchaResult.action !== expectedRecaptchaAction ||
-    typeof recaptchaResult.score !== 'number' ||
-    recaptchaResult.score < RECAPTCHA_MIN_SCORE
-  ) {
-    return NextResponse.json(
-      { error: 'Security verification failed. Please try again.' },
-      { status: 403 }
-    )
-  }
+  const supabaseAdmin = getContactSupabaseAdmin()
+  const apiKey = process.env.RESEND_API_KEY
+  const from = process.env.RESEND_FROM_EMAIL
+  const to = process.env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL
 
   const { data: existingLead, error: existingLeadError } = await supabaseAdmin
     .from(DEFAULT_SUPABASE_TABLE)

@@ -6,6 +6,7 @@ import { contactConfirmation } from '@/lib/chat/prompts'
 import { translateMessage } from '@/lib/chat/language-detector'
 import { regionFromCountry } from '@/lib/chat/contact-info'
 import type { ChatMessage, ContactSubmitRequest } from '@/types/chat'
+import { verifyRecaptcha } from '@/lib/recaptcha-server'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -40,6 +41,9 @@ export async function POST(request: NextRequest) {
   if (phone && !isValidPhone(phone)) {
     return fail('Please enter a valid phone number, or leave it empty.', 400)
   }
+
+  const recaptchaResult = await verifyRecaptcha(body.recaptchaToken, 'chat_contact')
+  if (!recaptchaResult.ok) return fail(recaptchaResult.error, recaptchaResult.status)
 
   const { data: session, error: sessionError } = await supabaseAdmin
     .from('chat_sessions')

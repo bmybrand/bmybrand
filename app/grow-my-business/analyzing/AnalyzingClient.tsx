@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import AuditNavbar from "@/components/AuditNavbar";
 import { saveAuditIdForSite } from "@/lib/audit/session";
+import { executeRecaptcha } from "@/lib/recaptcha-client";
 
 const progressStops = [14, 21, 32, 41, 53, 61, 68, 76, 84, 92, 98];
 const DEFAULT_INDUSTRY = "other";
@@ -109,6 +110,7 @@ export default function AnalyzingClient({
 
     async function runAudit() {
       try {
+        const recaptchaToken = await executeRecaptcha("business_audit");
         const response = await fetch("/api/audit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -116,6 +118,7 @@ export default function AnalyzingClient({
             site: siteLabel,
             industry: resolvedIndustry,
             websiteGoal: resolvedWebsiteGoal,
+            recaptchaToken,
           }),
         });
 

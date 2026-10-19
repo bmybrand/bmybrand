@@ -6,6 +6,7 @@ import {
 } from "@/lib/audit/store";
 import { triggerAuditPdfArchive } from "@/lib/trigger-audit-pdf-upload";
 import { isValidEmail } from "@/lib/audit/validate";
+import { verifyRecaptcha } from "@/lib/recaptcha-server";
 
 export const runtime = "nodejs";
 
@@ -17,6 +18,7 @@ type UnlockBody = {
   name?: string;
   email?: string;
   company?: string;
+  recaptchaToken?: string;
 };
 
 export async function POST(request: NextRequest, context: RouteContext) {
@@ -47,6 +49,18 @@ export async function POST(request: NextRequest, context: RouteContext) {
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
+  }
+
+  const recaptchaResult = await verifyRecaptcha(
+    body.recaptchaToken,
+    "audit_unlock",
+  );
+
+  if (!recaptchaResult.ok) {
+    return NextResponse.json(
+      { error: recaptchaResult.error },
+      { status: recaptchaResult.status },
+    );
   }
 
   try {

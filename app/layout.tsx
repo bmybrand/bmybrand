@@ -8,6 +8,7 @@ import SmoothScroll from "@/components/smooth-scroll";
 import BottomFlyingBear from "@/components/bottom-flying-bear";
 import "./globals.css";
 import ChatWidgetGate from "@/components/chatbot/ChatWidgetGate";
+import RecaptchaLoader from "@/components/recaptcha-loader";
 
 const benzinBold = localFont({
   src: "../public/fonts/benzinbold.ttf",
@@ -34,6 +35,7 @@ const siteUrl = "https://bmybrand.com";
 const siteDescription =
   "BmyBrand helps businesses grow with smart digital solutions, from branding and websites to AI, marketing, commerce, and operations built for real-world impact.";
 const socialPreviewUrl = `${siteUrl}/social-preview.png`;
+const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -102,6 +104,7 @@ export default function RootLayout({
       >
         <SmoothScroll />
         <GoogleAnalytics />
+        {recaptchaSiteKey ? <RecaptchaLoader siteKey={recaptchaSiteKey} /> : null}
         <Suspense fallback={<PreloaderFallback />}>
           <GlobalPreloader>{children}</GlobalPreloader>
         </Suspense>

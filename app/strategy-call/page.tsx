@@ -21,6 +21,7 @@ import {
 } from "@/lib/phone-country";
 import { isValidWebsiteUrl, normalizeWebsiteUrl } from "@/lib/website-url";
 import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from "@/lib/strategy-call-ip-config";
+import { executeRecaptcha } from "@/lib/recaptcha-client";
 import {
   dateHasAvailableSlots,
   detectUserTimeZone,
@@ -721,6 +722,7 @@ export default function StrategyCallPage() {
     const appointmentDate = formatAppointmentDateFromSlot(selectedSlot, selectedTimezone);
 
     try {
+      const recaptchaToken = await executeRecaptcha("strategy_call");
       const response = await fetch("/api/strategy-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -737,6 +739,7 @@ export default function StrategyCallPage() {
           appointmentDate,
           appointmentTime: formatTimeSlot(selectedSlot),
           timezone: selectedTimezone,
+          recaptchaToken,
         }),
       });
 

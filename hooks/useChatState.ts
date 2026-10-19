@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useChatSession } from './useChatSession'
 import { useChatMessages } from './useChatMessages'
+import { executeRecaptcha } from '@/lib/recaptcha-client'
 import type {
   BookingSubmitRequest,
   BookingSubmitResponse,
@@ -111,10 +112,11 @@ export function useChatState() {
   const submitContact = async (values: ContactFormValues): Promise<{ error?: string }> => {
     if (!session.sessionId) return { error: 'Please start a chat first.' }
     try {
+      const recaptchaToken = await executeRecaptcha('chat_contact')
       const res = await fetch('/api/chat/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: session.sessionId, ...values }),
+        body: JSON.stringify({ sessionId: session.sessionId, ...values, recaptchaToken }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
@@ -133,10 +135,11 @@ export function useChatState() {
   const submitBooking = async (values: BookingFormValues): Promise<BookingResult> => {
     if (!session.sessionId) return { error: 'Please start a chat first.' }
     try {
+      const recaptchaToken = await executeRecaptcha('chat_booking')
       const res = await fetch('/api/chat/booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: session.sessionId, ...values }),
+        body: JSON.stringify({ sessionId: session.sessionId, ...values, recaptchaToken }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {

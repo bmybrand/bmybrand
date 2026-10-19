@@ -10,6 +10,7 @@ import { AuditPracticeList, SectionScore } from "@/components/audit/AuditPractic
 import { AuditIssueCount, AuditScoreGauge } from "@/components/audit/AuditScoreGauge";
 import { useAuditReport } from "@/lib/audit/use-audit-report";
 import { getAuditIdForSite } from "@/lib/audit/session";
+import { executeRecaptcha } from "@/lib/recaptcha-client";
 
 function getHostname(site: string) {
   try {
@@ -238,10 +239,11 @@ export default function ReportClient({
     setUnlockError(null);
 
     try {
+      const recaptchaToken = await executeRecaptcha("audit_unlock");
       const response = await fetch(`/api/audit/${resolvedAuditId}/unlock`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, recaptchaToken }),
       });
 
       const payload = await response.json().catch(() => ({}));

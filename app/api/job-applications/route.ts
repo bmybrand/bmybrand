@@ -3,6 +3,7 @@ import { getCareerOpening } from '@/lib/careers/queries'
 import { deleteResumeFromDrive, uploadResumeToDrive } from '@/lib/careers/resume-drive'
 import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
 import { getContactSupabaseAdmin } from '@/lib/supabase/contact-server'
+import { verifyRecaptcha } from '@/lib/recaptcha-server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const MAX_RESUME_SIZE = 5 * 1024 * 1024
@@ -80,6 +81,7 @@ export async function POST(request: Request) {
     yearsExperience: field(formData, 'yearsExperience'),
     coverLetter: field(formData, 'coverLetter'),
     consent: field(formData, 'consent') === 'true',
+    recaptchaToken: field(formData, 'recaptchaToken'),
   }
 
   if (
@@ -101,6 +103,18 @@ export async function POST(request: Request) {
   }
   if (!validOptionalUrl(payload.linkedIn) || !validOptionalUrl(payload.portfolio)) {
     return NextResponse.json({ error: 'LinkedIn and portfolio links must begin with http:// or https://.' }, { status: 400 })
+  }
+
+  const recaptchaResult = await verifyRecaptcha(
+    payload.recaptchaToken,
+    'job_application',
+  )
+
+  if (!recaptchaResult.ok) {
+    return NextResponse.json(
+      { error: recaptchaResult.error },
+      { status: recaptchaResult.status },
+    )
   }
 
   const job = await getCareerOpening(payload.jobSlug)

@@ -1,9 +1,17 @@
 type Recaptcha = {
   ready: (callback: () => void) => void
   execute: (
-    siteKey: string,
+    siteKeyOrWidgetId: string | number,
     options: { action: string }
   ) => Promise<string>
+  render: (
+    container: string | HTMLElement,
+    parameters: {
+      sitekey: string
+      size: 'invisible'
+      badge: 'bottomleft' | 'bottomright' | 'inline'
+    }
+  ) => number
 }
 
 interface Window {

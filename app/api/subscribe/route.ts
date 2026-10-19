@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getClientIp, rateLimit, rateLimitHeaders } from '@/lib/rate-limit'
 import { getContactSupabaseAdmin } from '@/lib/supabase/contact-server'
+import { verifyRecaptcha } from '@/lib/recaptcha-server'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 const DEFAULT_SUPABASE_TABLE = 'leads'
@@ -12,6 +13,7 @@ const SUBSCRIBE_RATE_LIMIT = {
 type SubscribePayload = {
   email: string
   accessPage?: string
+  recaptchaToken?: string
 }
 
 function escapeHtml(value: string) {
@@ -28,10 +30,6 @@ function isValidEmail(value: string) {
 }
 
 export async function POST(request: Request) {
-  const supabaseAdmin = getContactSupabaseAdmin()
-  const apiKey = process.env.RESEND_API_KEY
-  const from = process.env.RESEND_FROM_EMAIL
-
   let body: SubscribePayload
 
   try {
@@ -43,6 +41,7 @@ export async function POST(request: Request) {
   const payload = {
     email: body.email?.trim(),
     accessPage: body.accessPage?.trim(),
+    recaptchaToken: body.recaptchaToken?.trim(),
   }
 
   if (!payload.email || !payload.accessPage) {
@@ -58,6 +57,22 @@ export async function POST(request: Request) {
       { status: 400 }
     )
   }
+
+  const recaptchaResult = await verifyRecaptcha(
+    payload.recaptchaToken,
+    'newsletter_signup',
+  )
+
+  if (!recaptchaResult.ok) {
+    return NextResponse.json(
+      { error: recaptchaResult.error },
+      { status: recaptchaResult.status },
+    )
+  }
+
+  const supabaseAdmin = getContactSupabaseAdmin()
+  const apiKey = process.env.RESEND_API_KEY
+  const from = process.env.RESEND_FROM_EMAIL
 
   const clientIp = getClientIp(request)
   const ipLimit = await rateLimit({

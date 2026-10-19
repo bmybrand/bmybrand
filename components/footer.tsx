@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Script from 'next/script'
+import { executeRecaptcha } from '@/lib/recaptcha-client'
 
 const subscribe = () => () => {}
 
@@ -155,6 +156,7 @@ const Footer: React.FC = () => {
     setIsSubmitting(true)
 
     try {
+      const recaptchaToken = await executeRecaptcha('newsletter_signup')
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
@@ -163,6 +165,7 @@ const Footer: React.FC = () => {
         body: JSON.stringify({
           email,
           accessPage: pathname || '/',
+          recaptchaToken,
         }),
       })
 

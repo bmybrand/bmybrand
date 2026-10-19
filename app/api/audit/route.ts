@@ -7,6 +7,7 @@ import {
   normalizeAuditSiteInput,
 } from "@/lib/audit/validate";
 import { getClientIp, rateLimit, rateLimitHeaders } from "@/lib/rate-limit";
+import { verifyRecaptcha } from "@/lib/recaptcha-server";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -20,22 +21,10 @@ type AuditRequestBody = {
   site?: string;
   industry?: string;
   websiteGoal?: string;
+  recaptchaToken?: string;
 };
 
 export async function POST(request: NextRequest) {
-  const ip = getClientIp(request);
-  const rateResult = await rateLimit({
-    key: `audit:${ip}`,
-    ...AUDIT_RATE_LIMIT,
-  });
-
-  if (!rateResult.success) {
-    return NextResponse.json(
-      { error: "Too many audit requests. Please try again later." },
-      { status: 429, headers: rateLimitHeaders(rateResult) },
-    );
-  }
-
   let body: AuditRequestBody;
 
   try {
@@ -60,6 +49,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { error: "Industry and website goal are required." },
       { status: 400 },
+    );
+  }
+
+  const recaptchaResult = await verifyRecaptcha(
+    body.recaptchaToken,
+    "business_audit",
+  );
+
+  if (!recaptchaResult.ok) {
+    return NextResponse.json(
+      { error: recaptchaResult.error },
+      { status: recaptchaResult.status },
+    );
+  }
+
+  const ip = getClientIp(request);
+  const rateResult = await rateLimit({
+    key: `audit:${ip}`,
+    ...AUDIT_RATE_LIMIT,
+  });
+
+  if (!rateResult.success) {
+    return NextResponse.json(
+      { error: "Too many audit requests. Please try again later." },
+      { status: 429, headers: rateLimitHeaders(rateResult) },
     );
   }
 

@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react'
 import type { CareerOpening } from '@/data/careers'
+import { executeRecaptcha } from '@/lib/recaptcha-client'
 
 const steps = ['Resume', 'My information', 'Experience', 'Review']
 const acceptedFileTypes = '.pdf,.doc,.docx,.txt'
@@ -128,6 +129,7 @@ export default function JobApplicationForm({ job }: { job: CareerOpening }) {
     Object.entries(fields).forEach(([key, value]) => formData.set(key, String(value)))
 
     try {
+      formData.set('recaptchaToken', await executeRecaptcha('job_application'))
       const response = await fetch('/api/job-applications', { method: 'POST', body: formData })
       const result = (await response.json().catch(() => null)) as { error?: string } | null
       if (!response.ok) {
