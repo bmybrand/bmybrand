@@ -58,7 +58,7 @@ function isAuthorized(): bool
 }
 
 // --- Configure (match your cPanel MySQL user/database) ---
-const BRIDGE_SECRET = 'CHANGE_ME_TO_A_LONG_RANDOM_SECRET';
+const BRIDGE_SECRET = '7fc537308a2f8de860277a4f038524580abe9cf3f0d018e2fab1d0ce3c15c2df';
 const DB_HOST = 'localhost';
 const DB_NAME = 'serverlinktestwe_bmybrand_leads';
 const DB_USER = 'serverlinktestwe_bmybrand_leads';

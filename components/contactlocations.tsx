@@ -14,16 +14,6 @@ const locations = [
     phone: '+1 469 501 1401',
     location: 'Austin, TX 73301, USA'
   },
-  {
-    title: 'Canada Office',
-    city: 'Toronto',
-    cityDetail: '845 Adelaide St W, Toronto',
-    mapUrl: 'https://www.google.com/maps?q=845%20Adelaide%20St%20W%2C%20Toronto%2C%20ON%20M6J%203X1%2C%20Canada&output=embed',
-    mapLink: 'https://www.google.com/maps/search/?api=1&query=845+Adelaide+St+W%2C+Toronto%2C+ON+M6J+3X1%2C+Canada',
-    email: 'info@bmybrand.com',
-    phone: '+(587) 492-5888',
-    location: '845 Adelaide St W, Toronto, ON M6J 3X1, Canada'
-  }
 ]
 
 export default function ContactLocations() {

@@ -253,18 +253,6 @@ const Footer: React.FC = () => {
                   <div>Austin, TX 73301, USA</div>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="mt-1 w-8 h-8 shrink-0 rounded-full overflow-hidden border border-white/20 bg-white/5">
-                  <img
-                    src="https://flagcdn.com/w80/ca.png"
-                    alt="Canada"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <div> 845 Adelaide St W, Toronto, ON M6J 3X1, Canada</div>
-                </div>
-              </div>
               <a
                 href="tel:+14695011401"
                 className="flex w-full cursor-pointer items-center justify-center rounded-lg bg-linear-to-r from-[#F45B25] to-[#FF843E] px-6 py-3 text-center font-semibold text-white transition-colors hover:opacity-90 BenzinSemibold"

@@ -28,7 +28,6 @@ Core Services:
 
 Offices:
 - US: PO BOX 605, Allen, TX 75013
-- Canada: 845 Adelaide St W, Toronto, ON M6J 3X1
 
 Service Area: United States and Canada (clients are served remotely as well).
 Careers: https://bmybrand.com/careers

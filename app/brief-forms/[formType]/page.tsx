@@ -1,21 +1,29 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation'
 import {
   getInvoicePortalOrigin,
   isBriefFormSlug,
-} from "@/lib/invoice-portal-origin";
+} from '@/lib/invoice-portal-origin'
 
 type PageProps = {
-  params: Promise<{ formType: string }>;
-};
+  params: Promise<{ formType: string }>
+}
 
 export default async function BriefFormEmbedPage({ params }: PageProps) {
-  const { formType } = await params;
+  const { formType } = await params
 
   if (!isBriefFormSlug(formType)) {
-    notFound();
+    notFound()
   }
 
-  const origin = getInvoicePortalOrigin();
+  const origin = getInvoicePortalOrigin()
+  const brandSlug = (
+    process.env.BRIEF_FORM_BRAND_SLUG ||
+    process.env.NEXT_PUBLIC_BRIEF_FORM_BRAND_SLUG ||
+    'bmybrand'
+  )
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
 
   if (!origin) {
     return (
@@ -25,22 +33,22 @@ export default async function BriefFormEmbedPage({ params }: PageProps) {
             Brief form is not configured
           </h1>
           <p className="mt-3 text-sm text-neutral-600">
-            On the <strong>bmybrand</strong> Vercel project, set{" "}
+            Set{' '}
             <code className="rounded bg-neutral-100 px-1.5 py-0.5 text-xs">
               INVOICE_PORTAL_ORIGIN
-            </code>{" "}
-            to your invoice CRM URL (for example{" "}
+            </code>{' '}
+            to your invoice CRM URL (for example{' '}
             <code className="rounded bg-neutral-100 px-1.5 py-0.5 text-xs">
-            https://invoice-887q.vercel.app
+              https://dashboard.bmybrand.com
             </code>
             ), then redeploy.
           </p>
         </div>
       </main>
-    );
+    )
   }
 
-  const src = `${origin}/brief-forms/${formType}`;
+  const src = `${origin}/brief-forms/${formType}?brand=${encodeURIComponent(brandSlug || 'bmybrand')}`
 
   return (
     <iframe
@@ -49,5 +57,5 @@ export default async function BriefFormEmbedPage({ params }: PageProps) {
       className="h-[100dvh] w-full border-0 bg-white"
       allow="clipboard-write"
     />
-  );
+  )
 }

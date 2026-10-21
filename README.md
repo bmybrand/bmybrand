@@ -50,8 +50,6 @@ We start every project with a clear direction — combining **strategy**, **desi
 
 **USA** — PO BOX 605, Allen, TX 75013
 
-**Canada** — 845 Adelaide St W, Toronto, ON M6J 3X1
-
 [Free Strategy Call](https://bmybrand.com/strategy-call) · [Grow My Business](https://bmybrand.com/grow-my-business) · [Contact Us](https://bmybrand.com/contact)
 
 ---
