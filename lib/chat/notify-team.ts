@@ -15,6 +15,8 @@ export interface LeadNotification {
   transcript: { role: string; content: string }[]
   // Set when the visitor booked (or tried to book) a strategy call in the chat.
   booking?: { when: string; company: string; budget: string; failed?: boolean }
+  // A chat from the CRM's test environment: same inboxes, "[TEST]" subject.
+  test?: boolean
 }
 
 // Leads go to the lead inboxes of the visitor's country, or of the primary
@@ -41,6 +43,8 @@ function subjectPrefix(booking: LeadNotification['booking']): string {
   if (!booking) return 'New chatbot lead'
   return booking.failed ? 'Booking failed, please call' : 'Strategy call booked'
 }
+
+const TEST_TAG = '[TEST] '
 
 // Emails the team about a chatbot lead via Resend. Never throws: the lead is
 // already saved in the CRM, so a failed email is logged and reported back.
@@ -104,7 +108,7 @@ export async function notifyTeamOfLead(
 
   const html = `
     <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.5;color:#1c1d2b;max-width:640px;">
-      <h2 style="margin:0 0 12px;font-size:18px;">${escapeHtml(subjectPrefix(booking))}: ${escapeHtml(lead.name)}</h2>
+      <h2 style="margin:0 0 12px;font-size:18px;">${lead.test ? TEST_TAG : ''}${escapeHtml(subjectPrefix(booking))}: ${escapeHtml(lead.name)}</h2>
       <p style="margin:0 0 16px;">${escapeHtml(intro)}</p>
       <table cellpadding="6" cellspacing="0" style="border-collapse:collapse;margin-bottom:16px;">
         ${details
@@ -133,9 +137,11 @@ export async function notifyTeamOfLead(
         from,
         to: recipients(lead.region, settings),
         reply_to: lead.email,
-        subject: booking
-          ? `${subjectPrefix(booking)}: ${lead.name} – ${booking.when}`
-          : `New chatbot lead: ${lead.name}${lead.interest ? ` (${lead.interest})` : ''}`,
+        subject:
+          (lead.test ? TEST_TAG : '') +
+          (booking
+            ? `${subjectPrefix(booking)}: ${lead.name} – ${booking.when}`
+            : `New chatbot lead: ${lead.name}${lead.interest ? ` (${lead.interest})` : ''}`),
         text,
         html,
       }),

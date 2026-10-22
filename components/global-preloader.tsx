@@ -16,7 +16,7 @@ export default function GlobalPreloader({
 }) {
   const pathname = usePathname();
 
-  if (pathname?.startsWith("/brief-forms")) {
+  if (pathname?.startsWith("/brief-forms") || pathname?.startsWith("/chat-test")) {
     return <>{children}</>;
   }
 

@@ -1,9 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function BottomFlyingBear() {
+  const pathname = usePathname();
+  // Not over the CRM's embedded test chat.
+  if (pathname?.startsWith("/chat-test")) return null;
+  return <FlyingBear />;
+}
+
+function FlyingBear() {
   const bearRef = useRef<HTMLButtonElement>(null);
   const frameRef = useRef<number | null>(null);
   const movementTimeoutRef = useRef<number | null>(null);

@@ -15,6 +15,8 @@ export interface BookingConfirmation {
   timeZone: string
   phone: string
   team: { phone: string; email: string }
+  // A booking from the CRM's test environment: "[TEST]" subject.
+  test?: boolean
 }
 
 function escapeHtml(value: string) {
@@ -85,7 +87,7 @@ export async function sendBookingConfirmation(
         from,
         to: [booking.to],
         reply_to: booking.team.email,
-        subject: `Your BMYBrand strategy call: ${when}`,
+        subject: `${booking.test ? '[TEST] ' : ''}Your BMYBrand strategy call: ${when}`,
         text,
         html,
         attachments: [

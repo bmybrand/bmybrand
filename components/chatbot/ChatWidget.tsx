@@ -9,19 +9,26 @@ import { useChatState } from '@/hooks/useChatState'
 import { ChatConfigProvider } from '@/hooks/useChatConfig'
 import { isSupabaseBrowserConfigured } from '@/lib/supabase/client'
 
-export default function ChatWidget() {
+interface ChatWidgetProps {
+  // Always open and filling the page, with no launcher (the CRM's Test chat).
+  embedded?: boolean
+  // Ticket from the CRM's Test chat page: chats are saved as tests.
+  testTicket?: string
+}
+
+export default function ChatWidget(props: ChatWidgetProps) {
   if (!isSupabaseBrowserConfigured()) {
     return null
   }
 
   return (
     <ChatConfigProvider>
-      <ChatWidgetInner />
+      <ChatWidgetInner {...props} />
     </ChatConfigProvider>
   )
 }
 
-function ChatWidgetInner() {
+function ChatWidgetInner({ embedded = false, testTicket }: ChatWidgetProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const {
@@ -37,7 +44,7 @@ function ChatWidgetInner() {
     booking,
     submitBooking,
     clearSession,
-  } = useChatState()
+  } = useChatState({ testTicket })
 
   const handleSend = async (content: string) => {
     await sendMessage(content)
@@ -53,6 +60,64 @@ function ChatWidgetInner() {
 
   const isClosed = state === 'CLOSED'
 
+  const panel = (
+    <>
+      <ChatHeader
+        onMinimize={embedded ? undefined : handleMinimize}
+        onClose={embedded ? undefined : handleClose}
+        onNewChat={() => clearSession()}
+      />
+
+      <ChatWindow
+        messages={messages}
+        isStreaming={isStreaming}
+        streamingText={streamingText}
+        botThinking={botThinking}
+        contactSubmitted={contactSubmitted}
+        onSend={handleSend}
+        onSubmitContact={submitContact}
+        booking={booking}
+        onSubmitBooking={submitBooking}
+      />
+
+      {!isClosed && (
+        <ChatInput
+          onSend={handleSend}
+          disabled={isStreaming || sessionLoading}
+          placeholder="Type a message..."
+        />
+      )}
+
+      {/* Closed state footer */}
+      {isClosed && (
+        <div className="px-4 py-3 border-t border-white/10 text-center">
+          <button
+            onClick={() => clearSession()}
+            className="text-[#F45B25] text-base font-medium hover:underline cursor-pointer"
+          >
+            Start a new conversation
+          </button>
+        </div>
+      )}
+
+      <p className="bg-[#11122F] px-4 pb-2 text-center text-xs text-[#ADAECC]/60">
+        AI can make mistakes. Please double-check important details.
+      </p>
+    </>
+  )
+
+  if (embedded) {
+    return (
+      <div
+        onWheel={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+        className="fixed inset-0 bg-[#11122F] flex flex-col overflow-hidden"
+      >
+        {panel}
+      </div>
+    )
+  }
+
   return (
     <div className="fixed bottom-5 right-5 z-[9999]">
       {/* Chat Panel */}
@@ -67,47 +132,7 @@ function ChatWidgetInner() {
             onTouchMove={(e) => e.stopPropagation()}
             className="absolute bottom-16 right-0 w-[380px] h-[550px] max-md:fixed max-md:inset-0 max-md:w-full max-md:h-full max-md:bottom-0 max-md:right-0 bg-[#11122F] rounded-2xl max-md:rounded-none shadow-[0_12px_48px_-8px_rgba(226,232,240,0.18)] border border-white/10 flex flex-col overflow-hidden"
           >
-            <ChatHeader
-              onMinimize={handleMinimize}
-              onClose={handleClose}
-              onNewChat={() => clearSession()}
-            />
-
-            <ChatWindow
-              messages={messages}
-              isStreaming={isStreaming}
-              streamingText={streamingText}
-              botThinking={botThinking}
-              contactSubmitted={contactSubmitted}
-              onSend={handleSend}
-              onSubmitContact={submitContact}
-              booking={booking}
-              onSubmitBooking={submitBooking}
-            />
-
-            {!isClosed && (
-              <ChatInput
-                onSend={handleSend}
-                disabled={isStreaming || sessionLoading}
-                placeholder="Type a message..."
-              />
-            )}
-
-            {/* Closed state footer */}
-            {isClosed && (
-              <div className="px-4 py-3 border-t border-white/10 text-center">
-                <button
-                  onClick={() => clearSession()}
-                  className="text-[#F45B25] text-base font-medium hover:underline cursor-pointer"
-                >
-                  Start a new conversation
-                </button>
-              </div>
-            )}
-
-            <p className="bg-[#11122F] px-4 pb-2 text-center text-xs text-[#ADAECC]/60">
-              AI can make mistakes. Please double-check important details.
-            </p>
+            {panel}
           </motion.div>
         )}
       </AnimatePresence>

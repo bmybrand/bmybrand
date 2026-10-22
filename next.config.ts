@@ -32,6 +32,17 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // The CRM's Test chat page shows this page in a frame.
+        source: "/chat-test",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self' https://chat.bmybrand.com http://localhost:*",
+          },
+          { key: "X-Robots-Tag", value: "noindex" },
+        ],
+      },
+      {
         source: "/:path*.(avif|webp|png|jpg|jpeg|svg|mp4|woff|woff2|ttf)",
         headers: [
           {

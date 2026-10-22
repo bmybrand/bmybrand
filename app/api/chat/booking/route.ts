@@ -43,7 +43,7 @@ function teamWhen(at: Date) {
 // it through the MySQL bridge (same table as /strategy-call), adds the Google
 // Calendar event when configured, updates the chat session (which creates or
 // updates the CRM lead), emails the team and the visitor, and returns the two
-// chat messages to show.
+// chat messages to show. Test chats from the CRM skip the bridge and calendar.
 export async function POST(request: NextRequest) {
   let body: BookingSubmitRequest
   try {
@@ -69,9 +69,6 @@ export async function POST(request: NextRequest) {
   if (company.length < 2) return fail('Please enter your company name.', 400)
   if (!budget) return fail('Please pick a budget range.', 400)
 
-  const recaptchaResult = await verifyRecaptcha(body.recaptchaToken, 'chat_booking')
-  if (!recaptchaResult.ok) return fail(recaptchaResult.error, recaptchaResult.status)
-
   const settings = await getSettings()
   if (!settings.booking.enabled) return fail('Booking in the chat is turned off right now.', 403)
 
@@ -81,6 +78,13 @@ export async function POST(request: NextRequest) {
     .eq('id', sessionId)
     .single()
   if (sessionError || !session) return fail('Session not found.', 404)
+
+  // Test chats from the CRM's test environment were checked when they started.
+  const isTest = Boolean(session.is_test)
+  if (!isTest) {
+    const recaptchaResult = await verifyRecaptcha(body.recaptchaToken, 'chat_booking')
+    if (!recaptchaResult.ok) return fail(recaptchaResult.error, recaptchaResult.status)
+  }
 
   const meta = (session.metadata ?? {}) as Record<string, unknown>
   const existing = meta.booking as (BookingSummary & Record<string, unknown>) | undefined
@@ -154,25 +158,29 @@ export async function POST(request: NextRequest) {
     ipAddress: getClientIp(request) ?? undefined,
   }
 
-  let bookingId: number | null
-  try {
-    bookingId = (await saveStrategyCallBooking(record)).id
-  } catch (err) {
-    const code = (err as { details?: { code?: string } }).details?.code
-    if (code === 'IP_ALREADY_SUBMITTED') return fail(STRATEGY_CALL_IP_LIMIT_MESSAGE, 429)
-    console.error('[booking] bridge save failed', { sessionId, error: err instanceof Error ? err.message : err })
-    return bookingFailed()
-  }
-
+  // A test booking is not saved through the bridge and gets no calendar
+  // event, so it never takes a time real visitors could book.
+  let bookingId: number | null = null
   let calendarEventId: string | null = null
-  try {
-    const calendar = await createStrategyCallCalendarEvent(record)
-    if (calendar.created && calendar.eventId) {
-      calendarEventId = calendar.eventId
-      if (bookingId) await updateStrategyCallCalendarEventId(bookingId, calendarEventId)
+  if (!isTest) {
+    try {
+      bookingId = (await saveStrategyCallBooking(record)).id
+    } catch (err) {
+      const code = (err as { details?: { code?: string } }).details?.code
+      if (code === 'IP_ALREADY_SUBMITTED') return fail(STRATEGY_CALL_IP_LIMIT_MESSAGE, 429)
+      console.error('[booking] bridge save failed', { sessionId, error: err instanceof Error ? err.message : err })
+      return bookingFailed()
     }
-  } catch (err) {
-    console.error('[booking] Google Calendar event failed', { sessionId, error: err instanceof Error ? err.message : err })
+
+    try {
+      const calendar = await createStrategyCallCalendarEvent(record)
+      if (calendar.created && calendar.eventId) {
+        calendarEventId = calendar.eventId
+        if (bookingId) await updateStrategyCallCalendarEventId(bookingId, calendarEventId)
+      }
+    } catch (err) {
+      console.error('[booking] Google Calendar event failed', { sessionId, error: err instanceof Error ? err.message : err })
+    }
   }
 
   // ─── Session + CRM lead ───────────────────────────────────────────────
@@ -207,8 +215,9 @@ export async function POST(request: NextRequest) {
       country,
       transcript,
       booking: { when: teamWhen(startsAt), company, budget },
+      test: isTest,
     }),
-    sendBookingConfirmation({ bookingId, to: email, name, startsAt, timeZone, phone, team }),
+    sendBookingConfirmation({ bookingId, to: email, name, startsAt, timeZone, phone, team, test: isTest }),
   ])
   await supabaseAdmin
     .from('chat_sessions')
@@ -294,6 +303,7 @@ export async function POST(request: NextRequest) {
       country,
       transcript,
       booking: { when, company, budget, failed: true },
+      test: isTest,
     })
     return fail(
       "We couldn't lock in that time just now, but the team has your request and will call you to confirm a time.",

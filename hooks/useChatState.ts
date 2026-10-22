@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useChatSession } from './useChatSession'
+import { useChatSession, type ChatSessionOptions } from './useChatSession'
 import { useChatMessages } from './useChatMessages'
 import { executeRecaptcha } from '@/lib/recaptcha-client'
 import type {
@@ -43,8 +43,11 @@ function friendlyError(error: string): string {
   return "Sorry, that message didn't go through. Please try again."
 }
 
-export function useChatState() {
-  const session = useChatSession()
+// With a testTicket (the CRM's Test chat page) chats are saved as tests. The
+// server already checked the ticket, so test chats skip reCAPTCHA.
+export function useChatState(options: ChatSessionOptions = {}) {
+  const { testTicket } = options
+  const session = useChatSession(options)
   const messages = useChatMessages(session.sessionId)
   const [booking, setBooking] = useState<BookingSummary | null>(null)
 
@@ -83,7 +86,9 @@ export function useChatState() {
           messages.addLocalMessage('user', content)
           messages.addLocalMessage(
             'system',
-            'Sorry, the chat is having trouble connecting. Please try again in a moment.'
+            testTicket
+              ? "Couldn't start a test chat. The test link may have expired: reload the Test chat page in the CRM."
+              : 'Sorry, the chat is having trouble connecting. Please try again in a moment.'
           )
           return { error: 'Failed to create session' }
         }
@@ -112,7 +117,7 @@ export function useChatState() {
   const submitContact = async (values: ContactFormValues): Promise<{ error?: string }> => {
     if (!session.sessionId) return { error: 'Please start a chat first.' }
     try {
-      const recaptchaToken = await executeRecaptcha('chat_contact')
+      const recaptchaToken = testTicket ? undefined : await executeRecaptcha('chat_contact')
       const res = await fetch('/api/chat/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -135,7 +140,7 @@ export function useChatState() {
   const submitBooking = async (values: BookingFormValues): Promise<BookingResult> => {
     if (!session.sessionId) return { error: 'Please start a chat first.' }
     try {
-      const recaptchaToken = await executeRecaptcha('chat_booking')
+      const recaptchaToken = testTicket ? undefined : await executeRecaptcha('chat_booking')
       const res = await fetch('/api/chat/booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

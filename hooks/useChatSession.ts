@@ -4,8 +4,17 @@ import { useState, useCallback, useEffect } from 'react'
 import type { ConversationState, CreateSessionResponse } from '@/types/chat'
 
 const SESSION_KEY = 'bmybrand_chat_session'
+// Test chats (CRM test environment) are kept apart from a real visitor chat
+// in the same browser.
+const TEST_SESSION_KEY = 'bmybrand_chat_test_session'
 
-export function useChatSession() {
+export interface ChatSessionOptions {
+  // Ticket from the CRM's Test chat page: new chats are saved as tests.
+  testTicket?: string
+}
+
+export function useChatSession({ testTicket }: ChatSessionOptions = {}) {
+  const storageKey = testTicket ? TEST_SESSION_KEY : SESSION_KEY
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [state, setState] = useState<ConversationState>('GREETING')
   // True once the visitor has sent their details through the contact form.
@@ -15,7 +24,7 @@ export function useChatSession() {
 
   // Restore session from sessionStorage on mount
   useEffect(() => {
-    const stored = sessionStorage.getItem(SESSION_KEY)
+    const stored = sessionStorage.getItem(storageKey)
     if (stored) {
       try {
         const parsed = JSON.parse(stored)
@@ -23,20 +32,20 @@ export function useChatSession() {
         setState(parsed.state)
         setContactSubmitted(Boolean(parsed.contactSubmitted))
       } catch {
-        sessionStorage.removeItem(SESSION_KEY)
+        sessionStorage.removeItem(storageKey)
       }
     }
-  }, [])
+  }, [storageKey])
 
   // Persist session to sessionStorage when it changes
   useEffect(() => {
     if (sessionId) {
       sessionStorage.setItem(
-        SESSION_KEY,
+        storageKey,
         JSON.stringify({ sessionId, state, contactSubmitted })
       )
     }
-  }, [sessionId, state, contactSubmitted])
+  }, [storageKey, sessionId, state, contactSubmitted])
 
   const createSession = useCallback(async () => {
     setLoading(true)
@@ -46,7 +55,7 @@ export function useChatSession() {
       const res = await fetch('/api/chat/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
+        body: JSON.stringify(testTicket ? { testTicket } : {}),
       })
 
       if (!res.ok) {
@@ -65,7 +74,7 @@ export function useChatSession() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [testTicket])
 
   const updateState = useCallback((newState: ConversationState) => {
     setState(newState)
@@ -79,8 +88,8 @@ export function useChatSession() {
     setSessionId(null)
     setState('GREETING')
     setContactSubmitted(false)
-    sessionStorage.removeItem(SESSION_KEY)
-  }, [])
+    sessionStorage.removeItem(storageKey)
+  }, [storageKey])
 
   return {
     sessionId,

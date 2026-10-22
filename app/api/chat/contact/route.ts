@@ -43,9 +43,6 @@ export async function POST(request: NextRequest) {
     return fail('Please enter a valid phone number, or leave it empty.', 400)
   }
 
-  const recaptchaResult = await verifyRecaptcha(body.recaptchaToken, 'chat_contact')
-  if (!recaptchaResult.ok) return fail(recaptchaResult.error, recaptchaResult.status)
-
   const { data: session, error: sessionError } = await supabaseAdmin
     .from('chat_sessions')
     .select('*')
@@ -53,6 +50,13 @@ export async function POST(request: NextRequest) {
     .single()
 
   if (sessionError || !session) return fail('Session not found.', 404)
+
+  // Test chats from the CRM's test environment were checked when they started.
+  const isTest = Boolean(session.is_test)
+  if (!isTest) {
+    const recaptchaResult = await verifyRecaptcha(body.recaptchaToken, 'chat_contact')
+    if (!recaptchaResult.ok) return fail(recaptchaResult.error, recaptchaResult.status)
+  }
 
   const meta = (session.metadata ?? {}) as Record<string, unknown>
   const submissions = typeof meta.lead_submissions === 'number' ? meta.lead_submissions : 0
@@ -113,6 +117,7 @@ export async function POST(request: NextRequest) {
     region: regionFromCountry(country, await getSettings()),
     country,
     transcript: (recent ?? []).reverse(),
+    test: isTest,
   })
 
   await supabaseAdmin
