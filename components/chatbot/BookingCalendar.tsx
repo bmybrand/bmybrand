@@ -377,15 +377,19 @@ function DetailsForm({
           })}
         </div>
       </fieldset>
-      {/* Honeypot: hidden from people, bots fill it in */}
+      {/* Honeypot: hidden from people; a name autofill and password managers don't recognise */}
       <input
         type="text"
-        name="website"
+        name="bmyb_hp_x7"
         value={values.website}
         onChange={update('website')}
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
+        data-lpignore="true"
+        data-1p-ignore="true"
+        data-bwignore="true"
+        data-form-type="other"
         className="absolute -left-[9999px] h-0 w-0 opacity-0"
       />
       {error && (

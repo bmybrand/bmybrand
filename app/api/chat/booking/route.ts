@@ -93,14 +93,12 @@ export async function POST(request: NextRequest) {
     return fail('The team already has your request and will call you to confirm a time.', 429)
   }
 
-  // Honeypot: hidden from people, so only bots fill it in. Answer like a
-  // success so they move on, but save and send nothing.
+  // Honeypot: hidden from people, but browser autofill and password managers
+  // sometimes fill it, and dropping those requests silently lost real
+  // bookings. reCAPTCHA has already checked this request, so a filled
+  // honeypot is only logged.
   if (body.website?.trim()) {
-    return NextResponse.json({
-      ok: true,
-      booking: { id: null, startsAt: startsAt.toISOString(), timeZone, phone },
-      messages: [],
-    })
+    console.warn('[booking] honeypot was filled; booking anyway', { sessionId })
   }
 
   const region = regionFromCountry(typeof meta.country === 'string' ? meta.country : null, settings)
