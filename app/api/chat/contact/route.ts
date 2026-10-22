@@ -64,10 +64,12 @@ export async function POST(request: NextRequest) {
     return fail('Your details have already been sent to the team.', 429)
   }
 
-  // Honeypot: the field is hidden from people, so only bots fill it in.
-  // Answer like a success so they move on, but save and send nothing.
+  // Honeypot: the field is hidden from people, but browser autofill and
+  // password managers sometimes fill it, and dropping those requests silently
+  // lost real leads. reCAPTCHA has already checked this request, so a filled
+  // honeypot is only logged.
   if (body.website?.trim()) {
-    return NextResponse.json({ ok: true, messages: [] })
+    console.warn('[chat] contact form honeypot was filled; saving anyway', { sessionId })
   }
 
   const submittedAt = new Date()

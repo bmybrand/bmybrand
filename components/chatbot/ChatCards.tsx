@@ -385,15 +385,19 @@ function ContactForm({ onSubmit, intro }: { onSubmit: SubmitContact; intro?: str
         aria-label="How can we help?"
         className="w-full resize-none rounded-xl border border-white/10 bg-[#0F1033] px-3 py-2.5 text-base text-white placeholder-[#ADAECC]/50 outline-none transition focus:border-[#FF843E]/70 focus:ring-2 focus:ring-[#F45B25]/20 sm:text-sm"
       />
-      {/* Honeypot: hidden from people, bots fill it in */}
+      {/* Honeypot: hidden from people; a name autofill and password managers don't recognise */}
       <input
         type="text"
-        name="website"
+        name="bmyb_hp_x7"
         value={values.website}
         onChange={update('website')}
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
+        data-lpignore="true"
+        data-1p-ignore="true"
+        data-bwignore="true"
+        data-form-type="other"
         className="absolute -left-[9999px] h-0 w-0 opacity-0"
       />
       {error && (
