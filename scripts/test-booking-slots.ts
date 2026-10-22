@@ -133,10 +133,31 @@ check('settings: defaults survive garbage', () => {
     normalizeSettings({ assistant: 7, contacts: { US: { phone: 'x' } }, booking: { hours: { start: '25:00' } } }),
     DEFAULT_SETTINGS
   )
-  const partial = normalizeSettings({ assistant: { name: 'Ava' }, leadEmails: { US: ['a@b.co', 'bad'] } })
+  const partial = normalizeSettings({ assistant: { name: 'Ava' }, countries: [{ code: 'US', label: 'USA', phone: 'x' }] })
   assert.equal(partial.assistant.name, 'Ava')
   assert.equal(partial.assistant.welcome, DEFAULT_SETTINGS.assistant.welcome)
-  assert.deepEqual(partial.leadEmails.US, DEFAULT_SETTINGS.leadEmails.US)
+  assert.deepEqual(partial.countries, DEFAULT_SETTINGS.countries)
+})
+
+check('settings: old two-region rows become a country list', () => {
+  const old = normalizeSettings({
+    contacts: {
+      US: { label: 'United States', phone: '+1 555 010 0100', email: 'us@example.com' },
+      CA: { label: 'Canada', phone: '+(587) 492-5888', email: 'jacob.green@bmybrand.ca' },
+    },
+    leadEmails: { US: ['sales@example.com', 'boss@example.com'], CA: ['jacob.green@bmybrand.ca'] },
+  })
+  assert.deepEqual(old.countries.map((c) => c.code), ['US', 'CA'])
+  assert.equal(old.countries[0].label, 'United States')
+  assert.deepEqual(old.countries[0].leadEmails, ['sales@example.com', 'boss@example.com'])
+  assert.equal(old.otherVisitors, 'all')
+})
+
+check('settings: any number of countries, duplicates dropped when reading', () => {
+  const gb = { code: 'gb', label: 'UK', phone: '+44 20 7946 0958', email: 'uk@example.com', leadEmails: ['uk@example.com'] }
+  const s = normalizeSettings({ countries: [DEFAULT_SETTINGS.countries[0], gb, { ...gb, label: 'Dup' }], otherVisitors: 'primary' })
+  assert.deepEqual(s.countries.map((c) => c.code), ['US', 'GB'])
+  assert.equal(s.otherVisitors, 'primary')
 })
 
 check('settings: strict validation reports each bad field', () => {
@@ -144,15 +165,33 @@ check('settings: strict validation reports each bad field', () => {
   const bad = validateSettings({
     ...DEFAULT_SETTINGS,
     assistant: { ...DEFAULT_SETTINGS.assistant, name: '' },
-    leadEmails: { US: [], CA: ['nope'] },
+    countries: [
+      { ...DEFAULT_SETTINGS.countries[0], leadEmails: [] },
+      { ...DEFAULT_SETTINGS.countries[1], code: 'US', email: 'nope' },
+    ],
+    otherVisitors: 'some',
     booking: { ...DEFAULT_SETTINGS.booking, hours: { ...DEFAULT_SETTINGS.booking.hours, start: '21:15', days: [] } },
   })
   assert.equal(bad.ok, false)
   if (!bad.ok) {
-    for (const k of ['assistant.name', 'leadEmails.US', 'leadEmails.CA', 'booking.hours.start', 'booking.hours.days']) {
+    for (const k of [
+      'assistant.name',
+      'countries.0.leadEmails',
+      'countries.1.code',
+      'countries.1.email',
+      'otherVisitors',
+      'booking.hours.start',
+      'booking.hours.days',
+    ]) {
       assert.ok(bad.errors[k], `missing error for ${k}`)
     }
   }
+})
+
+check('settings: at least one country', () => {
+  const none = validateSettings({ ...DEFAULT_SETTINGS, countries: [] })
+  assert.equal(none.ok, false)
+  if (!none.ok) assert.ok(none.errors.countries)
 })
 
 check('phone links', () => {

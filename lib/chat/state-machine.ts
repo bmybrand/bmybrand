@@ -250,7 +250,7 @@ async function handleAnswer(
     typeof meta.lead_submitted_at === 'string' ? meta.lead_submitted_at : null
   const settings = await getSettings()
   const calendarEnabled = settings.booking.enabled
-  const region = regionFromCountry(meta.country as string | undefined)
+  const region = regionFromCountry(meta.country as string | undefined, settings)
   const contacts = contactsForRegion(region, settings)
 
   const wantsTeam = intent === 'support_request' || intent === 'human_request'

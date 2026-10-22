@@ -5,6 +5,7 @@ import { notifyTeamOfLead } from '@/lib/chat/notify-team'
 import { contactConfirmation } from '@/lib/chat/prompts'
 import { translateMessage } from '@/lib/chat/language-detector'
 import { regionFromCountry } from '@/lib/chat/contact-info'
+import { getSettings } from '@/lib/settings'
 import type { ChatMessage, ContactSubmitRequest } from '@/types/chat'
 import { verifyRecaptcha } from '@/lib/recaptcha-server'
 
@@ -109,7 +110,7 @@ export async function POST(request: NextRequest) {
     phone: phone || session.visitor_phone || null,
     message: message || null,
     interest,
-    region: regionFromCountry(country),
+    region: regionFromCountry(country, await getSettings()),
     country,
     transcript: (recent ?? []).reverse(),
   })

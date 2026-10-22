@@ -9,7 +9,7 @@ import { saveStrategyCallBooking, updateStrategyCallCalendarEventId } from '@/li
 import { createStrategyCallCalendarEvent } from '@/lib/google-calendar'
 import { STRATEGY_CALL_IP_LIMIT_MESSAGE } from '@/lib/strategy-call-ip-config'
 import { notifyTeamOfLead } from '@/lib/chat/notify-team'
-import { regionContacts, regionFromCountry } from '@/lib/chat/contact-info'
+import { regionFromCountry, teamForRegion } from '@/lib/chat/contact-info'
 import { getSettings } from '@/lib/settings'
 import { translateMessage } from '@/lib/chat/language-detector'
 import {
@@ -103,8 +103,8 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  const region = regionFromCountry(typeof meta.country === 'string' ? meta.country : null)
-  const team = regionContacts(settings)[region === 'CA' ? 'CA' : 'US']
+  const region = regionFromCountry(typeof meta.country === 'string' ? meta.country : null, settings)
+  const team = teamForRegion(region, settings)
   const country = typeof meta.country === 'string' ? meta.country : null
   const interest = typeof meta.lead_interest === 'string' ? meta.lead_interest : null
 

@@ -6,10 +6,14 @@
 //
 // No imports, so it runs anywhere (server, browser, scripts).
 
-export interface ContactSetting {
+// One country's team contact, shown in the chat to visitors from that
+// country, and the inboxes that get their leads.
+export interface CountryContact {
+  code: string // ISO 3166-1 alpha-2, e.g. "US"
   label: string
   phone: string
   email: string
+  leadEmails: string[]
 }
 
 export interface OfficeHours {
@@ -26,8 +30,11 @@ export interface AppSettings {
     welcome: string
     quickReplies: string[]
   }
-  contacts: { US: ContactSetting; CA: ContactSetting }
-  leadEmails: { US: string[]; CA: string[] }
+  // In order; the first is the primary country. Visitors from a country not
+  // listed get the primary's lead inboxes, and see either every country's
+  // contact or only the primary's (otherVisitors).
+  countries: CountryContact[]
+  otherVisitors: 'all' | 'primary'
   booking: {
     enabled: boolean
     hours: OfficeHours
@@ -47,14 +54,23 @@ export const DEFAULT_SETTINGS: AppSettings = {
       'Book a free strategy call',
     ],
   },
-  contacts: {
-    US: { label: 'USA', phone: '+1 469 501 1401', email: 'jacob.green@bmybrand.com' },
-    CA: { label: 'Canada', phone: '+(587) 492-5888', email: 'jacob.green@bmybrand.ca' },
-  },
-  leadEmails: {
-    US: ['jacob.green@bmybrand.com'],
-    CA: ['jacob.green@bmybrand.ca'],
-  },
+  countries: [
+    {
+      code: 'US',
+      label: 'USA',
+      phone: '+1 469 501 1401',
+      email: 'jacob.green@bmybrand.com',
+      leadEmails: ['jacob.green@bmybrand.com'],
+    },
+    {
+      code: 'CA',
+      label: 'Canada',
+      phone: '+(587) 492-5888',
+      email: 'jacob.green@bmybrand.ca',
+      leadEmails: ['jacob.green@bmybrand.ca'],
+    },
+  ],
+  otherVisitors: 'all',
   booking: {
     enabled: true,
     // Karachi office: Mon–Fri nights, 9 PM – 6 AM (11 AM – 8 PM US Central in summer).
@@ -71,6 +87,7 @@ export const LIMITS = {
   quickReplies: 6,
   label: 30,
   leadEmails: 5,
+  countries: 20,
   windowDays: { min: 1, max: 60 },
 }
 
@@ -84,6 +101,10 @@ export function isEmail(value: string): boolean {
 export function isPhone(value: string): boolean {
   const digits = value.replace(/\D/g, '')
   return digits.length >= 7 && digits.length <= 15 && /^[\d\s()+.-]+$/.test(value)
+}
+
+export function isCountryCode(value: string): boolean {
+  return /^[A-Z]{2}$/.test(value)
 }
 
 export function isTime(value: string): boolean {
@@ -127,15 +148,36 @@ function emails(value: unknown): string[] | null {
   return list
 }
 
-function contact(value: unknown, errors: Errors, path: string): ContactSetting | null {
+function country(value: unknown, errors: Errors, path: string): CountryContact | null {
   const v = (value ?? {}) as Record<string, unknown>
+  const code = typeof v.code === 'string' && isCountryCode(v.code.trim().toUpperCase()) ? v.code.trim().toUpperCase() : null
   const label = text(v.label, LIMITS.label)
   const phone = typeof v.phone === 'string' && isPhone(v.phone.trim()) ? v.phone.trim() : null
   const email = typeof v.email === 'string' && isEmail(v.email.trim()) ? v.email.trim().toLowerCase() : null
+  const leadEmails = emails(v.leadEmails)
+  if (!code) errors[`${path}.code`] = 'Pick a country.'
   if (!label) errors[`${path}.label`] = `Enter a label (up to ${LIMITS.label} characters).`
   if (!phone) errors[`${path}.phone`] = 'Enter a phone number (7 to 15 digits).'
   if (!email) errors[`${path}.email`] = 'Enter a valid email address.'
-  return label && phone && email ? { label, phone, email } : null
+  if (!leadEmails) errors[`${path}.leadEmails`] = `Enter 1 to ${LIMITS.leadEmails} valid email addresses.`
+  return code && label && phone && email && leadEmails ? { code, label, phone, email, leadEmails } : null
+}
+
+// Settings saved before countries became a list stored contacts and lead
+// inboxes per region ({ contacts: { US, CA }, leadEmails: { US, CA } }).
+function legacyCountries(v: Record<string, unknown>): CountryContact[] | null {
+  const contacts = v.contacts as Record<string, Record<string, unknown>> | undefined
+  if (!contacts || typeof contacts !== 'object') return null
+  const lead = (v.leadEmails ?? {}) as Record<string, unknown>
+  const list: CountryContact[] = []
+  for (const code of ['US', 'CA']) {
+    const fallback = DEFAULT_SETTINGS.countries.find((c) => c.code === code)!
+    const c = contacts[code] ?? {}
+    list.push(
+      country({ ...fallback, ...c, code, leadEmails: lead[code] ?? fallback.leadEmails }, {}, code) ?? fallback
+    )
+  }
+  return list
 }
 
 function hours(value: unknown, errors: Errors): OfficeHours | null {
@@ -174,15 +216,22 @@ export function validateSettings(input: unknown): { ok: true; settings: AppSetti
     errors['assistant.quickReplies'] = `Keep each quick reply under ${LIMITS.quickReply} characters.`
   }
 
-  const c = (v.contacts ?? {}) as Record<string, unknown>
-  const us = contact(c.US, errors, 'contacts.US')
-  const ca = contact(c.CA, errors, 'contacts.CA')
-
-  const l = (v.leadEmails ?? {}) as Record<string, unknown>
-  const leadUS = emails(l.US)
-  const leadCA = emails(l.CA)
-  if (!leadUS) errors['leadEmails.US'] = `Enter 1 to ${LIMITS.leadEmails} valid email addresses.`
-  if (!leadCA) errors['leadEmails.CA'] = `Enter 1 to ${LIMITS.leadEmails} valid email addresses.`
+  const rawCountries = Array.isArray(v.countries) ? (v.countries as unknown[]) : []
+  if (rawCountries.length < 1) errors.countries = 'Add at least one country.'
+  else if (rawCountries.length > LIMITS.countries) errors.countries = `Add at most ${LIMITS.countries} countries.`
+  const countries = rawCountries.map((c, i) => country(c, errors, `countries.${i}`))
+  const seen = new Set<string>()
+  rawCountries.forEach((c, i) => {
+    const raw = (c ?? {}) as Record<string, unknown>
+    const code = typeof raw.code === 'string' ? raw.code.trim().toUpperCase() : ''
+    if (!code) return
+    if (seen.has(code)) errors[`countries.${i}.code`] = 'This country is already in the list.'
+    seen.add(code)
+  })
+  const otherVisitors = (v as Record<string, unknown>).otherVisitors
+  if (otherVisitors !== 'all' && otherVisitors !== 'primary') {
+    errors.otherVisitors = 'Choose what visitors from other countries see.'
+  }
 
   const b = v.booking ?? {}
   const enabled = typeof b.enabled === 'boolean' ? b.enabled : null
@@ -201,8 +250,8 @@ export function validateSettings(input: unknown): { ok: true; settings: AppSetti
     ok: true,
     settings: {
       assistant: { name: name!, subtitle: subtitle!, welcome: welcome!, quickReplies: replies },
-      contacts: { US: us!, CA: ca! },
-      leadEmails: { US: leadUS!, CA: leadCA! },
+      countries: countries as CountryContact[],
+      otherVisitors: otherVisitors as AppSettings['otherVisitors'],
       booking: { enabled: enabled!, hours: bookingHours!, windowDays: windowDays! },
     },
   }
@@ -221,8 +270,15 @@ export function normalizeSettings(raw: unknown): AppSettings {
         .map((r) => r.trim())
         .slice(0, LIMITS.quickReplies)
     : d.assistant.quickReplies
-  const c = (v.contacts ?? {}) as Record<string, unknown>
-  const l = (v.leadEmails ?? {}) as Record<string, unknown>
+  const listed = Array.isArray(v.countries)
+    ? (v.countries as unknown[])
+        .map((c) => country(c, ignore, 'c'))
+        .filter((c): c is CountryContact => c !== null)
+        .filter((c, i, all) => all.findIndex((x) => x.code === c.code) === i)
+        .slice(0, LIMITS.countries)
+    : []
+  const countries = listed.length > 0 ? listed : (legacyCountries(v) ?? d.countries)
+  const otherVisitors = (v as Record<string, unknown>).otherVisitors
   const b = v.booking ?? {}
   const windowDays =
     Number.isInteger(b.windowDays) &&
@@ -237,14 +293,8 @@ export function normalizeSettings(raw: unknown): AppSettings {
       welcome: text(a.welcome, LIMITS.welcome) ?? d.assistant.welcome,
       quickReplies: replies,
     },
-    contacts: {
-      US: contact(c.US, ignore, 'US') ?? d.contacts.US,
-      CA: contact(c.CA, ignore, 'CA') ?? d.contacts.CA,
-    },
-    leadEmails: {
-      US: emails(l.US) ?? d.leadEmails.US,
-      CA: emails(l.CA) ?? d.leadEmails.CA,
-    },
+    countries,
+    otherVisitors: otherVisitors === 'primary' || otherVisitors === 'all' ? otherVisitors : d.otherVisitors,
     booking: {
       enabled: typeof b.enabled === 'boolean' ? b.enabled : d.booking.enabled,
       hours: hours(b.hours, ignore) ?? d.booking.hours,

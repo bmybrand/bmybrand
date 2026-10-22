@@ -1,4 +1,4 @@
-import type { ContactRegion } from './contact-info'
+import { teamForRegion, type ContactRegion } from './contact-info'
 import { getSettings } from '@/lib/settings'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
@@ -17,15 +17,15 @@ export interface LeadNotification {
   booking?: { when: string; company: string; budget: string; failed?: boolean }
 }
 
-// Canada leads go to the Canada lead inboxes, everything else to the US ones
-// (both set on the CRM's Settings page). CHAT_LEAD_TO_EMAIL (comma-separated)
-// overrides both, e.g. for testing.
-function recipients(region: ContactRegion | null, leadEmails: { US: string[]; CA: string[] }): string[] {
+// Leads go to the lead inboxes of the visitor's country, or of the primary
+// country for visitors from anywhere else (set on the CRM's Settings page).
+// CHAT_LEAD_TO_EMAIL (comma-separated) overrides them all, e.g. for testing.
+function recipients(region: ContactRegion | null, settings: Awaited<ReturnType<typeof getSettings>>): string[] {
   const override = process.env.CHAT_LEAD_TO_EMAIL?.split(',')
     .map((e) => e.trim())
     .filter(Boolean)
   if (override && override.length > 0) return override
-  return leadEmails[region === 'CA' ? 'CA' : 'US']
+  return teamForRegion(region, settings).leadEmails
 }
 
 function escapeHtml(value: string) {
@@ -58,7 +58,7 @@ export async function notifyTeamOfLead(
 
   const settings = await getSettings()
   const location = lead.region
-    ? settings.contacts[lead.region].label
+    ? teamForRegion(lead.region, settings).label
     : lead.country
       ? `Unknown (${lead.country})`
       : 'Unknown'
@@ -131,7 +131,7 @@ export async function notifyTeamOfLead(
       },
       body: JSON.stringify({
         from,
-        to: recipients(lead.region, settings.leadEmails),
+        to: recipients(lead.region, settings),
         reply_to: lead.email,
         subject: booking
           ? `${subjectPrefix(booking)}: ${lead.name} – ${booking.when}`

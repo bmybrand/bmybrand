@@ -1,11 +1,12 @@
-// Regional contact details the chatbot offers to visitors, from the CRM's
-// Settings page. Client-safe (no secrets): the widget renders these in the
-// contact card, and the server uses them in the system prompt and to route
-// lead emails.
+// Team contact details the chatbot offers to visitors, by visitor country, as
+// set on the CRM's Settings page. Client-safe (no secrets): the widget renders
+// these in the contact card, and the server uses them in the system prompt
+// and to route lead emails.
 
-import { phoneHref, type AppSettings } from '@/lib/settings/schema'
+import { phoneHref, type AppSettings, type CountryContact } from '@/lib/settings/schema'
 
-export type ContactRegion = 'US' | 'CA'
+// ISO 3166-1 alpha-2 code of a country listed in Settings (e.g. "US").
+export type ContactRegion = string
 
 export interface RegionContact {
   region: ContactRegion
@@ -15,29 +16,31 @@ export interface RegionContact {
   email: string
 }
 
-export function regionContacts(settings: AppSettings): Record<ContactRegion, RegionContact> {
-  const make = (region: ContactRegion): RegionContact => {
-    const c = settings.contacts[region]
-    return { region, label: c.label, phone: c.phone, phoneHref: phoneHref(c.phone), email: c.email }
-  }
-  return { US: make('US'), CA: make('CA') }
+function toRegionContact(c: CountryContact): RegionContact {
+  return { region: c.code, label: c.label, phone: c.phone, phoneHref: phoneHref(c.phone), email: c.email }
 }
 
-// Maps a visitor's ISO country code (Vercel's x-vercel-ip-country header) to a
-// contact region. Anything other than the US or Canada is treated as unknown.
-export function regionFromCountry(country?: string | null): ContactRegion | null {
+// Maps a visitor's ISO country code (Vercel's x-vercel-ip-country header) to
+// a country listed in Settings, or null when it isn't listed.
+export function regionFromCountry(country: string | null | undefined, settings: AppSettings): ContactRegion | null {
   const code = country?.trim().toUpperCase()
-  if (code === 'US' || code === 'CA') return code
-  return null
+  return code && settings.countries.some((c) => c.code === code) ? code : null
 }
 
-// Unknown location gets both regions, US first.
-export function contactsForRegion(
-  region: ContactRegion | null | undefined,
-  settings: AppSettings
-): RegionContact[] {
-  const all = regionContacts(settings)
-  return region ? [all[region]] : [all.US, all.CA]
+// The listed country that handles a visitor: their own, or the primary (first)
+// one for visitors from anywhere else.
+export function teamForRegion(region: ContactRegion | null | undefined, settings: AppSettings): CountryContact {
+  return settings.countries.find((c) => c.code === region) ?? settings.countries[0]
+}
+
+// Contacts to show a visitor: their country's, or for visitors from other
+// countries either every listed country or only the primary one.
+export function contactsForRegion(region: ContactRegion | null | undefined, settings: AppSettings): RegionContact[] {
+  const own = settings.countries.find((c) => c.code === region)
+  if (own) return [toRegionContact(own)]
+  return settings.otherVisitors === 'all'
+    ? settings.countries.map(toRegionContact)
+    : [toRegionContact(settings.countries[0])]
 }
 
 export function formatContactsForPrompt(contacts: RegionContact[]): string {
